@@ -239,4 +239,6 @@ Initial build tickets:
 
 ## Status
 
-This repository is at the foundation stage. It contains the product spine and working documentation for the intended Quantfore AI platform. Runtime services, data pipelines, models, and frontend applications are not implemented yet.
+This repository is at the foundation stage. It now includes the working documentation, a first `packages/research` Python package, SQLAlchemy research tables, and initial ingestion scripts for FRED macro data, SEC companyfacts, and sample prices.
+
+Runtime API services, production orchestration, trained models, backtesting infrastructure, and frontend applications are not implemented yet.
