@@ -32,6 +32,8 @@ python -m pytest
 
 The smoke check ingests sample historical MSFT prices, freezes the source CSV under `data/raw/`, calculates baseline price features, stores audited feature rows, and runs the test suite.
 
+`data/sample/msft_prices.csv` is synthetic weekday-only sample data for exercising the pipeline. It is not real MSFT market history and should not be used for performance claims.
+
 ## Product Vision
 
 Investors do not lack information. They lack a disciplined system for detecting when the facts behind an investment case have changed.
