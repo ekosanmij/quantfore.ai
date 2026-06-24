@@ -57,8 +57,60 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--asof-date", required=True, help="YYYY-MM-DD feature as-of date.")
     parser.add_argument("--database-url", help="Override QUANTFORE_DATABASE_URL.")
     parser.add_argument("--feature-set-id", help="Override the generated feature set ID.")
+    parser.add_argument(
+        "--source-snapshot-id",
+        help=(
+            "Price source snapshot to use. Defaults to the latest snapshot with "
+            "adjusted-close prices for the ticker on or before --asof-date."
+        ),
+    )
     parser.add_argument("--version", default=FEATURE_VERSION)
     return parser.parse_args(argv)
+
+
+def select_price_source_snapshot(
+    session,
+    *,
+    security_id: str,
+    ticker: str,
+    asof_date,
+    source_snapshot_id: Optional[str],
+) -> SourceSnapshot:
+    candidate_stmt = (
+        select(SourceSnapshot)
+        .join(Price, Price.source_snapshot_id == SourceSnapshot.snapshot_id)
+        .where(Price.security_id == security_id)
+        .where(Price.date <= asof_date)
+        .where(Price.adj_close.is_not(None))
+    )
+
+    if source_snapshot_id:
+        snapshot = session.get(SourceSnapshot, source_snapshot_id)
+        if snapshot is None:
+            raise ValueError(f"unknown source snapshot: {source_snapshot_id}")
+
+        matching_snapshot = session.scalar(
+            candidate_stmt.where(SourceSnapshot.snapshot_id == source_snapshot_id).limit(1)
+        )
+        if matching_snapshot is None:
+            raise ValueError(
+                f"source snapshot {source_snapshot_id} has no adjusted-close prices "
+                f"for {ticker} on or before {asof_date}"
+            )
+        return snapshot
+
+    snapshot = session.scalar(
+        candidate_stmt.order_by(
+            SourceSnapshot.retrieved_at.desc(),
+            SourceSnapshot.created_at.desc(),
+            SourceSnapshot.snapshot_id.desc(),
+        ).limit(1)
+    )
+    if snapshot is None:
+        raise ValueError(
+            f"no adjusted-close price snapshot found for {ticker} on or before {asof_date}"
+        )
+    return snapshot
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
@@ -74,37 +126,50 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         if security is None:
             raise ValueError(f"unknown ticker: {ticker}")
 
-        prices = list(
-            session.scalars(
-                select(Price)
-                .where(Price.security_id == security.security_id)
-                .where(Price.date <= asof_date)
-                .where(Price.adj_close.is_not(None))
-                .order_by(Price.date)
-            )
-        )
-        source_snapshot_ids = {price.source_snapshot_id for price in prices}
-        if len(source_snapshot_ids) != 1:
-            raise ValueError(
-                "baseline feature build requires prices from exactly one source snapshot; "
-                f"found {len(source_snapshot_ids)}"
-            )
-
-        source_snapshot_id = next(iter(source_snapshot_ids))
-        source_snapshot = session.scalar(
-            select(SourceSnapshot).where(SourceSnapshot.snapshot_id == source_snapshot_id)
-        )
-        if source_snapshot is None:
-            raise ValueError(f"missing source snapshot: {source_snapshot_id}")
-
-        calculated_features = calculate_baseline_price_features(
-            prices,
+        source_snapshot = select_price_source_snapshot(
+            session,
+            security_id=security.security_id,
+            ticker=ticker,
             asof_date=asof_date,
+            source_snapshot_id=args.source_snapshot_id,
         )
         feature_set_id = args.feature_set_id or default_feature_set_id(
             ticker=ticker,
             asof_date=asof_date,
             version=args.version,
+        )
+        existing_feature_set = session.get(FeatureSet, feature_set_id)
+        if existing_feature_set is not None:
+            if existing_feature_set.source_snapshot_id == source_snapshot.snapshot_id:
+                print(
+                    "feature set already exists; skipping "
+                    f"ticker={ticker} asof_date={asof_date} "
+                    f"feature_set_id={feature_set_id} "
+                    f"source_snapshot_id={source_snapshot.snapshot_id}"
+                )
+                return 0
+
+            raise ValueError(
+                f"feature set {feature_set_id} already exists for source snapshot "
+                f"{existing_feature_set.source_snapshot_id}, but selected source snapshot "
+                f"{source_snapshot.snapshot_id}; pass --feature-set-id for a new run or "
+                "--source-snapshot-id to pin the original snapshot"
+            )
+
+        prices = list(
+            session.scalars(
+                select(Price)
+                .where(Price.security_id == security.security_id)
+                .where(Price.source_snapshot_id == source_snapshot.snapshot_id)
+                .where(Price.date <= asof_date)
+                .where(Price.adj_close.is_not(None))
+                .order_by(Price.date)
+            )
+        )
+
+        calculated_features = calculate_baseline_price_features(
+            prices,
+            asof_date=asof_date,
         )
         feature_set = FeatureSet(
             feature_set_id=feature_set_id,
@@ -116,6 +181,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 "features": sorted(calculated_features),
                 "lookbacks": {"skip_days": 21, "six_month_days": 126, "twelve_month_days": 252},
                 "price_field": "adj_close",
+                "source_snapshot_id": source_snapshot.snapshot_id,
             },
             source_snapshot_id=source_snapshot.snapshot_id,
             code_commit=get_code_commit(),
@@ -140,7 +206,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     print(
         f"stored {len(calculated_features)} baseline features "
-        f"ticker={ticker} asof_date={asof_date} feature_set_id={feature_set_id}"
+        f"ticker={ticker} asof_date={asof_date} "
+        f"feature_set_id={feature_set_id} source_snapshot_id={source_snapshot.snapshot_id}"
     )
     return 0
 
