@@ -12,6 +12,7 @@ from sqlalchemy import (
     CheckConstraint,
     Date,
     DateTime,
+    event,
     ForeignKey,
     Index,
     JSON,
@@ -35,12 +36,15 @@ class Base(DeclarativeBase):
     """Base class for all research database models."""
 
 
-class TimestampMixin:
+class CreatedAtMixin:
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
         default=utc_now,
     )
+
+
+class TimestampMixin(CreatedAtMixin):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
@@ -104,6 +108,7 @@ class SourceSnapshot(TimestampMixin, Base):
     macro_observations: Mapped[list["MacroSeries"]] = relationship(
         back_populates="source_snapshot"
     )
+    features: Mapped[list["Feature"]] = relationship(back_populates="source_snapshot")
 
     def __repr__(self) -> str:
         return (
@@ -191,6 +196,7 @@ class Filing(TimestampMixin, Base):
             name="ck_filings_accession_no_nonempty",
         ),
         CheckConstraint("length(trim(storage_uri)) > 0", name="ck_filings_storage_uri_nonempty"),
+        CheckConstraint("length(trim(source_url)) > 0", name="ck_filings_source_url_nonempty"),
         UniqueConstraint("accession_no", name="uq_filings_accession_no"),
         UniqueConstraint("storage_uri", name="uq_filings_storage_uri"),
         Index("ix_filings_security_filed_at", "security_id", "filed_at"),
@@ -206,6 +212,7 @@ class Filing(TimestampMixin, Base):
     period_end: Mapped[Optional[date]] = mapped_column(Date)
     accession_no: Mapped[str] = mapped_column(String(64), nullable=False)
     storage_uri: Mapped[str] = mapped_column(String(1024), nullable=False)
+    source_url: Mapped[str] = mapped_column(String(1024), nullable=False)
     source_snapshot_id: Mapped[str] = mapped_column(
         ForeignKey("source_snapshots.snapshot_id"),
         nullable=False,
@@ -298,31 +305,50 @@ class Feature(TimestampMixin, Base):
     __table_args__ = (
         CheckConstraint("length(trim(feature_name)) > 0", name="ck_features_name_nonempty"),
         CheckConstraint("length(trim(version)) > 0", name="ck_features_version_nonempty"),
+        CheckConstraint(
+            "length(trim(feature_set_id)) > 0",
+            name="ck_features_feature_set_id_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(source_hash)) > 0",
+            name="ck_features_source_hash_nonempty",
+        ),
         UniqueConstraint(
+            "feature_set_id",
             "security_id",
             "asof_date",
             "feature_name",
             "version",
-            name="uq_features_security_asof_name_version",
+            name="uq_features_set_security_asof_name_version",
         ),
         Index("ix_features_security_asof_date", "security_id", "asof_date"),
+        Index("ix_features_available_at", "available_at"),
+        Index("ix_features_source_snapshot_id", "source_snapshot_id"),
     )
 
     feature_id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    feature_set_id: Mapped[str] = mapped_column(String(100), nullable=False)
     security_id: Mapped[str] = mapped_column(
         ForeignKey("securities.security_id"),
         nullable=False,
     )
     asof_date: Mapped[date] = mapped_column(Date, nullable=False)
+    available_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     feature_name: Mapped[str] = mapped_column(String(160), nullable=False)
     value: Mapped[Decimal] = mapped_column(Numeric(20, 10), nullable=False)
     version: Mapped[str] = mapped_column(String(64), nullable=False)
+    source_snapshot_id: Mapped[str] = mapped_column(
+        ForeignKey("source_snapshots.snapshot_id"),
+        nullable=False,
+    )
+    source_hash: Mapped[str] = mapped_column(String(128), nullable=False)
 
     security: Mapped["Security"] = relationship(back_populates="features")
+    source_snapshot: Mapped["SourceSnapshot"] = relationship(back_populates="features")
 
 
-class ModelPrediction(TimestampMixin, Base):
-    """What a model believed before future outcomes were known."""
+class ModelPrediction(CreatedAtMixin, Base):
+    """Append-only record of what a model believed before outcomes were known."""
 
     __tablename__ = "model_predictions"
     __table_args__ = (
@@ -335,6 +361,10 @@ class ModelPrediction(TimestampMixin, Base):
             name="ck_model_predictions_action_label_nonempty",
         ),
         CheckConstraint("length(trim(horizon)) > 0", name="ck_model_predictions_horizon_nonempty"),
+        CheckConstraint(
+            "length(trim(immutable_hash)) > 0",
+            name="ck_model_predictions_immutable_hash_nonempty",
+        ),
         UniqueConstraint(
             "model_version",
             "security_id",
@@ -342,6 +372,7 @@ class ModelPrediction(TimestampMixin, Base):
             "horizon",
             name="uq_model_predictions_model_security_asof_horizon",
         ),
+        UniqueConstraint("immutable_hash", name="uq_model_predictions_immutable_hash"),
         Index("ix_model_predictions_security_asof_date", "security_id", "asof_date"),
         Index("ix_model_predictions_model_version", "model_version"),
     )
@@ -357,12 +388,27 @@ class ModelPrediction(TimestampMixin, Base):
     score: Mapped[Decimal] = mapped_column(Numeric(12, 6), nullable=False)
     confidence: Mapped[Optional[Decimal]] = mapped_column(Numeric(8, 6))
     action_label: Mapped[str] = mapped_column(String(80), nullable=False)
+    immutable_hash: Mapped[str] = mapped_column(String(128), nullable=False)
 
     security: Mapped["Security"] = relationship(back_populates="predictions")
     outcome: Mapped[Optional["ModelOutcome"]] = relationship(
         back_populates="prediction",
         uselist=False,
     )
+
+
+def _reject_model_prediction_update(mapper, connection, target) -> None:
+    del mapper, connection, target
+    raise RuntimeError("model_predictions are append-only and cannot be updated")
+
+
+def _reject_model_prediction_delete(mapper, connection, target) -> None:
+    del mapper, connection, target
+    raise RuntimeError("model_predictions are append-only and cannot be deleted")
+
+
+event.listen(ModelPrediction, "before_update", _reject_model_prediction_update)
+event.listen(ModelPrediction, "before_delete", _reject_model_prediction_delete)
 
 
 class ModelOutcome(TimestampMixin, Base):

@@ -1,6 +1,7 @@
 from datetime import date, datetime, timezone
 from decimal import Decimal
 
+import pytest
 from sqlalchemy import inspect, select
 
 from quantfore_research.db import build_engine, create_schema, make_session_factory, session_scope
@@ -97,6 +98,10 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
             period_end=date(2026, 3, 31),
             accession_no="0000789019-26-000001",
             storage_uri="raw/sec/filings/msft/0000789019-26-000001.txt",
+            source_url=(
+                "https://www.sec.gov/Archives/edgar/data/"
+                "789019/000078901926000001/0000789019-26-000001.txt"
+            ),
             source_snapshot_id=filing_snapshot.snapshot_id,
         )
         macro_observation = MacroSeries(
@@ -119,11 +124,15 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
             source_snapshot_id=filing_snapshot.snapshot_id,
         )
         feature = Feature(
+            feature_set_id="baseline_features_v0.1_2026-06-24",
             security_id=security.security_id,
             asof_date=date(2026, 6, 24),
+            available_at=datetime(2026, 6, 24, 8, 0, tzinfo=timezone.utc),
             feature_name="momentum_6_1",
             value=Decimal("0.18"),
             version="v0.1",
+            source_snapshot_id=price_snapshot.snapshot_id,
+            source_hash=price_snapshot.source_hash,
         )
         prediction = ModelPrediction(
             security_id=security.security_id,
@@ -132,6 +141,9 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
             score=Decimal("82"),
             confidence=Decimal("0.71"),
             action_label="watch_positive",
+            immutable_hash=sha256_text(
+                "baseline_v0.1|MSFT|2026-06-24|unspecified|82|0.71|watch_positive"
+            ),
         )
         experiment = ExperimentRegistry(
             experiment_id="exp_001",
@@ -196,6 +208,8 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
     assert saved_price.source_snapshot_id == price_snapshot.snapshot_id
     assert saved_filing is not None
     assert saved_filing.form_type == "10-Q"
+    assert saved_filing.storage_uri.startswith("raw/sec/filings/")
+    assert saved_filing.source_url.startswith("https://www.sec.gov/Archives/")
     assert saved_filing.source_snapshot_id == filing_snapshot.snapshot_id
     assert saved_macro is not None
     assert saved_macro.value == Decimal("4.50000000")
@@ -205,10 +219,118 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
     assert saved_fundamental.source_snapshot_id == filing_snapshot.snapshot_id
     assert saved_feature is not None
     assert saved_feature.value == Decimal("0.1800000000")
+    assert saved_feature.feature_set_id == "baseline_features_v0.1_2026-06-24"
+    assert saved_feature.available_at is not None
+    assert saved_feature.source_snapshot_id == price_snapshot.snapshot_id
+    assert saved_feature.source_hash == price_snapshot.source_hash
     assert saved_prediction is not None
     assert saved_prediction.model_version == "baseline_v0.1"
     assert saved_prediction.action_label == "watch_positive"
+    assert saved_prediction.immutable_hash is not None
     assert saved_outcome is not None
     assert saved_outcome.excess_return == Decimal("0.04000000")
     assert saved_experiment is not None
     assert saved_experiment.config_json["feature_version"] == "v0.1"
+
+
+def test_features_table_requires_point_in_time_audit_fields():
+    engine = build_engine(database_url="sqlite+pysqlite:///:memory:")
+    create_schema(engine)
+
+    columns = {column["name"] for column in inspect(engine).get_columns("features")}
+
+    assert {
+        "feature_set_id",
+        "security_id",
+        "asof_date",
+        "available_at",
+        "feature_name",
+        "value",
+        "version",
+        "source_snapshot_id",
+        "source_hash",
+    }.issubset(columns)
+
+
+def test_filings_table_separates_frozen_storage_uri_from_source_url():
+    engine = build_engine(database_url="sqlite+pysqlite:///:memory:")
+    create_schema(engine)
+
+    columns = {column["name"] for column in inspect(engine).get_columns("filings")}
+
+    assert {"storage_uri", "source_url"}.issubset(columns)
+
+
+def test_model_predictions_table_is_append_only_ledger_shape():
+    engine = build_engine(database_url="sqlite+pysqlite:///:memory:")
+    create_schema(engine)
+
+    columns = {
+        column["name"]
+        for column in inspect(engine).get_columns("model_predictions")
+    }
+
+    assert {
+        "prediction_id",
+        "model_version",
+        "security_id",
+        "asof_date",
+        "horizon",
+        "score",
+        "confidence",
+        "action_label",
+        "immutable_hash",
+        "created_at",
+    }.issubset(columns)
+    assert "updated_at" not in columns
+
+
+def test_model_predictions_reject_update_and_delete_attempts():
+    engine = build_engine(database_url="sqlite+pysqlite:///:memory:")
+    create_schema(engine)
+    session_factory = make_session_factory(engine)
+
+    with session_scope(session_factory) as session:
+        security = Security(
+            ticker="MSFT",
+            name="Microsoft",
+            sector="Technology",
+            exchange="NASDAQ",
+            cik="0000789019",
+        )
+        session.add(security)
+        session.flush()
+        prediction = ModelPrediction(
+            security_id=security.security_id,
+            asof_date=date(2026, 6, 24),
+            model_version="baseline_v0.1",
+            score=Decimal("82"),
+            confidence=Decimal("0.71"),
+            action_label="watch_positive",
+            immutable_hash=sha256_text(
+                "baseline_v0.1|MSFT|2026-06-24|unspecified|82|0.71|watch_positive"
+            ),
+        )
+        session.add(prediction)
+        session.flush()
+        prediction_id = prediction.prediction_id
+
+    with session_factory() as session:
+        saved_prediction = session.scalar(
+            select(ModelPrediction).where(
+                ModelPrediction.prediction_id == prediction_id
+            )
+        )
+        saved_prediction.score = Decimal("83")
+        with pytest.raises(RuntimeError, match="append-only"):
+            session.commit()
+
+    with session_factory() as session:
+        saved_prediction = session.scalar(
+            select(ModelPrediction).where(
+                ModelPrediction.prediction_id == prediction_id
+            )
+        )
+        session.delete(saved_prediction)
+        with pytest.raises(RuntimeError, match="append-only"):
+            session.commit()
