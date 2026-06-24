@@ -4,6 +4,12 @@
 # Local scratch/output
 tmp/
 
+# Research ingestion artifacts
+data/raw/
+quantfore_research.db
+*.sqlite
+*.sqlite3
+
 # Local strategy/spec exports; publish deliberately if approved
 docs/specs/*
 !docs/specs/.gitkeep
