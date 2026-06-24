@@ -8,6 +8,30 @@ The core question Quantfore AI is built to answer is:
 
 > Has the thesis changed, does it matter, and what should be reviewed before the next decision?
 
+## Local Setup
+
+From the repository root:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e 'packages/research[dev]'
+python -m pytest
+```
+
+## Smoke Check
+
+After local setup, run this small end-to-end feature-engine check from the repository root:
+
+```bash
+rm -f quantfore_research.db
+python pipelines/ingest_prices_csv.py data/sample/msft_prices.csv
+python pipelines/build_baseline_features.py MSFT --asof-date 2026-06-24
+python -m pytest
+```
+
+The smoke check ingests sample historical MSFT prices, freezes the source CSV under `data/raw/`, calculates baseline price features, stores audited feature rows, and runs the test suite.
+
 ## Product Vision
 
 Investors do not lack information. They lack a disciplined system for detecting when the facts behind an investment case have changed.
