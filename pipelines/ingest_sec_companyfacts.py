@@ -69,33 +69,8 @@ def filing_storage_uri(ticker: str, accession_no: str, retrieved_at) -> str:
     accession_slug = accession_no.replace("/", "-")
     return (
         f"raw/sec/filings/{ticker}/{accession_slug}/"
-        f"{timestamp_slug(retrieved_at)}.json"
+        f"{timestamp_slug(retrieved_at)}.txt"
     )
-
-
-def build_filing_metadata_payload(
-    *,
-    ticker: str,
-    cik: str,
-    accession_no: str,
-    form_type: Optional[str],
-    filed_at,
-    period_end,
-    source_url: str,
-    companyfacts_storage_uri: str,
-) -> bytes:
-    payload = {
-        "ticker": ticker,
-        "cik": cik,
-        "accession_no": accession_no,
-        "form_type": form_type,
-        "filed_at": filed_at.isoformat() if filed_at else None,
-        "period_end": period_end.isoformat() if period_end else None,
-        "source_url": source_url,
-        "companyfacts_storage_uri": companyfacts_storage_uri,
-        "note": "Metadata placeholder from SEC companyfacts ingestion; filing text not fetched yet.",
-    }
-    return json.dumps(payload, sort_keys=True, indent=2).encode("utf-8")
 
 
 def fiscal_period(item: dict[str, Any]) -> Optional[str]:
@@ -197,17 +172,18 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 if existing_filing is None:
                     source_url = sec_archive_uri(cik, accession_no)
                     filing_uri = filing_storage_uri(ticker, accession_no, retrieved_at)
-                    filing_payload = build_filing_metadata_payload(
-                        ticker=ticker,
-                        cik=cik,
-                        accession_no=accession_no,
-                        form_type=form_type,
-                        filed_at=filed_at,
-                        period_end=period_end,
-                        source_url=source_url,
-                        companyfacts_storage_uri=storage_uri,
-                    )
+                    filing_payload = fetch_bytes(source_url, user_agent=args.user_agent)
+                    filing_hash = sha256_bytes(filing_payload)
                     write_raw_payload(args.raw_dir, filing_uri, filing_payload)
+                    filing_snapshot = record_source_snapshot(
+                        session,
+                        vendor="SEC EDGAR",
+                        dataset=f"filing_{ticker}_{accession_no}",
+                        retrieved_at=retrieved_at,
+                        license_tag="public_source",
+                        source_hash=filing_hash,
+                        storage_uri=filing_uri,
+                    )
                     session.add(
                         Filing(
                             security_id=security.security_id,
@@ -217,7 +193,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                             accession_no=accession_no,
                             storage_uri=filing_uri,
                             source_url=source_url,
-                            source_snapshot_id=snapshot.snapshot_id,
+                            source_snapshot_id=filing_snapshot.snapshot_id,
                         )
                     )
                 filings_seen.add(accession_no)

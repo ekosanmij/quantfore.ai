@@ -109,6 +109,7 @@ class SourceSnapshot(TimestampMixin, Base):
         back_populates="source_snapshot"
     )
     features: Mapped[list["Feature"]] = relationship(back_populates="source_snapshot")
+    feature_sets: Mapped[list["FeatureSet"]] = relationship(back_populates="source_snapshot")
 
     def __repr__(self) -> str:
         return (
@@ -298,6 +299,39 @@ class MacroSeries(TimestampMixin, Base):
     )
 
 
+class FeatureSet(CreatedAtMixin, Base):
+    """Auditable registry entry for one feature calculation run."""
+
+    __tablename__ = "feature_sets"
+    __table_args__ = (
+        CheckConstraint(
+            "length(trim(feature_set_id)) > 0",
+            name="ck_feature_sets_id_nonempty",
+        ),
+        CheckConstraint("length(trim(name)) > 0", name="ck_feature_sets_name_nonempty"),
+        CheckConstraint(
+            "length(trim(version)) > 0",
+            name="ck_feature_sets_version_nonempty",
+        ),
+        Index("ix_feature_sets_name_version_asof_date", "name", "version", "asof_date"),
+        Index("ix_feature_sets_source_snapshot_id", "source_snapshot_id"),
+    )
+
+    feature_set_id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    name: Mapped[str] = mapped_column(String(160), nullable=False)
+    version: Mapped[str] = mapped_column(String(64), nullable=False)
+    asof_date: Mapped[date] = mapped_column(Date, nullable=False)
+    config_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False, default=dict)
+    source_snapshot_id: Mapped[str] = mapped_column(
+        ForeignKey("source_snapshots.snapshot_id"),
+        nullable=False,
+    )
+    code_commit: Mapped[Optional[str]] = mapped_column(String(64))
+
+    source_snapshot: Mapped["SourceSnapshot"] = relationship(back_populates="feature_sets")
+    features: Mapped[list["Feature"]] = relationship(back_populates="feature_set")
+
+
 class Feature(TimestampMixin, Base):
     """Calculated point-in-time model input for a security."""
 
@@ -327,7 +361,10 @@ class Feature(TimestampMixin, Base):
     )
 
     feature_id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
-    feature_set_id: Mapped[str] = mapped_column(String(100), nullable=False)
+    feature_set_id: Mapped[str] = mapped_column(
+        ForeignKey("feature_sets.feature_set_id"),
+        nullable=False,
+    )
     security_id: Mapped[str] = mapped_column(
         ForeignKey("securities.security_id"),
         nullable=False,
@@ -345,6 +382,7 @@ class Feature(TimestampMixin, Base):
 
     security: Mapped["Security"] = relationship(back_populates="features")
     source_snapshot: Mapped["SourceSnapshot"] = relationship(back_populates="features")
+    feature_set: Mapped["FeatureSet"] = relationship(back_populates="features")
 
 
 class ModelPrediction(CreatedAtMixin, Base):

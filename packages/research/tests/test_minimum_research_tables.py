@@ -8,6 +8,7 @@ from quantfore_research.db import build_engine, create_schema, make_session_fact
 from quantfore_research.models import (
     ExperimentRegistry,
     Feature,
+    FeatureSet,
     Filing,
     Fundamental,
     MacroSeries,
@@ -32,6 +33,7 @@ def test_minimum_research_tables_exist():
         "filings",
         "fundamentals",
         "macro_series",
+        "feature_sets",
         "features",
         "model_predictions",
         "model_outcomes",
@@ -123,6 +125,15 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
             accession_no="0000789019-26-000001",
             source_snapshot_id=filing_snapshot.snapshot_id,
         )
+        feature_set = FeatureSet(
+            feature_set_id="baseline_features_v0.1_2026-06-24",
+            name="baseline_features",
+            version="v0.1",
+            asof_date=date(2026, 6, 24),
+            config_json={"lookbacks": [21, 126, 252]},
+            source_snapshot_id=price_snapshot.snapshot_id,
+            code_commit="abc123",
+        )
         feature = Feature(
             feature_set_id="baseline_features_v0.1_2026-06-24",
             security_id=security.security_id,
@@ -153,7 +164,16 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
             result_uri="reports/experiments/exp_001.html",
         )
         session.add_all(
-            [price, filing, macro_observation, fundamental, feature, prediction, experiment]
+            [
+                price,
+                filing,
+                macro_observation,
+                fundamental,
+                feature_set,
+                feature,
+                prediction,
+                experiment,
+            ]
         )
         session.flush()
 
@@ -185,6 +205,11 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
         )
         saved_feature = session.scalar(
             select(Feature).where(Feature.feature_name == "momentum_6_1")
+        )
+        saved_feature_set = session.scalar(
+            select(FeatureSet).where(
+                FeatureSet.feature_set_id == "baseline_features_v0.1_2026-06-24"
+            )
         )
         saved_prediction = session.scalar(
             select(ModelPrediction).where(
@@ -223,6 +248,9 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
     assert saved_feature.available_at is not None
     assert saved_feature.source_snapshot_id == price_snapshot.snapshot_id
     assert saved_feature.source_hash == price_snapshot.source_hash
+    assert saved_feature_set is not None
+    assert saved_feature_set.name == "baseline_features"
+    assert saved_feature_set.source_snapshot_id == price_snapshot.snapshot_id
     assert saved_prediction is not None
     assert saved_prediction.model_version == "baseline_v0.1"
     assert saved_prediction.action_label == "watch_positive"
@@ -249,6 +277,24 @@ def test_features_table_requires_point_in_time_audit_fields():
         "version",
         "source_snapshot_id",
         "source_hash",
+    }.issubset(columns)
+
+
+def test_feature_sets_table_records_feature_run_metadata():
+    engine = build_engine(database_url="sqlite+pysqlite:///:memory:")
+    create_schema(engine)
+
+    columns = {column["name"] for column in inspect(engine).get_columns("feature_sets")}
+
+    assert {
+        "feature_set_id",
+        "name",
+        "version",
+        "asof_date",
+        "config_json",
+        "source_snapshot_id",
+        "code_commit",
+        "created_at",
     }.issubset(columns)
 
 
