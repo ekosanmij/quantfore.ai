@@ -15,6 +15,7 @@ from quantfore_research.models import (
     ModelOutcome,
     ModelPrediction,
     Price,
+    ScoreDriver,
     Security,
 )
 from quantfore_research.snapshots import record_source_snapshot, sha256_text
@@ -36,6 +37,7 @@ def test_minimum_research_tables_exist():
         "feature_sets",
         "features",
         "model_predictions",
+        "score_drivers",
         "model_outcomes",
         "experiment_registry",
     }.issubset(table_names)
@@ -156,6 +158,12 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
                 "baseline_v0.1|MSFT|2026-06-24|unspecified|82|0.71|watch_positive"
             ),
         )
+        score_driver = ScoreDriver(
+            prediction=prediction,
+            driver_name="momentum_6_1",
+            contribution=Decimal("12.4"),
+            evidence_uri="feature:momentum_6_1",
+        )
         experiment = ExperimentRegistry(
             experiment_id="exp_001",
             hypothesis_id="H1_revision_momentum",
@@ -172,6 +180,7 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
                 feature_set,
                 feature,
                 prediction,
+                score_driver,
                 experiment,
             ]
         )
@@ -216,6 +225,9 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
                 ModelPrediction.prediction_id == prediction_id
             )
         )
+        saved_score_driver = session.scalar(
+            select(ScoreDriver).where(ScoreDriver.prediction_id == prediction_id)
+        )
         saved_outcome = session.scalar(
             select(ModelOutcome).where(ModelOutcome.prediction_id == prediction_id)
         )
@@ -255,6 +267,10 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
     assert saved_prediction.model_version == "baseline_v0.1"
     assert saved_prediction.action_label == "watch_positive"
     assert saved_prediction.immutable_hash is not None
+    assert saved_score_driver is not None
+    assert saved_score_driver.driver_name == "momentum_6_1"
+    assert saved_score_driver.contribution == Decimal("12.4000000000")
+    assert saved_score_driver.evidence_uri == "feature:momentum_6_1"
     assert saved_outcome is not None
     assert saved_outcome.excess_return == Decimal("0.04000000")
     assert saved_experiment is not None
@@ -329,6 +345,22 @@ def test_model_predictions_table_is_append_only_ledger_shape():
         "created_at",
     }.issubset(columns)
     assert "updated_at" not in columns
+
+
+def test_score_drivers_table_explains_prediction_scores():
+    engine = build_engine(database_url="sqlite+pysqlite:///:memory:")
+    create_schema(engine)
+
+    columns = {column["name"] for column in inspect(engine).get_columns("score_drivers")}
+
+    assert {
+        "driver_id",
+        "prediction_id",
+        "driver_name",
+        "contribution",
+        "evidence_uri",
+        "created_at",
+    }.issubset(columns)
 
 
 def test_model_predictions_reject_update_and_delete_attempts():
