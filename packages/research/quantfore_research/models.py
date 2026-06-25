@@ -433,6 +433,7 @@ class ModelPrediction(CreatedAtMixin, Base):
         back_populates="prediction",
         uselist=False,
     )
+    score_drivers: Mapped[list["ScoreDriver"]] = relationship(back_populates="prediction")
 
 
 def _reject_model_prediction_update(mapper, connection, target) -> None:
@@ -447,6 +448,40 @@ def _reject_model_prediction_delete(mapper, connection, target) -> None:
 
 event.listen(ModelPrediction, "before_update", _reject_model_prediction_update)
 event.listen(ModelPrediction, "before_delete", _reject_model_prediction_delete)
+
+
+class ScoreDriver(CreatedAtMixin, Base):
+    """Explainable driver row for a stored model prediction."""
+
+    __tablename__ = "score_drivers"
+    __table_args__ = (
+        CheckConstraint(
+            "length(trim(driver_name)) > 0",
+            name="ck_score_drivers_driver_name_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(evidence_uri)) > 0",
+            name="ck_score_drivers_evidence_uri_nonempty",
+        ),
+        UniqueConstraint(
+            "prediction_id",
+            "driver_name",
+            name="uq_score_drivers_prediction_driver_name",
+        ),
+        Index("ix_score_drivers_prediction_id", "prediction_id"),
+        Index("ix_score_drivers_driver_name", "driver_name"),
+    )
+
+    driver_id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    prediction_id: Mapped[str] = mapped_column(
+        ForeignKey("model_predictions.prediction_id"),
+        nullable=False,
+    )
+    driver_name: Mapped[str] = mapped_column(String(160), nullable=False)
+    contribution: Mapped[Decimal] = mapped_column(Numeric(20, 10), nullable=False)
+    evidence_uri: Mapped[str] = mapped_column(String(1024), nullable=False)
+
+    prediction: Mapped["ModelPrediction"] = relationship(back_populates="score_drivers")
 
 
 class ModelOutcome(TimestampMixin, Base):

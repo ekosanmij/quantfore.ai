@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
-from typing import Mapping
+from typing import Mapping, NamedTuple
 
 
 BASELINE_MODEL_VERSION = "baseline_v0.1"
@@ -14,6 +14,30 @@ REQUIRED_FEATURE_NAMES = (
     "momentum_12_1",
     "return_21d",
     "volatility_126d",
+)
+ACTION_LABELS = (
+    "watch_positive",
+    "favourable_setup",
+    "neutral",
+    "watch_negative",
+    "thesis_risk_review",
+)
+
+
+class ResearchLabelBand(NamedTuple):
+    """Inclusive lower-bound research label band."""
+
+    minimum_score: Decimal
+    label: str
+    display_range: str
+
+
+RESEARCH_LABEL_BANDS = (
+    ResearchLabelBand(Decimal("80"), "watch_positive", "80-100"),
+    ResearchLabelBand(Decimal("60"), "favourable_setup", "60-79"),
+    ResearchLabelBand(Decimal("40"), "neutral", "40-59"),
+    ResearchLabelBand(Decimal("20"), "watch_negative", "20-39"),
+    ResearchLabelBand(Decimal("0"), "thesis_risk_review", "0-19"),
 )
 
 
@@ -49,16 +73,18 @@ def _clamp(value: Decimal, lower: Decimal, upper: Decimal) -> Decimal:
     return max(lower, min(upper, value))
 
 
-def _score_label(score: Decimal) -> str:
-    if score >= Decimal("80"):
-        return "watch_positive"
-    if score >= Decimal("60"):
-        return "favourable_setup"
-    if score >= Decimal("40"):
-        return "neutral"
-    if score >= Decimal("20"):
-        return "watch_negative"
-    return "thesis_risk_review"
+def action_label_for_score(score: object) -> str:
+    """Map a 0-100 research score to a non-advice action label."""
+
+    decimal_score = _to_decimal(score, feature_name="score")
+    if decimal_score < 0 or decimal_score > 100:
+        raise ValueError("score must be between 0 and 100")
+
+    for label_band in RESEARCH_LABEL_BANDS:
+        if decimal_score >= label_band.minimum_score:
+            return label_band.label
+
+    raise ValueError("score must be between 0 and 100")
 
 
 def _confidence_from_score(score: Decimal) -> Decimal:
@@ -140,6 +166,6 @@ def calculate_baseline_score(features: Mapping[str, object]) -> BaselineScore:
     return BaselineScore(
         score=score,
         confidence=_confidence_from_score(score),
-        action_label=_score_label(score),
+        action_label=action_label_for_score(score),
         drivers=drivers,
     )

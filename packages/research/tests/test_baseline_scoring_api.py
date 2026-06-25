@@ -1,10 +1,13 @@
 from decimal import Decimal
 
 from quantfore_research.scoring import (
+    ACTION_LABELS,
     BASELINE_MODEL_VERSION,
+    RESEARCH_LABEL_BANDS,
     REQUIRED_FEATURE_NAMES,
     BaselineScore,
     ScoreDriver,
+    action_label_for_score,
     calculate_baseline_score,
 )
 
@@ -33,6 +36,20 @@ def test_baseline_scoring_package_exposes_score_contract():
     assert score.confidence == Decimal("0.71")
     assert score.action_label == "watch_positive"
     assert score.drivers == (driver,)
+    assert ACTION_LABELS == (
+        "watch_positive",
+        "favourable_setup",
+        "neutral",
+        "watch_negative",
+        "thesis_risk_review",
+    )
+    assert tuple(label_band.display_range for label_band in RESEARCH_LABEL_BANDS) == (
+        "80-100",
+        "60-79",
+        "40-59",
+        "20-39",
+        "0-19",
+    )
     assert callable(calculate_baseline_score)
 
 
@@ -81,6 +98,42 @@ def test_calculate_baseline_score_clamps_to_zero_and_100():
     assert low_score.score == Decimal("0.000000")
     assert low_score.confidence == Decimal("0.900000")
     assert low_score.action_label == "thesis_risk_review"
+
+
+def test_action_label_for_score_maps_research_label_boundaries():
+    examples = {
+        Decimal("100"): "watch_positive",
+        Decimal("80"): "watch_positive",
+        Decimal("79.999999"): "favourable_setup",
+        Decimal("60"): "favourable_setup",
+        Decimal("59.999999"): "neutral",
+        Decimal("40"): "neutral",
+        Decimal("39.999999"): "watch_negative",
+        Decimal("20"): "watch_negative",
+        Decimal("19.999999"): "thesis_risk_review",
+        Decimal("0"): "thesis_risk_review",
+    }
+
+    for score, expected_label in examples.items():
+        assert action_label_for_score(score) == expected_label
+
+
+def test_action_labels_are_research_labels_not_advice_labels():
+    forbidden_words = {"buy", "sell"}
+
+    for label in ACTION_LABELS:
+        label_words = set(label.split("_"))
+        assert forbidden_words.isdisjoint(label_words)
+
+
+def test_action_label_for_score_rejects_out_of_range_scores():
+    for score in (Decimal("-0.000001"), Decimal("100.000001")):
+        try:
+            action_label_for_score(score)
+        except ValueError as exc:
+            assert str(exc) == "score must be between 0 and 100"
+        else:
+            raise AssertionError(f"out-of-range score did not fail: {score}")
 
 
 def test_calculate_baseline_score_requires_all_baseline_features():
