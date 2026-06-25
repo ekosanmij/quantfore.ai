@@ -41,6 +41,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("ticker")
     parser.add_argument("--asof-date", required=True, help="YYYY-MM-DD score as-of date.")
     parser.add_argument("--database-url", help="Override QUANTFORE_DATABASE_URL.")
+    parser.add_argument("--feature-set-id", help="Use an explicit baseline feature set.")
     parser.add_argument("--horizon", default=DEFAULT_HORIZON)
     parser.add_argument("--model-version", default=BASELINE_MODEL_VERSION)
     return parser.parse_args(argv)
@@ -48,7 +49,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
 
 def decimal_text(value: object) -> str:
     decimal_value = value if isinstance(value, Decimal) else Decimal(str(value))
-    return format(decimal_value, "f")
+    return format(decimal_value.normalize(), "f")
 
 
 def select_latest_feature_set(
@@ -72,6 +73,45 @@ def select_latest_feature_set(
     )
     if feature_set is None:
         raise ValueError(f"no baseline feature set found for {ticker} on {asof_date}")
+    return feature_set
+
+
+def select_feature_set(
+    session,
+    *,
+    security_id: str,
+    ticker: str,
+    asof_date,
+    feature_set_id: Optional[str],
+) -> FeatureSet:
+    if not feature_set_id:
+        return select_latest_feature_set(
+            session,
+            security_id=security_id,
+            ticker=ticker,
+            asof_date=asof_date,
+        )
+
+    feature_set = session.get(FeatureSet, feature_set_id)
+    if feature_set is None:
+        raise ValueError(f"unknown feature set: {feature_set_id}")
+    if feature_set.name != FEATURE_SET_NAME:
+        raise ValueError(
+            f"feature set {feature_set_id} is not a {FEATURE_SET_NAME} feature set"
+        )
+
+    matching_feature = session.scalar(
+        select(Feature)
+        .where(Feature.feature_set_id == feature_set_id)
+        .where(Feature.security_id == security_id)
+        .where(Feature.asof_date == asof_date)
+        .limit(1)
+    )
+    if matching_feature is None:
+        raise ValueError(
+            f"feature set {feature_set_id} has no features for {ticker} on {asof_date}"
+        )
+
     return feature_set
 
 
@@ -129,7 +169,7 @@ def immutable_prediction_hash(
                 "contribution": decimal_text(driver.contribution),
                 "evidence_uri": driver.evidence_uri,
             }
-            for driver in score.drivers
+            for driver in sorted(score.drivers, key=lambda item: item.driver_name)
         ],
     }
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
@@ -165,11 +205,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             )
             return 0
 
-        feature_set = select_latest_feature_set(
+        feature_set = select_feature_set(
             session,
             security_id=security.security_id,
             ticker=ticker,
             asof_date=asof_date,
+            feature_set_id=args.feature_set_id,
         )
         feature_values = load_feature_values(
             session,

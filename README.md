@@ -21,16 +21,17 @@ python -m pytest
 
 ## Smoke Check
 
-After local setup, run this small end-to-end feature-engine check from the repository root:
+After local setup, run this small end-to-end research-loop check from the repository root:
 
 ```bash
 rm -f quantfore_research.db
 python pipelines/ingest_prices_csv.py data/sample/msft_prices.csv
 python pipelines/build_baseline_features.py MSFT --asof-date 2026-06-24
+python pipelines/build_baseline_score.py MSFT --asof-date 2026-06-24
 python -m pytest
 ```
 
-The smoke check ingests sample historical MSFT prices, freezes the source CSV under `data/raw/`, calculates baseline price features, stores audited feature rows, and runs the test suite.
+The smoke check ingests sample historical MSFT prices, freezes the source CSV under `data/raw/`, calculates baseline price features, stores audited feature rows, creates a baseline prediction ledger row, and runs the test suite.
 
 `data/sample/msft_prices.csv` is synthetic weekday-only sample data for exercising the pipeline. It is not real MSFT market history and should not be used for performance claims.
 
@@ -265,6 +266,6 @@ Initial build tickets:
 
 ## Status
 
-This repository is at the foundation stage. It now includes the working documentation, a first `packages/research` Python package, SQLAlchemy research tables, and initial ingestion scripts for FRED macro data, SEC companyfacts, and sample prices.
+This repository is at the foundation stage. It now includes the working documentation, a first `packages/research` Python package, SQLAlchemy research tables, initial ingestion scripts for FRED macro data, SEC companyfacts, and sample prices, plus baseline feature and scoring pipelines.
 
-Runtime API services, production orchestration, trained models, backtesting infrastructure, and frontend applications are not implemented yet.
+Runtime API services, production orchestration, trained ML models, backtesting infrastructure, and frontend applications are not implemented yet.
