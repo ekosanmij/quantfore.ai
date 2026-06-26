@@ -31,7 +31,7 @@ python pipelines/build_baseline_score.py MSFT --asof-date 2026-06-24
 python -m pytest
 ```
 
-The smoke check ingests sample historical MSFT prices, freezes the source CSV under `data/raw/`, calculates baseline price features, stores audited feature rows, creates a baseline prediction ledger row, and runs the test suite.
+The smoke check ingests sample historical MSFT prices, freezes the source CSV under `data/raw/`, calculates baseline price features, stores audited feature rows, creates a 126-day baseline prediction ledger row, and runs the test suite.
 
 `data/sample/msft_prices.csv` is synthetic weekday-only sample data for exercising the pipeline. It is not real MSFT market history and should not be used for performance claims.
 

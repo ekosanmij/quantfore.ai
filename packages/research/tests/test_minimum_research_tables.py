@@ -149,13 +149,14 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
         )
         prediction = ModelPrediction(
             security_id=security.security_id,
+            feature_set_id=feature_set.feature_set_id,
             asof_date=date(2026, 6, 24),
             model_version="baseline_v0.1",
             score=Decimal("82"),
             confidence=Decimal("0.71"),
             action_label="watch_positive",
             immutable_hash=sha256_text(
-                "baseline_v0.1|MSFT|2026-06-24|unspecified|82|0.71|watch_positive"
+                "baseline_v0.1|MSFT|2026-06-24|126d|82|0.71|watch_positive"
             ),
         )
         score_driver = ScoreDriver(
@@ -265,6 +266,8 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
     assert saved_feature_set.source_snapshot_id == price_snapshot.snapshot_id
     assert saved_prediction is not None
     assert saved_prediction.model_version == "baseline_v0.1"
+    assert saved_prediction.feature_set_id == saved_feature_set.feature_set_id
+    assert saved_prediction.horizon == "126d"
     assert saved_prediction.action_label == "watch_positive"
     assert saved_prediction.immutable_hash is not None
     assert saved_score_driver is not None
@@ -336,6 +339,7 @@ def test_model_predictions_table_is_append_only_ledger_shape():
         "prediction_id",
         "model_version",
         "security_id",
+        "feature_set_id",
         "asof_date",
         "horizon",
         "score",
@@ -345,6 +349,12 @@ def test_model_predictions_table_is_append_only_ledger_shape():
         "created_at",
     }.issubset(columns)
     assert "updated_at" not in columns
+    foreign_keys = inspect(engine).get_foreign_keys("model_predictions")
+    assert any(
+        fk["constrained_columns"] == ["feature_set_id"]
+        and fk["referred_table"] == "feature_sets"
+        for fk in foreign_keys
+    )
 
 
 def test_score_drivers_table_explains_prediction_scores():
@@ -369,6 +379,14 @@ def test_model_predictions_reject_update_and_delete_attempts():
     session_factory = make_session_factory(engine)
 
     with session_scope(session_factory) as session:
+        price_snapshot = record_source_snapshot(
+            session,
+            vendor="market_data_vendor",
+            dataset="daily_prices_MSFT",
+            license_tag="prototype",
+            source_hash=sha256_text("daily_prices_MSFT_2026-06-24"),
+            storage_uri="raw/prices/MSFT/2026-06-24.json",
+        )
         security = Security(
             ticker="MSFT",
             name="Microsoft",
@@ -378,15 +396,26 @@ def test_model_predictions_reject_update_and_delete_attempts():
         )
         session.add(security)
         session.flush()
+        feature_set = FeatureSet(
+            feature_set_id="baseline_features_v0.1_2026-06-24",
+            name="baseline_features",
+            version="v0.1",
+            asof_date=date(2026, 6, 24),
+            config_json={"lookbacks": [21, 126, 252]},
+            source_snapshot_id=price_snapshot.snapshot_id,
+            code_commit="abc123",
+        )
+        session.add(feature_set)
         prediction = ModelPrediction(
             security_id=security.security_id,
+            feature_set_id=feature_set.feature_set_id,
             asof_date=date(2026, 6, 24),
             model_version="baseline_v0.1",
             score=Decimal("82"),
             confidence=Decimal("0.71"),
             action_label="watch_positive",
             immutable_hash=sha256_text(
-                "baseline_v0.1|MSFT|2026-06-24|unspecified|82|0.71|watch_positive"
+                "baseline_v0.1|MSFT|2026-06-24|126d|82|0.71|watch_positive"
             ),
         )
         session.add(prediction)
