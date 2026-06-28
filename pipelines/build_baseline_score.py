@@ -32,7 +32,7 @@ from quantfore_research.scoring import (
 )
 
 
-DEFAULT_HORIZON = "unspecified"
+DEFAULT_HORIZON = "126d"
 FEATURE_SET_NAME = "baseline_features"
 
 
@@ -196,7 +196,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             .where(ModelPrediction.asof_date == asof_date)
             .where(ModelPrediction.horizon == args.horizon)
         )
-        if existing_prediction is not None:
+        if existing_prediction is not None and not args.feature_set_id:
             print(
                 "prediction already exists; skipping "
                 f"ticker={ticker} asof_date={asof_date} "
@@ -228,10 +228,28 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             feature_set_id=feature_set.feature_set_id,
             score=baseline_score,
         )
+        if existing_prediction is not None:
+            if existing_prediction.immutable_hash != immutable_hash:
+                raise ValueError(
+                    "prediction already exists but does not match requested "
+                    f"feature_set_id={feature_set.feature_set_id}; refusing to skip "
+                    f"ticker={ticker} asof_date={asof_date} "
+                    f"model_version={args.model_version} horizon={args.horizon} "
+                    f"prediction_id={existing_prediction.prediction_id}"
+                )
+            print(
+                "prediction already exists; skipping "
+                f"ticker={ticker} asof_date={asof_date} "
+                f"model_version={args.model_version} horizon={args.horizon} "
+                f"feature_set_id={feature_set.feature_set_id} "
+                f"prediction_id={existing_prediction.prediction_id}"
+            )
+            return 0
 
         prediction = ModelPrediction(
             model_version=args.model_version,
             security_id=security.security_id,
+            feature_set_id=feature_set.feature_set_id,
             asof_date=asof_date,
             horizon=args.horizon,
             score=baseline_score.score,

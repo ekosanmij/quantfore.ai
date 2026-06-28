@@ -330,6 +330,7 @@ class FeatureSet(CreatedAtMixin, Base):
 
     source_snapshot: Mapped["SourceSnapshot"] = relationship(back_populates="feature_sets")
     features: Mapped[list["Feature"]] = relationship(back_populates="feature_set")
+    predictions: Mapped[list["ModelPrediction"]] = relationship(back_populates="feature_set")
 
 
 class Feature(TimestampMixin, Base):
@@ -400,6 +401,10 @@ class ModelPrediction(CreatedAtMixin, Base):
         ),
         CheckConstraint("length(trim(horizon)) > 0", name="ck_model_predictions_horizon_nonempty"),
         CheckConstraint(
+            "length(trim(feature_set_id)) > 0",
+            name="ck_model_predictions_feature_set_id_nonempty",
+        ),
+        CheckConstraint(
             "length(trim(immutable_hash)) > 0",
             name="ck_model_predictions_immutable_hash_nonempty",
         ),
@@ -412,6 +417,7 @@ class ModelPrediction(CreatedAtMixin, Base):
         ),
         UniqueConstraint("immutable_hash", name="uq_model_predictions_immutable_hash"),
         Index("ix_model_predictions_security_asof_date", "security_id", "asof_date"),
+        Index("ix_model_predictions_feature_set_id", "feature_set_id"),
         Index("ix_model_predictions_model_version", "model_version"),
     )
 
@@ -421,14 +427,19 @@ class ModelPrediction(CreatedAtMixin, Base):
         ForeignKey("securities.security_id"),
         nullable=False,
     )
+    feature_set_id: Mapped[str] = mapped_column(
+        ForeignKey("feature_sets.feature_set_id"),
+        nullable=False,
+    )
     asof_date: Mapped[date] = mapped_column(Date, nullable=False)
-    horizon: Mapped[str] = mapped_column(String(32), nullable=False, default="unspecified")
+    horizon: Mapped[str] = mapped_column(String(32), nullable=False, default="126d")
     score: Mapped[Decimal] = mapped_column(Numeric(12, 6), nullable=False)
     confidence: Mapped[Optional[Decimal]] = mapped_column(Numeric(8, 6))
     action_label: Mapped[str] = mapped_column(String(80), nullable=False)
     immutable_hash: Mapped[str] = mapped_column(String(128), nullable=False)
 
     security: Mapped["Security"] = relationship(back_populates="predictions")
+    feature_set: Mapped["FeatureSet"] = relationship(back_populates="predictions")
     outcome: Mapped[Optional["ModelOutcome"]] = relationship(
         back_populates="prediction",
         uselist=False,

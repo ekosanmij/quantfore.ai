@@ -79,7 +79,7 @@ def sample_hash_kwargs() -> dict:
         "ticker": "MSFT",
         "security_id": "security-msft",
         "asof_date": ASOF_DATE,
-        "horizon": "unspecified",
+        "horizon": "126d",
         "feature_set_id": "baseline_features_v0.1_MSFT_2026-06-24",
         "score": sample_score(),
     }
@@ -215,6 +215,7 @@ def test_build_baseline_score_creates_prediction_and_score_drivers(tmp_path):
                 select
                   prediction_id,
                   model_version,
+                  feature_set_id,
                   asof_date,
                   horizon,
                   score,
@@ -252,7 +253,7 @@ def test_build_baseline_score_creates_prediction_and_score_drivers(tmp_path):
         security_id=security_id,
         asof_date=ASOF_DATE,
         horizon=prediction_values["horizon"],
-        feature_set_id="baseline_features_v0.1_MSFT_2026-06-24",
+        feature_set_id=prediction_values["feature_set_id"],
         score=BaselineScore(
             score=Decimal(str(prediction_values["score"])),
             confidence=Decimal(str(prediction_values["confidence"])),
@@ -262,8 +263,9 @@ def test_build_baseline_score_creates_prediction_and_score_drivers(tmp_path):
     )
 
     assert prediction_values["model_version"] == "baseline_v0.1"
+    assert prediction_values["feature_set_id"] == "baseline_features_v0.1_MSFT_2026-06-24"
     assert prediction_values["asof_date"] == ASOF_DATE.isoformat()
-    assert prediction_values["horizon"] == "unspecified"
+    assert prediction_values["horizon"] == "126d"
     assert 0 <= prediction_values["score"] <= 100
     assert prediction_values["confidence"] is not None
     assert prediction_values["action_label"] in {
@@ -357,12 +359,104 @@ def test_build_baseline_score_uses_explicit_feature_set_id(tmp_path):
 
     engine = create_engine(f"sqlite+pysqlite:///{db_path}")
     with engine.connect() as conn:
-        prediction_hash = conn.execute(
-            text("select immutable_hash from model_predictions")
+        prediction = conn.execute(
+            text("select feature_set_id, immutable_hash from model_predictions")
+        ).one()
+        driver_count = conn.execute(text("select count(*) from score_drivers")).scalar_one()
+
+    assert prediction._mapping["feature_set_id"] == "first_feature_set"
+    assert prediction._mapping["immutable_hash"]
+    assert driver_count == 4
+
+
+def test_build_baseline_score_explicit_feature_set_rerun_skips_when_hash_matches(tmp_path):
+    csv_path = tmp_path / "msft_prices.csv"
+    db_path = tmp_path / "research.db"
+    raw_dir = tmp_path / "data" / "raw"
+    feature_set_id = "baseline_features_v0.1_MSFT_2026-06-24"
+    write_price_history(csv_path)
+    build_baseline_features(db_path, raw_dir, csv_path)
+
+    score_args = [
+        SCORE_SCRIPT,
+        "MSFT",
+        "--asof-date",
+        ASOF_DATE.isoformat(),
+        "--database-url",
+        f"sqlite+pysqlite:///{db_path}",
+        "--feature-set-id",
+        feature_set_id,
+    ]
+    first_score_result = run_command(score_args)
+    second_score_result = run_command(score_args)
+
+    assert first_score_result.returncode == 0, first_score_result.stderr
+    assert second_score_result.returncode == 0, second_score_result.stderr
+    assert "prediction already exists; skipping" in second_score_result.stdout
+    assert f"feature_set_id={feature_set_id}" in second_score_result.stdout
+
+    engine = create_engine(f"sqlite+pysqlite:///{db_path}")
+    with engine.connect() as conn:
+        prediction_count = conn.execute(
+            text("select count(*) from model_predictions")
         ).scalar_one()
         driver_count = conn.execute(text("select count(*) from score_drivers")).scalar_one()
 
-    assert prediction_hash
+    assert prediction_count == 1
+    assert driver_count == 4
+
+
+def test_build_baseline_score_rejects_explicit_feature_set_mismatch(tmp_path):
+    first_csv_path = tmp_path / "msft_prices_first.csv"
+    second_csv_path = tmp_path / "msft_prices_second.csv"
+    db_path = tmp_path / "research.db"
+    raw_dir = tmp_path / "data" / "raw"
+    write_price_history(first_csv_path, start_price=100)
+    write_price_history(second_csv_path, start_price=200)
+    ingest_prices(db_path, raw_dir, first_csv_path)
+    build_features_with_id(db_path, "first_feature_set")
+    ingest_prices(db_path, raw_dir, second_csv_path)
+    build_features_with_id(db_path, "latest_feature_set")
+
+    first_score_result = run_command(
+        [
+            SCORE_SCRIPT,
+            "MSFT",
+            "--asof-date",
+            ASOF_DATE.isoformat(),
+            "--database-url",
+            f"sqlite+pysqlite:///{db_path}",
+            "--feature-set-id",
+            "first_feature_set",
+        ]
+    )
+    mismatch_result = run_command(
+        [
+            SCORE_SCRIPT,
+            "MSFT",
+            "--asof-date",
+            ASOF_DATE.isoformat(),
+            "--database-url",
+            f"sqlite+pysqlite:///{db_path}",
+            "--feature-set-id",
+            "latest_feature_set",
+        ]
+    )
+
+    assert first_score_result.returncode == 0, first_score_result.stderr
+    assert mismatch_result.returncode != 0
+    assert "prediction already exists but does not match requested" in mismatch_result.stderr
+    assert "feature_set_id=latest_feature_set" in mismatch_result.stderr
+    assert "refusing to skip" in mismatch_result.stderr
+
+    engine = create_engine(f"sqlite+pysqlite:///{db_path}")
+    with engine.connect() as conn:
+        prediction_count = conn.execute(
+            text("select count(*) from model_predictions")
+        ).scalar_one()
+        driver_count = conn.execute(text("select count(*) from score_drivers")).scalar_one()
+
+    assert prediction_count == 1
     assert driver_count == 4
 
 
