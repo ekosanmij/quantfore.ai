@@ -248,6 +248,7 @@ infra/           Future infrastructure definitions.
 - [Claims policy](docs/compliance/claims-policy.md)
 - [Data vendor matrix](docs/data/data-vendor-matrix.md)
 - [Validation plan](docs/research/validation-plan.md)
+- [Synthetic baseline backtest contract](docs/research/synthetic-backtest-contract-v0.md)
 
 ## First Build Priorities
 
