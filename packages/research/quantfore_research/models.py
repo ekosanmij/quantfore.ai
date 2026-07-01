@@ -495,12 +495,35 @@ class ScoreDriver(CreatedAtMixin, Base):
     prediction: Mapped["ModelPrediction"] = relationship(back_populates="score_drivers")
 
 
-class ModelOutcome(TimestampMixin, Base):
-    """Realized result for a stored model prediction."""
+class ModelOutcome(CreatedAtMixin, Base):
+    """Append-only realized result for a stored model prediction."""
 
     __tablename__ = "model_outcomes"
     __table_args__ = (
+        CheckConstraint(
+            "length(trim(prediction_id)) > 0",
+            name="ck_model_outcomes_prediction_id_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(benchmark_security_id)) > 0",
+            name="ck_model_outcomes_benchmark_security_id_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(security_price_snapshot_id)) > 0",
+            name="ck_model_outcomes_security_snapshot_id_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(benchmark_price_snapshot_id)) > 0",
+            name="ck_model_outcomes_benchmark_snapshot_id_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(immutable_hash)) > 0",
+            name="ck_model_outcomes_immutable_hash_nonempty",
+        ),
         UniqueConstraint("prediction_id", name="uq_model_outcomes_prediction_id"),
+        Index("ix_model_outcomes_prediction_id", "prediction_id"),
+        Index("ix_model_outcomes_benchmark_security_id", "benchmark_security_id"),
+        Index("ix_model_outcomes_exit_date", "exit_date"),
         Index("ix_model_outcomes_evaluated_at", "evaluated_at"),
     )
 
@@ -509,13 +532,67 @@ class ModelOutcome(TimestampMixin, Base):
         ForeignKey("model_predictions.prediction_id"),
         nullable=False,
     )
+    benchmark_security_id: Mapped[str] = mapped_column(
+        ForeignKey("securities.security_id"),
+        nullable=False,
+    )
+    security_price_snapshot_id: Mapped[str] = mapped_column(
+        ForeignKey("source_snapshots.snapshot_id"),
+        nullable=False,
+    )
+    benchmark_price_snapshot_id: Mapped[str] = mapped_column(
+        ForeignKey("source_snapshots.snapshot_id"),
+        nullable=False,
+    )
+    entry_date: Mapped[date] = mapped_column(Date, nullable=False)
+    exit_date: Mapped[date] = mapped_column(Date, nullable=False)
+    security_entry_price: Mapped[Decimal] = mapped_column(
+        Numeric(18, 6),
+        nullable=False,
+    )
+    security_exit_price: Mapped[Decimal] = mapped_column(
+        Numeric(18, 6),
+        nullable=False,
+    )
+    benchmark_entry_price: Mapped[Decimal] = mapped_column(
+        Numeric(18, 6),
+        nullable=False,
+    )
+    benchmark_exit_price: Mapped[Decimal] = mapped_column(
+        Numeric(18, 6),
+        nullable=False,
+    )
     realised_return: Mapped[Decimal] = mapped_column(Numeric(14, 8), nullable=False)
     benchmark_return: Mapped[Decimal] = mapped_column(Numeric(14, 8), nullable=False)
     excess_return: Mapped[Decimal] = mapped_column(Numeric(14, 8), nullable=False)
-    max_drawdown: Mapped[Optional[Decimal]] = mapped_column(Numeric(14, 8))
+    max_drawdown: Mapped[Decimal] = mapped_column(Numeric(14, 8), nullable=False)
     evaluated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    immutable_hash: Mapped[str] = mapped_column(String(128), nullable=False)
 
     prediction: Mapped["ModelPrediction"] = relationship(back_populates="outcome")
+    benchmark_security: Mapped["Security"] = relationship(
+        foreign_keys=[benchmark_security_id]
+    )
+    security_price_snapshot: Mapped["SourceSnapshot"] = relationship(
+        foreign_keys=[security_price_snapshot_id]
+    )
+    benchmark_price_snapshot: Mapped["SourceSnapshot"] = relationship(
+        foreign_keys=[benchmark_price_snapshot_id]
+    )
+
+
+def _reject_model_outcome_update(mapper, connection, target) -> None:
+    del mapper, connection, target
+    raise RuntimeError("model_outcomes are append-only and cannot be updated")
+
+
+def _reject_model_outcome_delete(mapper, connection, target) -> None:
+    del mapper, connection, target
+    raise RuntimeError("model_outcomes are append-only and cannot be deleted")
+
+
+event.listen(ModelOutcome, "before_update", _reject_model_outcome_update)
+event.listen(ModelOutcome, "before_delete", _reject_model_outcome_delete)
 
 
 class ExperimentRegistry(TimestampMixin, Base):

@@ -81,7 +81,12 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
             exchange="NASDAQ",
             cik="0000789019",
         )
-        session.add(security)
+        benchmark_security = Security(
+            ticker="SPY",
+            name="SPDR S&P 500 ETF Trust",
+            exchange="NYSE Arca",
+        )
+        session.add_all([security, benchmark_security])
         session.flush()
 
         price = Price(
@@ -189,10 +194,23 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
 
         outcome = ModelOutcome(
             prediction_id=prediction.prediction_id,
+            benchmark_security_id=benchmark_security.security_id,
+            security_price_snapshot_id=price_snapshot.snapshot_id,
+            benchmark_price_snapshot_id=price_snapshot.snapshot_id,
+            entry_date=date(2026, 6, 25),
+            exit_date=date(2026, 12, 23),
+            security_entry_price=Decimal("500.00"),
+            security_exit_price=Decimal("535.00"),
+            benchmark_entry_price=Decimal("600.00"),
+            benchmark_exit_price=Decimal("618.00"),
             realised_return=Decimal("0.07"),
             benchmark_return=Decimal("0.03"),
             excess_return=Decimal("0.04"),
-            evaluated_at=datetime(2026, 9, 24, tzinfo=timezone.utc),
+            max_drawdown=Decimal("-0.08"),
+            evaluated_at=datetime(2026, 12, 24, tzinfo=timezone.utc),
+            immutable_hash=sha256_text(
+                "outcome|MSFT|SPY|2026-06-25|2026-12-23|0.07|0.03|-0.08"
+            ),
         )
         session.add(outcome)
 
@@ -276,6 +294,14 @@ def test_research_memory_records_facts_features_predictions_outcomes_and_experim
     assert saved_score_driver.evidence_uri == "feature:momentum_6_1"
     assert saved_outcome is not None
     assert saved_outcome.excess_return == Decimal("0.04000000")
+    assert saved_outcome.benchmark_security_id == benchmark_security.security_id
+    assert saved_outcome.security_price_snapshot_id == price_snapshot.snapshot_id
+    assert saved_outcome.benchmark_price_snapshot_id == price_snapshot.snapshot_id
+    assert saved_outcome.entry_date == date(2026, 6, 25)
+    assert saved_outcome.exit_date == date(2026, 12, 23)
+    assert saved_outcome.security_entry_price == Decimal("500.000000")
+    assert saved_outcome.benchmark_exit_price == Decimal("618.000000")
+    assert saved_outcome.immutable_hash
     assert saved_experiment is not None
     assert saved_experiment.config_json["feature_version"] == "v0.1"
 
