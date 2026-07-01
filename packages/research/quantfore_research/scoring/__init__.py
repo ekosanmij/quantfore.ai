@@ -11,6 +11,7 @@ from quantfore_research.scoring.baseline import (
     action_label_for_score,
     calculate_baseline_score,
 )
+from quantfore_research.scoring.ledger import decimal_text, immutable_prediction_hash
 
 __all__ = [
     "ACTION_LABELS",
@@ -22,4 +23,6 @@ __all__ = [
     "ScoreDriver",
     "action_label_for_score",
     "calculate_baseline_score",
+    "decimal_text",
+    "immutable_prediction_hash",
 ]

@@ -7,8 +7,6 @@ Example:
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 from decimal import Decimal
 from typing import Optional, Sequence
 
@@ -30,6 +28,8 @@ from quantfore_research.scoring import (
     BASELINE_MODEL_VERSION,
     REQUIRED_FEATURE_NAMES,
     calculate_baseline_score,
+    decimal_text,
+    immutable_prediction_hash,
 )
 
 
@@ -46,11 +46,6 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--horizon", default=DEFAULT_HORIZON)
     parser.add_argument("--model-version", default=BASELINE_MODEL_VERSION)
     return parser.parse_args(argv)
-
-
-def decimal_text(value: object) -> str:
-    decimal_value = value if isinstance(value, Decimal) else Decimal(str(value))
-    return format(decimal_value.normalize(), "f")
 
 
 def select_latest_feature_set(
@@ -142,39 +137,6 @@ def load_feature_values(
         missing = ", ".join(missing_features)
         raise ValueError(f"feature set {feature_set_id} missing score features: {missing}")
     return feature_values
-
-
-def immutable_prediction_hash(
-    *,
-    model_version: str,
-    ticker: str,
-    security_id: str,
-    asof_date,
-    horizon: str,
-    feature_set_id: str,
-    score,
-) -> str:
-    payload = {
-        "model_version": model_version,
-        "ticker": ticker,
-        "security_id": security_id,
-        "asof_date": asof_date.isoformat(),
-        "horizon": horizon,
-        "score": decimal_text(score.score),
-        "confidence": decimal_text(score.confidence),
-        "action_label": score.action_label,
-        "feature_set_id": feature_set_id,
-        "drivers": [
-            {
-                "driver_name": driver.driver_name,
-                "contribution": decimal_text(driver.contribution),
-                "evidence_uri": driver.evidence_uri,
-            }
-            for driver in sorted(score.drivers, key=lambda item: item.driver_name)
-        ],
-    }
-    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    return hashlib.sha256(encoded).hexdigest()
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
