@@ -21,19 +21,41 @@ python -m pytest
 
 ## Smoke Check
 
-After local setup, run this small end-to-end research-loop check from the repository root:
+After local setup, run this end-to-end prediction and outcome-evaluation check
+from the repository root:
 
 ```bash
 rm -f quantfore_research.db
-python pipelines/ingest_prices_csv.py data/sample/msft_prices.csv
-python pipelines/build_baseline_features.py MSFT --asof-date 2026-06-24
-python pipelines/build_baseline_score.py MSFT --asof-date 2026-06-24
+
+python pipelines/ingest_prices_csv.py \
+  data/sample/msft_spy_outcome_prices.csv
+
+python pipelines/build_baseline_features.py MSFT \
+  --asof-date 2025-12-26
+
+python pipelines/build_baseline_score.py MSFT \
+  --asof-date 2025-12-26
+
+python pipelines/evaluate_predictions.py --benchmark SPY
+
 python -m pytest
 ```
 
-The smoke check ingests sample historical MSFT prices, freezes the source CSV under `data/raw/`, calculates baseline price features, stores audited feature rows, creates a 126-day baseline prediction ledger row, and runs the test suite.
+The smoke check ingests aligned synthetic MSFT and SPY prices, freezes the
+source CSV under `data/raw/`, calculates baseline price features, stores an
+immutable 126-day prediction, evaluates it against SPY, records source-snapshot
+lineage, and runs the test suite. The evaluation should report:
 
-`data/sample/msft_prices.csv` is synthetic weekday-only sample data for exercising the pipeline. It is not real MSFT market history and should not be used for performance claims.
+```text
+evaluated prediction ticker=MSFT horizon=126d
+entry_date=2025-12-29 exit_date=2026-06-23
+realised_return=0.12 benchmark_return=0.07
+excess_return=0.05 max_drawdown=-0.2
+```
+
+`data/sample/msft_spy_outcome_prices.csv` is entirely synthetic weekday-only
+sample data. Its prices, volumes, returns, and drawdowns are fictional and must
+not be used for performance claims.
 
 ## Product Vision
 
@@ -266,6 +288,6 @@ Initial build tickets:
 
 ## Status
 
-This repository is at the foundation stage. It now includes the working documentation, a first `packages/research` Python package, SQLAlchemy research tables, initial ingestion scripts for FRED macro data, SEC companyfacts, and sample prices, plus baseline feature and scoring pipelines.
+This repository is at the foundation stage. It now includes the working documentation, a first `packages/research` Python package, SQLAlchemy research tables, initial ingestion scripts for FRED macro data, SEC companyfacts, and sample prices, plus baseline feature, scoring, and outcome-evaluation pipelines.
 
 Runtime API services, production orchestration, trained ML models, backtesting infrastructure, and frontend applications are not implemented yet.
