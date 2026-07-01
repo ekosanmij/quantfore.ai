@@ -13,6 +13,7 @@ Example:
 from __future__ import annotations
 
 import argparse
+import json
 import subprocess
 from pathlib import Path
 from typing import Optional, Sequence
@@ -77,6 +78,14 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
             "with an .md suffix."
         ),
     )
+    parser.add_argument(
+        "--lineage-output",
+        type=Path,
+        help=(
+            "Write database-specific prediction IDs, outcome hashes and snapshot "
+            "IDs here. Defaults to the JSON report path with .lineage.json."
+        ),
+    )
     return parser.parse_args(argv)
 
 
@@ -93,6 +102,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         / f"{args.experiment_id}.json"
     )
     markdown_output = args.markdown_output or json_output.with_suffix(".md")
+    lineage_output = args.lineage_output or json_output.with_suffix(".lineage.json")
     session_factory = open_research_database(args.database_url)
     with session_scope(session_factory) as session:
         result = run_historical_backtest(
@@ -112,6 +122,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             report,
             json_path=json_output,
             markdown_path=markdown_output,
+        )
+        lineage_output.parent.mkdir(parents=True, exist_ok=True)
+        lineage_output.write_text(
+            json.dumps(result.to_manifest(), indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
         )
 
     for skipped in result.skipped_observations:
@@ -147,6 +162,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     )
     print(f"json_report={json_output}")
     print(f"markdown_report={markdown_output}")
+    print(f"lineage_report={lineage_output}")
     print("SYNTHETIC ENGINEERING DATA - NOT VALIDATION EVIDENCE")
     return 0
 

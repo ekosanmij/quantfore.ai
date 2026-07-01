@@ -57,11 +57,13 @@ python pipelines/run_baseline_backtest.py \
   --experiment-id synthetic_baseline_v0_1
 ```
 
-The runner writes deterministic JSON and Markdown reports to
+The runner writes canonical, deterministic JSON and Markdown metrics reports to
 `reports/backtests/synthetic_baseline_v0_1.json` and
-`reports/backtests/synthetic_baseline_v0_1.md`. The reports contain the sorted
-prediction, outcome and snapshot lineage. Rerunning against the same database
-reuses the existing immutable predictions and outcomes. The runner also
-registers the hypothesis, source hash, code commit, configuration, synthetic
-data classification, claims restriction and JSON result URI in
+`reports/backtests/synthetic_baseline_v0_1.md`. These exclude database-generated
+UUIDs, retrieval timestamps and storage paths, so identical code and CSV input
+produce identical metrics reports across clean databases. A separate ignored
+`synthetic_baseline_v0_1.lineage.json` records sorted prediction IDs, outcome
+hashes and source snapshot IDs for same-database audit and idempotency. The
+runner also registers the hypothesis, source hash, code commit, configuration,
+synthetic data classification, claims restriction and JSON result URI in
 `experiment_registry`.

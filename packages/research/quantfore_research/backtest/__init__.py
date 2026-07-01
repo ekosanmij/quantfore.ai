@@ -7,6 +7,8 @@ from quantfore_research.backtest.contract import (
 )
 from quantfore_research.backtest.baseline import (
     QUINTILES,
+    MINIMUM_RANK_IC_T_STAT_PERIODS,
+    RANK_IC_NON_OVERLAP_STRIDE,
     ROUND_TRIP_COSTS_BPS,
     BacktestObservation,
     BacktestSummary,
@@ -46,6 +48,8 @@ __all__ = [
     "BASELINE_HYPOTHESIS",
     "BASELINE_HYPOTHESIS_ID",
     "QUINTILES",
+    "MINIMUM_RANK_IC_T_STAT_PERIODS",
+    "RANK_IC_NON_OVERLAP_STRIDE",
     "ROUND_TRIP_COSTS_BPS",
     "REPORT_SCHEMA_VERSION",
     "SYNTHETIC_SECURITY_TICKERS",

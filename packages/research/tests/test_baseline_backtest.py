@@ -234,7 +234,9 @@ def test_summary_calculates_ic_statistics_coverage_and_distributions():
     assert summary.coverage == pytest.approx(5 / 6)
     assert summary.mean_rank_ic == 0.0
     assert summary.median_rank_ic == 0.0
-    assert summary.rank_ic_t_statistic == 0.0
+    assert summary.rank_ic_t_statistic is None
+    assert summary.rank_ic_t_statistic_periods == 1
+    assert summary.rank_ic_non_overlap_stride == 6
     assert summary.positive_rank_ic_period_percentage == 0.5
     assert summary.label_distribution == {
         "neutral": 2,
@@ -252,29 +254,69 @@ def test_coverage_hit_rate_and_ic_t_statistic_helpers():
     assert calculate_rank_ic_t_statistic([0.1, 0.2, 0.3]) == pytest.approx(
         3.464101615137754
     )
+    assert calculate_rank_ic_t_statistic(
+        [1.0, 2.0, 3.0, 4.0], hac_lags=1
+    ) == pytest.approx(3.464101615137754)
 
 
 def test_top_quintile_cost_sensitivity_deducts_round_trip_cost_once():
-    observations = [
-        observation(f"QF{index:02d}", index, -0.01)
-        for index in range(1, 9)
-    ] + [
-        observation("QF09", 9, 0.001),
-        observation("QF10", 10, 0.004),
-    ]
-
     sensitivity = calculate_top_quintile_cost_sensitivity(
-        rank_cross_section(observations)
+        [0.001, 0.004]
     )
 
     assert tuple(sensitivity) == (0, 10, 25)
-    assert sensitivity[0].evaluated_observations == 2
+    assert sensitivity[0].evaluated_periods == 2
     assert sensitivity[0].average_net_excess_return == pytest.approx(0.0025)
     assert sensitivity[0].benchmark_hit_rate == 1.0
     assert sensitivity[10].average_net_excess_return == pytest.approx(0.0015)
     assert sensitivity[10].benchmark_hit_rate == 0.5
     assert sensitivity[25].average_net_excess_return == pytest.approx(0.0)
     assert sensitivity[25].benchmark_hit_rate == 0.5
+
+
+def test_summary_equal_weights_monthly_quintile_portfolios_and_hit_rate():
+    january = [
+        observation(f"QF{index:02d}", index, value)
+        for index, value in enumerate(
+            (-0.01, -0.005, 0.0, 0.02, 0.10),
+            start=1,
+        )
+    ]
+    february_returns = (
+        -0.03,
+        -0.03,
+        -0.02,
+        -0.02,
+        -0.01,
+        -0.01,
+        0.0,
+        0.0,
+        -0.02,
+        -0.02,
+    )
+    february = [
+        observation(
+            f"QF{index:02d}",
+            index,
+            value,
+            prediction_date=FEBRUARY_DATE,
+        )
+        for index, value in enumerate(february_returns, start=1)
+    ]
+
+    summary = summarize_backtest([*january, *february])
+
+    assert summary.average_excess_return_by_quintile[5] == pytest.approx(0.04)
+    assert summary.observation_count_by_quintile[5] == 3
+    assert summary.top_quintile_benchmark_hit_rate == 0.5
+    assert summary.top_minus_bottom_spread == pytest.approx(0.06)
+    assert summary.top_quintile_cost_sensitivity[0].evaluated_periods == 2
+    assert summary.top_quintile_cost_sensitivity[0].average_net_excess_return == pytest.approx(
+        0.04
+    )
+    assert summary.top_quintile_cost_sensitivity[10].average_net_excess_return == pytest.approx(
+        0.039
+    )
 
 
 def test_summary_is_deterministic_for_shuffled_observation_input():

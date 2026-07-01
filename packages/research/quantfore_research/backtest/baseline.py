@@ -18,6 +18,8 @@ from typing import Iterable, Mapping, Optional, Sequence
 
 QUINTILES = (1, 2, 3, 4, 5)
 ROUND_TRIP_COSTS_BPS = (0, 10, 25)
+RANK_IC_NON_OVERLAP_STRIDE = 6
+MINIMUM_RANK_IC_T_STAT_PERIODS = 5
 
 
 @dataclass(frozen=True)
@@ -75,7 +77,7 @@ class CostSensitivityResult:
     """Top-quintile diagnostic after one fixed round-trip cost deduction."""
 
     round_trip_cost_bps: int
-    evaluated_observations: int
+    evaluated_periods: int
     average_net_excess_return: Optional[float]
     benchmark_hit_rate: Optional[float]
 
@@ -111,6 +113,9 @@ class BacktestSummary:
     mean_rank_ic: Optional[float]
     median_rank_ic: Optional[float]
     rank_ic_t_statistic: Optional[float]
+    rank_ic_t_statistic_method: str
+    rank_ic_t_statistic_periods: int
+    rank_ic_non_overlap_stride: int
     positive_rank_ic_period_percentage: Optional[float]
     average_excess_return_by_quintile: Mapping[int, Optional[float]]
     observation_count_by_quintile: Mapping[int, int]
@@ -268,18 +273,44 @@ def _pearson_correlation(first: Sequence[float], second: Sequence[float]) -> Opt
     ) / denominator
 
 
-def calculate_rank_ic_t_statistic(rank_ics: Iterable[float]) -> Optional[float]:
-    """Return the one-sample t-statistic for non-missing period Rank ICs."""
+def calculate_rank_ic_t_statistic(
+    rank_ics: Iterable[float],
+    *,
+    hac_lags: int = 0,
+) -> Optional[float]:
+    """Return a one-sample t-statistic with optional Newey-West HAC errors.
+
+    Bartlett-kernel autocovariances through ``hac_lags`` correct the standard
+    error for overlapping forward-return windows. A finite-sample adjustment
+    preserves the ordinary one-sample t-statistic when ``hac_lags`` is zero.
+    """
 
     values = [float(value) for value in rank_ics]
     if any(not math.isfinite(value) for value in values):
         raise ValueError("Rank IC values must be finite")
+    if isinstance(hac_lags, bool) or not isinstance(hac_lags, int):
+        raise ValueError("HAC lags must be a non-negative integer")
+    if hac_lags < 0:
+        raise ValueError("HAC lags must be a non-negative integer")
     if len(values) < 2:
         return None
-    standard_deviation = statistics.stdev(values)
-    if standard_deviation == 0:
+    mean = statistics.fmean(values)
+    residuals = [value - mean for value in values]
+    sample_size = len(values)
+    lag_count = min(hac_lags, sample_size - 1)
+    long_run_sum = sum(value * value for value in residuals)
+    for lag in range(1, lag_count + 1):
+        weight = 1.0 - (lag / (lag_count + 1.0))
+        autocovariance_sum = sum(
+            residuals[index] * residuals[index - lag]
+            for index in range(lag, sample_size)
+        )
+        long_run_sum += 2.0 * weight * autocovariance_sum
+    long_run_sum *= sample_size / (sample_size - 1)
+    variance_of_mean = long_run_sum / (sample_size * sample_size)
+    if variance_of_mean <= 0:
         return None
-    return statistics.fmean(values) / (standard_deviation / math.sqrt(len(values)))
+    return mean / math.sqrt(variance_of_mean)
 
 
 def calculate_coverage(*, eligible: int, evaluated: int) -> float:
@@ -304,20 +335,19 @@ def calculate_hit_rate(excess_returns: Iterable[object]) -> Optional[float]:
 
 
 def calculate_top_quintile_cost_sensitivity(
-    ranked_observations: Iterable[RankedObservation],
+    top_quintile_period_returns: Iterable[object],
     *,
     round_trip_costs_bps: Iterable[int] = ROUND_TRIP_COSTS_BPS,
 ) -> Mapping[int, CostSensitivityResult]:
-    """Apply fixed round-trip costs to every evaluated top-quintile outcome.
+    """Apply fixed round-trip costs to monthly top-quintile portfolio returns.
 
     One basis point is ``0.0001`` in return units. This is intentionally a
     simple diagnostic and does not estimate holdings, turnover or market impact.
     """
 
     top_quintile_returns = [
-        ranked.observation.excess_return
-        for ranked in ranked_observations
-        if ranked.quintile == 5 and ranked.observation.excess_return is not None
+        _finite_decimal(value, name="top-quintile period return")
+        for value in top_quintile_period_returns
     ]
     results = {}
     for raw_cost in round_trip_costs_bps:
@@ -331,7 +361,7 @@ def calculate_top_quintile_cost_sensitivity(
         net_returns = [value - cost_return for value in top_quintile_returns]
         results[raw_cost] = CostSensitivityResult(
             round_trip_cost_bps=raw_cost,
-            evaluated_observations=len(net_returns),
+            evaluated_periods=len(net_returns),
             average_net_excess_return=(
                 statistics.fmean(float(value) for value in net_returns)
                 if net_returns
@@ -396,7 +426,11 @@ def _quintile_analytics(
         if top_return is not None and bottom_return is not None
         else None
     )
-    hit_rate = calculate_hit_rate(returns_by_quintile[5])
+    hit_rate = (
+        float(top_return > 0)
+        if top_return is not None
+        else None
+    )
     ordered_returns = [average_returns[quintile] for quintile in QUINTILES]
     monotonic = (
         all(left <= right for left, right in zip(ordered_returns, ordered_returns[1:]))
@@ -404,6 +438,55 @@ def _quintile_analytics(
         else None
     )
     return average_returns, counts, spread, hit_rate, monotonic
+
+
+def _aggregate_period_analytics(
+    periods: Sequence[PeriodResult],
+) -> tuple[
+    Mapping[int, Optional[float]],
+    Mapping[int, int],
+    Optional[float],
+    Optional[float],
+    Optional[bool],
+]:
+    period_returns_by_quintile = {
+        quintile: [
+            period.average_excess_return_by_quintile[quintile]
+            for period in periods
+            if period.average_excess_return_by_quintile[quintile] is not None
+        ]
+        for quintile in QUINTILES
+    }
+    average_returns = {
+        quintile: (
+            statistics.fmean(period_returns_by_quintile[quintile])
+            if period_returns_by_quintile[quintile]
+            else None
+        )
+        for quintile in QUINTILES
+    }
+    observation_counts = {
+        quintile: sum(
+            period.observation_count_by_quintile[quintile]
+            for period in periods
+        )
+        for quintile in QUINTILES
+    }
+    period_spreads = [
+        period.top_minus_bottom_spread
+        for period in periods
+        if period.top_minus_bottom_spread is not None
+    ]
+    spread = statistics.fmean(period_spreads) if period_spreads else None
+    top_period_returns = period_returns_by_quintile[5]
+    hit_rate = calculate_hit_rate(top_period_returns)
+    ordered_returns = [average_returns[quintile] for quintile in QUINTILES]
+    monotonic = (
+        all(left <= right for left, right in zip(ordered_returns, ordered_returns[1:]))
+        if all(value is not None for value in ordered_returns)
+        else None
+    )
+    return average_returns, observation_counts, spread, hit_rate, monotonic
 
 
 def analyze_period(observations: Iterable[BacktestObservation]) -> PeriodResult:
@@ -453,18 +536,23 @@ def summarize_backtest(
         analyze_period(observations_by_date[prediction_date])
         for prediction_date in sorted(observations_by_date)
     )
-    ranked_observations = tuple(
-        ranked
-        for period in periods
-        for ranked in period.ranked_observations
-    )
     evaluated_count = sum(
         observation.excess_return is not None for observation in values
     )
     rank_ics = [period.rank_ic for period in periods if period.rank_ic is not None]
+    non_overlapping_rank_ics = [
+        period.rank_ic
+        for index, period in enumerate(periods)
+        if index % RANK_IC_NON_OVERLAP_STRIDE == 0 and period.rank_ic is not None
+    ]
     quintile_returns, quintile_counts, spread, hit_rate, monotonic = (
-        _quintile_analytics(ranked_observations)
+        _aggregate_period_analytics(periods)
     )
+    top_quintile_period_returns = [
+        period.average_excess_return_by_quintile[5]
+        for period in periods
+        if period.average_excess_return_by_quintile[5] is not None
+    ]
     return BacktestSummary(
         periods=periods,
         period_count=len(periods),
@@ -473,7 +561,17 @@ def summarize_backtest(
         coverage=calculate_coverage(eligible=len(values), evaluated=evaluated_count),
         mean_rank_ic=statistics.fmean(rank_ics) if rank_ics else None,
         median_rank_ic=statistics.median(rank_ics) if rank_ics else None,
-        rank_ic_t_statistic=calculate_rank_ic_t_statistic(rank_ics),
+        rank_ic_t_statistic=(
+            calculate_rank_ic_t_statistic(non_overlapping_rank_ics)
+            if len(non_overlapping_rank_ics) >= MINIMUM_RANK_IC_T_STAT_PERIODS
+            else None
+        ),
+        rank_ic_t_statistic_method=(
+            "Non-overlapping monthly cohorts; t-statistic requires at least "
+            f"{MINIMUM_RANK_IC_T_STAT_PERIODS} independent periods"
+        ),
+        rank_ic_t_statistic_periods=len(non_overlapping_rank_ics),
+        rank_ic_non_overlap_stride=RANK_IC_NON_OVERLAP_STRIDE,
         positive_rank_ic_period_percentage=(
             sum(value > 0 for value in rank_ics) / len(rank_ics)
             if rank_ics
@@ -484,7 +582,7 @@ def summarize_backtest(
         top_minus_bottom_spread=spread,
         top_quintile_benchmark_hit_rate=hit_rate,
         top_quintile_cost_sensitivity=(
-            calculate_top_quintile_cost_sensitivity(ranked_observations)
+            calculate_top_quintile_cost_sensitivity(top_quintile_period_returns)
         ),
         monotonic=monotonic,
         score_distribution=_score_distribution(values),

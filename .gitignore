@@ -44,3 +44,6 @@ pnpm-debug.log*
 coverage/
 htmlcov/
 *.log
+
+# Database-specific backtest lineage (canonical metrics reports are versioned)
+reports/backtests/*.lineage.json
