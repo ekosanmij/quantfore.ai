@@ -289,6 +289,6 @@ Initial build tickets:
 
 ## Status
 
-This repository is at the foundation stage. It now includes the working documentation, a first `packages/research` Python package, SQLAlchemy research tables, initial ingestion scripts for FRED macro data, SEC companyfacts, and sample prices, plus baseline feature, scoring, and outcome-evaluation pipelines.
+This repository is at the foundation stage. It now includes the working documentation, a first `packages/research` Python package, SQLAlchemy research tables, initial ingestion scripts for FRED macro data, SEC companyfacts, and sample prices, plus baseline feature, scoring, outcome-evaluation, and synthetic historical-backtest pipelines.
 
-Runtime API services, production orchestration, trained ML models, backtesting infrastructure, and frontend applications are not implemented yet.
+Runtime API services, production orchestration, trained ML models, proof-grade real-market backtesting, and frontend applications are not implemented yet. The current backtest infrastructure is an engineering harness over deterministic synthetic data only.

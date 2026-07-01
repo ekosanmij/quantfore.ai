@@ -37,6 +37,7 @@ from quantfore_research.models import (
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RUNNER_PATH = REPO_ROOT / "pipelines" / "run_baseline_backtest.py"
+INGEST_PATH = REPO_ROOT / "pipelines" / "ingest_prices_csv.py"
 
 
 def weekday_dates(start: date, count: int) -> list[date]:
@@ -295,6 +296,7 @@ def test_runner_cli_writes_complete_deterministic_reports(tmp_path):
     create_panel_database(tmp_path)
     json_path = tmp_path / "report.json"
     markdown_path = tmp_path / "report.md"
+    lineage_path = tmp_path / "report.lineage.json"
     command = [
         sys.executable,
         str(RUNNER_PATH),
@@ -318,6 +320,8 @@ def test_runner_cli_writes_complete_deterministic_reports(tmp_path):
         str(json_path),
         "--markdown-output",
         str(markdown_path),
+        "--lineage-output",
+        str(lineage_path),
     ]
 
     result = subprocess.run(
@@ -334,17 +338,23 @@ def test_runner_cli_writes_complete_deterministic_reports(tmp_path):
     assert f"markdown_report={markdown_path}" in result.stdout
     assert "SYNTHETIC ENGINEERING DATA - NOT VALIDATION EVIDENCE" in result.stdout
     report = json.loads(json_path.read_text(encoding="utf-8"))
-    lineage = report["lineage"]
+    canonical_lineage = report["canonical_lineage"]
+    assert canonical_lineage["prediction_references"] == sorted(
+        canonical_lineage["prediction_references"]
+    )
+    assert canonical_lineage["outcome_references"] == sorted(
+        canonical_lineage["outcome_references"]
+    )
+    lineage = json.loads(lineage_path.read_text(encoding="utf-8"))
     assert lineage["prediction_ids"] == sorted(lineage["prediction_ids"])
     assert lineage["outcome_hashes"] == sorted(lineage["outcome_hashes"])
-    assert len(lineage["prediction_ids"]) == len(lineage["outcome_hashes"])
     assert lineage["source_snapshot_ids"] == ["snapshot-panel"]
     assert report["configuration"]["universe"] == ["QF01", "QF02", "QF03"]
     assert report["synthetic_warning"] == (
         "SYNTHETIC ENGINEERING DATA - NOT VALIDATION EVIDENCE"
     )
     assert report["observation_counts"]["eligible"] == len(
-        lineage["prediction_ids"]
+        canonical_lineage["prediction_references"]
     )
     assert len(report["rank_ic_by_month"]) >= 12
     assert tuple(report["top_quintile_cost_sensitivity"]) == (
@@ -355,6 +365,11 @@ def test_runner_cli_writes_complete_deterministic_reports(tmp_path):
     assert report["top_quintile_cost_sensitivity"]["0_bps"][
         "average_net_excess_return"
     ] == report["quintile_returns"]["5"]
+    assert report["rank_ic_summary"]["t_statistic_method"] == (
+        "Non-overlapping monthly cohorts; t-statistic requires at least "
+        "5 independent periods"
+    )
+    assert report["rank_ic_summary"]["non_overlap_stride_months"] == 6
     markdown = markdown_path.read_text(encoding="utf-8")
     for heading in (
         "## Configuration",
@@ -368,12 +383,14 @@ def test_runner_cli_writes_complete_deterministic_reports(tmp_path):
         "## Top-Quintile Cost Sensitivity",
         "## Label Distribution",
         "## Failed or Skipped Observations",
+        "## Canonical Lineage",
         "## Known Limitations",
         "## Synthetic-Data Warning",
     ):
         assert heading in markdown
     first_json = json_path.read_bytes()
     first_markdown = markdown_path.read_bytes()
+    first_lineage = lineage_path.read_bytes()
     rerun = subprocess.run(
         command,
         cwd=REPO_ROOT,
@@ -384,6 +401,7 @@ def test_runner_cli_writes_complete_deterministic_reports(tmp_path):
     assert rerun.returncode == 0, rerun.stderr
     assert json_path.read_bytes() == first_json
     assert markdown_path.read_bytes() == first_markdown
+    assert lineage_path.read_bytes() == first_lineage
     engine = build_engine(
         database_url=f"sqlite+pysqlite:///{tmp_path / 'backtest.db'}"
     )
@@ -394,3 +412,84 @@ def test_runner_cli_writes_complete_deterministic_reports(tmp_path):
     assert experiment.data_snapshot_hash == "panel-source-hash"
     assert experiment.config_json["claims_eligible"] is False
     assert experiment.config_json["dataset_kind"] == "synthetic"
+
+
+def write_reproducibility_panel(csv_path: Path) -> None:
+    dates = weekday_dates(date(2021, 1, 4), 700)
+    tickers = ("QF01", "QF02", "QF03", "QF04", "QF05", "SPY")
+    lines = ["ticker,date,open,high,low,close,adj_close,volume"]
+    for date_index, price_date in enumerate(dates):
+        for ticker_index, ticker in enumerate(tickers, start=1):
+            price = Decimal(40 + ticker_index * 20) + (
+                Decimal(date_index) * Decimal(ticker_index) / Decimal("100")
+            )
+            lines.append(
+                f"{ticker},{price_date},{price},{price},{price},{price},{price},1000000"
+            )
+    csv_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def test_canonical_reports_match_across_clean_databases(tmp_path):
+    report_payloads = []
+    lineage_payloads = []
+    for run_number in (1, 2):
+        run_dir = tmp_path / f"run-{run_number}"
+        run_dir.mkdir()
+        csv_path = run_dir / "panel.csv"
+        database_path = run_dir / "backtest.db"
+        json_path = run_dir / "report.json"
+        markdown_path = run_dir / "report.md"
+        lineage_path = run_dir / "report.lineage.json"
+        write_reproducibility_panel(csv_path)
+        ingest = subprocess.run(
+            [
+                sys.executable,
+                str(INGEST_PATH),
+                str(csv_path),
+                "--database-url",
+                f"sqlite+pysqlite:///{database_path}",
+                "--raw-dir",
+                str(run_dir / "data" / "raw"),
+            ],
+            cwd=REPO_ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        assert ingest.returncode == 0, ingest.stderr
+        run = subprocess.run(
+            [
+                sys.executable,
+                str(RUNNER_PATH),
+                "--database-url",
+                f"sqlite+pysqlite:///{database_path}",
+                "--benchmark",
+                "SPY",
+                "--start-date",
+                "2022-01-01",
+                "--end-date",
+                "2024-12-31",
+                "--horizon",
+                "126d",
+                "--frequency",
+                "monthly",
+                "--experiment-id",
+                "clean_database_reproducibility",
+                "--json-output",
+                str(json_path),
+                "--markdown-output",
+                str(markdown_path),
+                "--lineage-output",
+                str(lineage_path),
+            ],
+            cwd=REPO_ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        assert run.returncode == 0, run.stderr
+        report_payloads.append((json_path.read_bytes(), markdown_path.read_bytes()))
+        lineage_payloads.append(lineage_path.read_bytes())
+
+    assert report_payloads[0] == report_payloads[1]
+    assert lineage_payloads[0] != lineage_payloads[1]

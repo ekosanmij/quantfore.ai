@@ -14,7 +14,6 @@ from quantfore_research.backtest.baseline import (
     summarize_backtest,
 )
 from quantfore_research.backtest.execution import BacktestRunResult
-from quantfore_research.evaluation import canonical_datetime_text
 from quantfore_research.models import (
     ExperimentRegistry,
     ModelOutcome,
@@ -34,6 +33,7 @@ KNOWN_LIMITATIONS = (
     "The universe is fixed and fictional, so survivorship, delisting and corporate-action effects are absent.",
     "The baseline is a deterministic heuristic rather than a trained or calibrated forecasting model.",
     "Cost sensitivity is a fixed top-quintile round-trip deduction, not a full turnover, liquidity, tax or market-impact model.",
+    "Database UUIDs and retrieval metadata live in a separate run-specific lineage manifest and are excluded from canonical metrics reports.",
     "The sample is too small and artificial for investment-performance or predictive-validity claims.",
 )
 
@@ -108,15 +108,12 @@ def build_backtest_report(
 
     snapshot_lineage = [
         {
-            "snapshot_id": snapshot.snapshot_id,
             "source_hash": snapshot.source_hash,
             "vendor": snapshot.vendor,
             "dataset": snapshot.dataset,
-            "retrieved_at": canonical_datetime_text(snapshot.retrieved_at),
             "license_tag": snapshot.license_tag,
-            "storage_uri": snapshot.storage_uri,
         }
-        for snapshot in sorted(snapshots, key=lambda value: value.snapshot_id)
+        for snapshot in sorted(snapshots, key=lambda value: value.source_hash)
     ]
     config = dict(experiment.config_json)
     config.update(
@@ -125,9 +122,33 @@ def build_backtest_report(
             "hypothesis_id": experiment.hypothesis_id,
             "data_snapshot_hash": experiment.data_snapshot_hash,
             "code_commit": experiment.code_commit,
-            "result_uri": experiment.result_uri,
         }
     )
+    prediction_references = sorted([
+        "|".join(
+            (
+                prediction.model_version,
+                security.ticker,
+                prediction.asof_date.isoformat(),
+                prediction.horizon,
+            )
+        )
+        for prediction, security, outcome in rows
+    ])
+    outcome_references = sorted([
+        "|".join(
+            (
+                prediction.model_version,
+                security.ticker,
+                prediction.asof_date.isoformat(),
+                prediction.horizon,
+                outcome.entry_date.isoformat(),
+                outcome.exit_date.isoformat(),
+            )
+        )
+        for prediction, security, outcome in rows
+        if outcome is not None
+    ])
     return {
         "schema_version": REPORT_SCHEMA_VERSION,
         "synthetic_warning": SYNTHETIC_WARNING,
@@ -146,6 +167,9 @@ def build_backtest_report(
             "mean": summary.mean_rank_ic,
             "median": summary.median_rank_ic,
             "t_statistic": summary.rank_ic_t_statistic,
+            "t_statistic_method": summary.rank_ic_t_statistic_method,
+            "t_statistic_periods": summary.rank_ic_t_statistic_periods,
+            "non_overlap_stride_months": summary.rank_ic_non_overlap_stride,
             "positive_period_percentage": (
                 summary.positive_rank_ic_period_percentage
             ),
@@ -180,10 +204,12 @@ def build_backtest_report(
             }
             for skipped in result.skipped_observations
         ],
-        "lineage": {
-            "prediction_ids": list(result.prediction_ids),
-            "outcome_hashes": list(result.outcome_hashes),
-            "source_snapshot_ids": list(result.source_snapshot_ids),
+        "canonical_lineage": {
+            "prediction_references": prediction_references,
+            "outcome_references": outcome_references,
+            "source_snapshot_hashes": [
+                snapshot["source_hash"] for snapshot in snapshot_lineage
+            ],
         },
         "known_limitations": list(KNOWN_LIMITATIONS),
     }
@@ -235,14 +261,13 @@ def render_backtest_markdown(report: Mapping[str, object]) -> str:
         "",
         f"Data snapshot hash: `{lineage['data_snapshot_hash']}`",
         "",
-        "| Snapshot ID | Dataset | Vendor | Retrieved at | License | Storage URI |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| Source hash | Dataset | Vendor | License |",
+        "| --- | --- | --- | --- |",
     ]
     for snapshot in lineage["source_snapshots"]:
         lines.append(
-            f"| `{snapshot['snapshot_id']}` | {snapshot['dataset']} | "
-            f"{snapshot['vendor']} | {snapshot['retrieved_at']} | "
-            f"{snapshot['license_tag']} | `{snapshot['storage_uri']}` |"
+            f"| `{snapshot['source_hash']}` | {snapshot['dataset']} | "
+            f"{snapshot['vendor']} | {snapshot['license_tag']} |"
         )
     lines.extend(
         [
@@ -273,6 +298,9 @@ def render_backtest_markdown(report: Mapping[str, object]) -> str:
             f"- Mean Rank IC: {_metric(ic_summary['mean'])}",
             f"- Median Rank IC: {_metric(ic_summary['median'])}",
             f"- Rank IC t-statistic: {_metric(ic_summary['t_statistic'])}",
+            f"- T-statistic method: {ic_summary['t_statistic_method']}",
+            f"- Non-overlapping periods used: {ic_summary['t_statistic_periods']}",
+            f"- Cohort stride: {ic_summary['non_overlap_stride_months']} months",
             f"- Positive IC-period percentage: {_metric(ic_summary['positive_period_percentage'])}",
             "",
             "## Quintile Returns",
@@ -306,7 +334,7 @@ def render_backtest_markdown(report: Mapping[str, object]) -> str:
             "",
             "A fixed round-trip cost is deducted once from each evaluated top-quintile excess return.",
             "",
-            "| Round-trip cost | Evaluated observations | Average net excess return | Benchmark hit rate |",
+            "| Round-trip cost | Evaluated periods | Average net excess return | Benchmark hit rate |",
             "| ---: | ---: | ---: | ---: |",
         ]
     )
@@ -314,7 +342,7 @@ def render_backtest_markdown(report: Mapping[str, object]) -> str:
         sensitivity = report["top_quintile_cost_sensitivity"][cost_key]
         lines.append(
             f"| {sensitivity['round_trip_cost_bps']} bps | "
-            f"{sensitivity['evaluated_observations']} | "
+            f"{sensitivity['evaluated_periods']} | "
             f"{_metric(sensitivity['average_net_excess_return'])} | "
             f"{_metric(sensitivity['benchmark_hit_rate'])} |"
         )
@@ -357,12 +385,21 @@ def render_backtest_markdown(report: Mapping[str, object]) -> str:
     else:
         lines.append("None.")
 
-    lines.extend(["", "## Experiment Lineage", "", "### Prediction IDs", ""])
-    lines.extend(f"- `{value}`" for value in report["lineage"]["prediction_ids"])
-    lines.extend(["", "### Outcome Hashes", ""])
-    lines.extend(f"- `{value}`" for value in report["lineage"]["outcome_hashes"])
-    lines.extend(["", "### Source Snapshot IDs", ""])
-    lines.extend(f"- `{value}`" for value in report["lineage"]["source_snapshot_ids"])
+    lines.extend(["", "## Canonical Lineage", "", "### Prediction References", ""])
+    lines.extend(
+        f"- `{value}`"
+        for value in report["canonical_lineage"]["prediction_references"]
+    )
+    lines.extend(["", "### Outcome References", ""])
+    lines.extend(
+        f"- `{value}`"
+        for value in report["canonical_lineage"]["outcome_references"]
+    )
+    lines.extend(["", "### Source Snapshot Hashes", ""])
+    lines.extend(
+        f"- `{value}`"
+        for value in report["canonical_lineage"]["source_snapshot_hashes"]
+    )
     lines.extend(["", "## Known Limitations", ""])
     lines.extend(f"- {value}" for value in report["known_limitations"])
     lines.extend(
