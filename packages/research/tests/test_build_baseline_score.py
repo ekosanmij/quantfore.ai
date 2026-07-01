@@ -546,3 +546,33 @@ def test_build_baseline_score_rejects_unknown_feature_set_id(tmp_path):
 
     assert score_result.returncode != 0
     assert "unknown feature set: missing_feature_set" in score_result.stderr
+
+
+def test_build_baseline_score_rejects_unsupported_horizon(tmp_path):
+    csv_path = tmp_path / "msft_prices.csv"
+    db_path = tmp_path / "research.db"
+    raw_dir = tmp_path / "data" / "raw"
+    write_price_history(csv_path)
+    build_baseline_features(db_path, raw_dir, csv_path)
+
+    score_result = run_command(
+        [
+            SCORE_SCRIPT,
+            "MSFT",
+            "--asof-date",
+            ASOF_DATE.isoformat(),
+            "--horizon",
+            "3m",
+            "--database-url",
+            f"sqlite+pysqlite:///{db_path}",
+        ]
+    )
+
+    assert score_result.returncode != 0
+    assert "unsupported horizon '3m'" in score_result.stderr
+    engine = create_engine(f"sqlite+pysqlite:///{db_path}")
+    with engine.connect() as conn:
+        prediction_count = conn.execute(
+            text("select count(*) from model_predictions")
+        ).scalar_one()
+    assert prediction_count == 0

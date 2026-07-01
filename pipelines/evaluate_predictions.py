@@ -15,7 +15,7 @@ import argparse
 import hashlib
 import json
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date, datetime, timezone
 from decimal import Decimal
 from typing import Optional, Sequence
 
@@ -58,13 +58,24 @@ class EvaluationReport:
 class ImmaturePrediction(ValueError):
     """Raised internally when no security snapshot has enough future prices."""
 
-    def __init__(self, *, required_observations: int, available_observations: int):
+    def __init__(
+        self,
+        *,
+        required_observations: int,
+        available_observations: int,
+        exit_date: Optional[date] = None,
+    ):
         self.required_observations = required_observations
         self.available_observations = available_observations
+        self.exit_date = exit_date
         super().__init__(
             f"requires {required_observations} future observations; "
             f"found {available_observations}"
         )
+
+
+class BenchmarkUnavailable(ValueError):
+    """Raised internally when benchmark prices are absent or still incomplete."""
 
 
 def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
@@ -88,6 +99,19 @@ def canonical_decimal_text(value: object, *, quantum: Decimal) -> str:
     return decimal_text(decimal_value.quantize(quantum))
 
 
+def normalized_utc(value: datetime) -> datetime:
+    if value.tzinfo is None or value.utcoffset() is None:
+        return value.replace(tzinfo=timezone.utc)
+    return value.astimezone(timezone.utc)
+
+
+def canonical_datetime_text(value: datetime) -> str:
+    return normalized_utc(value).isoformat(timespec="microseconds").replace(
+        "+00:00",
+        "Z",
+    )
+
+
 def immutable_outcome_hash(
     *,
     prediction: ModelPrediction,
@@ -96,8 +120,13 @@ def immutable_outcome_hash(
     security_price_snapshot_id: str,
     benchmark_price_snapshot_id: str,
     outcome: object,
+    evaluated_at: Optional[datetime] = None,
 ) -> str:
     """Build the canonical SHA-256 hash for one outcome and its lineage."""
+
+    outcome_evaluated_at = evaluated_at or getattr(outcome, "evaluated_at", None)
+    if outcome_evaluated_at is None:
+        raise ValueError("evaluated_at is required for the immutable outcome hash")
 
     payload = {
         "prediction_id": prediction.prediction_id,
@@ -111,6 +140,7 @@ def immutable_outcome_hash(
         "benchmark_security_id": benchmark.security_id,
         "security_price_snapshot_id": security_price_snapshot_id,
         "benchmark_price_snapshot_id": benchmark_price_snapshot_id,
+        "evaluated_at": canonical_datetime_text(outcome_evaluated_at),
         "entry_date": outcome.entry_date.isoformat(),
         "exit_date": outcome.exit_date.isoformat(),
         "security_entry_price": canonical_decimal_text(
@@ -215,6 +245,41 @@ def _future_prices(prices: Sequence[Price], *, prediction_date) -> list[Price]:
     return [price for price in prices if price.date > prediction_date]
 
 
+def _evaluation_dates(
+    prices: Sequence[Price],
+    *,
+    prediction_date,
+    required_observations: int,
+) -> list[date]:
+    return [
+        price.date
+        for price in _future_prices(prices, prediction_date=prediction_date)[
+            :required_observations
+        ]
+    ]
+
+
+def _validate_snapshot_timing(
+    selection: PriceSnapshotSelection,
+    *,
+    exit_date: date,
+    evaluated_at: datetime,
+    lineage_name: str,
+) -> None:
+    retrieved_at = normalized_utc(selection.snapshot.retrieved_at)
+    if retrieved_at.date() < exit_date:
+        raise ValueError(
+            f"{lineage_name} snapshot {selection.snapshot.snapshot_id} was retrieved "
+            f"on {retrieved_at.date()} before evaluation exit date {exit_date}"
+        )
+    if retrieved_at > evaluated_at:
+        raise ValueError(
+            f"{lineage_name} snapshot {selection.snapshot.snapshot_id} was retrieved "
+            f"at {canonical_datetime_text(retrieved_at)} after evaluated_at "
+            f"{canonical_datetime_text(evaluated_at)}"
+        )
+
+
 def _snapshots_align(
     security_prices: Sequence[Price],
     benchmark_prices: Sequence[Price],
@@ -251,39 +316,59 @@ def select_complete_snapshot_pair(
     prediction: ModelPrediction,
     ticker: str,
     benchmark: Security,
+    evaluated_at: datetime,
 ) -> tuple[PriceSnapshotSelection, PriceSnapshotSelection]:
+    evaluated_at = normalized_utc(evaluated_at)
     required_observations = parse_horizon(prediction.horizon) + 1
     security_candidates = load_price_snapshot_candidates(
         session,
         security_id=prediction.security_id,
     )
-    security_complete = [
-        candidate
-        for candidate in security_candidates
-        if len(
+    future_counts = [
+        len(
             _future_prices(
                 candidate.prices,
                 prediction_date=prediction.asof_date,
             )
         )
-        >= required_observations
+        for candidate in security_candidates
+    ]
+    security_complete = [
+        candidate
+        for candidate, count in zip(security_candidates, future_counts)
+        if count >= required_observations
     ]
     if not security_complete:
-        available = max(
-            (
-                len(
-                    _future_prices(
-                        candidate.prices,
-                        prediction_date=prediction.asof_date,
-                    )
-                )
-                for candidate in security_candidates
-            ),
-            default=0,
-        )
         raise ImmaturePrediction(
             required_observations=required_observations,
-            available_observations=available,
+            available_observations=max(future_counts, default=0),
+        )
+
+    security_mature: list[PriceSnapshotSelection] = []
+    future_exit_dates: list[date] = []
+    for candidate in security_complete:
+        evaluation_dates = _evaluation_dates(
+            candidate.prices,
+            prediction_date=prediction.asof_date,
+            required_observations=required_observations,
+        )
+        exit_date = evaluation_dates[-1]
+        if exit_date > evaluated_at.date():
+            future_exit_dates.append(exit_date)
+            continue
+        _validate_snapshot_timing(
+            candidate,
+            exit_date=exit_date,
+            evaluated_at=evaluated_at,
+            lineage_name="security price",
+        )
+        security_mature.append(candidate)
+
+    if not security_mature:
+        raise ImmaturePrediction(
+            required_observations=required_observations,
+            available_observations=max(future_counts, default=0),
+            exit_date=min(future_exit_dates) if future_exit_dates else None,
         )
 
     benchmark_candidates = load_price_snapshot_candidates(
@@ -291,7 +376,7 @@ def select_complete_snapshot_pair(
         security_id=benchmark.security_id,
     )
     if not benchmark_candidates:
-        raise ValueError(
+        raise BenchmarkUnavailable(
             f"no adjusted-close price snapshots found for benchmark {benchmark.ticker}"
         )
     benchmark_complete = [
@@ -315,14 +400,25 @@ def select_complete_snapshot_pair(
             )
             for candidate in benchmark_candidates
         )
-        raise ValueError(
+        raise BenchmarkUnavailable(
             f"benchmark {benchmark.ticker} has insufficient future prices for "
             f"prediction {prediction.prediction_id}: requires {required_observations}, "
             f"found {available}"
         )
 
-    for security_selection in security_complete:
+    for security_selection in security_mature:
+        security_exit_date = _evaluation_dates(
+            security_selection.prices,
+            prediction_date=prediction.asof_date,
+            required_observations=required_observations,
+        )[-1]
         for benchmark_selection in benchmark_complete:
+            _validate_snapshot_timing(
+                benchmark_selection,
+                exit_date=security_exit_date,
+                evaluated_at=evaluated_at,
+                lineage_name="benchmark price",
+            )
             if _snapshots_align(
                 security_selection.prices,
                 benchmark_selection.prices,
@@ -374,6 +470,14 @@ def validate_existing_outcome(
             f"requested benchmark_security_id={benchmark.security_id}",
         )
 
+    stored_evaluated_at = normalized_utc(existing.evaluated_at)
+    if existing.exit_date > stored_evaluated_at.date():
+        raise _conflicting_rerun(
+            prediction,
+            f"stored exit_date={existing.exit_date} is after "
+            f"evaluated_at={canonical_datetime_text(stored_evaluated_at)}",
+        )
+
     stored_hash = immutable_outcome_hash(
         prediction=prediction,
         ticker=ticker,
@@ -400,6 +504,26 @@ def validate_existing_outcome(
         snapshot_id=existing.benchmark_price_snapshot_id,
         lineage_name="benchmark price",
     )
+    security_snapshot = session.get(
+        SourceSnapshot,
+        existing.security_price_snapshot_id,
+    )
+    benchmark_snapshot = session.get(
+        SourceSnapshot,
+        existing.benchmark_price_snapshot_id,
+    )
+    _validate_snapshot_timing(
+        PriceSnapshotSelection(security_snapshot, security_prices),
+        exit_date=existing.exit_date,
+        evaluated_at=stored_evaluated_at,
+        lineage_name="security price",
+    )
+    _validate_snapshot_timing(
+        PriceSnapshotSelection(benchmark_snapshot, benchmark_prices),
+        exit_date=existing.exit_date,
+        evaluated_at=stored_evaluated_at,
+        lineage_name="benchmark price",
+    )
     try:
         recalculated = _calculated_outcome(
             prediction=prediction,
@@ -418,6 +542,7 @@ def validate_existing_outcome(
         security_price_snapshot_id=existing.security_price_snapshot_id,
         benchmark_price_snapshot_id=existing.benchmark_price_snapshot_id,
         outcome=recalculated,
+        evaluated_at=stored_evaluated_at,
     )
     if recalculated_hash != existing.immutable_hash:
         raise _conflicting_rerun(
@@ -443,6 +568,7 @@ def evaluate_prediction(
     evaluated_at: Optional[datetime] = None,
 ) -> EvaluationReport:
     ticker = prediction.security.ticker
+    evaluation_timestamp = normalized_utc(evaluated_at or utc_now())
     existing = session.scalar(
         select(ModelOutcome).where(
             ModelOutcome.prediction_id == prediction.prediction_id
@@ -463,8 +589,15 @@ def evaluate_prediction(
             prediction=prediction,
             ticker=ticker,
             benchmark=benchmark,
+            evaluated_at=evaluation_timestamp,
         )
     except ImmaturePrediction as exc:
+        timing = ""
+        if exc.exit_date is not None:
+            timing = (
+                f" exit_date={exc.exit_date} "
+                f"evaluated_at={evaluation_timestamp.date()}"
+            )
         return EvaluationReport(
             status="immature",
             lines=(
@@ -472,7 +605,18 @@ def evaluate_prediction(
                 f"prediction_id={prediction.prediction_id} ticker={ticker} "
                 f"horizon={prediction.horizon} "
                 f"required_observations={exc.required_observations} "
-                f"available_observations={exc.available_observations}",
+                f"available_observations={exc.available_observations}"
+                f"{timing}",
+            ),
+        )
+    except BenchmarkUnavailable as exc:
+        return EvaluationReport(
+            status="benchmark_unavailable",
+            lines=(
+                "benchmark unavailable; skipping "
+                f"prediction_id={prediction.prediction_id} ticker={ticker} "
+                f"horizon={prediction.horizon} benchmark={benchmark.ticker} "
+                f"detail={exc}",
             ),
         )
 
@@ -481,6 +625,12 @@ def evaluate_prediction(
         security_prices=security_selection.prices,
         benchmark_prices=benchmark_selection.prices,
     )
+    if calculated.exit_date > evaluation_timestamp.date():
+        raise RuntimeError(
+            "outcome selection violated maturity contract: "
+            f"exit_date={calculated.exit_date} "
+            f"evaluated_at={evaluation_timestamp.date()}"
+        )
     immutable_hash = immutable_outcome_hash(
         prediction=prediction,
         ticker=ticker,
@@ -488,6 +638,7 @@ def evaluate_prediction(
         security_price_snapshot_id=security_selection.snapshot.snapshot_id,
         benchmark_price_snapshot_id=benchmark_selection.snapshot.snapshot_id,
         outcome=calculated,
+        evaluated_at=evaluation_timestamp,
     )
     outcome = ModelOutcome(
         prediction_id=prediction.prediction_id,
@@ -504,7 +655,7 @@ def evaluate_prediction(
         benchmark_return=calculated.benchmark_return,
         excess_return=calculated.excess_return,
         max_drawdown=calculated.max_drawdown,
-        evaluated_at=evaluated_at or utc_now(),
+        evaluated_at=evaluation_timestamp,
         immutable_hash=immutable_hash,
     )
     session.add(outcome)

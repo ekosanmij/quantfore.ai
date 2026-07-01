@@ -21,6 +21,7 @@ docs/specs/*
 
 # Python
 __pycache__/
+*.egg-info/
 *.py[cod]
 .python-version
 .venv/

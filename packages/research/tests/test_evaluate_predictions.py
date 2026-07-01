@@ -7,7 +7,7 @@ from decimal import Decimal
 from pathlib import Path
 
 import pytest
-from sqlalchemy import func, select
+from sqlalchemy import func, select, text
 
 from quantfore_research.db import (
     build_engine,
@@ -78,6 +78,21 @@ def seed_evaluation_database(
     security_dates: list[date] | None = None,
     benchmark_dates=DEFAULT_BENCHMARK_DATES,
     prediction_dates: tuple[date, ...] = (PREDICTION_DATE,),
+    prediction_horizons: tuple[str, ...] | None = None,
+    security_retrieved_at: datetime = datetime(
+        2025,
+        7,
+        1,
+        9,
+        tzinfo=timezone.utc,
+    ),
+    benchmark_retrieved_at: datetime = datetime(
+        2025,
+        7,
+        1,
+        10,
+        tzinfo=timezone.utc,
+    ),
 ) -> EvaluationDatabase:
     evaluation_dates = security_dates or weekday_dates(
         PREDICTION_DATE + timedelta(days=1),
@@ -85,6 +100,10 @@ def seed_evaluation_database(
     )
     if benchmark_dates is DEFAULT_BENCHMARK_DATES:
         benchmark_dates = list(evaluation_dates)
+    if prediction_horizons is None:
+        prediction_horizons = tuple("126d" for _ in prediction_dates)
+    if len(prediction_horizons) != len(prediction_dates):
+        raise ValueError("prediction_horizons must match prediction_dates")
 
     engine = build_engine(database_url=database_url)
     create_schema(engine)
@@ -98,7 +117,7 @@ def seed_evaluation_database(
             license_tag="test-only",
             source_hash=sha256_text("MSFT evaluation prices"),
             storage_uri="test-data/evaluation/MSFT.csv",
-            retrieved_at=datetime(2025, 7, 1, 9, tzinfo=timezone.utc),
+            retrieved_at=security_retrieved_at,
         )
         benchmark_snapshot = record_source_snapshot(
             session,
@@ -107,7 +126,7 @@ def seed_evaluation_database(
             license_tag="test-only",
             source_hash=sha256_text("SPY evaluation prices"),
             storage_uri="test-data/evaluation/SPY.csv",
-            retrieved_at=datetime(2025, 7, 1, 10, tzinfo=timezone.utc),
+            retrieved_at=benchmark_retrieved_at,
         )
         security = Security(ticker="MSFT", name="Microsoft")
         benchmark = Security(ticker="SPY", name="SPDR S&P 500 ETF Trust")
@@ -134,7 +153,9 @@ def seed_evaluation_database(
             )
 
         predictions = []
-        for index, prediction_date in enumerate(prediction_dates):
+        for index, (prediction_date, prediction_horizon) in enumerate(
+            zip(prediction_dates, prediction_horizons)
+        ):
             feature_set = FeatureSet(
                 feature_set_id=f"evaluation_features_{index}_{prediction_date}",
                 name="baseline_features",
@@ -148,12 +169,12 @@ def seed_evaluation_database(
                 security_id=security.security_id,
                 feature_set_id=feature_set.feature_set_id,
                 asof_date=prediction_date,
-                horizon="126d",
+                horizon=prediction_horizon,
                 score=Decimal("82"),
                 confidence=Decimal("0.71"),
                 action_label="watch_positive",
                 immutable_hash=sha256_text(
-                    f"prediction|MSFT|{prediction_date}|126d"
+                    f"prediction|MSFT|{prediction_date}|{prediction_horizon}"
                 ),
             )
             session.add_all([feature_set, prediction])
@@ -180,6 +201,7 @@ def evaluate_seeded_prediction(
     seeded: EvaluationDatabase,
     *,
     prediction_index: int = 0,
+    evaluated_at: datetime = EVALUATED_AT,
 ):
     with session_scope(seeded.session_factory) as session:
         prediction = session.get(
@@ -191,7 +213,7 @@ def evaluate_seeded_prediction(
             session,
             prediction=prediction,
             benchmark=benchmark,
-            evaluated_at=EVALUATED_AT,
+            evaluated_at=evaluated_at,
         )
     return report
 
@@ -244,10 +266,39 @@ def test_pipeline_safely_skips_an_immature_prediction():
 def test_pipeline_rejects_missing_spy_price_data():
     seeded = seed_evaluation_database(benchmark_dates=[])
 
-    with pytest.raises(
-        ValueError,
-        match="no adjusted-close price snapshots found for benchmark SPY",
-    ):
+    report = evaluate_seeded_prediction(seeded)
+
+    assert report.status == "benchmark_unavailable"
+    assert "no adjusted-close price snapshots found for benchmark SPY" in report.lines[0]
+    assert saved_outcome(seeded) is None
+
+
+def test_pipeline_does_not_evaluate_before_the_exit_date():
+    seeded = seed_evaluation_database()
+
+    report = evaluate_seeded_prediction(
+        seeded,
+        evaluated_at=datetime(2025, 1, 7, 12, tzinfo=timezone.utc),
+    )
+
+    assert report.status == "immature"
+    assert f"exit_date={seeded.evaluation_dates[-1]}" in report.lines[0]
+    assert "evaluated_at=2025-01-07" in report.lines[0]
+    assert saved_outcome(seeded) is None
+
+
+@pytest.mark.parametrize(
+    "retrieval_override",
+    ["security", "benchmark"],
+)
+def test_pipeline_rejects_snapshots_retrieved_before_the_exit(retrieval_override):
+    early_retrieval = datetime(2025, 1, 7, 12, tzinfo=timezone.utc)
+    kwargs = {
+        f"{retrieval_override}_retrieved_at": early_retrieval,
+    }
+    seeded = seed_evaluation_database(**kwargs)
+
+    with pytest.raises(ValueError, match="retrieved.*before evaluation exit date"):
         evaluate_seeded_prediction(seeded)
 
     assert saved_outcome(seeded) is None
@@ -324,6 +375,31 @@ def test_pipeline_rejects_a_conflicting_rerun_without_overwriting():
     assert unchanged.immutable_hash == original.immutable_hash
 
 
+def test_pipeline_detects_direct_evaluated_at_modification():
+    seeded = seed_evaluation_database()
+    evaluate_seeded_prediction(seeded)
+    original = saved_outcome(seeded)
+
+    with session_scope(seeded.session_factory) as session:
+        session.execute(
+            text(
+                "update model_outcomes "
+                "set evaluated_at = :evaluated_at "
+                "where outcome_id = :outcome_id"
+            ),
+            {
+                "evaluated_at": "2025-07-02 12:00:00.000000",
+                "outcome_id": original.outcome_id,
+            },
+        )
+
+    with pytest.raises(
+        ValueError,
+        match="stored outcome fields do not match its immutable hash",
+    ):
+        evaluate_seeded_prediction(seeded)
+
+
 def test_pipeline_outcome_rejects_update_and_delete_after_storage():
     seeded = seed_evaluation_database()
     evaluate_seeded_prediction(seeded)
@@ -366,6 +442,33 @@ def test_batch_evaluates_mature_predictions_and_skips_immature_ones(
         outcomes = list(session.scalars(select(ModelOutcome)))
     assert len(outcomes) == 1
     assert outcomes[0].prediction_id == seeded.prediction_ids[0]
+
+
+def test_batch_continues_after_benchmark_unavailable(tmp_path, capsys):
+    database_url = f"sqlite+pysqlite:///{tmp_path / 'evaluation.db'}"
+    first_prediction_date = date(2025, 1, 2)
+    second_prediction_date = date(2025, 1, 3)
+    security_dates = weekday_dates(second_prediction_date, 127)
+    benchmark_dates = security_dates[:23]
+    seeded = seed_evaluation_database(
+        database_url=database_url,
+        security_dates=security_dates,
+        benchmark_dates=benchmark_dates,
+        prediction_dates=(first_prediction_date, second_prediction_date),
+        prediction_horizons=("126d", "21d"),
+    )
+
+    result = main(["--benchmark", "SPY", "--database-url", database_url])
+    output = capsys.readouterr().out
+
+    assert result == 0
+    unavailable_position = output.index("benchmark unavailable; skipping")
+    evaluated_position = output.index("evaluated prediction ticker=MSFT horizon=21d")
+    assert unavailable_position < evaluated_position
+    with seeded.session_factory() as session:
+        outcomes = list(session.scalars(select(ModelOutcome)))
+    assert len(outcomes) == 1
+    assert outcomes[0].prediction_id == seeded.prediction_ids[1]
 
 
 def test_single_prediction_cli_prints_the_readable_result(tmp_path, capsys):

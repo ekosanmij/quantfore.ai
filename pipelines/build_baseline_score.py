@@ -18,6 +18,7 @@ from _common import open_research_database, parse_date
 from sqlalchemy import select
 
 from quantfore_research.db import session_scope
+from quantfore_research.evaluation import parse_horizon
 from quantfore_research.models import (
     Feature,
     FeatureSet,
@@ -178,6 +179,7 @@ def immutable_prediction_hash(
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     args = parse_args(argv)
+    parse_horizon(args.horizon)
     ticker = args.ticker.upper().strip()
     asof_date = parse_date(args.asof_date)
     if asof_date is None:
