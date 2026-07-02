@@ -1,5 +1,9 @@
 from datetime import date, datetime, timezone
 from decimal import Decimal
+import hashlib
+import json
+
+import pytest
 
 from pipelines.audit_point_in_time_fundamentals import (
     build_audit_document,
@@ -17,6 +21,9 @@ from quantfore_research.validation.point_in_time_fundamentals import (
     SecReconciliationSample,
     audit_point_in_time_fundamentals,
     derive_sec_reconciliation_samples,
+)
+from quantfore_research.validation.fundamental_audit_gate import (
+    verify_fundamental_audit,
 )
 
 
@@ -323,3 +330,64 @@ def test_audit_report_keeps_claims_false_and_renders_unresolved_differences():
     assert document["decision"] == "pass"
     assert "Review findings and unresolved differences" in markdown
     assert "`false`" in markdown
+
+
+def test_feature_gate_binds_passing_audit_to_exact_warehouse_content(tmp_path):
+    session = make_session()
+    sectors = sorted(STANDARD_SECTORS)
+    for index in range(30):
+        security_id = f"gate-security-{index:02d}"
+        seed_security(session, security_id=security_id, sector=sectors[index % 11])
+        add_fact(
+            session,
+            "revenue",
+            str(100 + index),
+            security_id=security_id,
+            fundamental_id=f"gate-vendor-{index:02d}",
+        )
+        add_fact(
+            session,
+            "revenue",
+            str(100 + index),
+            security_id=security_id,
+            fundamental_id=f"gate-sec-{index:02d}",
+            source_snapshot_id="sec-snapshot",
+            source_hash="d" * 64,
+        )
+    session.commit()
+    samples = derive_sec_reconciliation_samples(
+        session, vendor_source_snapshot_ids=["vendor-snapshot"]
+    )
+    audit = audit_point_in_time_fundamentals(
+        session,
+        source_snapshot_ids=["vendor-snapshot"],
+        reconciliation_samples=samples,
+    )
+    document = build_audit_document(
+        audit,
+        generated_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
+        code_revision="test-revision",
+        source_snapshot_hashes={"vendor-snapshot": HASH},
+    )
+    body = (json.dumps(document, indent=2, sort_keys=True) + "\n").encode()
+    path = tmp_path / "audit.json"
+    path.write_bytes(body)
+    digest = hashlib.sha256(body).hexdigest()
+
+    binding = verify_fundamental_audit(
+        session,
+        audit_path=path,
+        expected_audit_sha256=digest,
+        source_snapshot_ids=["vendor-snapshot"],
+    )
+
+    assert binding.fact_hash == audit.fact_hash
+    assert binding.availability_revision_hash == audit.availability_revision_hash
+    assert binding.source_snapshot_hashes == {"vendor-snapshot": HASH}
+    with pytest.raises(ValueError, match="SHA-256"):
+        verify_fundamental_audit(
+            session,
+            audit_path=path,
+            expected_audit_sha256="0" * 64,
+            source_snapshot_ids=["vendor-snapshot"],
+        )

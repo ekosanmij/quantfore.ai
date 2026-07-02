@@ -30,6 +30,7 @@ from quantfore_research.scoring.multifactor import (
     NORMALIZATION_VERSION,
     normalize_multifactor_cohort,
     store_multifactor_cohort_scores,
+    store_multifactor_predictions,
 )
 from quantfore_research.validation.leakage import expected_point_in_time_cohort
 
@@ -180,10 +181,17 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 source_feature_set_ids=feature_set_ids,
                 code_commit=get_code_revision(),
             )
+            predictions = store_multifactor_predictions(
+                session,
+                result=result,
+                normalization_run_id=run_id,
+                raw_feature_ids=raw_feature_ids,
+            )
         eligible = sum(row.eligible for row in result.scores)
         print(
             f"normalization_run_id={run_id} cohort={len(result.scores)} "
-            f"eligible={eligible} ineligible={len(result.scores) - eligible}"
+            f"eligible={eligible} ineligible={len(result.scores) - eligible} "
+            f"predictions={len(predictions)}"
         )
         return 0
     except (OSError, RuntimeError, ValueError) as exc:

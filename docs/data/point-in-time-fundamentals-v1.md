@@ -238,3 +238,9 @@ development and cannot satisfy Sprint 8 acceptance.
 
 No passing schema or audit changes `claims_eligible=false`. Promotion requires
 the separately frozen research gates and compliance approval.
+
+Feature construction is a hard audit consumer. Its CLI requires the audit JSON
+and expected SHA-256, requires decision `pass`, and recomputes selected source
+IDs and hashes, fact hash, availability/revision hash, and counts against the
+warehouse. Every feature set stores that binding. Failed, stale, modified, or
+wrong-snapshot audit evidence cannot feed normalization.

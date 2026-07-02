@@ -18,6 +18,8 @@ from quantfore_research.models import (
     Feature,
     FeatureSet,
     MultiFactorScore,
+    MultiFactorPredictionLink,
+    ModelPrediction,
     NormalizationRun,
     NormalizedFeature,
     Security,
@@ -28,6 +30,7 @@ from quantfore_research.scoring.multifactor import (
     NORMALIZATION_VERSION,
     normalize_multifactor_cohort,
     store_multifactor_cohort_scores,
+    store_multifactor_predictions,
 )
 
 
@@ -276,6 +279,12 @@ def test_normalized_components_and_scores_are_persisted(tmp_path):
         source_feature_set_ids=feature_set_ids,
         code_commit="test",
     )
+    predictions = store_multifactor_predictions(
+        session,
+        result=result,
+        normalization_run_id="normalization-test",
+        raw_feature_ids=raw_feature_ids,
+    )
     session.commit()
     reused = store_multifactor_cohort_scores(
         session,
@@ -290,6 +299,11 @@ def test_normalized_components_and_scores_are_persisted(tmp_path):
     assert run.input_hash == reused.input_hash
     assert session.scalar(select(func.count()).select_from(NormalizedFeature)) == 38
     assert session.scalar(select(func.count()).select_from(MultiFactorScore)) == 2
+    assert len(predictions) == 8
+    assert session.scalar(select(func.count()).select_from(ModelPrediction)) == 8
+    assert session.scalar(
+        select(func.count()).select_from(MultiFactorPredictionLink)
+    ) == 8
     stored_score = session.scalar(
         select(MultiFactorScore).where(MultiFactorScore.security_id == "security-02")
     )
@@ -309,4 +323,5 @@ def test_normalized_components_and_scores_are_persisted(tmp_path):
         "normalization_runs",
         "normalized_features",
         "multifactor_scores",
+        "multifactor_prediction_links",
     }.issubset(set(inspect(engine).get_table_names()))

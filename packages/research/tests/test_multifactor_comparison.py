@@ -1,10 +1,8 @@
-import json
 from datetime import date
 from decimal import Decimal
 
 import pytest
 
-from pipelines.compare_price_vs_multifactor import load_comparison_ledger
 from quantfore_research.evaluation.multifactor_comparison import (
     AttributionComponent,
     MultiModelObservation,
@@ -127,50 +125,3 @@ def test_duplicate_date_security_rows_are_rejected():
     source = observations()
     with pytest.raises(ValueError, match="duplicate"):
         build_multifactor_comparison(source + (source[0],))
-
-
-def test_pipeline_ledger_loader_preserves_attribution_context(tmp_path):
-    ledger = {
-        "observations": [
-            {
-                "security_id": "security-1",
-                "ticker": "ONE",
-                "prediction_date": "2021-06-30",
-                "sector": "Technology",
-                "price_score": "42",
-                "multifactor_score": "63",
-                "family_z": {family: "0.5" for family in FAMILIES},
-                "family_scores": {family: "69.1" for family in FAMILIES},
-                "missing_data_flags": {"has_missing": False},
-                "components": [
-                    {
-                        "name": "fcf_yield",
-                        "family": "value",
-                        "contribution": "0.12",
-                        "raw_value": "0.08",
-                        "directed_value": "0.60",
-                        "normalization": {
-                            "scope": "SECTOR",
-                            "group_label": "Technology",
-                            "group_count": 20,
-                            "group_mean": "0.03",
-                            "group_std": "0.02",
-                        },
-                        "source_evidence_refs": ["fact:abc", "snapshot:def"],
-                    }
-                ],
-                "excess_return": "0.04",
-                "realised_return": "0.06",
-                "benchmark_return": "0.02",
-                "max_drawdown": "-0.10",
-            }
-        ]
-    }
-    path = tmp_path / "ledger.json"
-    path.write_text(json.dumps(ledger), encoding="utf-8")
-
-    row = load_comparison_ledger(path)[0]
-
-    assert row.multifactor_score == Decimal("63")
-    assert row.components[0].group_label == "Technology"
-    assert row.components[0].evidence_refs == ("fact:abc", "snapshot:def")

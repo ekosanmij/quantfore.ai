@@ -22,9 +22,19 @@ from quantfore_research.features.multifactor import (
 from quantfore_research.models import (
     Feature,
     MultiFactorScore,
+    MultiFactorPredictionLink,
+    ModelPrediction,
     NormalizationRun,
     NormalizedFeature,
+    ScoreDriver as ScoreDriverRow,
+    Security,
 )
+from quantfore_research.scoring.baseline import (
+    BaselineScore,
+    ScoreDriver,
+    action_label_for_score,
+)
+from quantfore_research.scoring.ledger import immutable_prediction_hash
 
 
 NORMALIZATION_VERSION = "multifactor-normalization-v1"
@@ -41,6 +51,8 @@ MINIMUM_SECTOR_SAMPLE = 10
 MINIMUM_FAMILIES = 4
 MINIMUM_COMPONENT_COVERAGE = Decimal("0.70")
 NORMALIZATION_ID_NAMESPACE = uuid.UUID("e7016d6c-9dcf-5bb8-b0ee-f796c46cdf26")
+MULTIFACTOR_MODEL_VERSION = "multifactor-baseline-v1"
+MULTIFACTOR_HORIZONS = ("21d", "63d", "126d", "252d")
 
 
 @dataclass(frozen=True)
@@ -609,3 +621,160 @@ def store_multifactor_cohort_scores(
         )
     session.flush()
     return run
+
+
+def store_multifactor_predictions(
+    session: Session,
+    *,
+    result: MultiFactorCohortScore,
+    normalization_run_id: str,
+    raw_feature_ids: Mapping[tuple[str, str], str],
+    model_version: str = MULTIFACTOR_MODEL_VERSION,
+    horizons: Sequence[str] = MULTIFACTOR_HORIZONS,
+) -> tuple[ModelPrediction, ...]:
+    """Persist immutable model predictions linked to exact stored scores."""
+
+    unknown = sorted(set(horizons) - set(MULTIFACTOR_HORIZONS))
+    if unknown or not horizons:
+        raise ValueError(f"unsupported multi-factor prediction horizons: {unknown!r}")
+    stored_scores = {
+        row.security_id: row
+        for row in session.scalars(
+            select(MultiFactorScore).where(
+                MultiFactorScore.normalization_run_id == normalization_run_id
+            )
+        ).all()
+    }
+    if set(stored_scores) != {row.security_id for row in result.scores}:
+        raise ValueError("stored multi-factor scores do not match prediction cohort")
+    feature_rows = {
+        row.feature_id: row
+        for row in session.scalars(
+            select(Feature).where(Feature.feature_id.in_(set(raw_feature_ids.values())))
+        ).all()
+    }
+    securities = {
+        row.security_id: row
+        for row in session.scalars(
+            select(Security).where(Security.security_id.in_(stored_scores))
+        ).all()
+    }
+    predictions = []
+    for score in result.scores:
+        if not score.eligible or score.final_score is None:
+            continue
+        stored_score = stored_scores[score.security_id]
+        if stored_score.final_score != score.final_score.quantize(Decimal("0.000001")):
+            raise ValueError("stored score does not reproduce prediction score")
+        security = securities.get(score.security_id)
+        if security is None:
+            raise ValueError(f"unknown prediction security: {score.security_id}")
+        feature_set_ids = {
+            feature_rows[feature_id].feature_set_id
+            for key, feature_id in raw_feature_ids.items()
+            if key[0] == score.security_id
+        }
+        if len(feature_set_ids) != 1:
+            raise ValueError("prediction security must map to one raw feature set")
+        feature_set_id = next(iter(feature_set_ids))
+        drivers = tuple(
+            ScoreDriver(
+                driver_name=f"family:{family}",
+                contribution=(
+                    score.family_z[family] * score.renormalized_weights[family]
+                ).quantize(Decimal("0.000001")),
+                evidence_uri=(
+                    f"normalization:{normalization_run_id}#family={family}"
+                ),
+            )
+            for family in FAMILY_WEIGHTS
+            if score.family_z[family] is not None
+            and score.renormalized_weights[family] > 0
+        )
+        prediction_score = BaselineScore(
+            score=score.final_score.quantize(Decimal("0.000001")),
+            confidence=score.component_coverage.quantize(Decimal("0.000001")),
+            action_label=action_label_for_score(score.final_score),
+            drivers=drivers,
+        )
+        for horizon in horizons:
+            prediction_id = str(
+                uuid.uuid5(
+                    NORMALIZATION_ID_NAMESPACE,
+                    f"prediction|{normalization_run_id}|{score.security_id}|{horizon}",
+                )
+            )
+            immutable_hash = immutable_prediction_hash(
+                model_version=model_version,
+                ticker=security.ticker,
+                security_id=score.security_id,
+                asof_date=result.prediction_date,
+                horizon=horizon,
+                feature_set_id=feature_set_id,
+                score=prediction_score,
+            )
+            existing = session.get(ModelPrediction, prediction_id)
+            if existing is None:
+                existing = session.scalar(
+                    select(ModelPrediction).where(
+                        ModelPrediction.model_version == model_version,
+                        ModelPrediction.security_id == score.security_id,
+                        ModelPrediction.asof_date == result.prediction_date,
+                        ModelPrediction.horizon == horizon,
+                    )
+                )
+            if existing is None:
+                existing = ModelPrediction(
+                    prediction_id=prediction_id,
+                    model_version=model_version,
+                    security_id=score.security_id,
+                    feature_set_id=feature_set_id,
+                    asof_date=result.prediction_date,
+                    horizon=horizon,
+                    score=prediction_score.score,
+                    confidence=prediction_score.confidence,
+                    action_label=prediction_score.action_label,
+                    immutable_hash=immutable_hash,
+                )
+                session.add(existing)
+                session.flush()
+                session.add_all(
+                    ScoreDriverRow(
+                        prediction_id=prediction_id,
+                        driver_name=driver.driver_name,
+                        contribution=driver.contribution,
+                        evidence_uri=driver.evidence_uri,
+                    )
+                    for driver in drivers
+                )
+            elif (
+                existing.prediction_id != prediction_id
+                or existing.immutable_hash != immutable_hash
+                or existing.feature_set_id != feature_set_id
+            ):
+                raise ValueError("conflicting stored multi-factor prediction")
+            link_id = str(
+                uuid.uuid5(
+                    NORMALIZATION_ID_NAMESPACE,
+                    f"prediction-link|{stored_score.multifactor_score_id}|{horizon}",
+                )
+            )
+            link = session.get(MultiFactorPredictionLink, link_id)
+            if link is None:
+                session.add(
+                    MultiFactorPredictionLink(
+                        link_id=link_id,
+                        multifactor_score_id=stored_score.multifactor_score_id,
+                        prediction_id=prediction_id,
+                        horizon=horizon,
+                    )
+                )
+            elif (
+                link.multifactor_score_id != stored_score.multifactor_score_id
+                or link.prediction_id != prediction_id
+                or link.horizon != horizon
+            ):
+                raise ValueError("conflicting multi-factor prediction link")
+            predictions.append(existing)
+    session.flush()
+    return tuple(predictions)

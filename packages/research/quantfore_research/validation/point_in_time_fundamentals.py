@@ -133,6 +133,7 @@ class PointInTimeFundamentalAudit:
     reconciliation_sample_count: int
     reconciliation_issuer_period_count: int
     reconciliation_sectors: tuple[str, ...]
+    reconciliation_gate_enforced: bool
 
     @property
     def hard_failure_count(self) -> int:
@@ -164,6 +165,7 @@ class PointInTimeFundamentalAudit:
             "fact_hash": self.fact_hash,
             "availability_revision_hash": self.availability_revision_hash,
             "reconciliation": {
+                "gate_enforced": self.reconciliation_gate_enforced,
                 "sample_count": self.reconciliation_sample_count,
                 "issuer_period_count": self.reconciliation_issuer_period_count,
                 "sectors": list(self.reconciliation_sectors),
@@ -988,4 +990,5 @@ def audit_point_in_time_fundamentals(
         reconciliation_sample_count=len(reconciliation_samples),
         reconciliation_issuer_period_count=issuer_period_count,
         reconciliation_sectors=sectors,
+        reconciliation_gate_enforced=enforce_reconciliation_gate,
     )

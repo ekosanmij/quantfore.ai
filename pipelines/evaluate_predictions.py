@@ -38,6 +38,7 @@ from quantfore_research.models import (
     Security,
     SourceSnapshot,
 )
+from quantfore_research.ingest.point_in_time_equities import deterministic_id
 
 
 @dataclass(frozen=True)
@@ -547,6 +548,7 @@ def evaluate_prediction(
         evaluated_at=evaluation_timestamp,
     )
     outcome = ModelOutcome(
+        outcome_id=deterministic_id("pit_outcome", prediction.prediction_id),
         prediction_id=prediction.prediction_id,
         benchmark_security_id=benchmark.security_id,
         security_price_snapshot_id=security_selection.snapshot.snapshot_id,
