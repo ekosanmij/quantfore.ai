@@ -18,7 +18,7 @@ not evidence of model performance.
 dataset_id: us-equity-trial-v0
 dataset_kind: prototype_real
 claims_eligible: false
-publication_status: internal_only_pending_derived_report_rights_confirmation
+publication_status: derived_reports_approved_for_public_repository_by_user
 universe_file: config/universes/us-equity-trial-v0.csv
 universe_file_sha256: 0a1ec9667fa4f4378f9c1c6bb010d03585690558069d04286a8320e9d02dd584
 benchmark: SPY
@@ -140,10 +140,9 @@ split-like discontinuities. WP6.4 reconciled 100 deterministic sample rows
 against Yahoo Finance's Chart API and produced `conditional_pass`; the
 independent source's redistribution rights and unlike raw-price basis remain
 manual-review items. Canonical audit and WP6.6 reports are stored under
-`reports/data-audits/` and `reports/backtests/`. Those real-data-derived
-artifacts remain local and Git-ignored until the applicable vendor terms or
-written permission explicitly confirm that derived reports may be published in
-the public repository. Raw responses and normalised vendor rows are always
+`reports/data-audits/` and `reports/backtests/`. The user explicitly authorised
+publishing these derived reports to the public repository on 2026-07-02. Raw
+responses, normalised vendor rows, local databases and credentials remain
 excluded from Git.
 
 WP6.7 concluded `requires_revision_before_model_claims`. The execution and

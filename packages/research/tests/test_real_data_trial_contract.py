@@ -36,7 +36,7 @@ def test_real_data_contract_freezes_non_claim_prototype_metadata():
     assert "claims_eligible: false" in contract
     assert (
         "publication_status: "
-        "internal_only_pending_derived_report_rights_confirmation"
+        "derived_reports_approved_for_public_repository_by_user"
     ) in contract
     assert "dataset_cutoff_date: 2025-12-31" in contract
     assert (

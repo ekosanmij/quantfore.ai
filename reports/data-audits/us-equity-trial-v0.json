@@ -1,0 +1,4145 @@
+{
+  "audit_id": "us-equity-trial-v0",
+  "claims_eligible": false,
+  "code_revision": "69bbcc7",
+  "dataset_kind": "prototype_real",
+  "generated_at": "2026-07-02T06:54:32.824442Z",
+  "independent_source": {
+    "license_tags": [
+      "public_web_reconciliation_only_unverified"
+    ],
+    "retrieved_at": [
+      "2026-07-02T06:31:40.583203Z",
+      "2026-07-02T06:31:40.719678Z",
+      "2026-07-02T06:31:40.808326Z",
+      "2026-07-02T06:31:40.890573Z",
+      "2026-07-02T06:31:41.060781Z"
+    ],
+    "rows": 100,
+    "sha256": "0ceb6adcd625a6c874af5838210cce3a9a00431adfe9b7f1498ccefa2d66ddde",
+    "source": "Yahoo Finance Chart API",
+    "source_urls": [
+      "https://query1.finance.yahoo.com/v8/finance/chart/AAPL?period1=1597536000&period2=1600300800&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+      "https://query1.finance.yahoo.com/v8/finance/chart/JPM?period1=1677369600&period2=1680048000&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+      "https://query1.finance.yahoo.com/v8/finance/chart/META?period1=1642550400&period2=1645228800&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+      "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?period1=1716681600&period2=1719446400&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+      "https://query1.finance.yahoo.com/v8/finance/chart/XOM?period1=1583020800&period2=1585699200&interval=1d&events=div%2Csplits&includeAdjustedClose=true"
+    ],
+    "storage_uri": "raw/reconciliation/yahoo-finance-chart-api/us-equity-trial-v0_0ceb6adcd625a6c874af5838210cce3a9a00431adfe9b7f1498ccefa2d66ddde.csv"
+  },
+  "price_quality_audit": {
+    "path": "reports/data-audits/us-equity-trial-v0-price-quality.json",
+    "sha256": "b53cacd3a137613be013e70c806a33df83275d6134584b2ad001bf25f4ae0619",
+    "source_snapshot_hashes": [
+      "28af6a1ae31d2d12b8229f8143fab19110e47d9d5e247caafda241eebb4c3e82",
+      "38febf1e848beba488fb4719c34725fb23e645f3709850700a031c8bff91edbb",
+      "47067389d4e25c5f114b6685c4648a736185f9d2b7efaddc43c3490b39f4b662",
+      "4a4478c589b60ab75c0a9b9fe0c85a4e42b9c865aea13daea22fb7350592758f",
+      "4cb8ee70aa48fe7735b1c1c437e6bea12102ccbf7dee4a053a81f529e46f7469",
+      "4fa011176657414bd135944525f4d3597ccc78c498224185c38694ddce0b16d6",
+      "54324d70f22341695fb09f33cb94b1c15af395f61fc19f6414f17791aaf2b8cf",
+      "655b19b3bbc32a8c750fce1b7a3eef084df7418e81ca65357bb702627b8d8efd",
+      "760b6ece5b820458c04491db7e2fdc412801ae767a60598c515308091ef1dcca",
+      "7a33befa77c82ee85c4cf44876313bab716bca280142f129bfab45dba585e396",
+      "81fe26b4739d80eb0bbae1ced924b0b2b9076b9c86dfb7210ef8debfe2ee62f2",
+      "8539eb96afda0f7e78699fcaf523321a8bdf7e42c92e7a618347ae67a9fa97c4",
+      "85a8b2ed43bb375202a9e22e71e6d7fbe4778167ac319cf04cdb0c4ddb7f9149",
+      "8b82c163abf0f9b0333c6f4e7c248c35b02b04a0199d8798466985c93ee16e3a",
+      "968ea1876f266f3bca24c2497c23eaa9b2e449065f38b8e96bb29218e4e224e5",
+      "9b8b83a2fc4f3ff8ab3094ad9d1c6a5ad55f459eb4c9f202ce3b78168b63c98e",
+      "b86dca2affbd3dbaf9451a461cb9f92196362c7f5eef607fe89104ddead07ede",
+      "bd53351380ebdb678618df8bb62a10aa7995b7dafd813a01ec47590bb9f56f7b",
+      "bed60a01c096b1926e78275ba8d5ad5c125a01254a4324a96ac252fb8e455a7d",
+      "cb7eb112407cad0bb3287cd32943c4fd7865209bd1bd14e83e1e077c8bc0f3f4",
+      "d5d35702af25463b513cba9bbc1a59797968fa0883e53322a199bbeb954c3114",
+      "d93e09810caef4c3e416654f190e8fa5a971e1a2ba17f678ccd8fbdec4051ad3",
+      "ec0072bf2d0d489fec55fbbfddece995e9b6d4c3f24ecf0b7deb65d395d6fa11",
+      "ec2664bebf277f3b1bbf14c280f7dfe106e5631afe954f5b09fd2ccedcb6b51b",
+      "f1f1976548d4af00eb2f0683f74fbc41f66fc7bc172f65e69c7116c16effd35c",
+      "f466bdc282c532f8fb01a68fb3d99d1fe3a889dca8ed95672b6fba2fdbde4569"
+    ],
+    "status": "review",
+    "universe_file_sha256": "0a1ec9667fa4f4378f9c1c6bb010d03585690558069d04286a8320e9d02dd584"
+  },
+  "primary_source_snapshots": [
+    {
+      "dataset": "tiingo_eod_prices_NVDA_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:23.371024Z",
+      "sha256": "4fa011176657414bd135944525f4d3597ccc78c498224185c38694ddce0b16d6",
+      "snapshot_id": "0380fce1-399a-4129-a864-4bbf893bdf32",
+      "storage_uri": "raw/prices/tiingo/NVDA/2020-01-01_2025-12-31/20260702T063223371024Z_page-001_4fa011176657414b.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_WMT_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:32.783604Z",
+      "sha256": "28af6a1ae31d2d12b8229f8143fab19110e47d9d5e247caafda241eebb4c3e82",
+      "snapshot_id": "16ca5acc-8b34-4ede-9254-fcadae571a72",
+      "storage_uri": "raw/prices/tiingo/WMT/2020-01-01_2025-12-31/20260702T063232783604Z_page-001_28af6a1ae31d2d12.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_HD_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:24.804834Z",
+      "sha256": "bd53351380ebdb678618df8bb62a10aa7995b7dafd813a01ec47590bb9f56f7b",
+      "snapshot_id": "28f37077-bc24-40fb-a83f-912f16a1fc6e",
+      "storage_uri": "raw/prices/tiingo/HD/2020-01-01_2025-12-31/20260702T063224804834Z_page-001_bd53351380ebdb67.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_PLD_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:38.711824Z",
+      "sha256": "ec0072bf2d0d489fec55fbbfddece995e9b6d4c3f24ecf0b7deb65d395d6fa11",
+      "snapshot_id": "3bf928f1-21d2-4871-9853-7963d6597c82",
+      "storage_uri": "raw/prices/tiingo/PLD/2020-01-01_2025-12-31/20260702T063238711824Z_page-001_ec0072bf2d0d489f.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_CAT_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:35.008727Z",
+      "sha256": "f1f1976548d4af00eb2f0683f74fbc41f66fc7bc172f65e69c7116c16effd35c",
+      "snapshot_id": "3de644d4-87f7-4ff9-a386-da9fe2811dab",
+      "storage_uri": "raw/prices/tiingo/CAT/2020-01-01_2025-12-31/20260702T063235008727Z_page-001_f1f1976548d4af00.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_MSFT_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:22.607354Z",
+      "sha256": "8539eb96afda0f7e78699fcaf523321a8bdf7e42c92e7a618347ae67a9fa97c4",
+      "snapshot_id": "4030d9f4-5ccf-4743-a0ee-1eb538fe2d35",
+      "storage_uri": "raw/prices/tiingo/MSFT/2020-01-01_2025-12-31/20260702T063222607354Z_page-001_8539eb96afda0f7e.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_JPM_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:27.019533Z",
+      "sha256": "54324d70f22341695fb09f33cb94b1c15af395f61fc19f6414f17791aaf2b8cf",
+      "snapshot_id": "48ddd256-fab4-4b12-9562-f2f519eefd3f",
+      "storage_uri": "raw/prices/tiingo/JPM/2020-01-01_2025-12-31/20260702T063227019533Z_page-001_54324d70f2234169.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_JNJ_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:30.665997Z",
+      "sha256": "655b19b3bbc32a8c750fce1b7a3eef084df7418e81ca65357bb702627b8d8efd",
+      "snapshot_id": "4e5d1fb3-bbdf-4429-84a1-051fde331513",
+      "storage_uri": "raw/prices/tiingo/JNJ/2020-01-01_2025-12-31/20260702T063230665997Z_page-001_655b19b3bbc32a8c.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_BAC_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:27.748604Z",
+      "sha256": "7a33befa77c82ee85c4cf44876313bab716bca280142f129bfab45dba585e396",
+      "snapshot_id": "5aca365c-9728-4421-bab2-47bb3f60f168",
+      "storage_uri": "raw/prices/tiingo/BAC/2020-01-01_2025-12-31/20260702T063227748604Z_page-001_7a33befa77c82ee8.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_KO_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:34.307200Z",
+      "sha256": "f466bdc282c532f8fb01a68fb3d99d1fe3a889dca8ed95672b6fba2fdbde4569",
+      "snapshot_id": "691a1434-463b-44ea-a772-347278eb30af",
+      "storage_uri": "raw/prices/tiingo/KO/2020-01-01_2025-12-31/20260702T063234307200Z_page-001_f466bdc282c532f8.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_XOM_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:29.233044Z",
+      "sha256": "4a4478c589b60ab75c0a9b9fe0c85a4e42b9c865aea13daea22fb7350592758f",
+      "snapshot_id": "7d506709-86ae-49e3-8ab4-19ffcd3d5164",
+      "storage_uri": "raw/prices/tiingo/XOM/2020-01-01_2025-12-31/20260702T063229233044Z_page-001_4a4478c589b60ab7.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_AMT_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:39.499698Z",
+      "sha256": "d5d35702af25463b513cba9bbc1a59797968fa0883e53322a199bbeb954c3114",
+      "snapshot_id": "7db78bdc-0236-4bb0-9f07-ec45fca8bbef",
+      "storage_uri": "raw/prices/tiingo/AMT/2020-01-01_2025-12-31/20260702T063239499698Z_page-001_d5d35702af25463b.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_V_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:28.440632Z",
+      "sha256": "47067389d4e25c5f114b6685c4648a736185f9d2b7efaddc43c3490b39f4b662",
+      "snapshot_id": "828b98d1-e866-4338-af6f-a871ac369f2c",
+      "storage_uri": "raw/prices/tiingo/V/2020-01-01_2025-12-31/20260702T063228440632Z_page-001_47067389d4e25c5f.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_HON_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:35.728322Z",
+      "sha256": "cb7eb112407cad0bb3287cd32943c4fd7865209bd1bd14e83e1e077c8bc0f3f4",
+      "snapshot_id": "90d7d2cd-4414-4a52-9aa1-ca4597406bee",
+      "storage_uri": "raw/prices/tiingo/HON/2020-01-01_2025-12-31/20260702T063235728322Z_page-001_cb7eb112407cad0b.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_CVX_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:29.944860Z",
+      "sha256": "8b82c163abf0f9b0333c6f4e7c248c35b02b04a0199d8798466985c93ee16e3a",
+      "snapshot_id": "a85638be-29c6-423e-ab88-ef090e5cd808",
+      "storage_uri": "raw/prices/tiingo/CVX/2020-01-01_2025-12-31/20260702T063229944860Z_page-001_8b82c163abf0f9b0.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_GOOGL_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:25.525474Z",
+      "sha256": "b86dca2affbd3dbaf9451a461cb9f92196362c7f5eef607fe89104ddead07ede",
+      "snapshot_id": "a89906ec-155c-4336-b1a2-09513a5956bc",
+      "storage_uri": "raw/prices/tiingo/GOOGL/2020-01-01_2025-12-31/20260702T063225525474Z_page-001_b86dca2affbd3dba.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_META_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:26.238335Z",
+      "sha256": "760b6ece5b820458c04491db7e2fdc412801ae767a60598c515308091ef1dcca",
+      "snapshot_id": "af953655-c8af-489b-82e1-83caaeb8e3c5",
+      "storage_uri": "raw/prices/tiingo/META/2020-01-01_2025-12-31/20260702T063226238335Z_page-001_760b6ece5b820458.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_AMZN_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:24.099823Z",
+      "sha256": "bed60a01c096b1926e78275ba8d5ad5c125a01254a4324a96ac252fb8e455a7d",
+      "snapshot_id": "b04de00d-2a22-4593-b7c2-2faa376c4f28",
+      "storage_uri": "raw/prices/tiingo/AMZN/2020-01-01_2025-12-31/20260702T063224099823Z_page-001_bed60a01c096b192.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_PG_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:33.584873Z",
+      "sha256": "968ea1876f266f3bca24c2497c23eaa9b2e449065f38b8e96bb29218e4e224e5",
+      "snapshot_id": "b70f11e1-d780-478b-a36b-4dc9924493f1",
+      "storage_uri": "raw/prices/tiingo/PG/2020-01-01_2025-12-31/20260702T063233584873Z_page-001_968ea1876f266f3b.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_NEM_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:36.504208Z",
+      "sha256": "ec2664bebf277f3b1bbf14c280f7dfe106e5631afe954f5b09fd2ccedcb6b51b",
+      "snapshot_id": "bfa0fd1f-c068-46c2-bd53-061dc32222dc",
+      "storage_uri": "raw/prices/tiingo/NEM/2020-01-01_2025-12-31/20260702T063236504208Z_page-001_ec2664bebf277f3b.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_DUK_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:37.919975Z",
+      "sha256": "81fe26b4739d80eb0bbae1ced924b0b2b9076b9c86dfb7210ef8debfe2ee62f2",
+      "snapshot_id": "c9802f6a-a4a2-49e3-8894-e3f0bf6aff2d",
+      "storage_uri": "raw/prices/tiingo/DUK/2020-01-01_2025-12-31/20260702T063237919975Z_page-001_81fe26b4739d80eb.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_NEE_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:37.207124Z",
+      "sha256": "9b8b83a2fc4f3ff8ab3094ad9d1c6a5ad55f459eb4c9f202ce3b78168b63c98e",
+      "snapshot_id": "c9c9e8e6-c6fd-4e56-a37c-3c039ec8f1a8",
+      "storage_uri": "raw/prices/tiingo/NEE/2020-01-01_2025-12-31/20260702T063237207124Z_page-001_9b8b83a2fc4f3ff8.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_SPY_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:40.222657Z",
+      "sha256": "d93e09810caef4c3e416654f190e8fa5a971e1a2ba17f678ccd8fbdec4051ad3",
+      "snapshot_id": "cb5ff8a6-6287-40b7-aa13-f137ee4e40f4",
+      "storage_uri": "raw/prices/tiingo/SPY/2020-01-01_2025-12-31/20260702T063240222657Z_page-001_d93e09810caef4c3.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_LLY_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:32.065842Z",
+      "sha256": "4cb8ee70aa48fe7735b1c1c437e6bea12102ccbf7dee4a053a81f529e46f7469",
+      "snapshot_id": "e8e84f33-f405-452f-96a2-a4075f420417",
+      "storage_uri": "raw/prices/tiingo/LLY/2020-01-01_2025-12-31/20260702T063232065842Z_page-001_4cb8ee70aa48fe77.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_AAPL_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:21.883182Z",
+      "sha256": "38febf1e848beba488fb4719c34725fb23e645f3709850700a031c8bff91edbb",
+      "snapshot_id": "ed6469c6-d8be-4d41-985d-b115ec79ff2c",
+      "storage_uri": "raw/prices/tiingo/AAPL/2020-01-01_2025-12-31/20260702T063221883182Z_page-001_38febf1e848beba4.json",
+      "vendor": "Tiingo"
+    },
+    {
+      "dataset": "tiingo_eod_prices_UNH_2020-01-01_2025-12-31_page_001",
+      "license_tag": "tiingo_internal_research_trial_v0",
+      "retrieved_at": "2026-07-02T06:32:31.361290Z",
+      "sha256": "85a8b2ed43bb375202a9e22e71e6d7fbe4778167ac319cf04cdb0c4ddb7f9149",
+      "snapshot_id": "fd921a66-12aa-4b36-84b0-3ccf2ba3b5fb",
+      "storage_uri": "raw/prices/tiingo/UNH/2020-01-01_2025-12-31/20260702T063231361290Z_page-001_85a8b2ed43bb3752.json",
+      "vendor": "Tiingo"
+    }
+  ],
+  "primary_vendor": "Tiingo",
+  "reconciliation": {
+    "adjustment_difference_count": 100,
+    "blocking_reasons": [],
+    "comparisons": [
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9091294918392071983773703053",
+          "adj_high": "299.3807758620689655172413793",
+          "adj_low": "299.3807165283507109926831159",
+          "adj_open": "299.3808520249408180728214877"
+        },
+        "adjusted_volume_difference_percent": "0.00005680010905620938792202481029",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-08-18",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9103399425437123303361654244",
+          "adj_high": "299.3806482281413779975957743",
+          "adj_low": "299.3808141232423930958305779",
+          "adj_open": "299.3179336324066663395509011"
+        },
+        "adjusted_volume_difference_percent": "0.000005496846184501642182797619866",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-08-19",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9101165334491006750257497212",
+          "adj_high": "299.4219039406129484622013999",
+          "adj_low": "299.3073012118561133234987571",
+          "adj_open": "299.3808207343412526997840173"
+        },
+        "adjusted_volume_difference_percent": "0.000009455728280192140398653504293",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-08-20",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9102521130850890516237337427",
+          "adj_high": "299.3419661673844834575436339",
+          "adj_low": "299.3807966457023060796645702",
+          "adj_open": "299.3805294711981467407115763"
+        },
+        "adjusted_volume_difference_percent": "0.00004732960454932158928079116167",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-08-21",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9098498275236031622214727813",
+          "adj_high": "299.3810267090711953618809984",
+          "adj_low": "299.4786081694402420574886536",
+          "adj_open": "299.3803820035739209472060770"
+        },
+        "adjusted_volume_difference_percent": "0.00004856367159857731567774072550",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-08-24",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9109022610115593721807641856",
+          "adj_high": "299.4350771718922093362166555",
+          "adj_low": "299.3805837121653363589793073",
+          "adj_open": "299.3809075784044034143314777"
+        },
+        "adjusted_volume_difference_percent": "0.00008889073815247220273140434127",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-08-25",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9115945424768083505231445370",
+          "adj_high": "299.3807741433079806587960330",
+          "adj_low": "299.3805483234235153064902409",
+          "adj_open": "299.4480342397647216786582188"
+        },
+        "adjusted_volume_difference_percent": "0.00008097046786208521037599740895",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-08-26",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9092037793738412852143329398",
+          "adj_high": "299.3808363398677452708713298",
+          "adj_low": "299.3805134812307341804164571",
+          "adj_open": "299.3809132458782445260358825"
+        },
+        "adjusted_volume_difference_percent": "0.00001028592294300827245352691440",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-08-27",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9116109358134032224610887472",
+          "adj_high": "299.3805354722731586288077248",
+          "adj_low": "299.3807395333178255151548777",
+          "adj_open": "299.3805407880869240120450377"
+        },
+        "adjusted_volume_difference_percent": "0.00004476896018760326173852795395",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-08-28",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9107937386066411215404269018",
+          "adj_high": "299.3807633587786259541984733",
+          "adj_low": "299.3807936507936507936507937",
+          "adj_open": "299.3809199119302594352226956"
+        },
+        "adjusted_volume_difference_percent": "0.9733897733611516388594376585",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-08-31",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9090765701161865682166012890",
+          "adj_high": "299.3810059639442127424831602",
+          "adj_low": "299.3806646627113416183672901",
+          "adj_open": "299.3803608986504877846954052"
+        },
+        "adjusted_volume_difference_percent": "0.3435659939150275653331630998",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-09-01",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9119685032392335906284399664",
+          "adj_high": "299.3804794497898582961288649",
+          "adj_low": "299.3807874015748031496062992",
+          "adj_open": "299.3805107585607721354482080"
+        },
+        "adjusted_volume_difference_percent": "0.000004497324092165161728771381028",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-09-02",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9096243182451688504854946500",
+          "adj_high": "299.3805066382362740533788099",
+          "adj_low": "299.3807468879668049792531120",
+          "adj_open": "299.3810221789279842767298908"
+        },
+        "adjusted_volume_difference_percent": "0.00001552797442232053155362042488",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-09-03",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9102209154558390859820353934",
+          "adj_high": "299.3805205825282283718372715",
+          "adj_low": "299.3806842746132895741517692",
+          "adj_open": "299.3807532240022893488999198"
+        },
+        "adjusted_volume_difference_percent": "0.00001112423302923087654145791192",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-09-04",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9094121000077526254349696950",
+          "adj_high": "299.3806141460735361471999225",
+          "adj_low": "299.3808391941251231973579527",
+          "adj_open": "299.3805212466761200211916263"
+        },
+        "adjusted_volume_difference_percent": "0.00001599193660623443487521535088",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-09-08",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9113031496671621947066493067",
+          "adj_high": "299.3807627934523720410744759",
+          "adj_low": "299.3809710459651875188391104",
+          "adj_open": "299.3809544836942085472395833"
+        },
+        "adjusted_volume_difference_percent": "0.00002543227808218016790955151591",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-09-09",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9097249213353103422386581270",
+          "adj_high": "299.3807468879668049792531120",
+          "adj_low": "299.38080000",
+          "adj_open": "299.3808235359591834558208398"
+        },
+        "adjusted_volume_difference_percent": "0.000004937610547613927134035278679",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-09-10",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9109062161458004880365213077",
+          "adj_high": "299.3810862130831596529062030",
+          "adj_low": "299.3808181818181818181818182",
+          "adj_open": "299.3807893829620835904789436"
+        },
+        "adjusted_volume_difference_percent": "0.00001382282347203891622429023948",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-09-11",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.4769322862177436197817047297",
+          "adj_high": "299.3807725385494628098472149",
+          "adj_low": "299.3810248576216243346548751",
+          "adj_open": "299.3808563596239066730757941"
+        },
+        "adjusted_volume_difference_percent": "0.000009275769335876321172799733999",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-09-14",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.9100496482553044322490958231",
+          "adj_high": "299.4625747893170744134074644",
+          "adj_low": "299.3808284551363816417139288",
+          "adj_open": "299.3809495678526848401070582"
+        },
+        "adjusted_volume_difference_percent": "0.00002112195491816596440679801995",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-09-15",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "AAPL",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.2966237716512339968064313971",
+          "adj_high": "16.97961402522454151077660425",
+          "adj_low": "16.97962645455648165811498410",
+          "adj_open": "16.97963520029431834458899012"
+        },
+        "adjusted_volume_difference_percent": "0.00001685234891103185400350528857",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-05-28",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.2961510663060848352223194915",
+          "adj_high": "16.97907825903263246277656526",
+          "adj_low": "16.97937574091828187310745943",
+          "adj_open": "16.97957068341939457255926676"
+        },
+        "adjusted_volume_difference_percent": "0.00001255736022761112366847133872",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-05-29",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.2974106435042188453781038571",
+          "adj_high": "16.96640825135781322874819880",
+          "adj_low": "16.97947445722093149492513851",
+          "adj_open": "16.97946125495332174181601282"
+        },
+        "adjusted_volume_difference_percent": "0.5773011414644012110130367576",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-05-30",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.2960296125624905113931733339",
+          "adj_high": "16.97959170147231148209118608",
+          "adj_low": "16.97956211528418673538400952",
+          "adj_open": "16.97899473570350091100428231"
+        },
+        "adjusted_volume_difference_percent": "0.00008153108861940146397222724997",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-05-31",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.2961467394588575040780354214",
+          "adj_high": "16.97930434782608695652173913",
+          "adj_low": "16.97921973954886856600413476",
+          "adj_open": "16.97953666441633011281823322"
+        },
+        "adjusted_volume_difference_percent": "0.00005474552455336776218544134017",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-03",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.2961992629471173589656113968",
+          "adj_high": "16.97920040410980819470522819",
+          "adj_low": "16.97918997363256112605442927",
+          "adj_open": "16.97962357540597006895438609"
+        },
+        "adjusted_volume_difference_percent": "0.000002479396217433130684015828465",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-04",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.2961578534609683381452226500",
+          "adj_high": "16.93835815705517154278567692",
+          "adj_low": "16.97954467581070409436259541",
+          "adj_open": "16.97951301710469458882143971"
+        },
+        "adjusted_volume_difference_percent": "0.00004163496731655065650773464143",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-05",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.2960057599601949699452906622",
+          "adj_high": "16.97914507550238131285155649",
+          "adj_low": "16.97926769289943595342618178",
+          "adj_open": "16.97903447883986174801968993"
+        },
+        "adjusted_volume_difference_percent": "0.00002858449576949462611479533501",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-06",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.2953011067823613264888321147",
+          "adj_high": "17.00319992195834360339433507",
+          "adj_low": "16.97956045814334236586888045",
+          "adj_open": "16.97901384037256454547631661"
+        },
+        "adjusted_volume_difference_percent": "0.00004849825163802844907441086749",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-07",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.2964228628560281823603058658",
+          "adj_high": "16.97916139008240540066134575",
+          "adj_low": "16.97950026521300887171087435",
+          "adj_open": "16.97954157335379444204154983"
+        },
+        "adjusted_volume_difference_percent": "1.690725099789716562428912489",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-10",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjusted volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.3010543793296317546067337994",
+          "adj_high": "16.15388151259330449061618937",
+          "adj_low": "16.15351753581721709358308494",
+          "adj_open": "16.15337509148236509813767928"
+        },
+        "adjusted_volume_difference_percent": "0.00001887206179971170678926916593",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-11",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.3014515297728825215983731058",
+          "adj_high": "16.15347240342478740027925229",
+          "adj_low": "16.15368322731429288380971393",
+          "adj_open": "16.15346680785531304945157138"
+        },
+        "adjusted_volume_difference_percent": "3.337839416545669987816886130E-7",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-12",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.3028471949114963686793389670",
+          "adj_high": "16.15393272943073799910982859",
+          "adj_low": "16.15395220144904151464151838",
+          "adj_open": "16.15359692668500721704459219"
+        },
+        "adjusted_volume_difference_percent": "0.00001419231351971293169086072546",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-13",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.3015741251316573035530416084",
+          "adj_high": "16.15336824797953462451083858",
+          "adj_low": "16.15424815983675760263889516",
+          "adj_open": "16.15417844117413989576648712"
+        },
+        "adjusted_volume_difference_percent": "0.000007758945093825043547079339093",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-14",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.3011834071381978427137691299",
+          "adj_high": "16.15334887014994464898504790",
+          "adj_low": "16.15379133329622207399819478",
+          "adj_open": "16.15410815026267905574834087"
+        },
+        "adjusted_volume_difference_percent": "0.00001525106722809080208135473844",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-17",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.3029903157003080853950062866",
+          "adj_high": "16.15380533241765439148823856",
+          "adj_low": "16.15383253978446917068500508",
+          "adj_open": "16.15360611822311036970428429"
+        },
+        "adjusted_volume_difference_percent": "0.00001562844526527756968163158251",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-18",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.3016067675660242126878131337",
+          "adj_high": "16.15327619417445468238630173",
+          "adj_low": "16.15397356077963971414664433",
+          "adj_open": "16.15386601058879400594252718"
+        },
+        "adjusted_volume_difference_percent": "0.000004828413630495796962502926019",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-20",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.3015562555978215015306621711",
+          "adj_high": "16.15401323775535663724008780",
+          "adj_low": "16.15390561770146716956293899",
+          "adj_open": "16.15385007435828878581938514"
+        },
+        "adjusted_volume_difference_percent": "0.9298488033951409032131703677",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-21",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.3025226575575343767611316499",
+          "adj_high": "16.15363056014535126203264868",
+          "adj_low": "16.15375415523717745884242504",
+          "adj_open": "16.15351080982572208231161069"
+        },
+        "adjusted_volume_difference_percent": "0.000007141943394217000387975572033",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-24",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "0.3027168637049269827909306318",
+          "adj_high": "16.15367588932806324110671937",
+          "adj_low": "16.15367878957351260876259284",
+          "adj_open": "16.15337897457178583778249865"
+        },
+        "adjusted_volume_difference_percent": "2.799387531307898789114049841",
+        "adjustment_factor_difference_bps": null,
+        "date": "2024-06-25",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjusted volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "NVDA",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.180882581060253266770906552",
+          "adj_high": "85.87803020828959092773399862",
+          "adj_low": "85.87838145259681094625032430",
+          "adj_open": "85.87804007369741677098991110"
+        },
+        "adjusted_volume_difference_percent": "0.00005921137415667329601855754127",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-01-21",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.184339751624037754655718300",
+          "adj_high": "85.87806641618137788336671129",
+          "adj_low": "85.87843610115012438914160933",
+          "adj_open": "85.87796700711962875927564935"
+        },
+        "adjusted_volume_difference_percent": "0.1512445309827383539833479517",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-01-24",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.182998070299203113778498575",
+          "adj_high": "85.87845384120474603996786967",
+          "adj_low": "85.87766945291530447187315728",
+          "adj_open": "85.87851649271800456659750231"
+        },
+        "adjusted_volume_difference_percent": "0.0001832048907740406635203218034",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-01-25",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.185282465469990414081995635",
+          "adj_high": "85.87843262851104472113696756",
+          "adj_low": "85.87832391609527342705658433",
+          "adj_open": "85.87843007587197905707535429"
+        },
+        "adjusted_volume_difference_percent": "0.000003527486172254204763517327012",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-01-26",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.184087236098214268586592187",
+          "adj_high": "85.91069333095079675126913587",
+          "adj_low": "85.87843001968822415204984033",
+          "adj_open": "85.81151973131821998320738875"
+        },
+        "adjusted_volume_difference_percent": "0.0001017110573789060513455910568",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-01-27",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.185133433241972110525767806",
+          "adj_high": "85.87790489897692032534633072",
+          "adj_low": "85.76639899554417339418373084",
+          "adj_open": "85.86452740388129258596889234"
+        },
+        "adjusted_volume_difference_percent": "0.00009144278424989484079811262093",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-01-28",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.183867031803502239584981484",
+          "adj_high": "85.87837316483956916214683540",
+          "adj_low": "85.87833293196513337217190902",
+          "adj_open": "85.87786812159369398098913575"
+        },
+        "adjusted_volume_difference_percent": "0.0001204847192937741838318774763",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-01-31",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.182851785920051326008748506",
+          "adj_high": "85.88442816297262188185331122",
+          "adj_low": "85.87793666282475525903178357",
+          "adj_open": "86.03562371561994361000366529"
+        },
+        "adjusted_volume_difference_percent": "0.00002219287830535181260333558961",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-01",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.181915258679766258448159681",
+          "adj_high": "85.87810975609756097560975610",
+          "adj_low": "85.73090412624398114029630183",
+          "adj_open": "85.87832534072313867633289350"
+        },
+        "adjusted_volume_difference_percent": "0.00003421242150387541204585148730",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-02",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.183763765282042755879604314",
+          "adj_high": "85.87810483870967741935483871",
+          "adj_low": "86.08835630965005302226935313",
+          "adj_open": "86.08048023804355491518559438"
+        },
+        "adjusted_volume_difference_percent": "0.00001328939681554157747266503969",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-03",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.183196716984889270578138681",
+          "adj_high": "85.88222270762644323866607507",
+          "adj_low": "85.87812807396354161130136454",
+          "adj_open": "85.87816360471318784464469887"
+        },
+        "adjusted_volume_difference_percent": "0.00005260671888536436308933516300",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-04",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.181971202882684668987697606",
+          "adj_high": "85.87822180234354496251795376",
+          "adj_low": "85.87784268604294001743199732",
+          "adj_open": "85.87799640092909282670292924"
+        },
+        "adjusted_volume_difference_percent": "0.00002934080244837711507688418734",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-07",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.183448397746548822631602790",
+          "adj_high": "85.87829365149375373230705818",
+          "adj_low": "85.87781396715419366171541968",
+          "adj_open": "85.87838130403512923027221967"
+        },
+        "adjusted_volume_difference_percent": "0.00002955778388404059128235389746",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-08",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.183591481844873101080971624",
+          "adj_high": "85.87788315207867904404668561",
+          "adj_low": "85.87838784076283104731382770",
+          "adj_open": "85.87796496209076459048704347"
+        },
+        "adjusted_volume_difference_percent": "0.00002888059951503697294349915033",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-09",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.183307172280762804232829875",
+          "adj_high": "85.87808510638297872340425532",
+          "adj_low": "85.87798740406183462129446620",
+          "adj_open": "85.87826853155408991152579557"
+        },
+        "adjusted_volume_difference_percent": "0.00008923066939225802264836626756",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-10",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.183247445029073468629988160",
+          "adj_high": "85.87801339597404763198177673",
+          "adj_low": "85.87375946298449021092192599",
+          "adj_open": "85.87838817340412524605677653"
+        },
+        "adjusted_volume_difference_percent": "0.00009316050254674815683028972916",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-11",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.185267740116837202001859105",
+          "adj_high": "85.87809954751131221719457014",
+          "adj_low": "85.87805148431141347620622722",
+          "adj_open": "85.87800736674389641473070474"
+        },
+        "adjusted_volume_difference_percent": "0.00009166142887073119631259166143",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-14",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.183943711158785042949888985",
+          "adj_high": "85.87781817318745028971045911",
+          "adj_low": "85.87796798847069554706725588",
+          "adj_open": "85.87817890052814022863486903"
+        },
+        "adjusted_volume_difference_percent": "0.00006325332958498787644516287732",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-15",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.183875588417081014137555236",
+          "adj_high": "85.87839861167955657371051324",
+          "adj_low": "85.87811287954303933939919878",
+          "adj_open": "85.87828401016021179835352889"
+        },
+        "adjusted_volume_difference_percent": "0.00009385060293555955693785125771",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-16",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.184340558306495673364761385",
+          "adj_high": "85.87811494252873563218390805",
+          "adj_low": "85.87350987939570369348486567",
+          "adj_open": "85.87829341976332011121479666"
+        },
+        "adjusted_volume_difference_percent": "0.00008516678495386799148332150461",
+        "adjustment_factor_difference_bps": null,
+        "date": "2022-02-17",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "META",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.238341533547645509089743718",
+          "adj_high": "2425.879807150327493591270666",
+          "adj_low": "2425.879492601859543177031646",
+          "adj_open": "2425.879810539297341631960756"
+        },
+        "adjusted_volume_difference_percent": "0.02863147406026409282591976782",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-03",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.238765500271261857753460901",
+          "adj_high": "2425.879507104474202552118605",
+          "adj_low": "2425.879536579940314356308853",
+          "adj_open": "2425.879504745219319738732735"
+        },
+        "adjusted_volume_difference_percent": "0.03343078788684197411917141481",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-04",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.237492317817589620433860755",
+          "adj_high": "2425.879798394380687315193596",
+          "adj_low": "2425.879831450124817481638609",
+          "adj_open": "2425.879336203308923624664778"
+        },
+        "adjusted_volume_difference_percent": "0.04064655954418189574435743671",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-05",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.238447821563496007273093192",
+          "adj_high": "2425.879357010609294993979788",
+          "adj_low": "2425.879783444811700264751187",
+          "adj_open": "2425.879630542978005353551021"
+        },
+        "adjusted_volume_difference_percent": "0.04448917604981982548683063596",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-06",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.240590276403291357364844122",
+          "adj_high": "2425.879463508231040208793900",
+          "adj_low": "2425.879515230506939123274200",
+          "adj_open": "2425.879478918378235393114808"
+        },
+        "adjusted_volume_difference_percent": "0.1449991288995463418582287441",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-09",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.240176372411998164211223336",
+          "adj_high": "2425.879318787070847183629188",
+          "adj_low": "2425.879753403983960719634480",
+          "adj_open": "2425.879275100080659428263176"
+        },
+        "adjusted_volume_difference_percent": "0.004882051553537957082283496482",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-10",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.237637003463365439508857560",
+          "adj_high": "2425.879635069983089418035093",
+          "adj_low": "2425.879520958083832335329341",
+          "adj_open": "2425.879579549983150518431562"
+        },
+        "adjusted_volume_difference_percent": "0.001758162277993540581039931828",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-11",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.237181998392192411675112769",
+          "adj_high": "2425.879989106763988548070060",
+          "adj_low": "2425.879729729729729729729730",
+          "adj_open": "2425.879988902003920975391375"
+        },
+        "adjusted_volume_difference_percent": "1.033466564625798588975630389",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-12",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjusted volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.239862607564418942028802963",
+          "adj_high": "2425.879555982156735570919176",
+          "adj_low": "2425.879714285714285714285714",
+          "adj_open": "2425.879212374149432145938518"
+        },
+        "adjusted_volume_difference_percent": "0.1846754661008993447362986050",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-13",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.237175546571756633793126810",
+          "adj_high": "2425.879833422205228837387571",
+          "adj_low": "2425.879699248120300751879699",
+          "adj_open": "2425.879987127615091698273299"
+        },
+        "adjusted_volume_difference_percent": "0.04903453674728715761159496124",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-16",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.238017721430322558049942213",
+          "adj_high": "2425.879831194037893212940511",
+          "adj_low": "2425.879701128513890492609154",
+          "adj_open": "2425.879382723245331694753922"
+        },
+        "adjusted_volume_difference_percent": "0.7769218821290930094844239936",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-17",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.237065084687084660368979499",
+          "adj_high": "2425.879407945668515957243060",
+          "adj_low": "2425.879491925801602736128505",
+          "adj_open": "2425.879427537036648666326928"
+        },
+        "adjusted_volume_difference_percent": "0.4532999977792747111206520049",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-18",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.238064905474521913738667368",
+          "adj_high": "2425.879987312033205530684576",
+          "adj_low": "2425.879395450050634227655005",
+          "adj_open": "2425.879529583243890895324459"
+        },
+        "adjusted_volume_difference_percent": "0.06785948466376860868931685164",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-19",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.239117317806850941601073907",
+          "adj_high": "2425.879826931154963900505332",
+          "adj_low": "2425.879466254221700790923882",
+          "adj_open": "2425.879769107893933356466199"
+        },
+        "adjusted_volume_difference_percent": "0.005853561657080588387474423333",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-20",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.237388705970676880417148453",
+          "adj_high": "2425.879687418813012676418363",
+          "adj_low": "2425.879927694321385165190436",
+          "adj_open": "2425.879211627638626080381409"
+        },
+        "adjusted_volume_difference_percent": "0.1031280453009086519467977701",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-23",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.237947046540973497955859764",
+          "adj_high": "2425.879351157613030448003003",
+          "adj_low": "2425.880104069239665956514399",
+          "adj_open": "2425.879318168820537682192251"
+        },
+        "adjusted_volume_difference_percent": "0.09815057992483294412927181106",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-24",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.239572333697468070861770480",
+          "adj_high": "2425.879532410444694358736204",
+          "adj_low": "2425.879826931154963900505332",
+          "adj_open": "2425.879410766640695025169930"
+        },
+        "adjusted_volume_difference_percent": "0.1308143591772850689923808952",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-25",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.238776290001491883766636514",
+          "adj_high": "2425.879939369844119534084159",
+          "adj_low": "2425.879881420264103367488309",
+          "adj_open": "2425.879733333333333333333333"
+        },
+        "adjusted_volume_difference_percent": "0.01050468729934506228329266727",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-26",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.238471174067756685388334314",
+          "adj_high": "2425.879573021181239840606651",
+          "adj_low": "2425.879717640750344116315880",
+          "adj_open": "2425.879830057450516086884152"
+        },
+        "adjusted_volume_difference_percent": "0.01484330451175943489543936414",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-27",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "1.239243132356135378173976359",
+          "adj_high": "2425.879988392921552390987248",
+          "adj_low": "2425.879660425994559027438827",
+          "adj_open": "2425.879562043688415653091623"
+        },
+        "adjusted_volume_difference_percent": "0.03310134176939020399258208792",
+        "adjustment_factor_difference_bps": null,
+        "date": "2020-03-30",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "XOM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.268318057750237496943643359",
+          "adj_high": "735.4725870091192409134439791",
+          "adj_low": "735.4659862845097622706913183",
+          "adj_open": "735.4730839406318466529087773"
+        },
+        "adjusted_volume_difference_percent": "0.0003902067188152235067787074176",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-02-28",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.269332883294704388628445526",
+          "adj_high": "735.5831744044629338770164131",
+          "adj_low": "735.4731189921873936901550229",
+          "adj_open": "735.4733043362660020449452783"
+        },
+        "adjusted_volume_difference_percent": "0.0006303227252353204840878529807",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-01",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.268262971933872531324371507",
+          "adj_high": "735.4724576604203082569090403",
+          "adj_low": "735.4724652371539405107357213",
+          "adj_open": "735.4732908574602894535472096"
+        },
+        "adjusted_volume_difference_percent": "0.006743616523211005870277667735",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-02",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.270369777230076599048371071",
+          "adj_high": "735.4732913007176091344606741",
+          "adj_low": "735.4730434069721232375934291",
+          "adj_open": "735.4725398094178701011482832"
+        },
+        "adjusted_volume_difference_percent": "0.0003889373600613890319664462688",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-03",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.268073350938238154537336962",
+          "adj_high": "735.4724923576273461685983703",
+          "adj_low": "735.4731804830405650821829223",
+          "adj_open": "735.4731080484792059642886473"
+        },
+        "adjusted_volume_difference_percent": "0.0004858929092028117003012536037",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-06",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.270580763673321799817636776",
+          "adj_high": "735.4727523120320019625948970",
+          "adj_low": "735.4727333395633689847861644",
+          "adj_open": "735.4725660758458353905469831"
+        },
+        "adjusted_volume_difference_percent": "0.0001702475399230481119547822534",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-07",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.269286341761383447053546294",
+          "adj_high": "735.4726608866983921403946828",
+          "adj_low": "735.8112670435236664883574968",
+          "adj_open": "735.4728985507246376811594203"
+        },
+        "adjusted_volume_difference_percent": "0.0004798800299925018745313671582",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-08",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.269526740534520880328669553",
+          "adj_high": "735.4733640057010170896110167",
+          "adj_low": "735.8314603683597007753208790",
+          "adj_open": "735.4725731824430105404779797"
+        },
+        "adjusted_volume_difference_percent": "0.00001158833595358485172724147388",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-09",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.270061196669192701340456392",
+          "adj_high": "735.4725647525569999613256343",
+          "adj_low": "735.4729085643148062899659770",
+          "adj_open": "735.4734196712246525863059954"
+        },
+        "adjusted_volume_difference_percent": "0.0001196818059718561584267959585",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-10",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.268762962338460056124968385",
+          "adj_high": "735.4732987522167869468290259",
+          "adj_low": "735.4731777120050781427962656",
+          "adj_open": "735.4733800838457204628836790"
+        },
+        "adjusted_volume_difference_percent": "0.00007459016202381757111123024818",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-13",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.268974437900625087082506784",
+          "adj_high": "735.4728745721451535865583566",
+          "adj_low": "735.4724487713637772087711408",
+          "adj_open": "735.4728614042195194519393004"
+        },
+        "adjusted_volume_difference_percent": "0.00005396635872113221420596935385",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-14",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.268861862870769552960708327",
+          "adj_high": "735.4733253802959152017149893",
+          "adj_low": "735.4731405381638335825435551",
+          "adj_open": "735.4725944240993443077282275"
+        },
+        "adjusted_volume_difference_percent": "0.00002041971260713056364240999282",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-15",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.270485660047749484551628629",
+          "adj_high": "735.4726921326754445084571629",
+          "adj_low": "735.4726940136248088942705822",
+          "adj_open": "735.4725342428770581992935482"
+        },
+        "adjusted_volume_difference_percent": "0.04921717531608200826597715659",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-16",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.270118782815022224324691607",
+          "adj_high": "735.4726059905711514222077580",
+          "adj_low": "735.4727120518652295429321588",
+          "adj_open": "735.4732453415410829627389846"
+        },
+        "adjusted_volume_difference_percent": "0.00004687988332117928950932388790",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-17",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.269969304584651549975139548",
+          "adj_high": "735.4730154417007443771354231",
+          "adj_low": "735.4730560365427174884534041",
+          "adj_open": "735.4727947778147417940367859"
+        },
+        "adjusted_volume_difference_percent": "0.00002185744573889095320320867303",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-20",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.268579883664243394707034954",
+          "adj_high": "735.4726365874797863722939370",
+          "adj_low": "735.4730979220668409724556535",
+          "adj_open": "735.4726707426875431537454491"
+        },
+        "adjusted_volume_difference_percent": "0.00004492413436808589494491178023",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-21",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.268436037095530862269433922",
+          "adj_high": "735.8276743181721400263026294",
+          "adj_low": "735.4730639270970800095929616",
+          "adj_open": "735.4727127874171086370638050"
+        },
+        "adjusted_volume_difference_percent": "0.0001855050955930945728165470545",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-22",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.269903554688431389355321226",
+          "adj_high": "735.4728533217232048570206126",
+          "adj_low": "735.4726940136248088942705822",
+          "adj_open": "735.4730581434415876501118688"
+        },
+        "adjusted_volume_difference_percent": "0.0002398426632129323164004413105",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-23",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.269833168946765248274604489",
+          "adj_high": "735.4729696635046372853567376",
+          "adj_low": "735.4729563367600825444447914",
+          "adj_open": "735.4726940556856248430626166"
+        },
+        "adjusted_volume_difference_percent": "0.07088848151816808673709498859",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-24",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      },
+      {
+        "adjusted_price_differences_bps": {
+          "adj_close": "2.269064126502014430484909719",
+          "adj_high": "735.4732975494418713044200245",
+          "adj_low": "735.4730262247821415684136816",
+          "adj_open": "735.4729748554916293766453519"
+        },
+        "adjusted_volume_difference_percent": "0.0001856379847140379444040755494",
+        "adjustment_factor_difference_bps": null,
+        "date": "2023-03-27",
+        "notes": [
+          "raw open is unavailable from one source",
+          "raw high is unavailable from one source",
+          "raw low is unavailable from one source",
+          "raw close is unavailable from one source",
+          "adjusted adj_open exceeds tolerance or is not comparable",
+          "adjusted adj_high exceeds tolerance or is not comparable",
+          "adjusted adj_low exceeds tolerance or is not comparable",
+          "raw volume exceeds tolerance or is not comparable",
+          "adjustment factor exceeds tolerance or is not comparable"
+        ],
+        "raw_price_differences_bps": {
+          "close": null,
+          "high": null,
+          "low": null,
+          "open": null
+        },
+        "status": "review",
+        "ticker": "JPM",
+        "volume_difference_percent": null
+      }
+    ],
+    "decision": "conditional_pass",
+    "failed_securities": [],
+    "manual_review_notes": [
+      "Alpha Vantage TIME_SERIES_DAILY_ADJUSTED was unavailable on the supplied free-tier key; Yahoo Chart API was selected as the independent reconciliation source.",
+      "Yahoo raw OHLCV were intentionally left unavailable because the Chart API quote series is split-adjusted; adjusted close and adjusted-basis fields were compared without repairing either vendor.",
+      "Yahoo terms/licensing were not independently verified for redistribution; this frozen export is restricted to internal reconciliation and is not a product or claims dataset.",
+      "Vendor values were compared as received; no price or adjustment was repaired."
+    ],
+    "rows_accepted": 100,
+    "rows_received": {
+      "independent": 100,
+      "primary": 100
+    },
+    "sample": [
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-08-18",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-08-19",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-08-20",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-08-21",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-08-24",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-08-25",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-08-26",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-08-27",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-08-28",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-08-31",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-09-01",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-09-02",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-09-03",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-09-04",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-09-08",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-09-09",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-09-10",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-09-11",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-09-14",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2020-08-31",
+        "date": "2020-09-15",
+        "event_type": "split",
+        "selection_reason": "4-for-1 stock split effective date",
+        "ticker": "AAPL"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-05-28",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-05-29",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-05-30",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-05-31",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-03",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-04",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-05",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-06",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-07",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-10",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-11",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-12",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-13",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-14",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-17",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-18",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-20",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-21",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-24",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2024-06-10",
+        "date": "2024-06-25",
+        "event_type": "split",
+        "selection_reason": "10-for-1 stock split effective date",
+        "ticker": "NVDA"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-01-21",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-01-24",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-01-25",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-01-26",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-01-27",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-01-28",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-01-31",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-01",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-02",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-03",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-04",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-07",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-08",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-09",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-10",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-11",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-14",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-15",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-16",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2022-02-03",
+        "date": "2022-02-17",
+        "event_type": "volatile_period",
+        "selection_reason": "large post-earnings price move",
+        "ticker": "META"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-03",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-04",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-05",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-06",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-09",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-10",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-11",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-12",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-13",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-16",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-17",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-18",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-19",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-20",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-23",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-24",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-25",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-26",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-27",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2020-03-16",
+        "date": "2020-03-30",
+        "event_type": "volatile_period",
+        "selection_reason": "COVID-19 and oil-market volatility",
+        "ticker": "XOM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-02-28",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-01",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-02",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-03",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-06",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-07",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-08",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-09",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-10",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-13",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-14",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-15",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-16",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-17",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-20",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-21",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-22",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-23",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-24",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      },
+      {
+        "anchor_date": "2023-03-13",
+        "date": "2023-03-27",
+        "event_type": "volatile_period",
+        "selection_reason": "US regional-bank stress period",
+        "ticker": "JPM"
+      }
+    ],
+    "sample_size": 100,
+    "securities": [
+      {
+        "coverage_percentage": 100.0,
+        "failed_comparisons": 0,
+        "independent_rows_received": 20,
+        "missing_independent_dates": [],
+        "missing_primary_dates": [],
+        "missing_session_count": 0,
+        "primary_rows_received": 20,
+        "requested_dates": 20,
+        "review_comparisons": 20,
+        "rows_accepted": 20,
+        "status": "conditional_pass",
+        "ticker": "AAPL"
+      },
+      {
+        "coverage_percentage": 100.0,
+        "failed_comparisons": 0,
+        "independent_rows_received": 20,
+        "missing_independent_dates": [],
+        "missing_primary_dates": [],
+        "missing_session_count": 0,
+        "primary_rows_received": 20,
+        "requested_dates": 20,
+        "review_comparisons": 20,
+        "rows_accepted": 20,
+        "status": "conditional_pass",
+        "ticker": "NVDA"
+      },
+      {
+        "coverage_percentage": 100.0,
+        "failed_comparisons": 0,
+        "independent_rows_received": 20,
+        "missing_independent_dates": [],
+        "missing_primary_dates": [],
+        "missing_session_count": 0,
+        "primary_rows_received": 20,
+        "requested_dates": 20,
+        "review_comparisons": 20,
+        "rows_accepted": 20,
+        "status": "conditional_pass",
+        "ticker": "META"
+      },
+      {
+        "coverage_percentage": 100.0,
+        "failed_comparisons": 0,
+        "independent_rows_received": 20,
+        "missing_independent_dates": [],
+        "missing_primary_dates": [],
+        "missing_session_count": 0,
+        "primary_rows_received": 20,
+        "requested_dates": 20,
+        "review_comparisons": 20,
+        "rows_accepted": 20,
+        "status": "conditional_pass",
+        "ticker": "XOM"
+      },
+      {
+        "coverage_percentage": 100.0,
+        "failed_comparisons": 0,
+        "independent_rows_received": 20,
+        "missing_independent_dates": [],
+        "missing_primary_dates": [],
+        "missing_session_count": 0,
+        "primary_rows_received": 20,
+        "requested_dates": 20,
+        "review_comparisons": 20,
+        "rows_accepted": 20,
+        "status": "conditional_pass",
+        "ticker": "JPM"
+      }
+    ]
+  },
+  "tolerances": {
+    "adjusted_price_bps": "25",
+    "raw_price_bps": "10",
+    "volume_percent": "1"
+  },
+  "universe_file": "config/universes/us-equity-trial-v0.csv",
+  "universe_file_sha256": "0a1ec9667fa4f4378f9c1c6bb010d03585690558069d04286a8320e9d02dd584"
+}

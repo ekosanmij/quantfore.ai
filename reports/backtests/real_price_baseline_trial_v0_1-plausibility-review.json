@@ -1,0 +1,782 @@
+{
+  "claims_eligible": false,
+  "code_revision": "69bbcc7",
+  "dataset_kind": "prototype_real",
+  "review": {
+    "baseline": {
+      "coverage": 1.0,
+      "mean_rank_ic": 0.05928671328671328,
+      "median_rank_ic": 0.04692307692307692,
+      "observations": 1375,
+      "periods": 55,
+      "positive_rank_ic_period_percentage": 0.5636363636363636,
+      "quintile_returns": {
+        "1": 0.05407838930909091,
+        "2": -0.005516375418181818,
+        "3": -0.011614043345454544,
+        "4": 0.017713908945454545,
+        "5": 0.0528659765090909
+      },
+      "quintile_returns_monotonic": false,
+      "rank_ic_t_statistic": 0.5888904080165732,
+      "top_minus_bottom_spread": -0.0012124127999999991
+    },
+    "claims_eligible": false,
+    "concern_flags": {
+      "feature_values_missing": false,
+      "non_monotonic": true,
+      "non_positive_spread": true,
+      "weak_rank_ic_t_statistic": true,
+      "yearly_rank_ic_sign_instability": true
+    },
+    "decision": "requires_revision_before_model_claims",
+    "feature_diagnostics": {
+      "driver_clamp_counts_inferred_from_features": {
+        "momentum_12_1": 55,
+        "momentum_6_1": 21,
+        "return_21d": 0,
+        "volatility_126d": 0
+      },
+      "duplicate_values": 0,
+      "expected_values": 5500,
+      "missing_values": 0,
+      "ranges": {
+        "momentum_12_1": {
+          "count": 1375,
+          "maximum": 2.8700822483,
+          "mean": 0.20016254833810906,
+          "median": 0.1362817415,
+          "minimum": -0.7128767786,
+          "p01": -0.41884504428200003,
+          "p99": 1.7114869561379997
+        },
+        "momentum_6_1": {
+          "count": 1375,
+          "maximum": 1.6959602423,
+          "mean": 0.07935560107330909,
+          "median": 0.060302221,
+          "minimum": -0.5061492756,
+          "p01": -0.35875647576200004,
+          "p99": 0.8077778737619997
+        },
+        "return_21d": {
+          "count": 1375,
+          "maximum": 0.3378757418,
+          "mean": 0.015669769368,
+          "median": 0.0165342342,
+          "minimum": -0.3301914094,
+          "p01": -0.182925769996,
+          "p99": 0.23941241279199998
+        },
+        "volatility_126d": {
+          "count": 1375,
+          "maximum": 0.0438057826,
+          "mean": 0.016887919115709093,
+          "median": 0.0159418504,
+          "minimum": 0.006838925,
+          "p01": 0.007741253156,
+          "p99": 0.039338726182
+        }
+      },
+      "received_values": 5500,
+      "unexpected_values": 0
+    },
+    "findings": [
+      {
+        "finding": "Quintile returns are non-monotonic and the unadjusted top-minus-bottom spread is negative.",
+        "severity": "high"
+      },
+      {
+        "finding": "Mean Rank IC is weak, statistically unpersuasive, and changes sign across calendar years.",
+        "severity": "high"
+      },
+      {
+        "finding": "The top-minus-bottom spread changes sign under the fixed outlier winsorisation diagnostic.",
+        "severity": "medium"
+      },
+      {
+        "finding": "The mega-cap proxy is over-represented in the top quintile relative to its universe share.",
+        "severity": "medium"
+      },
+      {
+        "finding": "Excluding WP6.3 split-flagged securities does not restore monotonic quintile behaviour.",
+        "severity": "review"
+      },
+      {
+        "finding": "Feature completeness and evaluated-outcome coverage are complete for the stored trial.",
+        "severity": "pass"
+      }
+    ],
+    "individual_security_diagnostics": [
+      {
+        "maximum_excess_return": 0.37480473,
+        "mean_excess_return": 0.022413230181818185,
+        "minimum_excess_return": -0.24538658,
+        "ticker": "AAPL",
+        "top_quintile_observations": 7
+      },
+      {
+        "maximum_excess_return": 0.18860906,
+        "mean_excess_return": -0.06801459727272728,
+        "minimum_excess_return": -0.40979912,
+        "ticker": "AMT",
+        "top_quintile_observations": 3
+      },
+      {
+        "maximum_excess_return": 0.33240027,
+        "mean_excess_return": -0.015871668727272727,
+        "minimum_excess_return": -0.29583991,
+        "ticker": "AMZN",
+        "top_quintile_observations": 13
+      },
+      {
+        "maximum_excess_return": 0.21357002,
+        "mean_excess_return": -0.009278385272727273,
+        "minimum_excess_return": -0.30758923,
+        "ticker": "BAC",
+        "top_quintile_observations": 10
+      },
+      {
+        "maximum_excess_return": 0.64525739,
+        "mean_excess_return": 0.057140358545454545,
+        "minimum_excess_return": -0.29837254,
+        "ticker": "CAT",
+        "top_quintile_observations": 18
+      },
+      {
+        "maximum_excess_return": 0.69769194,
+        "mean_excess_return": 0.011997249636363637,
+        "minimum_excess_return": -0.26807486,
+        "ticker": "CVX",
+        "top_quintile_observations": 13
+      },
+      {
+        "maximum_excess_return": 0.25119359,
+        "mean_excess_return": -0.015363242363636363,
+        "minimum_excess_return": -0.2719613,
+        "ticker": "DUK",
+        "top_quintile_observations": 3
+      },
+      {
+        "maximum_excess_return": 0.7125136,
+        "mean_excess_return": 0.06441737945454545,
+        "minimum_excess_return": -0.20055288,
+        "ticker": "GOOGL",
+        "top_quintile_observations": 14
+      },
+      {
+        "maximum_excess_return": 0.18518497,
+        "mean_excess_return": -0.022591862181818183,
+        "minimum_excess_return": -0.19491181,
+        "ticker": "HD",
+        "top_quintile_observations": 2
+      },
+      {
+        "maximum_excess_return": 0.22395903,
+        "mean_excess_return": -0.05654162509090909,
+        "minimum_excess_return": -0.24933714,
+        "ticker": "HON",
+        "top_quintile_observations": 4
+      },
+      {
+        "maximum_excess_return": 0.24454141,
+        "mean_excess_return": -0.03350388127272728,
+        "minimum_excess_return": -0.24899324,
+        "ticker": "JNJ",
+        "top_quintile_observations": 0
+      },
+      {
+        "maximum_excess_return": 0.2474273,
+        "mean_excess_return": 0.03678502836363636,
+        "minimum_excess_return": -0.23055701,
+        "ticker": "JPM",
+        "top_quintile_observations": 19
+      },
+      {
+        "maximum_excess_return": 0.29505357,
+        "mean_excess_return": -0.019067472727272727,
+        "minimum_excess_return": -0.25536641,
+        "ticker": "KO",
+        "top_quintile_observations": 6
+      },
+      {
+        "maximum_excess_return": 0.60121854,
+        "mean_excess_return": 0.134192336,
+        "minimum_excess_return": -0.30931612,
+        "ticker": "LLY",
+        "top_quintile_observations": 33
+      },
+      {
+        "maximum_excess_return": 1.3903568,
+        "mean_excess_return": 0.10933346327272728,
+        "minimum_excess_return": -0.49844008,
+        "ticker": "META",
+        "top_quintile_observations": 23
+      },
+      {
+        "maximum_excess_return": 0.28308956,
+        "mean_excess_return": 0.03743125690909091,
+        "minimum_excess_return": -0.15185472,
+        "ticker": "MSFT",
+        "top_quintile_observations": 10
+      },
+      {
+        "maximum_excess_return": 0.37119129,
+        "mean_excess_return": -0.03856694709090909,
+        "minimum_excess_return": -0.33583687,
+        "ticker": "NEE",
+        "top_quintile_observations": 4
+      },
+      {
+        "maximum_excess_return": 0.70657401,
+        "mean_excess_return": 0.02629428890909091,
+        "minimum_excess_return": -0.35229006,
+        "ticker": "NEM",
+        "top_quintile_observations": 5
+      },
+      {
+        "maximum_excess_return": 1.77871143,
+        "mean_excess_return": 0.3689035089090909,
+        "minimum_excess_return": -0.34765029,
+        "ticker": "NVDA",
+        "top_quintile_observations": 35
+      },
+      {
+        "maximum_excess_return": 0.19609699,
+        "mean_excess_return": -0.03842590581818182,
+        "minimum_excess_return": -0.28844031,
+        "ticker": "PG",
+        "top_quintile_observations": 1
+      },
+      {
+        "maximum_excess_return": 0.29837342,
+        "mean_excess_return": -0.030524153454545455,
+        "minimum_excess_return": -0.31896638,
+        "ticker": "PLD",
+        "top_quintile_observations": 5
+      },
+      {
+        "maximum_excess_return": 0.26440584,
+        "mean_excess_return": -0.05585536690909091,
+        "minimum_excess_return": -0.59361733,
+        "ticker": "UNH",
+        "top_quintile_observations": 9
+      },
+      {
+        "maximum_excess_return": 0.27712563,
+        "mean_excess_return": -0.011435092545454544,
+        "minimum_excess_return": -0.24654441,
+        "ticker": "V",
+        "top_quintile_observations": 5
+      },
+      {
+        "maximum_excess_return": 0.32555876,
+        "mean_excess_return": 0.036532045454545456,
+        "minimum_excess_return": -0.21887077,
+        "ticker": "WMT",
+        "top_quintile_observations": 12
+      },
+      {
+        "maximum_excess_return": 0.73593798,
+        "mean_excess_return": 0.04723933509090909,
+        "minimum_excess_return": -0.24024549,
+        "ticker": "XOM",
+        "top_quintile_observations": 21
+      }
+    ],
+    "largest_absolute_outcomes": [
+      {
+        "excess_return": 1.77871143,
+        "prediction_date": "2022-12-30",
+        "ticker": "NVDA"
+      },
+      {
+        "excess_return": 1.48935142,
+        "prediction_date": "2023-12-29",
+        "ticker": "NVDA"
+      },
+      {
+        "excess_return": 1.3903568,
+        "prediction_date": "2022-10-31",
+        "ticker": "META"
+      },
+      {
+        "excess_return": 1.33094681,
+        "prediction_date": "2023-11-30",
+        "ticker": "NVDA"
+      },
+      {
+        "excess_return": 1.22906775,
+        "prediction_date": "2022-11-30",
+        "ticker": "NVDA"
+      },
+      {
+        "excess_return": 1.19597344,
+        "prediction_date": "2022-11-30",
+        "ticker": "META"
+      },
+      {
+        "excess_return": 1.17750045,
+        "prediction_date": "2022-12-30",
+        "ticker": "META"
+      },
+      {
+        "excess_return": 1.0707959,
+        "prediction_date": "2022-09-30",
+        "ticker": "NVDA"
+      },
+      {
+        "excess_return": 1.0252145,
+        "prediction_date": "2023-01-31",
+        "ticker": "NVDA"
+      },
+      {
+        "excess_return": 1.01977777,
+        "prediction_date": "2023-02-28",
+        "ticker": "NVDA"
+      },
+      {
+        "excess_return": 0.97339355,
+        "prediction_date": "2022-10-31",
+        "ticker": "NVDA"
+      },
+      {
+        "excess_return": 0.94448055,
+        "prediction_date": "2023-01-31",
+        "ticker": "META"
+      },
+      {
+        "excess_return": 0.93859124,
+        "prediction_date": "2021-05-28",
+        "ticker": "NVDA"
+      },
+      {
+        "excess_return": 0.87966034,
+        "prediction_date": "2023-10-31",
+        "ticker": "NVDA"
+      },
+      {
+        "excess_return": 0.76257579,
+        "prediction_date": "2023-09-29",
+        "ticker": "NVDA"
+      }
+    ],
+    "leave_one_security_out": [
+      {
+        "mean_rank_ic": 0.03348616600790514,
+        "mean_rank_ic_change": -0.025800547278808143,
+        "ticker": "LLY",
+        "top_minus_bottom_spread": -0.02668957113636364
+      },
+      {
+        "mean_rank_ic": 0.037802371541501976,
+        "mean_rank_ic_change": -0.021484341745211306,
+        "ticker": "META",
+        "top_minus_bottom_spread": -0.00765027580909091
+      },
+      {
+        "mean_rank_ic": 0.08015810276679841,
+        "mean_rank_ic_change": 0.02087138948008513,
+        "ticker": "AAPL",
+        "top_minus_bottom_spread": -0.004734182854545453
+      },
+      {
+        "mean_rank_ic": 0.07723320158102767,
+        "mean_rank_ic_change": 0.01794648829431439,
+        "ticker": "NEE",
+        "top_minus_bottom_spread": -0.004530631309090908
+      },
+      {
+        "mean_rank_ic": 0.04303557312252965,
+        "mean_rank_ic_change": -0.016251140164183636,
+        "ticker": "XOM",
+        "top_minus_bottom_spread": -0.020160216854545457
+      },
+      {
+        "mean_rank_ic": 0.04436363636363636,
+        "mean_rank_ic_change": -0.01492307692307692,
+        "ticker": "NVDA",
+        "top_minus_bottom_spread": -0.019898162854545456
+      },
+      {
+        "mean_rank_ic": 0.07381818181818181,
+        "mean_rank_ic_change": 0.014531468531468528,
+        "ticker": "CAT",
+        "top_minus_bottom_spread": 0.004178448500000001
+      },
+      {
+        "mean_rank_ic": 0.07275889328063241,
+        "mean_rank_ic_change": 0.013472179993919128,
+        "ticker": "HON",
+        "top_minus_bottom_spread": -0.006485951836363636
+      },
+      {
+        "mean_rank_ic": 0.07260079051383399,
+        "mean_rank_ic_change": 0.013314077227120705,
+        "ticker": "MSFT",
+        "top_minus_bottom_spread": -0.005112605936363633
+      },
+      {
+        "mean_rank_ic": 0.0468300395256917,
+        "mean_rank_ic_change": -0.01245667376102158,
+        "ticker": "UNH",
+        "top_minus_bottom_spread": -0.025979159318181816
+      },
+      {
+        "mean_rank_ic": 0.04724110671936759,
+        "mean_rank_ic_change": -0.012045606567345692,
+        "ticker": "CVX",
+        "top_minus_bottom_spread": -0.017450750745454546
+      },
+      {
+        "mean_rank_ic": 0.04858498023715414,
+        "mean_rank_ic_change": -0.01070173304955914,
+        "ticker": "AMZN",
+        "top_minus_bottom_spread": -0.014317083563636363
+      },
+      {
+        "mean_rank_ic": 0.0690592885375494,
+        "mean_rank_ic_change": 0.009772575250836121,
+        "ticker": "AMT",
+        "top_minus_bottom_spread": -0.008074980536363635
+      },
+      {
+        "mean_rank_ic": 0.06795256916996048,
+        "mean_rank_ic_change": 0.008665855883247198,
+        "ticker": "NEM",
+        "top_minus_bottom_spread": -0.004802591709090909
+      },
+      {
+        "mean_rank_ic": 0.050782608695652175,
+        "mean_rank_ic_change": -0.008504104591061108,
+        "ticker": "WMT",
+        "top_minus_bottom_spread": -0.015226310290909088
+      },
+      {
+        "mean_rank_ic": 0.06724110671936759,
+        "mean_rank_ic_change": 0.007954393432654305,
+        "ticker": "HD",
+        "top_minus_bottom_spread": -0.010009698127272726
+      },
+      {
+        "mean_rank_ic": 0.06681422924901186,
+        "mean_rank_ic_change": 0.007527515962298573,
+        "ticker": "BAC",
+        "top_minus_bottom_spread": 0.0012473131454545467
+      },
+      {
+        "mean_rank_ic": 0.052616600790513834,
+        "mean_rank_ic_change": -0.0066701124961994485,
+        "ticker": "JPM",
+        "top_minus_bottom_spread": -0.010989985927272723
+      },
+      {
+        "mean_rank_ic": 0.06589723320158103,
+        "mean_rank_ic_change": 0.006610519914867746,
+        "ticker": "GOOGL",
+        "top_minus_bottom_spread": 0.0036896521545454566
+      },
+      {
+        "mean_rank_ic": 0.06518577075098814,
+        "mean_rank_ic_change": 0.005899057464274854,
+        "ticker": "V",
+        "top_minus_bottom_spread": -0.008113732409090907
+      },
+      {
+        "mean_rank_ic": 0.05424505928853755,
+        "mean_rank_ic_change": -0.00504165399817573,
+        "ticker": "JNJ",
+        "top_minus_bottom_spread": -0.015832318581818182
+      },
+      {
+        "mean_rank_ic": 0.06279841897233202,
+        "mean_rank_ic_change": 0.0035117056856187323,
+        "ticker": "DUK",
+        "top_minus_bottom_spread": -0.010985828118181816
+      },
+      {
+        "mean_rank_ic": 0.06180237154150198,
+        "mean_rank_ic_change": 0.002515658254788694,
+        "ticker": "KO",
+        "top_minus_bottom_spread": -0.013302983018181816
+      },
+      {
+        "mean_rank_ic": 0.056916996047430835,
+        "mean_rank_ic_change": -0.0023697172392824484,
+        "ticker": "PLD",
+        "top_minus_bottom_spread": -0.018041536263636363
+      },
+      {
+        "mean_rank_ic": 0.06140711462450593,
+        "mean_rank_ic_change": 0.002120401337792649,
+        "ticker": "PG",
+        "top_minus_bottom_spread": -0.00908994129090909
+      }
+    ],
+    "mega_cap_proxy": {
+      "after_exclusion": {
+        "coverage": 1.0,
+        "mean_rank_ic": 0.05457735247208931,
+        "median_rank_ic": -0.010526315789473684,
+        "observations": 1045,
+        "periods": 55,
+        "positive_rank_ic_period_percentage": 0.4909090909090909,
+        "quintile_returns": {
+          "1": 0.015358864060606058,
+          "2": -0.01822543559090909,
+          "3": -0.021072023000000002,
+          "4": -0.012964439136363635,
+          "5": 0.02849577718181818
+        },
+        "quintile_returns_monotonic": false,
+        "rank_ic_t_statistic": 0.10866000599776965,
+        "top_minus_bottom_spread": 0.013136913121212122
+      },
+      "definition": "fixed proxy cohort; no point-in-time market-cap data used",
+      "tickers": [
+        "AAPL",
+        "AMZN",
+        "GOOGL",
+        "META",
+        "MSFT",
+        "NVDA"
+      ],
+      "top_quintile_observations": 102,
+      "top_quintile_share": 0.3709090909090909,
+      "universe_share": 0.24
+    },
+    "outlier_sensitivity": {
+      "affected_observations": 15,
+      "after_winsorisation": {
+        "coverage": 1.0,
+        "mean_rank_ic": 0.05922587002297773,
+        "median_rank_ic": 0.04692307692307692,
+        "observations": 1375,
+        "periods": 55,
+        "positive_rank_ic_period_percentage": 0.5636363636363636,
+        "quintile_returns": {
+          "1": 0.04314463316363636,
+          "2": -0.009257144254545456,
+          "3": -0.011614043345454544,
+          "4": 0.016047112545454545,
+          "5": 0.04754766974545454
+        },
+        "quintile_returns_monotonic": false,
+        "rank_ic_t_statistic": 0.5864078584118966,
+        "top_minus_bottom_spread": 0.004403036581818184
+      },
+      "method": "post-hoc diagnostic only; winsorise 126-session excess returns at +/-75%"
+    },
+    "price_review_exclusion": {
+      "after_exclusion": {
+        "coverage": 1.0,
+        "mean_rank_ic": 0.07722488038277513,
+        "median_rank_ic": -0.0035087719298245615,
+        "observations": 1045,
+        "periods": 55,
+        "positive_rank_ic_period_percentage": 0.4909090909090909,
+        "quintile_returns": {
+          "1": 0.04667254351515151,
+          "2": -0.022715841545454547,
+          "3": -0.011536224454545455,
+          "4": -0.014150278181818183,
+          "5": 0.038350869499999996
+        },
+        "quintile_returns_monotonic": false,
+        "rank_ic_t_statistic": 0.42942278647940013,
+        "top_minus_bottom_spread": -0.008321674015151513
+      },
+      "reason": "WP6.3 split-like discontinuity review flags",
+      "tickers": [
+        "AAPL",
+        "AMZN",
+        "GOOGL",
+        "NEE",
+        "NVDA",
+        "WMT"
+      ]
+    },
+    "rank_ic_by_year": [
+      {
+        "coverage": 1.0,
+        "mean_rank_ic": -0.26461538461538464,
+        "median_rank_ic": -0.26461538461538464,
+        "observations": 25,
+        "periods": 1,
+        "positive_rank_ic_period_percentage": 0.0,
+        "quintile_returns": {
+          "1": 0.185418362,
+          "2": -0.029680977999999997,
+          "3": -0.056186349999999996,
+          "4": 0.014965370000000002,
+          "5": 0.033845846
+        },
+        "quintile_returns_monotonic": false,
+        "rank_ic_t_statistic": null,
+        "top_minus_bottom_spread": -0.151572516,
+        "year": 2020
+      },
+      {
+        "coverage": 1.0,
+        "mean_rank_ic": -0.01032051282051282,
+        "median_rank_ic": -0.08653846153846154,
+        "observations": 300,
+        "periods": 12,
+        "positive_rank_ic_period_percentage": 0.4166666666666667,
+        "quintile_returns": {
+          "1": 0.03401974983333333,
+          "2": 0.020678378499999997,
+          "3": 0.0651382045,
+          "4": 0.0959895165,
+          "5": -0.0023144456666666672
+        },
+        "quintile_returns_monotonic": false,
+        "rank_ic_t_statistic": null,
+        "top_minus_bottom_spread": -0.03633419549999999,
+        "year": 2021
+      },
+      {
+        "coverage": 1.0,
+        "mean_rank_ic": -0.0476923076923077,
+        "median_rank_ic": 0.04692307692307692,
+        "observations": 300,
+        "periods": 12,
+        "positive_rank_ic_period_percentage": 0.5833333333333334,
+        "quintile_returns": {
+          "1": 0.11759007033333334,
+          "2": 0.060021664333333336,
+          "3": -0.004254728499999999,
+          "4": -0.04634050033333334,
+          "5": 0.013242352499999993
+        },
+        "quintile_returns_monotonic": false,
+        "rank_ic_t_statistic": null,
+        "top_minus_bottom_spread": -0.10434771783333334,
+        "year": 2022
+      },
+      {
+        "coverage": 1.0,
+        "mean_rank_ic": 0.3544871794871795,
+        "median_rank_ic": 0.45884615384615385,
+        "observations": 300,
+        "periods": 12,
+        "positive_rank_ic_period_percentage": 0.8333333333333334,
+        "quintile_returns": {
+          "1": 0.019212416333333336,
+          "2": -0.10675114483333333,
+          "3": -0.06394112333333334,
+          "4": 0.036406446833333335,
+          "5": 0.1971960918333333
+        },
+        "quintile_returns_monotonic": false,
+        "rank_ic_t_statistic": null,
+        "top_minus_bottom_spread": 0.17798367549999997,
+        "year": 2023
+      },
+      {
+        "coverage": 1.0,
+        "mean_rank_ic": 0.045320512820512825,
+        "median_rank_ic": 0.03192307692307692,
+        "observations": 300,
+        "periods": 12,
+        "positive_rank_ic_period_percentage": 0.5833333333333334,
+        "quintile_returns": {
+          "1": 0.033063765333333335,
+          "2": -0.018640890333333333,
+          "3": -0.02164832233333333,
+          "4": 0.008963136333333333,
+          "5": 0.04107237983333333
+        },
+        "quintile_returns_monotonic": false,
+        "rank_ic_t_statistic": null,
+        "top_minus_bottom_spread": 0.0080086145,
+        "year": 2024
+      },
+      {
+        "coverage": 1.0,
+        "mean_rank_ic": -0.09602564102564104,
+        "median_rank_ic": -0.15653846153846154,
+        "observations": 150,
+        "periods": 6,
+        "positive_rank_ic_period_percentage": 0.3333333333333333,
+        "quintile_returns": {
+          "1": 0.05704350466666666,
+          "2": 0.043764039666666664,
+          "3": -0.047685733,
+          "4": -0.030153928333333333,
+          "5": -0.019428946666666665
+        },
+        "quintile_returns_monotonic": false,
+        "rank_ic_t_statistic": null,
+        "top_minus_bottom_spread": -0.07647245133333333,
+        "year": 2025
+      }
+    ],
+    "score_distribution": {
+      "at_one_hundred": 1,
+      "at_zero": 0,
+      "count": 1375,
+      "maximum": 100.0,
+      "mean": 55.282962291636366,
+      "median": 53.942976,
+      "minimum": 4.139765,
+      "p01": 19.84325068,
+      "p99": 91.8132165
+    },
+    "sector_concentration": {
+      "hhi": 0.12372892561983471,
+      "largest_sector": "Information Technology",
+      "largest_sector_share": 0.1890909090909091,
+      "sector_counts": {
+        "Communication Services": 37,
+        "Consumer Discretionary": 15,
+        "Consumer Staples": 19,
+        "Energy": 34,
+        "Financials": 34,
+        "Health Care": 42,
+        "Industrials": 22,
+        "Information Technology": 52,
+        "Materials": 5,
+        "Real Estate": 8,
+        "Utilities": 7
+      },
+      "sector_shares": {
+        "Communication Services": 0.13454545454545455,
+        "Consumer Discretionary": 0.05454545454545454,
+        "Consumer Staples": 0.06909090909090909,
+        "Energy": 0.12363636363636364,
+        "Financials": 0.12363636363636364,
+        "Health Care": 0.15272727272727274,
+        "Industrials": 0.08,
+        "Information Technology": 0.1890909090909091,
+        "Materials": 0.01818181818181818,
+        "Real Estate": 0.02909090909090909,
+        "Utilities": 0.025454545454545455
+      },
+      "top_quintile_observations": 275,
+      "universe_security_counts": {
+        "Communication Services": 2,
+        "Consumer Discretionary": 2,
+        "Consumer Staples": 3,
+        "Energy": 2,
+        "Financials": 3,
+        "Health Care": 3,
+        "Industrials": 2,
+        "Information Technology": 3,
+        "Materials": 1,
+        "Real Estate": 2,
+        "Utilities": 2
+      }
+    }
+  },
+  "review_id": "real_price_baseline_trial_v0_1_wp6_7",
+  "source_backtest_report": "reports/backtests/real_price_baseline_trial_v0_1.json",
+  "source_backtest_sha256": "5400469826b4e35f9a86c5adacbbc0cde69760b48da9bcbe242f2c5a32abac25",
+  "source_price_audit": "reports/data-audits/us-equity-trial-v0-price-quality.json",
+  "source_price_audit_sha256": "b53cacd3a137613be013e70c806a33df83275d6134584b2ad001bf25f4ae0619",
+  "trial_warnings": [
+    "PROTOTYPE REAL-DATA TRIAL",
+    "NOT POINT-IN-TIME UNIVERSE VALIDATION",
+    "NOT ELIGIBLE FOR PERFORMANCE CLAIMS"
+  ]
+}
