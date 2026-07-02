@@ -1,0 +1,27 @@
+ticker,company_name,cik,exchange,sector,active_from,active_to,is_benchmark,selection_reason
+AAPL,Apple Inc.,0000320193,NASDAQ,Information Technology,2020-01-01,2025-12-31,false,Large-cap liquid technology representative
+MSFT,Microsoft Corporation,0000789019,NASDAQ,Information Technology,2020-01-01,2025-12-31,false,Large-cap liquid technology representative
+NVDA,NVIDIA Corporation,0001045810,NASDAQ,Information Technology,2020-01-01,2025-12-31,false,Liquid semiconductor representative
+AMZN,Amazon.com Inc.,0001018724,NASDAQ,Consumer Discretionary,2020-01-01,2025-12-31,false,Large-cap liquid retail representative
+HD,The Home Depot Inc.,0000354950,NYSE,Consumer Discretionary,2020-01-01,2025-12-31,false,Liquid home-improvement retail representative
+GOOGL,Alphabet Inc. Class A,0001652044,NASDAQ,Communication Services,2020-01-01,2025-12-31,false,Large-cap liquid interactive-media representative
+META,Meta Platforms Inc. Class A,0001326801,NASDAQ,Communication Services,2020-01-01,2025-12-31,false,Large-cap liquid interactive-media representative
+JPM,JPMorgan Chase & Co.,0000019617,NYSE,Financials,2020-01-01,2025-12-31,false,Large-cap liquid banking representative
+BAC,Bank of America Corporation,0000070858,NYSE,Financials,2020-01-01,2025-12-31,false,Large-cap liquid banking representative
+V,Visa Inc. Class A,0001403161,NYSE,Financials,2020-01-01,2025-12-31,false,Large-cap liquid payments representative
+XOM,Exxon Mobil Corporation,0000034088,NYSE,Energy,2020-01-01,2025-12-31,false,Large-cap liquid integrated-energy representative
+CVX,Chevron Corporation,0000093410,NYSE,Energy,2020-01-01,2025-12-31,false,Large-cap liquid integrated-energy representative
+JNJ,Johnson & Johnson,0000200406,NYSE,Health Care,2020-01-01,2025-12-31,false,Large-cap liquid diversified-health-care representative
+UNH,UnitedHealth Group Incorporated,0000731766,NYSE,Health Care,2020-01-01,2025-12-31,false,Large-cap liquid managed-care representative
+LLY,Eli Lilly and Company,0000059478,NYSE,Health Care,2020-01-01,2025-12-31,false,Large-cap liquid pharmaceutical representative
+WMT,Walmart Inc.,0000104169,NASDAQ,Consumer Staples,2020-01-01,2025-12-31,false,Large-cap liquid staples-retail representative
+PG,The Procter & Gamble Company,0000080424,NYSE,Consumer Staples,2020-01-01,2025-12-31,false,Large-cap liquid household-products representative
+KO,The Coca-Cola Company,0000021344,NYSE,Consumer Staples,2020-01-01,2025-12-31,false,Large-cap liquid beverages representative
+CAT,Caterpillar Inc.,0000018230,NYSE,Industrials,2020-01-01,2025-12-31,false,Large-cap liquid machinery representative
+HON,Honeywell International Inc.,0000773840,NASDAQ,Industrials,2020-01-01,2025-12-31,false,Large-cap liquid industrial-conglomerate representative
+NEM,Newmont Corporation,0001164727,NYSE,Materials,2020-01-01,2025-12-31,false,Liquid metals-and-mining representative
+NEE,NextEra Energy Inc.,0000753308,NYSE,Utilities,2020-01-01,2025-12-31,false,Large-cap liquid electric-utility representative
+DUK,Duke Energy Corporation,0001326160,NYSE,Utilities,2020-01-01,2025-12-31,false,Large-cap liquid electric-utility representative
+PLD,Prologis Inc.,0001045609,NYSE,Real Estate,2020-01-01,2025-12-31,false,Large-cap liquid industrial-REIT representative
+AMT,American Tower Corporation,0001053507,NYSE,Real Estate,2020-01-01,2025-12-31,false,Large-cap liquid communications-REIT representative
+SPY,SPDR S&P 500 ETF Trust,0000884394,NYSE,Benchmark ETF,2020-01-01,2025-12-31,true,Required broad-market benchmark excluded from rankings

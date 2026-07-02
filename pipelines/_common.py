@@ -11,7 +11,10 @@ from typing import Optional
 from urllib.error import URLError
 from urllib.request import Request, urlopen
 
-import _bootstrap  # noqa: F401
+try:
+    import _bootstrap  # noqa: F401
+except ModuleNotFoundError:  # Imported through the pipelines package.
+    from pipelines import _bootstrap  # type: ignore  # noqa: F401
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -21,6 +24,72 @@ from quantfore_research.models import Security
 
 DEFAULT_RAW_DIR = Path("data/raw")
 DEFAULT_USER_AGENT = "QuantforeAIResearch/0.1"
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+
+
+def repository_relative_path(path: Path) -> str:
+    """Return a portable repository-relative path when one is available."""
+
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(REPOSITORY_ROOT).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def get_code_revision(*, repository_root: Path = REPOSITORY_ROOT) -> Optional[str]:
+    """Return HEAD, or a deterministic identifier for dirty source state.
+
+    Generated evidence below ``reports/`` is intentionally excluded: reports
+    are outputs of the revision being identified, not source inputs. Ignored
+    raw data and credentials are omitted by Git itself.
+    """
+
+    try:
+        head = subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=repository_root,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+        tracked_diff = subprocess.check_output(
+            [
+                "git",
+                "diff",
+                "--binary",
+                "HEAD",
+                "--",
+                ".",
+                ":(exclude)reports/**",
+            ],
+            cwd=repository_root,
+            stderr=subprocess.DEVNULL,
+        )
+        untracked_output = subprocess.check_output(
+            ["git", "ls-files", "--others", "--exclude-standard", "-z"],
+            cwd=repository_root,
+            stderr=subprocess.DEVNULL,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return None
+
+    untracked = sorted(
+        value.decode("utf-8")
+        for value in untracked_output.split(b"\0")
+        if value and not value.decode("utf-8").startswith("reports/")
+    )
+    if not tracked_diff and not untracked:
+        return head.decode("ascii")
+
+    digest = hashlib.sha256()
+    digest.update(tracked_diff)
+    for relative_path in untracked:
+        digest.update(relative_path.encode("utf-8"))
+        digest.update(b"\0")
+        path = repository_root / relative_path
+        if path.is_file():
+            digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return f"{head.decode('ascii')}-dirty-{digest.hexdigest()[:12]}"
 
 
 def utc_now() -> datetime:
