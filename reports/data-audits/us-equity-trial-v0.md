@@ -2,9 +2,9 @@
 
 **PROTOTYPE REAL-DATA TRIAL — NOT ELIGIBLE FOR PERFORMANCE CLAIMS**
 
-**Decision:** `CONDITIONAL_PASS`  
-**Generated:** `2026-07-02T06:54:32.824442Z`  
-**Primary vendor:** `Tiingo`  
+**Decision:** `CONDITIONAL_PASS`
+**Generated:** `2026-07-02T06:58:22.409280Z`
+**Primary vendor:** `Tiingo`
 
 ## Scope
 

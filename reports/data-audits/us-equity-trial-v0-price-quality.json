@@ -1231,7 +1231,7 @@
   },
   "audit_id": "us-equity-trial-v0-price-quality",
   "claims_eligible": false,
-  "code_revision": "69bbcc7",
+  "code_revision": "8c2e391",
   "config": {
     "extreme_return_threshold": "0.30",
     "minimum_history_sessions": 1250,
@@ -1240,7 +1240,7 @@
     "stale_run_sessions": 5
   },
   "dataset_kind": "prototype_real",
-  "generated_at": "2026-07-02T06:54:31.076511Z",
+  "generated_at": "2026-07-02T06:58:20.686277Z",
   "source_snapshot_count": 26,
   "source_snapshots": [
     {

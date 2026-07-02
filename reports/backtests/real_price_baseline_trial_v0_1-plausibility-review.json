@@ -1,6 +1,6 @@
 {
   "claims_eligible": false,
-  "code_revision": "69bbcc7",
+  "code_revision": "8c2e391",
   "dataset_kind": "prototype_real",
   "review": {
     "baseline": {
@@ -771,9 +771,9 @@
   },
   "review_id": "real_price_baseline_trial_v0_1_wp6_7",
   "source_backtest_report": "reports/backtests/real_price_baseline_trial_v0_1.json",
-  "source_backtest_sha256": "5400469826b4e35f9a86c5adacbbc0cde69760b48da9bcbe242f2c5a32abac25",
+  "source_backtest_sha256": "f30989b594f2a232f78680e17fbda969f6e124dde65ff5484ec3424639e98456",
   "source_price_audit": "reports/data-audits/us-equity-trial-v0-price-quality.json",
-  "source_price_audit_sha256": "b53cacd3a137613be013e70c806a33df83275d6134584b2ad001bf25f4ae0619",
+  "source_price_audit_sha256": "3cc993911bb0d555bafe9c57596914de6c29f8b22eca3a23c98e92a77d42ad26",
   "trial_warnings": [
     "PROTOTYPE REAL-DATA TRIAL",
     "NOT POINT-IN-TIME UNIVERSE VALIDATION",

@@ -1,9 +1,9 @@
 {
   "audit_id": "us-equity-trial-v0",
   "claims_eligible": false,
-  "code_revision": "69bbcc7",
+  "code_revision": "8c2e391",
   "dataset_kind": "prototype_real",
-  "generated_at": "2026-07-02T06:54:32.824442Z",
+  "generated_at": "2026-07-02T06:58:22.409280Z",
   "independent_source": {
     "license_tags": [
       "public_web_reconciliation_only_unverified"
@@ -29,7 +29,7 @@
   },
   "price_quality_audit": {
     "path": "reports/data-audits/us-equity-trial-v0-price-quality.json",
-    "sha256": "b53cacd3a137613be013e70c806a33df83275d6134584b2ad001bf25f4ae0619",
+    "sha256": "3cc993911bb0d555bafe9c57596914de6c29f8b22eca3a23c98e92a77d42ad26",
     "source_snapshot_hashes": [
       "28af6a1ae31d2d12b8229f8143fab19110e47d9d5e247caafda241eebb4c3e82",
       "38febf1e848beba488fb4719c34725fb23e645f3709850700a031c8bff91edbb",
