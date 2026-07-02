@@ -18,12 +18,15 @@ from quantfore_research.scoring.multifactor import (
     MINIMUM_FAMILIES,
     MINIMUM_SECTOR_SAMPLE,
     NORMALIZATION_VERSION,
+    MULTIFACTOR_HORIZONS,
+    MULTIFACTOR_MODEL_VERSION,
     MultiFactorCohortScore,
     NormalizedComponent,
     SecurityMultiFactorScore,
     normalization_input_hash,
     normalize_multifactor_cohort,
     store_multifactor_cohort_scores,
+    store_multifactor_predictions,
 )
 
 __all__ = [
@@ -38,6 +41,8 @@ __all__ = [
     "MINIMUM_SECTOR_SAMPLE",
     "MultiFactorCohortScore",
     "NORMALIZATION_VERSION",
+    "MULTIFACTOR_HORIZONS",
+    "MULTIFACTOR_MODEL_VERSION",
     "NormalizedComponent",
     "ResearchLabelBand",
     "ScoreDriver",
@@ -49,4 +54,5 @@ __all__ = [
     "normalization_input_hash",
     "normalize_multifactor_cohort",
     "store_multifactor_cohort_scores",
+    "store_multifactor_predictions",
 ]

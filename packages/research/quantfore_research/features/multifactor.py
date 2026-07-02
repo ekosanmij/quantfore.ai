@@ -16,7 +16,11 @@ from quantfore_research.models import (
     Fundamental,
     Price,
     Security,
+    SecurityClassification,
     SourceSnapshot,
+)
+from quantfore_research.validation.fundamental_audit_gate import (
+    FundamentalAuditBinding,
 )
 
 
@@ -222,6 +226,7 @@ class MultiFactorFeatureBatch:
     sector: Optional[str]
     industry: Optional[str]
     features: tuple[RawFeature, ...]
+    classification_context: Optional[Mapping[str, Any]] = None
 
     @property
     def source_snapshot_ids(self) -> tuple[str, ...]:
@@ -232,6 +237,11 @@ class MultiFactorFeatureBatch:
                     for feature in self.features
                     for item in feature.inputs
                 }
+                | (
+                    {str(self.classification_context["source_snapshot_id"])}
+                    if self.classification_context
+                    else set()
+                )
             )
         )
 
@@ -495,6 +505,61 @@ def _price_input(row: Price, snapshot: SourceSnapshot) -> FeatureInput:
     )
 
 
+def _raw_close_input(row: Price, snapshot: SourceSnapshot) -> FeatureInput:
+    if row.close is None:
+        raise ValueError("raw close input is missing")
+    return FeatureInput(
+        input_type="raw_close",
+        input_name="raw_close",
+        record_id=row.price_id,
+        value=row.close,
+        unit="USD",
+        source_snapshot_id=snapshot.snapshot_id,
+        source_hash=snapshot.source_hash,
+        model_available_at=datetime.combine(
+            row.date, datetime.min.time(), tzinfo=timezone.utc
+        ),
+        period_end=row.date,
+    )
+
+
+def resolve_security_classification(
+    session: Session,
+    *,
+    security_id: str,
+    prediction_timestamp: datetime,
+    classification_id: Optional[str] = None,
+) -> SecurityClassification:
+    """Resolve one source-bound classification known at prediction time."""
+
+    timestamp = _utc(prediction_timestamp)
+    query = (
+        select(SecurityClassification)
+        .where(SecurityClassification.security_id == security_id)
+        .where(SecurityClassification.effective_from <= timestamp.date())
+        .where(
+            (SecurityClassification.effective_to.is_(None))
+            | (SecurityClassification.effective_to >= timestamp.date())
+        )
+        .where(SecurityClassification.model_available_at <= timestamp)
+    )
+    if classification_id is not None:
+        query = query.where(
+            SecurityClassification.classification_id == classification_id
+        )
+    rows = list(session.scalars(query).all())
+    if len(rows) != 1:
+        raise ValueError(
+            "point-in-time classification must resolve to exactly one record; "
+            f"security_id={security_id} matches={len(rows)}"
+        )
+    row = rows[0]
+    snapshot = session.get(SourceSnapshot, row.source_snapshot_id)
+    if snapshot is None or snapshot.source_hash != row.source_hash:
+        raise ValueError("classification source snapshot/hash does not reproduce")
+    return row
+
+
 def _load_prices(
     session: Session,
     *,
@@ -593,8 +658,7 @@ def construct_multifactor_features(
     security_id: str,
     benchmark_security_id: str,
     prediction_timestamp: datetime,
-    sector: Optional[str],
-    industry: Optional[str] = None,
+    classification_id: Optional[str] = None,
     fundamental_source_snapshot_ids: Optional[Sequence[str]] = None,
     security_price_snapshot_id: Optional[str] = None,
     benchmark_price_snapshot_id: Optional[str] = None,
@@ -606,6 +670,14 @@ def construct_multifactor_features(
         raise ValueError(f"unknown security: {security_id}")
     if session.get(Security, benchmark_security_id) is None:
         raise ValueError(f"unknown benchmark security: {benchmark_security_id}")
+    classification = resolve_security_classification(
+        session,
+        security_id=security_id,
+        prediction_timestamp=timestamp,
+        classification_id=classification_id,
+    )
+    sector = classification.sector
+    industry = classification.industry
     facts = select_fundamentals_as_of(
         session,
         security_id=security_id,
@@ -772,17 +844,20 @@ def construct_multifactor_features(
     shares = book.latest("common_shares") or book.latest("diluted_shares")
     if prices and price_snapshot is not None and shares is not None:
         latest_price = prices[-1]
-        assert latest_price.adj_close is not None
-        price_scalar = ScalarInput(
-            "latest_adjusted_close",
-            latest_price.adj_close,
-            "USD",
-            (_price_input(latest_price, price_snapshot),),
+        price_scalar = (
+            ScalarInput(
+                "latest_raw_close",
+                latest_price.close,
+                "USD",
+                (_raw_close_input(latest_price, price_snapshot),),
+            )
+            if latest_price.close is not None
+            else None
         )
-        if shares.value > 0 and latest_price.adj_close > 0:
+        if price_scalar is not None and shares.value > 0 and latest_price.close > 0:
             values["market_cap"] = _derived(
                 "market_cap",
-                latest_price.adj_close * shares.value,
+                latest_price.close * shares.value,
                 "USD",
                 price_scalar,
                 shares,
@@ -871,6 +946,23 @@ def construct_multifactor_features(
         sector=sector,
         industry=industry,
         features=ordered,
+        classification_context={
+            "classification_id": classification.classification_id,
+            "classification_system": classification.classification_system,
+            "sector": classification.sector,
+            "industry": classification.industry,
+            "effective_from": classification.effective_from.isoformat(),
+            "effective_to": (
+                classification.effective_to.isoformat()
+                if classification.effective_to
+                else None
+            ),
+            "model_available_at": _utc(classification.model_available_at)
+            .isoformat()
+            .replace("+00:00", "Z"),
+            "source_snapshot_id": classification.source_snapshot_id,
+            "source_hash": classification.source_hash,
+        },
     )
 
 
@@ -1114,12 +1206,15 @@ def store_multifactor_features(
     *,
     batch: MultiFactorFeatureBatch,
     feature_set_id: str,
+    fundamental_audit: FundamentalAuditBinding,
     code_commit: Optional[str] = None,
 ) -> FeatureSet:
     """Store valid and missing raw components with complete input lineage."""
 
     if not batch.source_snapshot_ids:
         raise ValueError("cannot store a feature batch without source evidence")
+    if batch.classification_context is None:
+        raise ValueError("cannot store features without classification lineage")
     snapshots = {
         row.snapshot_id: row
         for row in session.scalars(
@@ -1140,6 +1235,8 @@ def store_multifactor_features(
         "benchmark_security_id": batch.benchmark_security_id,
         "sector": batch.sector,
         "industry": batch.industry,
+        "classification": dict(batch.classification_context),
+        "fundamental_audit": fundamental_audit.to_dict(),
         "features": [row.definition.name for row in batch.features],
         "source_snapshot_ids": list(batch.source_snapshot_ids),
     }

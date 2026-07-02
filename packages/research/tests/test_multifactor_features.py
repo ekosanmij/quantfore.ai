@@ -19,7 +19,11 @@ from quantfore_research.models import (
     Fundamental,
     Price,
     Security,
+    SecurityClassification,
     SourceSnapshot,
+)
+from quantfore_research.validation.fundamental_audit_gate import (
+    FundamentalAuditBinding,
 )
 from quantfore_research.validation.leakage import validate_stored_feature_inputs
 
@@ -28,6 +32,7 @@ PREDICTION = datetime(2021, 2, 1, 23, 59, tzinfo=timezone.utc)
 FUNDAMENTAL_HASH = "1" * 64
 PRICE_HASH = "2" * 64
 BENCHMARK_HASH = "3" * 64
+CLASSIFICATION_HASH = "4" * 64
 
 
 CURRENT_FLOWS = {
@@ -84,6 +89,17 @@ def make_session(*, shares="10"):
                 source_hash=BENCHMARK_HASH,
                 storage_uri="raw/test/benchmark-prices.json",
             ),
+            *[
+                SourceSnapshot(
+                    snapshot_id=f"classification-snapshot-{suffix}",
+                    vendor="Test Classification Vendor",
+                    dataset=f"point-in-time-classifications-{suffix}",
+                    license_tag="test",
+                    source_hash=CLASSIFICATION_HASH,
+                    storage_uri=f"raw/test/classifications-{suffix}.json",
+                )
+                for suffix in ("industrials", "financials", "reit")
+            ],
             Security(
                 security_id="security-1",
                 ticker="TST",
@@ -98,6 +114,43 @@ def make_session(*, shares="10"):
         ]
     )
     session.flush()
+    session.add_all(
+        [
+            SecurityClassification(
+                classification_id="classification-industrials",
+                security_id="security-1",
+                sector="Industrials",
+                industry=None,
+                classification_system="GICS",
+                effective_from=date(2020, 1, 1),
+                model_available_at=datetime(2020, 1, 1, tzinfo=timezone.utc),
+                source_snapshot_id="classification-snapshot-industrials",
+                source_hash=CLASSIFICATION_HASH,
+            ),
+            SecurityClassification(
+                classification_id="classification-financials",
+                security_id="security-1",
+                sector="Financials",
+                industry=None,
+                classification_system="GICS",
+                effective_from=date(2020, 1, 1),
+                model_available_at=datetime(2020, 1, 1, tzinfo=timezone.utc),
+                source_snapshot_id="classification-snapshot-financials",
+                source_hash=CLASSIFICATION_HASH,
+            ),
+            SecurityClassification(
+                classification_id="classification-reit",
+                security_id="security-1",
+                sector="Real Estate",
+                industry="601010",
+                classification_system="GICS",
+                effective_from=date(2020, 1, 1),
+                model_available_at=datetime(2020, 1, 1, tzinfo=timezone.utc),
+                source_snapshot_id="classification-snapshot-reit",
+                source_hash=CLASSIFICATION_HASH,
+            ),
+        ]
+    )
 
     for period_end, values, label in (
         (date(2019, 12, 31), PRIOR_FLOWS, "prior"),
@@ -212,6 +265,7 @@ def make_session(*, shares="10"):
                     price_id=f"security-price-{index}",
                     security_id="security-1",
                     date=observation_date,
+                    close=security_price * Decimal("2"),
                     adj_close=security_price,
                     source_snapshot_id="security-prices",
                 ),
@@ -219,6 +273,7 @@ def make_session(*, shares="10"):
                     price_id=f"benchmark-price-{index}",
                     security_id="benchmark-1",
                     date=observation_date,
+                    close=benchmark_price,
                     adj_close=benchmark_price,
                     source_snapshot_id="benchmark-prices",
                 ),
@@ -229,13 +284,17 @@ def make_session(*, shares="10"):
 
 
 def build(session, *, sector="Industrials", industry=None):
+    classification_id = {
+        ("Industrials", None): "classification-industrials",
+        ("Financials", None): "classification-financials",
+        ("Real Estate", "601010"): "classification-reit",
+    }[(sector, industry)]
     return construct_multifactor_features(
         session,
         security_id="security-1",
         benchmark_security_id="benchmark-1",
         prediction_timestamp=PREDICTION,
-        sector=sector,
-        industry=industry,
+        classification_id=classification_id,
         fundamental_source_snapshot_ids=["fundamentals-snapshot"],
         security_price_snapshot_id="security-prices",
         benchmark_price_snapshot_id="benchmark-prices",
@@ -265,6 +324,23 @@ def test_all_five_feature_families_calculate_with_frozen_formulas():
     assert features["maximum_drawdown_252d"].value <= 0
     assert features["volatility_126d"].definition.direction == "LOWER"
     assert features["momentum_12_1"].inputs
+
+
+def test_market_cap_uses_raw_close_not_total_return_adjusted_close():
+    _, session = make_session()
+    features = build(session).by_name()
+    fcf_yield = features["fcf_yield"]
+
+    price_input = next(item for item in fcf_yield.inputs if item.input_type == "raw_close")
+    latest = session.scalar(
+        select(Price)
+        .where(Price.security_id == "security-1")
+        .order_by(Price.date.desc())
+        .limit(1)
+    )
+    assert price_input.value == latest.close
+    assert latest.close != latest.adj_close
+    assert price_input.input_name == "raw_close"
 
 
 def test_ttm_can_be_constructed_only_from_consecutive_quarters():
@@ -389,6 +465,13 @@ def test_feature_store_persists_raw_values_formulas_inputs_and_missingness():
         session,
         batch=batch,
         feature_set_id="multifactor-test-2021-02-01",
+        fundamental_audit=FundamentalAuditBinding(
+            audit_id="pit-fundamentals-v1",
+            audit_sha256="a" * 64,
+            fact_hash="b" * 64,
+            availability_revision_hash="c" * 64,
+            source_snapshot_hashes={"fundamentals-snapshot": FUNDAMENTAL_HASH},
+        ),
         code_commit="test-commit",
     )
     session.commit()
@@ -396,6 +479,13 @@ def test_feature_store_persists_raw_values_formulas_inputs_and_missingness():
         session,
         batch=batch,
         feature_set_id="multifactor-test-2021-02-01",
+        fundamental_audit=FundamentalAuditBinding(
+            audit_id="pit-fundamentals-v1",
+            audit_sha256="a" * 64,
+            fact_hash="b" * 64,
+            availability_revision_hash="c" * 64,
+            source_snapshot_hashes={"fundamentals-snapshot": FUNDAMENTAL_HASH},
+        ),
         code_commit="test-commit",
     )
 
@@ -414,6 +504,10 @@ def test_feature_store_persists_raw_values_formulas_inputs_and_missingness():
     assert by_name["fcf_yield"].value is None
     assert by_name["fcf_yield"].applicability_status == NOT_APPLICABLE
     assert by_name["fcf_yield"].missing_reason == "NOT_APPLICABLE"
+    assert reused.config_json["classification"]["classification_id"] == (
+        "classification-financials"
+    )
+    assert reused.config_json["fundamental_audit"]["audit_sha256"] == "a" * 64
     validate_stored_feature_inputs(rows, prediction_timestamp=PREDICTION)
 
     columns = {column["name"] for column in inspect(engine).get_columns("features")}

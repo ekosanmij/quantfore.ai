@@ -64,6 +64,7 @@ def build_audit_document(
     *,
     generated_at: datetime,
     code_revision: Optional[str] = None,
+    source_snapshot_hashes: Optional[dict[str, str]] = None,
 ) -> dict[str, Any]:
     return {
         "audit_id": "pit-fundamentals-v1",
@@ -73,6 +74,7 @@ def build_audit_document(
         .isoformat()
         .replace("+00:00", "Z"),
         "code_revision": code_revision or get_code_revision(),
+        "source_snapshot_hashes": dict(sorted((source_snapshot_hashes or {}).items())),
         "decision": audit.status,
         "audit": audit.to_dict(),
     }
@@ -204,7 +206,22 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 reconciliation_samples=samples,
                 enforce_reconciliation_gate=not args.allow_incomplete_reconciliation,
             )
-        document = build_audit_document(audit, generated_at=generated_at)
+            from quantfore_research.models import SourceSnapshot
+            from sqlalchemy import select
+
+            source_hashes = {
+                row.snapshot_id: row.source_hash
+                for row in session.scalars(
+                    select(SourceSnapshot).where(
+                        SourceSnapshot.snapshot_id.in_(audit.source_snapshot_ids)
+                    )
+                ).all()
+            }
+        document = build_audit_document(
+            audit,
+            generated_at=generated_at,
+            source_snapshot_hashes=source_hashes,
+        )
         json_hash, markdown_hash = write_reports(
             document,
             json_output=args.json_output,

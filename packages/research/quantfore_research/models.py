@@ -130,6 +130,9 @@ class SourceSnapshot(TimestampMixin, Base):
     delisting_events: Mapped[list["DelistingEvent"]] = relationship(
         back_populates="source_snapshot"
     )
+    security_classifications: Mapped[list["SecurityClassification"]] = relationship(
+        back_populates="source_snapshot"
+    )
 
     def __repr__(self) -> str:
         return (
@@ -183,6 +186,79 @@ class Security(TimestampMixin, Base):
     delisting_events: Mapped[list["DelistingEvent"]] = relationship(
         back_populates="security", foreign_keys="DelistingEvent.security_id"
     )
+    classifications: Mapped[list["SecurityClassification"]] = relationship(
+        back_populates="security"
+    )
+
+
+class SecurityClassification(CreatedAtMixin, Base):
+    """Append-only point-in-time sector and industry classification."""
+
+    __tablename__ = "security_classifications"
+    __table_args__ = (
+        CheckConstraint(
+            "length(trim(sector)) > 0",
+            name="ck_security_classifications_sector_nonempty",
+        ),
+        CheckConstraint(
+            "effective_to IS NULL OR effective_to >= effective_from",
+            name="ck_security_classifications_effective_dates",
+        ),
+        CheckConstraint(
+            "length(trim(source_hash)) > 0",
+            name="ck_security_classifications_source_hash_nonempty",
+        ),
+        UniqueConstraint(
+            "security_id",
+            "effective_from",
+            "source_snapshot_id",
+            name="uq_security_classifications_security_effective_source",
+        ),
+        Index(
+            "ix_security_classifications_asof",
+            "security_id",
+            "effective_from",
+            "effective_to",
+            "model_available_at",
+        ),
+    )
+
+    classification_id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=new_id
+    )
+    security_id: Mapped[str] = mapped_column(
+        ForeignKey("securities.security_id"), nullable=False
+    )
+    sector: Mapped[str] = mapped_column(String(128), nullable=False)
+    industry: Mapped[Optional[str]] = mapped_column(String(160))
+    classification_system: Mapped[str] = mapped_column(String(64), nullable=False)
+    effective_from: Mapped[date] = mapped_column(Date, nullable=False)
+    effective_to: Mapped[Optional[date]] = mapped_column(Date)
+    model_available_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    source_snapshot_id: Mapped[str] = mapped_column(
+        ForeignKey("source_snapshots.snapshot_id"), nullable=False
+    )
+    source_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+
+    security: Mapped["Security"] = relationship(back_populates="classifications")
+    source_snapshot: Mapped["SourceSnapshot"] = relationship(
+        back_populates="security_classifications"
+    )
+
+
+def _reject_security_classification_change(mapper, connection, target) -> None:
+    del mapper, connection, target
+    raise RuntimeError("security classifications are append-only")
+
+
+event.listen(
+    SecurityClassification, "before_update", _reject_security_classification_change
+)
+event.listen(
+    SecurityClassification, "before_delete", _reject_security_classification_change
+)
 
 
 class SecurityIdentifier(CreatedAtMixin, Base):
@@ -1030,6 +1106,8 @@ def _reject_feature_delete(mapper, connection, target) -> None:
 
 event.listen(Feature, "before_update", _reject_feature_update)
 event.listen(Feature, "before_delete", _reject_feature_delete)
+event.listen(FeatureSet, "before_update", _reject_feature_update)
+event.listen(FeatureSet, "before_delete", _reject_feature_delete)
 
 
 class NormalizationRun(CreatedAtMixin, Base):
@@ -1183,12 +1261,45 @@ class MultiFactorScore(CreatedAtMixin, Base):
     missingness_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
 
 
+class MultiFactorPredictionLink(CreatedAtMixin, Base):
+    """Exact immutable prediction produced from one stored multi-factor score."""
+
+    __tablename__ = "multifactor_prediction_links"
+    __table_args__ = (
+        UniqueConstraint(
+            "multifactor_score_id",
+            "horizon",
+            name="uq_multifactor_prediction_links_score_horizon",
+        ),
+        UniqueConstraint(
+            "prediction_id", name="uq_multifactor_prediction_links_prediction"
+        ),
+        Index(
+            "ix_multifactor_prediction_links_score", "multifactor_score_id"
+        ),
+    )
+
+    link_id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    multifactor_score_id: Mapped[str] = mapped_column(
+        ForeignKey("multifactor_scores.multifactor_score_id"), nullable=False
+    )
+    prediction_id: Mapped[str] = mapped_column(
+        ForeignKey("model_predictions.prediction_id"), nullable=False
+    )
+    horizon: Mapped[str] = mapped_column(String(32), nullable=False)
+
+
 def _reject_normalization_artifact_change(mapper, connection, target) -> None:
     del mapper, connection, target
     raise RuntimeError("normalization artifacts are append-only")
 
 
-for _normalization_model in (NormalizationRun, NormalizedFeature, MultiFactorScore):
+for _normalization_model in (
+    NormalizationRun,
+    NormalizedFeature,
+    MultiFactorScore,
+    MultiFactorPredictionLink,
+):
     event.listen(
         _normalization_model, "before_update", _reject_normalization_artifact_change
     )
@@ -1304,6 +1415,10 @@ class ScoreDriver(CreatedAtMixin, Base):
     evidence_uri: Mapped[str] = mapped_column(String(1024), nullable=False)
 
     prediction: Mapped["ModelPrediction"] = relationship(back_populates="score_drivers")
+
+
+event.listen(ScoreDriver, "before_update", _reject_model_prediction_update)
+event.listen(ScoreDriver, "before_delete", _reject_model_prediction_delete)
 
 
 class ModelOutcome(CreatedAtMixin, Base):

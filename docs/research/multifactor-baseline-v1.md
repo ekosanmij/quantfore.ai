@@ -57,7 +57,7 @@ eligible value approximately one fiscal year earlier; both are required.
 
 ```text
 FCF              = cash_from_operations - capital_expenditure
-market_cap       = adjusted_close * latest eligible diluted/common shares
+market_cap       = contemporaneous raw close * latest eligible diluted/common shares
 net_debt         = total_debt - cash_and_equivalents
 enterprise_value = market_cap + total_debt - cash_and_equivalents
 invested_capital = total_debt + shareholders_equity - cash_and_equivalents
@@ -100,9 +100,13 @@ components are sign-reversed after winsorisation as stated.
 | Risk | `maximum_drawdown_252d` | Minimum of `price / running_peak - 1` over 252 sessions | Higher (less negative) |
 
 The `t-21`, `t-126`, and `t-252` indices mean observations, not calendar days.
-Prices are vendor-adjusted total-return series selected under the Sprint 7
-contract. Beta requires at least 240 aligned returns and non-zero benchmark
-variance. Other risk and momentum features require their full stated history.
+Returns and momentum use vendor-adjusted total-return series selected under the
+Sprint 7 contract. Absolute valuation never multiplies that restated series by
+reported shares: market capitalization uses contemporaneous unadjusted `close`
+and point-in-time shares outstanding. A missing raw close makes market cap and
+dependent value features missing. Beta requires at least 240 aligned returns
+and non-zero benchmark variance. Other risk and momentum features require their
+full stated history.
 
 The growth denominator may be negative but not zero because the formula uses
 its absolute value; sign transitions remain visible and are controlled by the
@@ -206,21 +210,25 @@ inapplicable components are stored as explicit rows with null values. Existing
 SQLite feature tables are migrated without losing legacy rows, including
 relaxing the old non-null value constraint.
 
-The sector and industry arguments must represent the point-in-time
-classification supplied by the cohort builder. Omitting sector does not fall
-back to the security's current classification: sector-sensitive components are
-recorded as `SECTOR_UNKNOWN`. Financial and REIT masks are explicit rows with
-`NOT_APPLICABLE`.
+Sector and industry are resolved from append-only dated
+`security_classifications`, never caller-supplied strings or the security's
+current labels. The selected record must cover the prediction date and be model
+available by the prediction timestamp. Its ID, system, effective interval,
+source snapshot, and hash are stored in feature evidence. An explicit unknown
+classification yields `SECTOR_UNKNOWN`. Financial and REIT masks remain
+explicit `NOT_APPLICABLE` rows.
 
 ```bash
 python pipelines/build_multifactor_features.py \
   --security-id <permanent-security-id> \
   --benchmark-security-id <spy-security-id> \
   --prediction-timestamp 2021-12-31T23:59:59Z \
-  --sector Industrials \
+  --classification-id <dated-classification-id> \
   --fundamental-source-snapshot-id <primary-fundamental-snapshot> \
   --security-price-snapshot-id <security-price-snapshot> \
-  --benchmark-price-snapshot-id <spy-price-snapshot>
+  --benchmark-price-snapshot-id <spy-price-snapshot> \
+  --fundamental-audit-json reports/data-audits/pit-fundamentals-v1.json \
+  --expected-fundamental-audit-hash <sha256>
 ```
 
 The pipeline stores all 19 components across value, quality, growth, momentum,
@@ -301,10 +309,14 @@ exploratory evidence.
 
 ## Frozen evaluation implementation
 
-Sprint 8.6 is implemented by `quantfore_research.evaluation.multifactor` and
-`pipelines/evaluate_multifactor_baseline.py`. The evaluator consumes a frozen,
-source-bound observation ledger and reports all four horizons (`21d`, `63d`,
-`126d`, and `252d`) without changing features, masks, normalization, or weights.
+Sprint 8.6 is implemented by `quantfore_research.evaluation.multifactor`,
+`quantfore_research.evaluation.multifactor_warehouse`, and
+`pipelines/evaluate_multifactor_baseline.py`. It accepts no caller-supplied
+scores or returns. It reloads `MultiFactorScore`, its linked immutable
+`ModelPrediction`, and complete `ModelOutcome` rows from the warehouse,
+recalculates prediction/outcome hashes, and reconstructs returns from the exact
+stored price snapshots before reporting all four horizons (`21d`, `63d`,
+`126d`, and `252d`).
 
 Each horizon reports monthly Rank IC, quintile returns and monotonicity,
 top-minus-bottom spread, year and sector stability, top/bottom turnover,
@@ -316,18 +328,42 @@ missingness diagnostics are reported once over unique score rows.
 
 ```bash
 python pipelines/evaluate_multifactor_baseline.py \
-  /private/frozen-multifactor-observations-v1.json \
+  --database-url sqlite+pysqlite:///./quantfore_research.db \
+  --universe-id sp500-pit-v1 \
   --output reports/backtests/pit_multifactor_baseline_v1.json
 ```
 
 Any observation dated in the 2022–2025 holdout makes both `--lock-json` and
-`--expected-lock-hash` mandatory. The exact lock must bind the contract,
-feature/normalization versions, code commit, source snapshot hashes, holdout
-dates, promotion thresholds, and `claims_eligible=false`. A missing, modified,
-or incomplete lock rejects evaluation before any metrics are calculated.
+`--expected-lock-hash` mandatory. The exact lock binds contract, feature,
+normalization and model versions; the full code commit; normalization-run IDs;
+the score-ledger hash; exact evaluated source hashes; holdout dates; the frozen
+promotion thresholds; and `claims_eligible=false`. Its bytes must equal the
+copy committed at a clean `HEAD`, and that commit must predate the earliest
+holdout outcome. A late, missing, modified, or incomplete lock rejects
+evaluation before any metric is calculated.
 
-The output retains the observation-ledger SHA-256, holdout-lock SHA-256, code
-revision, and `claims_eligible=false`. The default destination is
+The score-ledger hash binds only pre-outcome scores and immutable predictions.
+The complete feature, universe, security-price, and benchmark-price snapshot
+hash list comes from the frozen bundle manifest, so the lock can be committed
+before any `ModelOutcome` is calculated. The later evaluator requires that
+exact list to equal the sources actually used.
+
+Prepare the lock only from a clean code commit and before any 2022–2025
+multi-factor or comparison outcome exists. The command refuses a late lock,
+then writes a file whose only permitted subsequent source-control change is the
+lock-only commit:
+
+```bash
+python pipelines/prepare_multifactor_holdout_lock.py \
+  --database-url sqlite+pysqlite:///./quantfore_research.db \
+  --universe-id sp500-pit-v1 \
+  --outcome-source-snapshot-id <frozen-security-prices> \
+  --outcome-source-snapshot-id <frozen-benchmark-prices> \
+  --locked-at 2026-01-01T00:00:00Z
+```
+
+The output retains verified database record IDs, source hashes, score-ledger
+SHA-256, holdout-lock SHA-256, code revision, and `claims_eligible=false`. The default destination is
 `reports/backtests/pit_multifactor_baseline_v1.json`.
 
 ## Baseline comparison and attribution implementation
@@ -345,21 +381,54 @@ or risk, renormalizes the frozen equal weights over at least three remaining
 available families, and recalculates within-date average-tie percentile scores.
 It does not tune weights or alter component definitions.
 
-The comparison ledger carries each stored normalized component and its source
-references. Consequently every aligned prediction in the output includes its
+The comparison reloads every normalized component and source reference. It
+also verifies the Sprint 7 prediction/outcome hash and requires the price-only
+and multi-factor outcome values to be identical. Consequently every aligned prediction in the output includes its
 final score, all five family scores, strongest positive and negative component,
 machine-readable missing-data flags, component-level sector/universe
 normalization group statistics, and de-duplicated source-evidence references.
 
 ```bash
 python pipelines/compare_price_vs_multifactor.py \
-  /private/frozen-price-vs-multifactor-ledger-v1.json \
+  --database-url sqlite+pysqlite:///./quantfore_research.db \
+  --universe-id sp500-pit-v1 \
   --output reports/comparisons/price-vs-multifactor-v1.json
 ```
 
 As with the standalone evaluation, any 2022–2025 row requires the exact frozen
-holdout lock and expected SHA-256. The report also preserves its input-ledger
-hash, code revision, `claims_eligible=false`, and explicit no-retuning design.
+holdout lock and expected SHA-256. The report preserves verified warehouse
+lineage, code revision, `claims_eligible=false`, and explicit no-retuning design.
+
+## Reproducibility and closure implementation
+
+Sprint 8.8 is implemented by
+`quantfore_research.validation.sprint8_reproducibility` and
+`pipelines/close_multifactor_sprint.py`. Closure requires a clean committed
+worktree, an exact frozen bundle-manifest hash, and a hash-bound passing Sprint
+7 closure report. It invokes one frozen rebuild program twice in separate fresh
+temporary SQLite databases.
+The rebuild-program interface receives the bundle directory, expected manifest
+hash, fresh database URL, isolated output root, and the same frozen
+`--generated-at` value on both invocations.
+
+The two runs must match on fundamental fact and availability/revision hashes,
+feature count and value hash, monthly eligible-universe hash, immutable
+prediction/outcome counts and hash, backtest metrics, and canonical hashes for
+the audit, backtest, and comparison. Any mismatch publishes no passing closure.
+
+```bash
+python pipelines/close_multifactor_sprint.py /private/frozen-sprint8-bundle \
+  --expected-manifest-hash <sha256> \
+  --rebuild-program /private/bin/rebuild_sprint8.py \
+  --fundamental-source-snapshot-id <snapshot-id> \
+  --sprint7-closure-json reports/reproducibility/sprint7-closure-v1.json \
+  --expected-sprint7-closure-hash <sha256> \
+  --generated-at 2026-01-01T00:00:00Z
+```
+
+The repository deliberately contains no synthetic passing Sprint 7 or Sprint
+8 closure artifact. Those reports can exist only after licensed frozen data
+passes the real two-rebuild process.
 
 ## Engineering and promotion gates
 

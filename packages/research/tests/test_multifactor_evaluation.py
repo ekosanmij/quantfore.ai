@@ -1,6 +1,6 @@
 import hashlib
 import json
-from datetime import date
+from datetime import date, datetime, timezone
 from decimal import Decimal
 
 import pytest
@@ -9,6 +9,9 @@ from pipelines.evaluate_multifactor_baseline import validate_holdout_lock
 from quantfore_research.evaluation.multifactor import (
     MultiFactorEvaluationObservation,
     evaluate_multifactor_baseline,
+)
+from quantfore_research.evaluation.multifactor_warehouse import (
+    VerifiedEvaluationLedger,
 )
 
 
@@ -56,6 +59,20 @@ def observations(*, year=2021):
     return tuple(rows)
 
 
+def ledger(*, year=2021):
+    return VerifiedEvaluationLedger(
+        observations=observations(year=year),
+        normalization_run_ids=("run-1",),
+        prediction_ids=("prediction-1",),
+        outcome_ids=("outcome-1",),
+        source_snapshot_hashes=("a" * 64, "b" * 64),
+        score_ledger_sha256="c" * 64,
+        earliest_holdout_evaluated_at=(
+            datetime(2026, 1, 3, tzinfo=timezone.utc) if year == 2022 else None
+        ),
+    )
+
+
 def test_frozen_evaluation_covers_all_required_diagnostics():
     report = evaluate_multifactor_baseline(observations())
 
@@ -98,23 +115,33 @@ def test_nonoverlap_stride_tracks_each_outcome_horizon():
 
 
 def test_holdout_cannot_run_without_exact_committed_lock(tmp_path):
-    holdout_rows = observations(year=2022)
+    holdout_ledger = ledger(year=2022)
     with pytest.raises(ValueError, match="requires"):
         validate_holdout_lock(
-            holdout_rows, lock_path=None, expected_lock_hash=None
+            holdout_ledger, lock_path=None, expected_lock_hash=None
         )
 
     lock = {
+        "lock_version": "multifactor-holdout-lock-v1",
         "contract_version": "multifactor-baseline-v1",
         "feature_version": "multifactor-v1",
         "normalization_version": "multifactor-normalization-v1",
+        "model_version": "multifactor-baseline-v1",
         "holdout_start": "2022-01-01",
         "holdout_end": "2025-12-31",
         "claims_eligible": False,
         "locked_at": "2026-01-01T00:00:00Z",
         "code_commit": "abc123",
-        "source_snapshot_hashes": ["a" * 64],
-        "promotion_thresholds": {"mean_rank_ic": "0.03"},
+        "source_snapshot_hashes": ["a" * 64, "b" * 64],
+        "normalization_run_ids": ["run-1"],
+        "score_ledger_sha256": "c" * 64,
+        "promotion_thresholds": {
+            "mean_rank_ic_minimum": "0.03",
+            "net_top_minus_bottom_after_25_bps_positive": True,
+            "positive_rank_ic_years_minimum": 3,
+            "maximum_positive_year_contribution": "0.50",
+            "maximum_positive_sector_contribution": "0.50",
+        },
     }
     body = (json.dumps(lock, sort_keys=True) + "\n").encode()
     path = tmp_path / "lock.json"
@@ -122,20 +149,36 @@ def test_holdout_cannot_run_without_exact_committed_lock(tmp_path):
     lock_hash = hashlib.sha256(body).hexdigest()
 
     assert validate_holdout_lock(
-        holdout_rows,
+        holdout_ledger,
         lock_path=path,
         expected_lock_hash=lock_hash,
+        current_code_revision="abc123",
+        committed_lock_body=body,
+        lock_commit_time=datetime(2026, 1, 2, tzinfo=timezone.utc),
     ) == lock_hash
 
     with pytest.raises(ValueError, match="SHA-256"):
         validate_holdout_lock(
-            holdout_rows,
+            holdout_ledger,
             lock_path=path,
             expected_lock_hash="0" * 64,
+            current_code_revision="abc123",
+            committed_lock_body=body,
+            lock_commit_time=datetime(2026, 1, 2, tzinfo=timezone.utc),
+        )
+
+    with pytest.raises(ValueError, match="predate"):
+        validate_holdout_lock(
+            holdout_ledger,
+            lock_path=path,
+            expected_lock_hash=lock_hash,
+            current_code_revision="abc123",
+            committed_lock_body=body,
+            lock_commit_time=datetime(2026, 1, 4, tzinfo=timezone.utc),
         )
 
 
 def test_development_evaluation_does_not_require_holdout_lock():
     assert validate_holdout_lock(
-        observations(year=2021), lock_path=None, expected_lock_hash=None
+        ledger(year=2021), lock_path=None, expected_lock_hash=None
     ) is None

@@ -18,6 +18,7 @@ from quantfore_research.features.multifactor import (
     MultiFactorFeatureBatch,
     RawFeature,
     construct_multifactor_features,
+    resolve_security_classification,
     select_fundamentals_as_of,
     store_multifactor_features,
 )
@@ -38,6 +39,7 @@ __all__ = [
     "RawFeature",
     "calculate_baseline_price_features",
     "construct_multifactor_features",
+    "resolve_security_classification",
     "select_fundamentals_as_of",
     "store_multifactor_features",
 ]

@@ -74,6 +74,16 @@ from quantfore_research.validation.point_in_time_fundamentals import (
     audit_point_in_time_fundamentals,
     derive_sec_reconciliation_samples,
 )
+from quantfore_research.validation.fundamental_audit_gate import (
+    FundamentalAuditBinding,
+    verify_fundamental_audit,
+)
+from quantfore_research.validation.sprint8_reproducibility import (
+    SPRINT8_REPRODUCIBILITY_FIELDS,
+    Sprint8RebuildFingerprint,
+    build_sprint8_rebuild_fingerprint,
+    compare_sprint8_rebuilds,
+)
 
 __all__ = [
     "DEFAULT_CALENDAR",
@@ -83,6 +93,7 @@ __all__ = [
     "DelistingEvidence",
     "HistoricalRemovalEvidence",
     "FundamentalAuditFinding",
+    "FundamentalAuditBinding",
     "LeakageViolation",
     "PriceObservation",
     "PricePanelAudit",
@@ -107,6 +118,8 @@ __all__ = [
     "SecurityMasterValidationError",
     "SecurityMasterValidationSummary",
     "StaleRun",
+    "Sprint8RebuildFingerprint",
+    "SPRINT8_REPRODUCIBILITY_FIELDS",
     "audit_price_panel",
     "audit_price_series",
     "audit_point_in_time_equity_panel",
@@ -136,4 +149,7 @@ __all__ = [
     "compare_rebuild_fingerprints",
     "sha256_bytes",
     "universe_membership_hash",
+    "verify_fundamental_audit",
+    "build_sprint8_rebuild_fingerprint",
+    "compare_sprint8_rebuilds",
 ]

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Optional, Sequence
 
 try:
@@ -24,6 +25,9 @@ from quantfore_research.features.multifactor import (
     store_multifactor_features,
 )
 from quantfore_research.models import Security
+from quantfore_research.validation.fundamental_audit_gate import (
+    verify_fundamental_audit,
+)
 
 
 def _timestamp(value: str) -> datetime:
@@ -65,10 +69,9 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     benchmark.add_argument("--benchmark-ticker", default="SPY")
     parser.add_argument("--prediction-timestamp", required=True, type=_timestamp)
     parser.add_argument(
-        "--sector",
-        help="Point-in-time sector label; omit to record SECTOR_UNKNOWN masks.",
+        "--classification-id",
+        help="Optional exact dated classification record; otherwise resolve as-of.",
     )
-    parser.add_argument("--industry", help="Point-in-time industry/code, e.g. 601010.")
     parser.add_argument(
         "--fundamental-source-snapshot-id",
         action="append",
@@ -77,6 +80,8 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     )
     parser.add_argument("--security-price-snapshot-id", required=True)
     parser.add_argument("--benchmark-price-snapshot-id", required=True)
+    parser.add_argument("--fundamental-audit-json", required=True, type=Path)
+    parser.add_argument("--expected-fundamental-audit-hash", required=True)
     parser.add_argument("--feature-set-id")
     parser.add_argument("--database-url")
     return parser.parse_args(argv)
@@ -87,6 +92,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     try:
         session_factory = open_research_database(args.database_url)
         with session_scope(session_factory) as session:
+            audit_binding = verify_fundamental_audit(
+                session,
+                audit_path=args.fundamental_audit_json,
+                expected_audit_sha256=args.expected_fundamental_audit_hash,
+                source_snapshot_ids=args.fundamental_source_snapshot_id,
+            )
             security = _resolve_security(
                 session, security_id=args.security_id, ticker=args.ticker
             )
@@ -100,8 +111,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 security_id=security.security_id,
                 benchmark_security_id=benchmark.security_id,
                 prediction_timestamp=args.prediction_timestamp,
-                sector=args.sector,
-                industry=args.industry,
+                classification_id=args.classification_id,
                 fundamental_source_snapshot_ids=(
                     args.fundamental_source_snapshot_id
                 ),
@@ -116,6 +126,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 session,
                 batch=batch,
                 feature_set_id=feature_set_id,
+                fundamental_audit=audit_binding,
                 code_commit=get_code_revision(),
             )
         valid = sum(row.status == APPLICABLE for row in batch.features)
