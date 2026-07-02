@@ -253,6 +253,52 @@ def validate_stored_feature_inputs(
                     feature.security_id,
                 )
             )
+        lineage = feature.inputs_json or {}
+        for item in lineage.get("inputs", []):
+            if not isinstance(item, Mapping):
+                violations.append(
+                    LeakageViolation(
+                        "FEATURE_INPUT_LINEAGE_INVALID",
+                        "feature input lineage must contain objects",
+                        feature.feature_id,
+                        feature.security_id,
+                    )
+                )
+                continue
+            raw_available_at = item.get("model_available_at")
+            try:
+                input_available_at = datetime.fromisoformat(
+                    str(raw_available_at).replace("Z", "+00:00")
+                )
+            except ValueError:
+                violations.append(
+                    LeakageViolation(
+                        "FEATURE_INPUT_LINEAGE_INVALID",
+                        "feature input model_available_at must be ISO 8601",
+                        str(item.get("record_id") or feature.feature_id),
+                        feature.security_id,
+                    )
+                )
+                continue
+            if input_available_at.tzinfo is None:
+                violations.append(
+                    LeakageViolation(
+                        "FEATURE_INPUT_LINEAGE_INVALID",
+                        "feature input model_available_at must include a timezone",
+                        str(item.get("record_id") or feature.feature_id),
+                        feature.security_id,
+                    )
+                )
+                continue
+            if input_available_at.astimezone(timezone.utc) > timestamp:
+                violations.append(
+                    LeakageViolation(
+                        "FEATURE_INPUT_AVAILABLE_IN_FUTURE",
+                        "stored feature input became available after prediction",
+                        str(item.get("record_id") or feature.feature_id),
+                        feature.security_id,
+                    )
+                )
     if violations:
         raise PointInTimeLeakageError(violations)
 
