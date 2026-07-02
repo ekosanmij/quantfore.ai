@@ -294,6 +294,38 @@ Unless the executed agreement explicitly says otherwise:
 An equivalent/open source is not automatically licence-compatible. Any source
 substitution requires legal review and a new contract version.
 
+## Free-source candidate path
+
+The repository also contains a non-accepting preflight for a free, internal-use
+candidate assembled from two pinned MIT-licensed historical membership files
+and Tiingo's internal-use-only daily-price service:
+
+```bash
+PYTHONPATH="$PWD:$PWD/packages/research" .venv/bin/python \
+  pipelines/assess_free_point_in_time_sources.py
+```
+
+Exact source commits and membership hashes are pinned in the command. Raw
+source bytes remain under `data/raw/` and are Git-ignored. The command checks
+monthly constituent plausibility, converts full snapshots into distinct dated
+membership episodes, reconciles three secondary-source samples, validates each
+episode against Tiingo's dated ticker inventory, rejects recycled/nonoverlapping
+symbols, and splits only safely resolved symbols into deterministic free-tier
+acquisition batches.
+
+Its publishable aggregate output is
+`reports/data-audits/free-pit-source-assessment-v1.{json,md}`. A blocked
+preflight is useful evidence, but it is not a point-in-time vendor bundle, a
+passing Sprint 7.4 audit, or Sprint 7 closure. In particular, open membership
+tickers are not permanent company identifiers, a separately hosted history is
+not necessarily independent at the underlying-source level, and an adjusted
+price series does not supply delisting returns. These gaps must be resolved
+with evidenced identity/action/delisting lineage before the v1 ingestion gate
+may accept a free composite bundle. Symbol-level acquisition batches,
+reconciliation differences and Tiingo listing ranges are written to a
+content-addressed private plan beneath `data/raw/`; they are never included in
+the Git-tracked aggregate report.
+
 ## Validation and rejection policy
 
 Ingestion is rejected if any membership fails its security FK, if membership
