@@ -67,6 +67,13 @@ from quantfore_research.validation.leakage import (
     validate_point_in_time_evidence,
     validate_stored_feature_inputs,
 )
+from quantfore_research.validation.point_in_time_fundamentals import (
+    FundamentalAuditFinding,
+    PointInTimeFundamentalAudit,
+    SecReconciliationSample,
+    audit_point_in_time_fundamentals,
+    derive_sec_reconciliation_samples,
+)
 
 __all__ = [
     "DEFAULT_CALENDAR",
@@ -75,6 +82,7 @@ __all__ = [
     "ComparisonRow",
     "DelistingEvidence",
     "HistoricalRemovalEvidence",
+    "FundamentalAuditFinding",
     "LeakageViolation",
     "PriceObservation",
     "PricePanelAudit",
@@ -82,6 +90,7 @@ __all__ = [
     "PointInTimeAuditFinding",
     "PointInTimeEquityPanelAudit",
     "PointInTimeFeatureInputs",
+    "PointInTimeFundamentalAudit",
     "PointInTimeFeatureResult",
     "PointInTimeInputEvidence",
     "PointInTimeLeakageError",
@@ -94,12 +103,15 @@ __all__ = [
     "SamplePoint",
     "SecurityPriceAudit",
     "SecurityReconciliation",
+    "SecReconciliationSample",
     "SecurityMasterValidationError",
     "SecurityMasterValidationSummary",
     "StaleRun",
     "audit_price_panel",
     "audit_price_series",
     "audit_point_in_time_equity_panel",
+    "audit_point_in_time_fundamentals",
+    "derive_sec_reconciliation_samples",
     "construct_point_in_time_baseline_features",
     "compare_price_row",
     "deterministic_sample",

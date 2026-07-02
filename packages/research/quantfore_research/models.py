@@ -21,6 +21,7 @@ from sqlalchemy import (
     String,
     Text,
     UniqueConstraint,
+    select,
 )
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
@@ -596,7 +597,13 @@ class Filing(TimestampMixin, Base):
 
 
 class Fundamental(TimestampMixin, Base):
-    """Point-in-time company fact extracted from filings or vendor fundamentals."""
+    """Append-only point-in-time company fact and its exact source revision.
+
+    ``metric``, ``period_end``, ``available_at`` and ``accession_no`` are kept
+    as compatibility fields for the pre-Sprint-8 prototype.  New ingestion
+    must populate the explicit point-in-time fields; the init hook below keeps
+    both representations identical while old callers are migrated.
+    """
 
     __tablename__ = "fundamentals"
     __table_args__ = (
@@ -604,8 +611,87 @@ class Fundamental(TimestampMixin, Base):
             "length(trim(metric)) > 0",
             name="ck_fundamentals_metric_nonempty",
         ),
+        CheckConstraint(
+            "length(trim(concept)) > 0",
+            name="ck_fundamentals_concept_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(standardized_concept)) > 0",
+            name="ck_fundamentals_standardized_concept_nonempty",
+        ),
         CheckConstraint("length(trim(unit)) > 0", name="ck_fundamentals_unit_nonempty"),
+        CheckConstraint(
+            "length(trim(filing_accession)) > 0",
+            name="ck_fundamentals_filing_accession_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(form_type)) > 0",
+            name="ck_fundamentals_form_type_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(source_hash)) > 0",
+            name="ck_fundamentals_source_hash_nonempty",
+        ),
+        CheckConstraint(
+            "period_type IN ('ANNUAL', 'QUARTERLY', 'TTM')",
+            name="ck_fundamentals_period_type",
+        ),
+        CheckConstraint(
+            "revision_version >= 1",
+            name="ck_fundamentals_revision_positive",
+        ),
+        CheckConstraint(
+            "fiscal_quarter IS NULL OR fiscal_quarter BETWEEN 1 AND 4",
+            name="ck_fundamentals_fiscal_quarter",
+        ),
+        CheckConstraint(
+            "period_type != 'QUARTERLY' OR fiscal_quarter IS NOT NULL",
+            name="ck_fundamentals_quarterly_has_quarter",
+        ),
+        CheckConstraint(
+            "period_type != 'ANNUAL' OR fiscal_quarter IS NULL",
+            name="ck_fundamentals_annual_has_no_quarter",
+        ),
+        CheckConstraint(
+            "model_available_at >= filed_at",
+            name="ck_fundamentals_model_after_filing",
+        ),
+        CheckConstraint(
+            "accepted_at IS NULL OR model_available_at >= accepted_at",
+            name="ck_fundamentals_model_after_acceptance",
+        ),
+        CheckConstraint(
+            "model_available_at >= vendor_available_at",
+            name="ck_fundamentals_model_after_vendor",
+        ),
+        CheckConstraint(
+            "public_release_at IS NULL OR model_available_at >= public_release_at",
+            name="ck_fundamentals_model_after_public_release",
+        ),
+        UniqueConstraint(
+            "security_id",
+            "fiscal_period_end",
+            "period_type",
+            "concept",
+            "unit",
+            "revision_version",
+            "filing_accession",
+            "source_snapshot_id",
+            name="uq_fundamentals_fact_revision_source",
+        ),
         Index("ix_fundamentals_security_metric_period", "security_id", "metric", "period_end"),
+        Index(
+            "ix_fundamentals_security_concept_period",
+            "security_id",
+            "standardized_concept",
+            "fiscal_period_end",
+        ),
+        Index(
+            "ix_fundamentals_as_known",
+            "security_id",
+            "model_available_at",
+            "revision_version",
+        ),
         Index("ix_fundamentals_source_snapshot", "source_snapshot_id"),
     )
 
@@ -623,19 +709,129 @@ class Fundamental(TimestampMixin, Base):
     value: Mapped[Decimal] = mapped_column(Numeric(24, 6), nullable=False)
     unit: Mapped[str] = mapped_column(String(80), nullable=False)
     period_end: Mapped[Optional[date]] = mapped_column(Date)
-    filed_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    filed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     available_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
-    form_type: Mapped[Optional[str]] = mapped_column(String(32))
+    form_type: Mapped[str] = mapped_column(String(32), nullable=False)
     accession_no: Mapped[Optional[str]] = mapped_column(String(64), index=True)
+    fiscal_period_end: Mapped[date] = mapped_column(Date, nullable=False)
+    fiscal_year: Mapped[int] = mapped_column(nullable=False)
+    fiscal_quarter: Mapped[Optional[int]] = mapped_column()
+    period_type: Mapped[str] = mapped_column(String(16), nullable=False)
+    filing_accession: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    accepted_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    public_release_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    vendor_available_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    model_available_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    revision_version: Mapped[int] = mapped_column(nullable=False, default=1)
+    concept: Mapped[str] = mapped_column(String(255), nullable=False)
+    standardized_concept: Mapped[str] = mapped_column(String(160), nullable=False)
     source_snapshot_id: Mapped[str] = mapped_column(
         ForeignKey("source_snapshots.snapshot_id"),
         nullable=False,
     )
+    source_hash: Mapped[str] = mapped_column(String(128), nullable=False)
 
     security: Mapped["Security"] = relationship(back_populates="fundamentals")
     source_snapshot: Mapped["SourceSnapshot"] = relationship(
         back_populates="fundamentals"
     )
+
+
+def _infer_fundamental_period_type(form_type: Optional[str]) -> str:
+    normalized = (form_type or "").upper()
+    if normalized.startswith("10-K") or normalized in {"20-F", "40-F"}:
+        return "ANNUAL"
+    return "QUARTERLY"
+
+
+def _fundamental_init(target, args, kwargs) -> None:
+    """Bridge legacy constructor names while callers adopt the v1 contract."""
+
+    del target, args
+    concept = kwargs.get("concept") or kwargs.get("metric")
+    if concept is not None:
+        kwargs.setdefault("concept", concept)
+        kwargs.setdefault("metric", concept)
+        kwargs.setdefault("standardized_concept", concept)
+
+    period_end = kwargs.get("fiscal_period_end") or kwargs.get("period_end")
+    if period_end is not None:
+        kwargs.setdefault("fiscal_period_end", period_end)
+        kwargs.setdefault("period_end", period_end)
+        kwargs.setdefault("fiscal_year", period_end.year)
+
+    accession = kwargs.get("filing_accession") or kwargs.get("accession_no")
+    if accession is not None:
+        kwargs.setdefault("filing_accession", accession)
+        kwargs.setdefault("accession_no", accession)
+
+    model_available_at = kwargs.get("model_available_at") or kwargs.get("available_at")
+    if model_available_at is not None:
+        kwargs.setdefault("model_available_at", model_available_at)
+        kwargs.setdefault("available_at", model_available_at)
+        kwargs.setdefault("vendor_available_at", model_available_at)
+
+    period_type = kwargs.setdefault(
+        "period_type", _infer_fundamental_period_type(kwargs.get("form_type"))
+    )
+    fiscal_period = str(kwargs.get("fiscal_period") or "").upper()
+    if period_type == "QUARTERLY" and kwargs.get("fiscal_quarter") is None:
+        for quarter in range(1, 5):
+            if f"Q{quarter}" in fiscal_period:
+                kwargs["fiscal_quarter"] = quarter
+                break
+        else:
+            # Legacy rows did not record a numeric quarter.  Keep them valid
+            # without pretending the textual fiscal label was more precise.
+            kwargs["period_type"] = "ANNUAL"
+
+
+def _prepare_fundamental_insert(mapper, connection, target) -> None:
+    """Require the copied source hash to match the immutable snapshot."""
+
+    del mapper
+    mirrors = (
+        ("metric", target.metric, "concept", target.concept),
+        ("period_end", target.period_end, "fiscal_period_end", target.fiscal_period_end),
+        ("accession_no", target.accession_no, "filing_accession", target.filing_accession),
+        ("available_at", target.available_at, "model_available_at", target.model_available_at),
+    )
+    for legacy_name, legacy_value, canonical_name, canonical_value in mirrors:
+        if legacy_value != canonical_value:
+            raise ValueError(
+                f"fundamental {legacy_name} must mirror {canonical_name}"
+            )
+    snapshot_hash = connection.execute(
+        select(SourceSnapshot.source_hash).where(
+            SourceSnapshot.snapshot_id == target.source_snapshot_id
+        )
+    ).scalar_one_or_none()
+    if snapshot_hash is None:
+        raise ValueError("fundamental source_snapshot_id does not exist")
+    if target.source_hash is None:
+        target.source_hash = snapshot_hash
+    elif target.source_hash != snapshot_hash:
+        raise ValueError("fundamental source_hash does not match source snapshot")
+
+
+def _reject_fundamental_update(mapper, connection, target) -> None:
+    del mapper, connection, target
+    raise RuntimeError("fundamentals are append-only and cannot be updated")
+
+
+def _reject_fundamental_delete(mapper, connection, target) -> None:
+    del mapper, connection, target
+    raise RuntimeError("fundamentals are append-only and cannot be deleted")
+
+
+event.listen(Fundamental, "init", _fundamental_init, raw=False)
+event.listen(Fundamental, "before_insert", _prepare_fundamental_insert)
+event.listen(Fundamental, "before_update", _reject_fundamental_update)
+event.listen(Fundamental, "before_delete", _reject_fundamental_delete)
 
 
 class MacroSeries(TimestampMixin, Base):
@@ -720,6 +916,39 @@ class Feature(TimestampMixin, Base):
             "length(trim(source_hash)) > 0",
             name="ck_features_source_hash_nonempty",
         ),
+        CheckConstraint(
+            "length(trim(family)) > 0",
+            name="ck_features_family_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(formula_version)) > 0",
+            name="ck_features_formula_version_nonempty",
+        ),
+        CheckConstraint(
+            "direction IN ('HIGHER', 'LOWER')",
+            name="ck_features_direction",
+        ),
+        CheckConstraint(
+            "applicability_status IN ('APPLICABLE', 'MISSING', 'NOT_APPLICABLE')",
+            name="ck_features_applicability_status",
+        ),
+        CheckConstraint(
+            "applicability_status != 'APPLICABLE' OR value IS NOT NULL",
+            name="ck_features_applicable_has_value",
+        ),
+        CheckConstraint(
+            "applicability_status = 'APPLICABLE' OR value IS NULL",
+            name="ck_features_unavailable_has_no_value",
+        ),
+        CheckConstraint(
+            "applicability_status = 'APPLICABLE' OR "
+            "(missing_reason IS NOT NULL AND length(trim(missing_reason)) > 0)",
+            name="ck_features_unavailable_has_reason",
+        ),
+        CheckConstraint(
+            "applicability_status != 'APPLICABLE' OR raw_value IS NOT NULL",
+            name="ck_features_applicable_has_raw_value",
+        ),
         UniqueConstraint(
             "feature_set_id",
             "security_id",
@@ -731,6 +960,7 @@ class Feature(TimestampMixin, Base):
         Index("ix_features_security_asof_date", "security_id", "asof_date"),
         Index("ix_features_available_at", "available_at"),
         Index("ix_features_source_snapshot_id", "source_snapshot_id"),
+        Index("ix_features_family_status", "family", "applicability_status"),
     )
 
     feature_id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
@@ -745,8 +975,16 @@ class Feature(TimestampMixin, Base):
     asof_date: Mapped[date] = mapped_column(Date, nullable=False)
     available_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     feature_name: Mapped[str] = mapped_column(String(160), nullable=False)
-    value: Mapped[Decimal] = mapped_column(Numeric(20, 10), nullable=False)
+    value: Mapped[Optional[Decimal]] = mapped_column(Numeric(20, 10))
+    raw_value: Mapped[Optional[Decimal]] = mapped_column(Numeric(24, 12))
     version: Mapped[str] = mapped_column(String(64), nullable=False)
+    family: Mapped[str] = mapped_column(String(32), nullable=False)
+    formula_version: Mapped[str] = mapped_column(String(64), nullable=False)
+    formula: Mapped[str] = mapped_column(Text, nullable=False)
+    direction: Mapped[str] = mapped_column(String(8), nullable=False)
+    applicability_status: Mapped[str] = mapped_column(String(24), nullable=False)
+    missing_reason: Mapped[Optional[str]] = mapped_column(String(80))
+    inputs_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False, default=dict)
     source_snapshot_id: Mapped[str] = mapped_column(
         ForeignKey("source_snapshots.snapshot_id"),
         nullable=False,
@@ -756,6 +994,207 @@ class Feature(TimestampMixin, Base):
     security: Mapped["Security"] = relationship(back_populates="features")
     source_snapshot: Mapped["SourceSnapshot"] = relationship(back_populates="features")
     feature_set: Mapped["FeatureSet"] = relationship(back_populates="features")
+
+
+def _feature_init(target, args, kwargs) -> None:
+    """Supply Sprint 8 metadata for legacy feature constructors."""
+
+    del target, args
+    value = kwargs.get("value")
+    version = kwargs.get("version") or "legacy"
+    kwargs.setdefault("raw_value", value)
+    kwargs.setdefault("family", "legacy")
+    kwargs.setdefault("formula_version", version)
+    kwargs.setdefault("formula", f"legacy:{kwargs.get('feature_name', 'feature')}")
+    kwargs.setdefault("direction", "HIGHER")
+    kwargs.setdefault(
+        "applicability_status", "APPLICABLE" if value is not None else "MISSING"
+    )
+    if value is None:
+        kwargs.setdefault("missing_reason", "SOURCE_MISSING")
+    kwargs.setdefault("inputs_json", {})
+
+
+event.listen(Feature, "init", _feature_init, raw=False)
+
+
+def _reject_feature_update(mapper, connection, target) -> None:
+    del mapper, connection, target
+    raise RuntimeError("features are append-only and cannot be updated")
+
+
+def _reject_feature_delete(mapper, connection, target) -> None:
+    del mapper, connection, target
+    raise RuntimeError("features are append-only and cannot be deleted")
+
+
+event.listen(Feature, "before_update", _reject_feature_update)
+event.listen(Feature, "before_delete", _reject_feature_delete)
+
+
+class NormalizationRun(CreatedAtMixin, Base):
+    """Frozen cohort-level cross-sectional normalization run."""
+
+    __tablename__ = "normalization_runs"
+    __table_args__ = (
+        CheckConstraint(
+            "length(trim(version)) > 0", name="ck_normalization_runs_version_nonempty"
+        ),
+        CheckConstraint(
+            "length(trim(input_hash)) > 0",
+            name="ck_normalization_runs_input_hash_nonempty",
+        ),
+        UniqueConstraint(
+            "universe_id",
+            "asof_date",
+            "version",
+            name="uq_normalization_runs_universe_asof_version",
+        ),
+        Index("ix_normalization_runs_asof", "universe_id", "asof_date"),
+    )
+
+    normalization_run_id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    universe_id: Mapped[str] = mapped_column(
+        ForeignKey("universe_definitions.universe_id"), nullable=False
+    )
+    asof_date: Mapped[date] = mapped_column(Date, nullable=False)
+    version: Mapped[str] = mapped_column(String(64), nullable=False)
+    config_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
+    source_feature_set_ids_json: Mapped[list[str]] = mapped_column(JSON, nullable=False)
+    input_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+    code_commit: Mapped[Optional[str]] = mapped_column(String(64))
+
+
+class NormalizedFeature(CreatedAtMixin, Base):
+    """One raw component's cross-sectional values and score contribution."""
+
+    __tablename__ = "normalized_features"
+    __table_args__ = (
+        CheckConstraint(
+            "normalization_scope IN ('SECTOR', 'UNIVERSE', 'NONE')",
+            name="ck_normalized_features_scope",
+        ),
+        CheckConstraint(
+            "applicability_status IN ('APPLICABLE', 'MISSING', 'NOT_APPLICABLE')",
+            name="ck_normalized_features_status",
+        ),
+        CheckConstraint(
+            "group_count >= 0", name="ck_normalized_features_group_count"
+        ),
+        UniqueConstraint(
+            "normalization_run_id",
+            "feature_id",
+            name="uq_normalized_features_run_feature",
+        ),
+        Index(
+            "ix_normalized_features_run_security",
+            "normalization_run_id",
+            "security_id",
+        ),
+        Index(
+            "ix_normalized_features_run_name",
+            "normalization_run_id",
+            "feature_name",
+        ),
+    )
+
+    normalized_feature_id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=new_id
+    )
+    normalization_run_id: Mapped[str] = mapped_column(
+        ForeignKey("normalization_runs.normalization_run_id"), nullable=False
+    )
+    feature_id: Mapped[str] = mapped_column(
+        ForeignKey("features.feature_id"), nullable=False
+    )
+    security_id: Mapped[str] = mapped_column(
+        ForeignKey("securities.security_id"), nullable=False
+    )
+    feature_name: Mapped[str] = mapped_column(String(160), nullable=False)
+    family: Mapped[str] = mapped_column(String(32), nullable=False)
+    raw_value: Mapped[Optional[Decimal]] = mapped_column(Numeric(24, 12))
+    winsorized_value: Mapped[Optional[Decimal]] = mapped_column(Numeric(24, 12))
+    standardized_value: Mapped[Optional[Decimal]] = mapped_column(Numeric(20, 12))
+    directed_value: Mapped[Optional[Decimal]] = mapped_column(Numeric(20, 12))
+    contribution: Mapped[Optional[Decimal]] = mapped_column(Numeric(20, 12))
+    applicability_status: Mapped[str] = mapped_column(String(24), nullable=False)
+    missing_reason: Mapped[Optional[str]] = mapped_column(String(80))
+    normalization_scope: Mapped[str] = mapped_column(String(16), nullable=False)
+    group_label: Mapped[Optional[str]] = mapped_column(String(128))
+    group_count: Mapped[int] = mapped_column(nullable=False)
+    group_mean: Mapped[Optional[Decimal]] = mapped_column(Numeric(24, 12))
+    group_std: Mapped[Optional[Decimal]] = mapped_column(Numeric(24, 12))
+    winsor_lower: Mapped[Optional[Decimal]] = mapped_column(Numeric(24, 12))
+    winsor_upper: Mapped[Optional[Decimal]] = mapped_column(Numeric(24, 12))
+
+
+class MultiFactorScore(CreatedAtMixin, Base):
+    """Eligibility, family scores, missingness and final 0-100 cohort score."""
+
+    __tablename__ = "multifactor_scores"
+    __table_args__ = (
+        CheckConstraint(
+            "final_score IS NULL OR (final_score >= 0 AND final_score <= 100)",
+            name="ck_multifactor_scores_final_range",
+        ),
+        CheckConstraint(
+            "component_coverage >= 0 AND component_coverage <= 1",
+            name="ck_multifactor_scores_coverage_range",
+        ),
+        CheckConstraint(
+            "available_family_count >= 0 AND available_family_count <= 5",
+            name="ck_multifactor_scores_family_count",
+        ),
+        UniqueConstraint(
+            "normalization_run_id",
+            "security_id",
+            name="uq_multifactor_scores_run_security",
+        ),
+        Index(
+            "ix_multifactor_scores_run_score",
+            "normalization_run_id",
+            "final_score",
+        ),
+    )
+
+    multifactor_score_id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=new_id
+    )
+    normalization_run_id: Mapped[str] = mapped_column(
+        ForeignKey("normalization_runs.normalization_run_id"), nullable=False
+    )
+    security_id: Mapped[str] = mapped_column(
+        ForeignKey("securities.security_id"), nullable=False
+    )
+    asof_date: Mapped[date] = mapped_column(Date, nullable=False)
+    eligible: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    final_score: Mapped[Optional[Decimal]] = mapped_column(Numeric(10, 6))
+    composite_z: Mapped[Optional[Decimal]] = mapped_column(Numeric(20, 12))
+    applicable_component_count: Mapped[int] = mapped_column(nullable=False)
+    valid_component_count: Mapped[int] = mapped_column(nullable=False)
+    component_coverage: Mapped[Decimal] = mapped_column(Numeric(12, 10), nullable=False)
+    available_family_count: Mapped[int] = mapped_column(nullable=False)
+    family_z_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
+    family_scores_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
+    family_available_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
+    renormalized_weights_json: Mapped[dict[str, Any]] = mapped_column(
+        JSON, nullable=False
+    )
+    missingness_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
+
+
+def _reject_normalization_artifact_change(mapper, connection, target) -> None:
+    del mapper, connection, target
+    raise RuntimeError("normalization artifacts are append-only")
+
+
+for _normalization_model in (NormalizationRun, NormalizedFeature, MultiFactorScore):
+    event.listen(
+        _normalization_model, "before_update", _reject_normalization_artifact_change
+    )
+    event.listen(
+        _normalization_model, "before_delete", _reject_normalization_artifact_change
+    )
 
 
 class ModelPrediction(CreatedAtMixin, Base):
