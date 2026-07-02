@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "Research data foundation for the Quantfore AI proof engine."
 requires-python = ">=3.9"
 dependencies = [
+  "pandas-market-calendars>=5.1,<5.2",
   "SQLAlchemy>=2.0,<3.0",
 ]
 

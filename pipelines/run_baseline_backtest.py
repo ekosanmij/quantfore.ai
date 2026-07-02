@@ -14,33 +14,22 @@ from __future__ import annotations
 
 import argparse
 import json
-import subprocess
+import sys
 from pathlib import Path
 from typing import Optional, Sequence
 
 import _bootstrap  # noqa: F401
-from _common import open_research_database, parse_date
+from _common import get_code_revision, open_research_database, parse_date
 
 from quantfore_research.backtest import (
+    PROTOTYPE_REAL_DATASET_KIND,
+    SUPPORTED_DATASET_KINDS,
     build_backtest_report,
+    resolve_backtest_dataset,
     run_historical_backtest,
     write_backtest_reports,
 )
 from quantfore_research.db import session_scope
-
-
-def get_code_commit() -> Optional[str]:
-    try:
-        return (
-            subprocess.check_output(
-                ["git", "rev-parse", "--short", "HEAD"],
-                stderr=subprocess.DEVNULL,
-                text=True,
-            ).strip()
-            or None
-        )
-    except (FileNotFoundError, subprocess.CalledProcessError):
-        return None
 
 
 def terminal_metric(value: object) -> str:
@@ -57,6 +46,24 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--horizon", default="126d")
     parser.add_argument("--frequency", default="monthly")
     parser.add_argument("--experiment-id", required=True)
+    parser.add_argument(
+        "--dataset-kind",
+        choices=SUPPORTED_DATASET_KINDS,
+        default="synthetic",
+    )
+    parser.add_argument(
+        "--universe-file",
+        type=Path,
+        help="Required for prototype_real; forbidden for synthetic runs.",
+    )
+    parser.add_argument(
+        "--data-audit-file",
+        type=Path,
+        help=(
+            "WP6.4 audit report. For prototype_real defaults to "
+            "reports/data-audits/us-equity-trial-v0.json."
+        ),
+    )
     parser.add_argument("--database-url", help="Override QUANTFORE_DATABASE_URL.")
     parser.add_argument(
         "--source-snapshot-id",
@@ -95,6 +102,15 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     end_date = parse_date(args.end_date)
     if start_date is None or end_date is None:
         raise ValueError("--start-date and --end-date are required")
+    audit_file = args.data_audit_file
+    if args.dataset_kind == PROTOTYPE_REAL_DATASET_KIND and audit_file is None:
+        audit_file = Path("reports/data-audits/us-equity-trial-v0.json")
+    dataset = resolve_backtest_dataset(
+        dataset_kind=args.dataset_kind,
+        benchmark=args.benchmark,
+        universe_file=args.universe_file,
+        audit_file=audit_file,
+    )
 
     json_output = args.json_output or (
         Path("reports")
@@ -114,8 +130,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             horizon=args.horizon,
             frequency=args.frequency,
             source_snapshot_id=args.source_snapshot_id,
-            code_commit=get_code_commit(),
+            code_commit=get_code_revision(),
             result_uri=json_output.as_posix(),
+            dataset=dataset,
         )
         report = build_backtest_report(session, result=result)
         write_backtest_reports(
@@ -163,9 +180,16 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     print(f"json_report={json_output}")
     print(f"markdown_report={markdown_output}")
     print(f"lineage_report={lineage_output}")
-    print("SYNTHETIC ENGINEERING DATA - NOT VALIDATION EVIDENCE")
+    if result.dataset_kind == PROTOTYPE_REAL_DATASET_KIND:
+        print("PROTOTYPE REAL-DATA TRIAL - NOT ELIGIBLE FOR PERFORMANCE CLAIMS")
+    else:
+        print("SYNTHETIC ENGINEERING DATA - NOT VALIDATION EVIDENCE")
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except (ValueError, OSError, json.JSONDecodeError) as exc:
+        print(f"backtest failed: {exc}", file=sys.stderr)
+        raise SystemExit(2) from None

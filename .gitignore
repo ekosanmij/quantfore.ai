@@ -47,3 +47,8 @@ htmlcov/
 
 # Database-specific backtest lineage (canonical metrics reports are versioned)
 reports/backtests/*.lineage.json
+
+# Restricted Sprint 6 real-data evidence stays local until derived-report
+# publication rights are explicitly confirmed for the public repository.
+reports/data-audits/us-equity-trial-v0*
+reports/backtests/real_price_baseline_trial_v0_1*

@@ -24,8 +24,14 @@ from quantfore_research.models import (
 
 
 REPORT_SCHEMA_VERSION = "synthetic_baseline_backtest_v0"
+PROTOTYPE_REAL_REPORT_SCHEMA_VERSION = "prototype_real_baseline_backtest_v0"
 SYNTHETIC_WARNING = (
     "SYNTHETIC ENGINEERING DATA - NOT VALIDATION EVIDENCE"
+)
+PROTOTYPE_REAL_WARNINGS = (
+    "PROTOTYPE REAL-DATA TRIAL",
+    "NOT POINT-IN-TIME UNIVERSE VALIDATION",
+    "NOT ELIGIBLE FOR PERFORMANCE CLAIMS",
 )
 KNOWN_LIMITATIONS = (
     "All prices and volumes are synthetic; results do not measure real-market performance.",
@@ -35,6 +41,14 @@ KNOWN_LIMITATIONS = (
     "Cost sensitivity is a fixed top-quintile round-trip deduction, not a full turnover, liquidity, tax or market-impact model.",
     "Database UUIDs and retrieval metadata live in a separate run-specific lineage manifest and are excluded from canonical metrics reports.",
     "The sample is too small and artificial for investment-performance or predictive-validity claims.",
+)
+PROTOTYPE_REAL_KNOWN_LIMITATIONS = (
+    "The universe was selected retrospectively and is exposed to survivorship, large-cap, familiarity and hindsight biases.",
+    "The trial is not historical S&P 500 membership or point-in-time universe validation.",
+    "Vendor adjustments and corporate actions remain subject to the recorded data-audit findings.",
+    "The baseline is a deterministic heuristic rather than a trained or calibrated forecasting model.",
+    "Cost sensitivity is not a full turnover, liquidity, tax or market-impact model.",
+    "The trial is not eligible for investment-performance or predictive-validity claims.",
 )
 
 
@@ -149,9 +163,13 @@ def build_backtest_report(
         for prediction, security, outcome in rows
         if outcome is not None
     ])
-    return {
-        "schema_version": REPORT_SCHEMA_VERSION,
-        "synthetic_warning": SYNTHETIC_WARNING,
+    is_prototype_real = config["dataset_kind"] == "prototype_real"
+    report = {
+        "schema_version": (
+            PROTOTYPE_REAL_REPORT_SCHEMA_VERSION
+            if is_prototype_real
+            else REPORT_SCHEMA_VERSION
+        ),
         "configuration": config,
         "dataset_and_snapshot_lineage": {
             "data_snapshot_hash": experiment.data_snapshot_hash,
@@ -211,8 +229,17 @@ def build_backtest_report(
                 snapshot["source_hash"] for snapshot in snapshot_lineage
             ],
         },
-        "known_limitations": list(KNOWN_LIMITATIONS),
+        "known_limitations": list(
+            PROTOTYPE_REAL_KNOWN_LIMITATIONS
+            if is_prototype_real
+            else KNOWN_LIMITATIONS
+        ),
     }
+    if is_prototype_real:
+        report["trial_warnings"] = list(PROTOTYPE_REAL_WARNINGS)
+    else:
+        report["synthetic_warning"] = SYNTHETIC_WARNING
+    return report
 
 
 def _metric(value: object) -> str:
@@ -232,11 +259,19 @@ def render_backtest_markdown(report: Mapping[str, object]) -> str:
     lineage = report["dataset_and_snapshot_lineage"]
     counts = report["observation_counts"]
     ic_summary = report["rank_ic_summary"]
-    lines = [
-        "# Synthetic Baseline Backtest v0.1",
-        "",
-        f"> **{report['synthetic_warning']}**",
-        "",
+    is_prototype_real = config["dataset_kind"] == "prototype_real"
+    if is_prototype_real:
+        lines = ["# Prototype Real-Data Baseline Trial v0", ""]
+        lines.extend(f"> **{warning}**" for warning in report["trial_warnings"])
+        lines.append("")
+    else:
+        lines = [
+            "# Synthetic Baseline Backtest v0.1",
+            "",
+            f"> **{report['synthetic_warning']}**",
+            "",
+        ]
+    lines.extend([
         "## Configuration",
         "",
         "| Field | Value |",
@@ -263,7 +298,7 @@ def render_backtest_markdown(report: Mapping[str, object]) -> str:
         "",
         "| Source hash | Dataset | Vendor | License |",
         "| --- | --- | --- | --- |",
-    ]
+    ])
     for snapshot in lineage["source_snapshots"]:
         lines.append(
             f"| `{snapshot['source_hash']}` | {snapshot['dataset']} | "
@@ -402,15 +437,20 @@ def render_backtest_markdown(report: Mapping[str, object]) -> str:
     )
     lines.extend(["", "## Known Limitations", ""])
     lines.extend(f"- {value}" for value in report["known_limitations"])
-    lines.extend(
-        [
-            "",
-            "## Synthetic-Data Warning",
-            "",
-            f"**{report['synthetic_warning']}**",
-            "",
-        ]
-    )
+    if is_prototype_real:
+        lines.extend(["", "## Real-Data Trial Warning", ""])
+        lines.extend(f"**{warning}**" for warning in report["trial_warnings"])
+        lines.append("")
+    else:
+        lines.extend(
+            [
+                "",
+                "## Synthetic-Data Warning",
+                "",
+                f"**{report['synthetic_warning']}**",
+                "",
+            ]
+        )
     return "\n".join(lines)
 
 

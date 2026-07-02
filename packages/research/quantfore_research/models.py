@@ -175,8 +175,12 @@ class Price(TimestampMixin, Base):
     high: Mapped[Optional[Decimal]] = mapped_column(Numeric(18, 6))
     low: Mapped[Optional[Decimal]] = mapped_column(Numeric(18, 6))
     close: Mapped[Optional[Decimal]] = mapped_column(Numeric(18, 6))
+    adj_open: Mapped[Optional[Decimal]] = mapped_column(Numeric(18, 6))
+    adj_high: Mapped[Optional[Decimal]] = mapped_column(Numeric(18, 6))
+    adj_low: Mapped[Optional[Decimal]] = mapped_column(Numeric(18, 6))
     adj_close: Mapped[Optional[Decimal]] = mapped_column(Numeric(18, 6))
     volume: Mapped[Optional[int]] = mapped_column(BigInteger)
+    adj_volume: Mapped[Optional[Decimal]] = mapped_column(Numeric(24, 6))
     source_snapshot_id: Mapped[str] = mapped_column(
         ForeignKey("source_snapshots.snapshot_id"),
         nullable=False,
