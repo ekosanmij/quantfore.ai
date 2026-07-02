@@ -40,6 +40,12 @@ def test_minimum_research_tables_exist():
         "score_drivers",
         "model_outcomes",
         "experiment_registry",
+        "security_identifiers",
+        "ticker_aliases",
+        "universe_definitions",
+        "universe_memberships",
+        "corporate_actions",
+        "delisting_events",
     }.issubset(table_names)
 
 

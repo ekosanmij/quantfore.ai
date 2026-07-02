@@ -9,6 +9,7 @@ from typing import Any, Optional
 
 from sqlalchemy import (
     BigInteger,
+    Boolean,
     CheckConstraint,
     Date,
     DateTime,
@@ -110,6 +111,24 @@ class SourceSnapshot(TimestampMixin, Base):
     )
     features: Mapped[list["Feature"]] = relationship(back_populates="source_snapshot")
     feature_sets: Mapped[list["FeatureSet"]] = relationship(back_populates="source_snapshot")
+    security_identifiers: Mapped[list["SecurityIdentifier"]] = relationship(
+        back_populates="source_snapshot"
+    )
+    ticker_aliases: Mapped[list["TickerAlias"]] = relationship(
+        back_populates="source_snapshot"
+    )
+    universe_definitions: Mapped[list["UniverseDefinition"]] = relationship(
+        back_populates="source_snapshot"
+    )
+    universe_memberships: Mapped[list["UniverseMembership"]] = relationship(
+        back_populates="source_snapshot"
+    )
+    corporate_actions: Mapped[list["CorporateAction"]] = relationship(
+        back_populates="source_snapshot"
+    )
+    delisting_events: Mapped[list["DelistingEvent"]] = relationship(
+        back_populates="source_snapshot"
+    )
 
     def __repr__(self) -> str:
         return (
@@ -129,7 +148,6 @@ class Security(TimestampMixin, Base):
     __table_args__ = (
         CheckConstraint("length(trim(ticker)) > 0", name="ck_securities_ticker_nonempty"),
         CheckConstraint("length(trim(name)) > 0", name="ck_securities_name_nonempty"),
-        UniqueConstraint("ticker", name="uq_securities_ticker"),
         Index("ix_securities_ticker", "ticker"),
         Index("ix_securities_sector", "sector"),
     )
@@ -149,6 +167,356 @@ class Security(TimestampMixin, Base):
     fundamentals: Mapped[list["Fundamental"]] = relationship(back_populates="security")
     features: Mapped[list["Feature"]] = relationship(back_populates="security")
     predictions: Mapped[list["ModelPrediction"]] = relationship(back_populates="security")
+    identifiers: Mapped[list["SecurityIdentifier"]] = relationship(
+        back_populates="security"
+    )
+    ticker_aliases: Mapped[list["TickerAlias"]] = relationship(
+        back_populates="security"
+    )
+    universe_memberships: Mapped[list["UniverseMembership"]] = relationship(
+        back_populates="security"
+    )
+    corporate_actions: Mapped[list["CorporateAction"]] = relationship(
+        back_populates="security", foreign_keys="CorporateAction.security_id"
+    )
+    delisting_events: Mapped[list["DelistingEvent"]] = relationship(
+        back_populates="security", foreign_keys="DelistingEvent.security_id"
+    )
+
+
+class SecurityIdentifier(CreatedAtMixin, Base):
+    """Dated vendor or regulatory identifier for one permanent security."""
+
+    __tablename__ = "security_identifiers"
+    __table_args__ = (
+        CheckConstraint(
+            "length(trim(identifier_type)) > 0",
+            name="ck_security_identifiers_type_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(identifier_value)) > 0",
+            name="ck_security_identifiers_value_nonempty",
+        ),
+        CheckConstraint(
+            "valid_to IS NULL OR valid_to >= valid_from",
+            name="ck_security_identifiers_valid_dates",
+        ),
+        CheckConstraint(
+            "length(trim(source_hash)) > 0",
+            name="ck_security_identifiers_source_hash_nonempty",
+        ),
+        UniqueConstraint(
+            "security_id",
+            "identifier_type",
+            "identifier_value",
+            "valid_from",
+            "source_snapshot_id",
+            name="uq_security_identifiers_identity_period_source",
+        ),
+        Index(
+            "ix_security_identifiers_lookup",
+            "identifier_type",
+            "identifier_value",
+            "valid_from",
+            "valid_to",
+        ),
+    )
+
+    identifier_id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    security_id: Mapped[str] = mapped_column(
+        ForeignKey("securities.security_id"), nullable=False
+    )
+    identifier_type: Mapped[str] = mapped_column(String(64), nullable=False)
+    identifier_value: Mapped[str] = mapped_column(String(160), nullable=False)
+    valid_from: Mapped[date] = mapped_column(Date, nullable=False)
+    valid_to: Mapped[Optional[date]] = mapped_column(Date)
+    is_permanent: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    source_snapshot_id: Mapped[str] = mapped_column(
+        ForeignKey("source_snapshots.snapshot_id"), nullable=False
+    )
+    source_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+
+    security: Mapped["Security"] = relationship(back_populates="identifiers")
+    source_snapshot: Mapped["SourceSnapshot"] = relationship(
+        back_populates="security_identifiers"
+    )
+
+
+class TickerAlias(CreatedAtMixin, Base):
+    """A ticker's effective period without treating a rename as a new security."""
+
+    __tablename__ = "ticker_aliases"
+    __table_args__ = (
+        CheckConstraint("length(trim(ticker)) > 0", name="ck_ticker_aliases_nonempty"),
+        CheckConstraint(
+            "effective_to IS NULL OR effective_to >= effective_from",
+            name="ck_ticker_aliases_effective_dates",
+        ),
+        CheckConstraint(
+            "length(trim(source_hash)) > 0",
+            name="ck_ticker_aliases_source_hash_nonempty",
+        ),
+        UniqueConstraint(
+            "security_id",
+            "ticker",
+            "effective_from",
+            "source_snapshot_id",
+            name="uq_ticker_aliases_security_ticker_period_source",
+        ),
+        Index(
+            "ix_ticker_aliases_lookup",
+            "ticker",
+            "effective_from",
+            "effective_to",
+        ),
+    )
+
+    ticker_alias_id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=new_id
+    )
+    security_id: Mapped[str] = mapped_column(
+        ForeignKey("securities.security_id"), nullable=False
+    )
+    ticker: Mapped[str] = mapped_column(String(32), nullable=False)
+    exchange: Mapped[Optional[str]] = mapped_column(String(64))
+    effective_from: Mapped[date] = mapped_column(Date, nullable=False)
+    effective_to: Mapped[Optional[date]] = mapped_column(Date)
+    announced_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    source_snapshot_id: Mapped[str] = mapped_column(
+        ForeignKey("source_snapshots.snapshot_id"), nullable=False
+    )
+    source_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+
+    security: Mapped["Security"] = relationship(back_populates="ticker_aliases")
+    source_snapshot: Mapped["SourceSnapshot"] = relationship(
+        back_populates="ticker_aliases"
+    )
+
+
+class UniverseDefinition(CreatedAtMixin, Base):
+    """Versioned definition of a historical research universe."""
+
+    __tablename__ = "universe_definitions"
+    __table_args__ = (
+        CheckConstraint("length(trim(name)) > 0", name="ck_universe_definitions_name_nonempty"),
+        CheckConstraint(
+            "length(trim(version)) > 0",
+            name="ck_universe_definitions_version_nonempty",
+        ),
+        CheckConstraint(
+            "window_end >= window_start",
+            name="ck_universe_definitions_window_dates",
+        ),
+        CheckConstraint(
+            "length(trim(source_hash)) > 0",
+            name="ck_universe_definitions_source_hash_nonempty",
+        ),
+        UniqueConstraint("name", "version", name="uq_universe_definitions_name_version"),
+        Index("ix_universe_definitions_window", "window_start", "window_end"),
+    )
+
+    universe_id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    name: Mapped[str] = mapped_column(String(160), nullable=False)
+    version: Mapped[str] = mapped_column(String(64), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    window_start: Mapped[date] = mapped_column(Date, nullable=False)
+    window_end: Mapped[date] = mapped_column(Date, nullable=False)
+    benchmark_security_id: Mapped[str] = mapped_column(
+        ForeignKey("securities.security_id"), nullable=False
+    )
+    benchmark_excluded_from_rankings: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=True
+    )
+    source_snapshot_id: Mapped[str] = mapped_column(
+        ForeignKey("source_snapshots.snapshot_id"), nullable=False
+    )
+    source_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+    audit_contract_json: Mapped[dict[str, Any]] = mapped_column(
+        JSON, nullable=False, default=dict
+    )
+
+    benchmark_security: Mapped["Security"] = relationship(
+        foreign_keys=[benchmark_security_id]
+    )
+    source_snapshot: Mapped["SourceSnapshot"] = relationship(
+        back_populates="universe_definitions"
+    )
+    memberships: Mapped[list["UniverseMembership"]] = relationship(
+        back_populates="universe"
+    )
+
+
+class UniverseMembership(CreatedAtMixin, Base):
+    """Inclusive effective period for a security in a versioned universe."""
+
+    __tablename__ = "universe_memberships"
+    __table_args__ = (
+        CheckConstraint(
+            "effective_to IS NULL OR effective_to >= effective_from",
+            name="ck_universe_memberships_effective_dates",
+        ),
+        CheckConstraint(
+            "length(trim(source_hash)) > 0",
+            name="ck_universe_memberships_source_hash_nonempty",
+        ),
+        UniqueConstraint(
+            "universe_id",
+            "security_id",
+            "effective_from",
+            "source_snapshot_id",
+            name="uq_universe_memberships_security_period_source",
+        ),
+        Index(
+            "ix_universe_memberships_asof",
+            "universe_id",
+            "effective_from",
+            "effective_to",
+        ),
+        Index("ix_universe_memberships_security", "security_id"),
+    )
+
+    membership_id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=new_id
+    )
+    universe_id: Mapped[str] = mapped_column(
+        ForeignKey("universe_definitions.universe_id"), nullable=False
+    )
+    security_id: Mapped[str] = mapped_column(
+        ForeignKey("securities.security_id"), nullable=False
+    )
+    effective_from: Mapped[date] = mapped_column(Date, nullable=False)
+    effective_to: Mapped[Optional[date]] = mapped_column(Date)
+    announced_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    source_snapshot_id: Mapped[str] = mapped_column(
+        ForeignKey("source_snapshots.snapshot_id"), nullable=False
+    )
+    source_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+
+    universe: Mapped["UniverseDefinition"] = relationship(back_populates="memberships")
+    security: Mapped["Security"] = relationship(back_populates="universe_memberships")
+    source_snapshot: Mapped["SourceSnapshot"] = relationship(
+        back_populates="universe_memberships"
+    )
+
+
+class CorporateAction(CreatedAtMixin, Base):
+    """Dated split, dividend, merger, rename, or other corporate action."""
+
+    __tablename__ = "corporate_actions"
+    __table_args__ = (
+        CheckConstraint(
+            "length(trim(action_type)) > 0",
+            name="ck_corporate_actions_type_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(source_hash)) > 0",
+            name="ck_corporate_actions_source_hash_nonempty",
+        ),
+        CheckConstraint(
+            "cash_amount IS NULL OR cash_amount >= 0",
+            name="ck_corporate_actions_cash_amount_nonnegative",
+        ),
+        CheckConstraint(
+            "ratio_from IS NULL OR ratio_from > 0",
+            name="ck_corporate_actions_ratio_from_positive",
+        ),
+        CheckConstraint(
+            "ratio_to IS NULL OR ratio_to > 0",
+            name="ck_corporate_actions_ratio_to_positive",
+        ),
+        UniqueConstraint(
+            "security_id",
+            "action_type",
+            "effective_date",
+            "source_snapshot_id",
+            name="uq_corporate_actions_security_type_date_source",
+        ),
+        Index("ix_corporate_actions_security_date", "security_id", "effective_date"),
+    )
+
+    corporate_action_id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=new_id
+    )
+    security_id: Mapped[str] = mapped_column(
+        ForeignKey("securities.security_id"), nullable=False
+    )
+    action_type: Mapped[str] = mapped_column(String(64), nullable=False)
+    effective_date: Mapped[date] = mapped_column(Date, nullable=False)
+    announced_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    cash_amount: Mapped[Optional[Decimal]] = mapped_column(Numeric(24, 8))
+    currency: Mapped[Optional[str]] = mapped_column(String(8))
+    ratio_from: Mapped[Optional[Decimal]] = mapped_column(Numeric(20, 8))
+    ratio_to: Mapped[Optional[Decimal]] = mapped_column(Numeric(20, 8))
+    related_security_id: Mapped[Optional[str]] = mapped_column(
+        ForeignKey("securities.security_id")
+    )
+    details_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False, default=dict)
+    source_snapshot_id: Mapped[str] = mapped_column(
+        ForeignKey("source_snapshots.snapshot_id"), nullable=False
+    )
+    source_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+
+    security: Mapped["Security"] = relationship(
+        back_populates="corporate_actions", foreign_keys=[security_id]
+    )
+    related_security: Mapped[Optional["Security"]] = relationship(
+        foreign_keys=[related_security_id]
+    )
+    source_snapshot: Mapped["SourceSnapshot"] = relationship(
+        back_populates="corporate_actions"
+    )
+
+
+class DelistingEvent(CreatedAtMixin, Base):
+    """A delisting and its terminal return, retained after the security disappears."""
+
+    __tablename__ = "delisting_events"
+    __table_args__ = (
+        CheckConstraint(
+            "length(trim(reason)) > 0",
+            name="ck_delisting_events_reason_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(source_hash)) > 0",
+            name="ck_delisting_events_source_hash_nonempty",
+        ),
+        UniqueConstraint(
+            "security_id",
+            "delisting_date",
+            "source_snapshot_id",
+            name="uq_delisting_events_security_date_source",
+        ),
+        Index("ix_delisting_events_security_date", "security_id", "delisting_date"),
+    )
+
+    delisting_event_id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=new_id
+    )
+    security_id: Mapped[str] = mapped_column(
+        ForeignKey("securities.security_id"), nullable=False
+    )
+    delisting_date: Mapped[date] = mapped_column(Date, nullable=False)
+    announced_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    delisting_return: Mapped[Optional[Decimal]] = mapped_column(Numeric(14, 8))
+    return_available_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    reason: Mapped[str] = mapped_column(String(255), nullable=False)
+    successor_security_id: Mapped[Optional[str]] = mapped_column(
+        ForeignKey("securities.security_id")
+    )
+    source_snapshot_id: Mapped[str] = mapped_column(
+        ForeignKey("source_snapshots.snapshot_id"), nullable=False
+    )
+    source_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+
+    security: Mapped["Security"] = relationship(
+        back_populates="delisting_events", foreign_keys=[security_id]
+    )
+    successor_security: Mapped[Optional["Security"]] = relationship(
+        foreign_keys=[successor_security_id]
+    )
+    source_snapshot: Mapped["SourceSnapshot"] = relationship(
+        back_populates="delisting_events"
+    )
 
 
 class Price(TimestampMixin, Base):

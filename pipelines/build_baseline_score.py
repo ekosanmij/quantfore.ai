@@ -7,6 +7,7 @@ Example:
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Optional, Sequence
 
@@ -23,6 +24,8 @@ from quantfore_research.models import (
     ModelPrediction,
     ScoreDriver as ScoreDriverRow,
     Security,
+    UniverseDefinition,
+    UniverseMembership,
 )
 from quantfore_research.scoring import (
     BASELINE_MODEL_VERSION,
@@ -31,10 +34,22 @@ from quantfore_research.scoring import (
     decimal_text,
     immutable_prediction_hash,
 )
+from quantfore_research.validation.leakage import (
+    prediction_timestamp_for_date,
+    resolve_point_in_time_security,
+    validate_stored_feature_inputs,
+)
 
 
 DEFAULT_HORIZON = "126d"
 FEATURE_SET_NAME = "baseline_features"
+
+
+def parse_timestamp(value: str) -> datetime:
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        raise argparse.ArgumentTypeError("prediction timestamp must include a timezone")
+    return parsed.astimezone(timezone.utc)
 
 
 def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
@@ -45,6 +60,15 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--feature-set-id", help="Use an explicit baseline feature set.")
     parser.add_argument("--horizon", default=DEFAULT_HORIZON)
     parser.add_argument("--model-version", default=BASELINE_MODEL_VERSION)
+    parser.add_argument(
+        "--universe-id",
+        help="Required when scoring a point-in-time feature set.",
+    )
+    parser.add_argument(
+        "--prediction-timestamp",
+        type=parse_timestamp,
+        help="UTC availability boundary; defaults to end of --asof-date.",
+    )
     return parser.parse_args(argv)
 
 
@@ -117,6 +141,7 @@ def load_feature_values(
     feature_set_id: str,
     security_id: str,
     asof_date,
+    prediction_timestamp,
 ) -> dict[str, Decimal]:
     feature_rows = list(
         session.scalars(
@@ -126,6 +151,9 @@ def load_feature_values(
             .where(Feature.asof_date == asof_date)
             .order_by(Feature.feature_name)
         )
+    )
+    validate_stored_feature_inputs(
+        feature_rows, prediction_timestamp=prediction_timestamp
     )
     feature_values = {row.feature_name: row.value for row in feature_rows}
     missing_features = [
@@ -146,12 +174,51 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     asof_date = parse_date(args.asof_date)
     if asof_date is None:
         raise ValueError("--asof-date is required")
+    prediction_timestamp = args.prediction_timestamp or prediction_timestamp_for_date(
+        asof_date
+    )
+    if prediction_timestamp.date() != asof_date:
+        raise ValueError("--prediction-timestamp date must equal --asof-date")
+    if args.prediction_timestamp is not None and not args.universe_id:
+        raise ValueError("--prediction-timestamp requires --universe-id")
 
     session_factory = open_research_database(args.database_url)
     with session_scope(session_factory) as session:
-        security = session.scalar(select(Security).where(Security.ticker == ticker))
-        if security is None:
-            raise ValueError(f"unknown ticker: {ticker}")
+        point_in_time_context = None
+        if args.universe_id:
+            point_in_time_context = resolve_point_in_time_security(
+                session,
+                universe_id=args.universe_id,
+                ticker=ticker,
+                prediction_timestamp=prediction_timestamp,
+            )
+            security = point_in_time_context.security
+        else:
+            security = session.scalar(select(Security).where(Security.ticker == ticker))
+            if security is None:
+                raise ValueError(f"unknown ticker: {ticker}")
+            protected_universe_id = session.scalar(
+                select(UniverseDefinition.universe_id)
+                .join(
+                    UniverseMembership,
+                    UniverseMembership.universe_id
+                    == UniverseDefinition.universe_id,
+                )
+                .where(UniverseMembership.security_id == security.security_id)
+                .where(UniverseMembership.effective_from <= asof_date)
+                .where(
+                    (UniverseMembership.effective_to.is_(None))
+                    | (UniverseMembership.effective_to >= asof_date)
+                )
+                .where(UniverseDefinition.window_start <= asof_date)
+                .where(UniverseDefinition.window_end >= asof_date)
+                .limit(1)
+            )
+            if protected_universe_id is not None:
+                raise ValueError(
+                    "point-in-time member/date requires --universe-id="
+                    f"{protected_universe_id} and its historical ticker"
+                )
 
         existing_prediction = session.scalar(
             select(ModelPrediction)
@@ -176,11 +243,40 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             asof_date=asof_date,
             feature_set_id=args.feature_set_id,
         )
+        point_in_time_config = feature_set.config_json.get("point_in_time")
+        if point_in_time_config and point_in_time_context is None:
+            raise ValueError(
+                "point-in-time feature set requires --universe-id and historical ticker"
+            )
+        if point_in_time_context is not None:
+            if not isinstance(point_in_time_config, dict) or not point_in_time_config.get(
+                "enabled"
+            ):
+                raise ValueError(
+                    "refusing to score a feature set without point-in-time evidence"
+                )
+            expected = {
+                "universe_id": args.universe_id,
+                "membership_id": point_in_time_context.membership.membership_id,
+                "ticker_alias_id": point_in_time_context.ticker_alias.ticker_alias_id,
+                "prediction_timestamp": prediction_timestamp.isoformat(),
+            }
+            conflicts = [
+                key
+                for key, value in expected.items()
+                if point_in_time_config.get(key) != value
+            ]
+            if conflicts:
+                raise ValueError(
+                    "point-in-time feature evidence conflicts in: "
+                    + ", ".join(conflicts)
+                )
         feature_values = load_feature_values(
             session,
             feature_set_id=feature_set.feature_set_id,
             security_id=security.security_id,
             asof_date=asof_date,
+            prediction_timestamp=prediction_timestamp,
         )
         baseline_score = calculate_baseline_score(feature_values)
         immutable_hash = immutable_prediction_hash(

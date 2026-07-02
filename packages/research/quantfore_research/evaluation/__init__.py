@@ -18,6 +18,13 @@ from quantfore_research.evaluation.ledger import (
     immutable_outcome_hash,
     normalized_utc,
 )
+from quantfore_research.evaluation.comparative import (
+    ComparativeObservation,
+    UniverseCohort,
+    analyze_dataset,
+    build_comparative_evidence,
+    compare_universes,
+)
 
 __all__ = [
     "SUPPORTED_HORIZONS",
@@ -34,4 +41,9 @@ __all__ = [
     "decimal_text",
     "immutable_outcome_hash",
     "normalized_utc",
+    "ComparativeObservation",
+    "UniverseCohort",
+    "analyze_dataset",
+    "build_comparative_evidence",
+    "compare_universes",
 ]

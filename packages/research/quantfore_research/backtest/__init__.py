@@ -57,6 +57,16 @@ from quantfore_research.backtest.reporting import (
     render_backtest_markdown,
     write_backtest_reports,
 )
+from quantfore_research.backtest.point_in_time import (
+    DEFAULT_MINIMUM_COHORT_COVERAGE,
+    PIT_DATASET_KIND,
+    DynamicUniverseBacktestResult,
+    DynamicUniverseCohort,
+    DynamicUniverseEvaluation,
+    DynamicUniverseExclusion,
+    build_dynamic_universe_report,
+    run_dynamic_universe_backtest,
+)
 
 __all__ = [
     "BACKTEST_CONTRACT",
@@ -80,6 +90,12 @@ __all__ = [
     "BacktestSummary",
     "BacktestRunResult",
     "CostSensitivityResult",
+    "DEFAULT_MINIMUM_COHORT_COVERAGE",
+    "DynamicUniverseBacktestResult",
+    "DynamicUniverseCohort",
+    "DynamicUniverseEvaluation",
+    "DynamicUniverseExclusion",
+    "PIT_DATASET_KIND",
     "PeriodResult",
     "RankedObservation",
     "ScoreDistribution",
@@ -91,6 +107,7 @@ __all__ = [
     "calculate_rank_ic_t_statistic",
     "calculate_top_quintile_cost_sensitivity",
     "build_backtest_report",
+    "build_dynamic_universe_report",
     "discover_eligible_prediction_dates",
     "rank_cross_section",
     "register_backtest_experiment",
@@ -103,6 +120,7 @@ __all__ = [
     "spearman_rank_correlation",
     "summarize_backtest",
     "run_historical_backtest",
+    "run_dynamic_universe_backtest",
     "resolve_backtest_dataset",
     "validate_experiment_namespace",
     "write_backtest_reports",
