@@ -23,6 +23,12 @@ except ModuleNotFoundError:
     )
 
 from quantfore_research.evaluation.multifactor import evaluate_multifactor_baseline
+from quantfore_research.evaluation.multifactor_contract import (
+    HOLDOUT_END,
+    HOLDOUT_END_TEXT,
+    HOLDOUT_START,
+    HOLDOUT_START_TEXT,
+)
 from quantfore_research.evaluation.multifactor_warehouse import (
     VerifiedEvaluationLedger,
     load_verified_evaluation_ledger,
@@ -30,8 +36,6 @@ from quantfore_research.evaluation.multifactor_warehouse import (
 
 
 DEFAULT_OUTPUT = Path("reports/backtests/pit_multifactor_baseline_v1.json")
-HOLDOUT_START = date(2022, 1, 1)
-HOLDOUT_END = date(2025, 6, 30)
 FROZEN_PROMOTION_THRESHOLDS = {
     "mean_rank_ic_minimum": "0.03",
     "net_top_minus_bottom_after_25_bps_positive": True,
@@ -144,8 +148,8 @@ def validate_holdout_lock(
         "feature_version": "multifactor-v1",
         "normalization_version": "multifactor-normalization-v1",
         "model_version": "multifactor-baseline-v1",
-        "holdout_start": "2022-01-01",
-        "holdout_end": "2025-06-30",
+        "holdout_start": HOLDOUT_START_TEXT,
+        "holdout_end": HOLDOUT_END_TEXT,
         "claims_eligible": False,
         "promotion_thresholds": FROZEN_PROMOTION_THRESHOLDS,
         "source_snapshot_hashes": list(ledger.source_snapshot_hashes),

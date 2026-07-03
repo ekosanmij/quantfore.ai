@@ -2,6 +2,7 @@ from datetime import date, datetime, timezone
 from decimal import Decimal
 
 import pytest
+from sqlalchemy import update
 
 import quantfore_research.evaluation.multifactor_warehouse as warehouse
 from quantfore_research.db import build_engine, create_schema, make_session_factory
@@ -376,3 +377,21 @@ def test_preoutcome_lock_inputs_are_built_before_any_holdout_result_exists():
             normalization_run_ids=["run-1"],
             outcome_source_snapshot_ids=["security-snapshot", "benchmark-snapshot"],
         )
+
+
+def test_evaluation_rejects_dates_after_frozen_mature_cutoff(monkeypatch):
+    session = make_session()
+    monkeypatch.setattr(warehouse, "_verify_outcome", lambda *args, **kwargs: set())
+
+    with pytest.raises(ValueError, match="exceeds frozen cutoff 2025-06-30"):
+        warehouse.load_verified_evaluation_ledger(
+            session,
+            end_date=date(2025, 12, 31),
+        )
+
+    session.execute(
+        update(MultiFactorScore).values(asof_date=date(2025, 7, 31))
+    )
+    session.commit()
+    with pytest.raises(ValueError, match="exceeds frozen cutoff 2025-06-30"):
+        warehouse.load_verified_evaluation_ledger(session)
