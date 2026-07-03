@@ -163,6 +163,39 @@ def test_clean_accounting_facts_pass_structural_audit():
     assert len(audit.availability_revision_hash) == 64
 
 
+def test_sec_primary_mode_requires_acceptance_bound_source_evidence():
+    session = make_session()
+    seed_security(session)
+    session.get(SourceSnapshot, "vendor-snapshot").vendor = "SEC EDGAR Primary"
+    fact = add_fact(session, "revenue", "100")
+    fact.vendor_available_at = fact.accepted_at
+    fact.public_release_at = None
+    session.commit()
+
+    audit = audit_point_in_time_fundamentals(
+        session,
+        source_snapshot_ids=["vendor-snapshot"],
+        enforce_reconciliation_gate=False,
+        require_sec_primary_evidence=True,
+    )
+
+    assert audit.hard_failure_count == 0
+    assert audit.evidence_mode == "sec_primary_source_integrity"
+
+    seed_security(session, security_id="security-2")
+    add_fact(session, "revenue", "100", security_id="security-2")
+    session.commit()
+    failed = audit_point_in_time_fundamentals(
+        session,
+        source_snapshot_ids=["vendor-snapshot"],
+        enforce_reconciliation_gate=False,
+        require_sec_primary_evidence=True,
+    )
+    assert "SEC_AVAILABILITY_BINDING_INVALID" in {
+        finding.code for finding in failed.findings
+    }
+
+
 def test_audit_catches_future_use_restatement_order_and_accounting_problems():
     session = make_session()
     seed_security(session)

@@ -76,7 +76,7 @@ artifact exists.
 - The deterministic strict bundle contains 638 securities, 645 coalesced
   membership episodes, 1,266,438 price rows, 15,399 corporate actions, and 57
   ended listings. Its candidate manifest SHA-256 is
-  `eae3a516b81679f2b939adcb50e8f26f5ec1dcbc060f7710472e1fc38b929f66`;
+  `8b39fe268b3414495f7a2f95fe00e7b76f4afc1f33cec961ef095f4495a90a6e`;
   closure acceptance remains contingent on the fresh audit and two-rebuild
   gate.
 
@@ -132,7 +132,7 @@ artifact exists.
 | Reconciled lineage | `data/raw/free-point-in-time/reconciled-lineage-v1.json` | `39f039174612010e24d6659276711271427dca10929e230ce612c6ca591e556d` |
 | Price exclusions | `data/raw/free-point-in-time/price-exclusions-v1.json` | `78da4b5509122b336597441d06df388c9fdec5ff9618a6785f291fcfe698fbba` |
 | Delisting evidence | `data/raw/free-point-in-time/delisting-evidence-v1.json` | `547d2063d33af403731c39e0348b6b0d95e441866a588717bf948ce5389ec2f4` |
-| Strict equity bundle manifest | `data/raw/free-point-in-time/composite-equity-bundle-v1/manifest.json` | `eae3a516b81679f2b939adcb50e8f26f5ec1dcbc060f7710472e1fc38b929f66` |
+| Strict equity bundle manifest | `data/raw/free-point-in-time/composite-equity-bundle-v1/manifest.json` | `8b39fe268b3414495f7a2f95fe00e7b76f4afc1f33cec961ef095f4495a90a6e` |
 | Membership reconciliation | `data/raw/free-point-in-time/wikipedia-membership-samples-v1/registry.json` | `e5ee52e2ce8b01740632e5138b5bb10c89395e77ccdbde790df56ec84b627277` |
 | SEC source registry | `data/raw/free-point-in-time/sec-pit-v1/registry.json` | `f80206b5178b3029c83f8af49e3a06c19c93a8f29ae865bf6669ac059e7e314e` |
 | SEC filing-evidence plan | `data/raw/free-point-in-time/sec-filing-evidence-plan-v1.json` | `a7398f620c21a66510c66065252bdbed92094a50b1ae9a6c06167c9478882a63` |
@@ -140,11 +140,11 @@ artifact exists.
 
 The Git-tracked readiness report is
 `reports/data-audits/free-pit-bundle-readiness-v1.json`, SHA-256
-`ffba083f22273ec72eda6c0012cc32734215f556962435f20be0780dc51311de`.
+`0347dd53f9b8a16132b0e1681cf05d2fc378f30a3ab768dcbeed015e8d516039`.
 
 ## Validation completed
 
-- Full research test suite: 290 tests passed.
+- Full research test suite: 297 tests passed.
 - Python compilation passed for pipelines and the research package.
 - `git diff --check` passed.
 - Resumability, plan-hash rejection, frozen-page tamper rejection, OpenFIGI

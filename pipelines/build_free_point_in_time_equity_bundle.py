@@ -173,6 +173,79 @@ def _coalesce_memberships(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]
     return sorted(merged, key=lambda row: (row["vendor_id"], row["effective_from"]))
 
 
+def _coalesce_ticker_aliases(
+    rows: Sequence[dict[str, Any]], *, active_to: Optional[str]
+) -> list[dict[str, Any]]:
+    terminal = date.fromisoformat(active_to) if active_to else WINDOW_END
+    by_ticker: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for source in rows:
+        row = dict(source)
+        end = min(
+            terminal,
+            date.fromisoformat(row["effective_to"])
+            if row.get("effective_to")
+            else WINDOW_END,
+        )
+        if end < date.fromisoformat(row["effective_from"]):
+            continue
+        row["effective_to"] = end.isoformat()
+        by_ticker[row["ticker"]].append(row)
+
+    same_ticker = []
+    for ticker_rows in by_ticker.values():
+        current = None
+        for row in sorted(ticker_rows, key=lambda value: value["effective_from"]):
+            if current is None:
+                current = row
+                continue
+            current_end = date.fromisoformat(current["effective_to"])
+            next_start = date.fromisoformat(row["effective_from"])
+            if next_start <= current_end + timedelta(days=1):
+                current["effective_to"] = max(
+                    current["effective_to"], row["effective_to"]
+                )
+                current["announced_at"] = min(
+                    current["announced_at"], row["announced_at"]
+                )
+            else:
+                same_ticker.append(current)
+                current = row
+        if current is not None:
+            same_ticker.append(current)
+
+    nonoverlapping: list[dict[str, Any]] = []
+    for row in sorted(
+        same_ticker,
+        key=lambda value: (
+            value["effective_from"],
+            value["effective_to"],
+            value["ticker"],
+        ),
+    ):
+        if nonoverlapping:
+            prior = nonoverlapping[-1]
+            next_start = date.fromisoformat(row["effective_from"])
+            prior_start = date.fromisoformat(prior["effective_from"])
+            prior_end = date.fromisoformat(prior["effective_to"])
+            row_end = date.fromisoformat(row["effective_to"])
+            if prior_end >= next_start and next_start == prior_start and row_end > prior_end:
+                next_start = prior_end + timedelta(days=1)
+                row["effective_from"] = next_start.isoformat()
+                row["announced_at"] = max(
+                    row["announced_at"], _timestamp(next_start.isoformat())
+                )
+            elif prior_end >= next_start:
+                prior["effective_to"] = (next_start - timedelta(days=1)).isoformat()
+                if date.fromisoformat(prior["effective_to"]) < date.fromisoformat(
+                    prior["effective_from"]
+                ):
+                    nonoverlapping.pop()
+            if date.fromisoformat(row["effective_from"]) > row_end:
+                continue
+        nonoverlapping.append(row)
+    return nonoverlapping
+
+
 def _membership_month_counts(rows: Sequence[dict[str, Any]]) -> dict[str, int]:
     final_sessions = {}
     for session in exchange_sessions(WINDOW_START, WINDOW_END, calendar_name="XNYS"):
@@ -401,18 +474,6 @@ def build_bundle(
             state = security_state[vendor_id]
             first = max(WINDOW_START, date.fromisoformat(completion["first_price_date"]))
             state["active_from"] = min(filter(None, [state["active_from"], first.isoformat()]), default=first.isoformat())
-            alias_key = (completion["ticker"], first.isoformat())
-            if first <= WINDOW_END:
-                state["ticker_aliases"].setdefault(
-                    alias_key,
-                    {
-                        "ticker": completion["ticker"],
-                        "exchange": None,
-                        "effective_from": first.isoformat(),
-                        "effective_to": min(WINDOW_END, date.fromisoformat(completion["last_price_date"])).isoformat(),
-                        "announced_at": _timestamp(first.isoformat()),
-                    },
-                )
             for row in rows:
                 day = row["date"][:10]
                 if WINDOW_START.isoformat() <= day <= WINDOW_END.isoformat():
@@ -481,7 +542,9 @@ def build_bundle(
     for state in sorted(security_state.values(), key=lambda row: row["vendor_id"]):
         state = dict(state)
         state["identifiers"] = sorted(state["identifiers"].values(), key=lambda row: (row["identifier_type"], row["identifier_value"]))
-        state["ticker_aliases"] = sorted(state["ticker_aliases"].values(), key=lambda row: (row["ticker"], row["effective_from"]))
+        state["ticker_aliases"] = _coalesce_ticker_aliases(
+            tuple(state["ticker_aliases"].values()), active_to=state["active_to"]
+        )
         securities.append(state)
 
     memberships = _coalesce_memberships(memberships)

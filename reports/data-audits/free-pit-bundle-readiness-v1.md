@@ -8,7 +8,7 @@ Status: **READY**
 - Additional historical identities verified: 83
 - Historical episodes with verified price lineage: 54
 - Planned bundle path: `/Users/ekosanmi.j/Documents/quantfore.ai/data/raw/free-point-in-time/composite-equity-bundle-v1`
-- Candidate manifest SHA-256: `eae3a516b81679f2b939adcb50e8f26f5ec1dcbc060f7710472e1fc38b929f66`
+- Candidate manifest SHA-256: `8b39fe268b3414495f7a2f95fe00e7b76f4afc1f33cec961ef095f4495a90a6e`
 
 ## Blocking findings
 

@@ -134,6 +134,7 @@ class PointInTimeFundamentalAudit:
     reconciliation_issuer_period_count: int
     reconciliation_sectors: tuple[str, ...]
     reconciliation_gate_enforced: bool
+    evidence_mode: str
 
     @property
     def hard_failure_count(self) -> int:
@@ -165,6 +166,7 @@ class PointInTimeFundamentalAudit:
             "fact_hash": self.fact_hash,
             "availability_revision_hash": self.availability_revision_hash,
             "reconciliation": {
+                "evidence_mode": self.evidence_mode,
                 "gate_enforced": self.reconciliation_gate_enforced,
                 "sample_count": self.reconciliation_sample_count,
                 "issuer_period_count": self.reconciliation_issuer_period_count,
@@ -490,6 +492,7 @@ def audit_point_in_time_fundamentals(
     candidate_fact_ids: Optional[Sequence[str]] = None,
     reconciliation_samples: Sequence[SecReconciliationSample] = (),
     enforce_reconciliation_gate: bool = True,
+    require_sec_primary_evidence: bool = False,
     balance_sheet_tolerance: Decimal = Decimal("0.05"),
     cash_flow_tolerance: Decimal = Decimal("0.01"),
     reconciliation_tolerance: Decimal = Decimal("0.005"),
@@ -568,6 +571,37 @@ def audit_point_in_time_fundamentals(
                     fundamental_ids=(row.fundamental_id,),
                 )
             )
+        if require_sec_primary_evidence:
+            if snapshot is None or "SEC EDGAR PRIMARY" not in snapshot.vendor.upper():
+                findings.append(
+                    FundamentalAuditFinding(
+                        HARD,
+                        "SEC_PRIMARY_SOURCE_MISSING",
+                        "amended SEC-primary fact lacks its frozen SEC source snapshot",
+                        security_id=row.security_id,
+                        fundamental_ids=(row.fundamental_id,),
+                    )
+                )
+            elif row.accepted_at is None:
+                findings.append(
+                    FundamentalAuditFinding(
+                        HARD,
+                        "SEC_ACCEPTANCE_TIMESTAMP_MISSING",
+                        "amended SEC-primary fact lacks filing acceptance evidence",
+                        security_id=row.security_id,
+                        fundamental_ids=(row.fundamental_id,),
+                    )
+                )
+            elif _utc(row.vendor_available_at) != _utc(row.accepted_at):
+                findings.append(
+                    FundamentalAuditFinding(
+                        HARD,
+                        "SEC_AVAILABILITY_BINDING_INVALID",
+                        "SEC-primary availability must equal the filing acceptance time",
+                        security_id=row.security_id,
+                        fundamental_ids=(row.fundamental_id,),
+                    )
+                )
         if row.security_id not in securities:
             findings.append(
                 FundamentalAuditFinding(
@@ -930,6 +964,10 @@ def audit_point_in_time_fundamentals(
                     )
                 )
 
+    if require_sec_primary_evidence and enforce_reconciliation_gate:
+        raise ValueError(
+            "SEC-primary source-integrity mode cannot use vendor reconciliation gate"
+        )
     reconciliation_findings, issuer_period_count, sectors = _reconciliation_findings(
         session,
         facts_by_id,
@@ -991,4 +1029,9 @@ def audit_point_in_time_fundamentals(
         reconciliation_issuer_period_count=issuer_period_count,
         reconciliation_sectors=sectors,
         reconciliation_gate_enforced=enforce_reconciliation_gate,
+        evidence_mode=(
+            "sec_primary_source_integrity"
+            if require_sec_primary_evidence
+            else "vendor_sec_reconciliation"
+        ),
     )

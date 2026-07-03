@@ -2,7 +2,7 @@
   "blockers": [],
   "bundle": {
     "created": true,
-    "manifest_sha256": "eae3a516b81679f2b939adcb50e8f26f5ec1dcbc060f7710472e1fc38b929f66",
+    "manifest_sha256": "8b39fe268b3414495f7a2f95fe00e7b76f4afc1f33cec961ef095f4495a90a6e",
     "planned_path": "/Users/ekosanmi.j/Documents/quantfore.ai/data/raw/free-point-in-time/composite-equity-bundle-v1"
   },
   "claims_eligible": false,

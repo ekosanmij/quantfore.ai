@@ -1,6 +1,7 @@
 from pipelines.build_free_point_in_time_equity_bundle import (
     _bundle_price,
     _coalesce_memberships,
+    _coalesce_ticker_aliases,
     _vendor_id,
 )
 
@@ -44,4 +45,29 @@ def test_memberships_are_coalesced_by_permanent_identity():
     ]
     assert _coalesce_memberships(rows) == [
         {"vendor_id": "id", "effective_from": "2017-01-01", "effective_to": "2020-05-11", "announced_at": "2017-01-01T00:00:00Z"}
+    ]
+
+
+def test_ticker_aliases_are_unique_at_every_point_in_time():
+    rows = [
+        {"ticker": "OLD", "exchange": None, "effective_from": "2017-01-01", "effective_to": "2019-01-02", "announced_at": "2017-01-01T00:00:00Z"},
+        {"ticker": "OLD", "exchange": None, "effective_from": "2018-01-01", "effective_to": "2019-01-02", "announced_at": "2018-01-01T00:00:00Z"},
+        {"ticker": "NEW", "exchange": None, "effective_from": "2019-01-02", "effective_to": "2025-06-30", "announced_at": "2019-01-02T00:00:00Z"},
+    ]
+
+    assert _coalesce_ticker_aliases(rows, active_to=None) == [
+        {"ticker": "OLD", "exchange": None, "effective_from": "2017-01-01", "effective_to": "2019-01-01", "announced_at": "2017-01-01T00:00:00Z"},
+        {"ticker": "NEW", "exchange": None, "effective_from": "2019-01-02", "effective_to": "2025-06-30", "announced_at": "2019-01-02T00:00:00Z"},
+    ]
+
+
+def test_retrospective_rename_alias_begins_after_historical_alias_ends():
+    rows = [
+        {"ticker": "NEW", "exchange": None, "effective_from": "2017-01-01", "effective_to": "2020-05-11", "announced_at": "2017-01-01T00:00:00Z"},
+        {"ticker": "OLD", "exchange": None, "effective_from": "2017-01-01", "effective_to": "2018-09-18", "announced_at": "2017-01-01T00:00:00Z"},
+    ]
+
+    assert _coalesce_ticker_aliases(rows, active_to=None) == [
+        {"ticker": "OLD", "exchange": None, "effective_from": "2017-01-01", "effective_to": "2018-09-18", "announced_at": "2017-01-01T00:00:00Z"},
+        {"ticker": "NEW", "exchange": None, "effective_from": "2018-09-19", "effective_to": "2020-05-11", "announced_at": "2018-09-19T00:00:00Z"},
     ]
