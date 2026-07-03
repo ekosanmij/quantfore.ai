@@ -31,7 +31,7 @@ from quantfore_research.evaluation.multifactor_warehouse import (
 
 DEFAULT_OUTPUT = Path("reports/backtests/pit_multifactor_baseline_v1.json")
 HOLDOUT_START = date(2022, 1, 1)
-HOLDOUT_END = date(2025, 12, 31)
+HOLDOUT_END = date(2025, 6, 30)
 FROZEN_PROMOTION_THRESHOLDS = {
     "mean_rank_ic_minimum": "0.03",
     "net_top_minus_bottom_after_25_bps_positive": True,
@@ -145,7 +145,7 @@ def validate_holdout_lock(
         "normalization_version": "multifactor-normalization-v1",
         "model_version": "multifactor-baseline-v1",
         "holdout_start": "2022-01-01",
-        "holdout_end": "2025-12-31",
+        "holdout_end": "2025-06-30",
         "claims_eligible": False,
         "promotion_thresholds": FROZEN_PROMOTION_THRESHOLDS,
         "source_snapshot_hashes": list(ledger.source_snapshot_hashes),

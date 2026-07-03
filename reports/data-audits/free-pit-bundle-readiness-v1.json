@@ -1,0 +1,75 @@
+{
+  "blockers": [
+    {
+      "code": "incomplete_price_acquisition",
+      "message": "292 of 673 safe symbols are frozen"
+    },
+    {
+      "code": "incomplete_permanent_identity_lineage",
+      "message": "83 ticker labels still require identity resolution"
+    },
+    {
+      "code": "unresolved_price_alias_episodes",
+      "message": "81 membership episodes require price/corporate-action lineage"
+    },
+    {
+      "code": "delisting_evidence_pending",
+      "message": "delisting dates and any available terminal returns are not yet frozen"
+    },
+    {
+      "code": "independent_membership_reconciliation_pending",
+      "message": "the three secondary membership samples do not yet agree exactly"
+    }
+  ],
+  "bundle": {
+    "created": false,
+    "manifest_sha256": null,
+    "planned_path": "/Users/ekosanmi.j/Documents/quantfore.ai/data/raw/free-point-in-time/composite-equity-bundle-v1"
+  },
+  "claims_eligible": false,
+  "identifiers": {
+    "ambiguous_ticker_count": 0,
+    "lineage_required_ticker_count": 83,
+    "processed_ticker_count": 754,
+    "registry_path": "/Users/ekosanmi.j/Documents/quantfore.ai/data/raw/free-point-in-time/resolved-identifiers-v1.json",
+    "registry_sha256": "a047f00054e0ebc5f506a439fd3eea3fbaf9b35bbb7ac665f742cecc6fa06876",
+    "requested_ticker_count": 754,
+    "resolved_ticker_count": 671,
+    "unresolved_ticker_count": 0
+  },
+  "license": {
+    "commercial_use": false,
+    "confirmed": true,
+    "path": "/Users/ekosanmi.j/Documents/quantfore.ai/data/raw/free-point-in-time/license-evidence/personal-internal-use-v1.json",
+    "redistribution_permitted_or_intended": false,
+    "scope": "personal_internal_research",
+    "sha256": "6e1127c547e75a5aa6a015576584b2bf63c7337cd8d3e0a012a2ebc8f4ceb8ed",
+    "terms_sha256": "c86b4c7b05ed66c42e71a4c01c04d8c2c2d48d34a18b43d4f692ce80adb2df1c"
+  },
+  "prices": {
+    "batches": [
+      {
+        "batch_number": 1,
+        "complete_symbol_count": 292,
+        "expected_symbol_count": 500,
+        "status": "in_progress"
+      },
+      {
+        "batch_number": 2,
+        "complete_symbol_count": 0,
+        "expected_symbol_count": 173,
+        "status": "in_progress"
+      }
+    ],
+    "complete_symbol_count": 292,
+    "expected_symbol_count": 673,
+    "frozen_price_row_count": 870365,
+    "root": "/Users/ekosanmi.j/Documents/quantfore.ai/data/raw/free-point-in-time/tiingo-prices-v1"
+  },
+  "private_acquisition_plan": {
+    "path": "/Users/ekosanmi.j/Documents/quantfore.ai/data/raw/free-point-in-time/acquisition-plan-v1-27755aa00a59a111.json",
+    "sha256": "27755aa00a59a111745b2a7e4d517278328798751dfdaaf35f5b63ff19221075"
+  },
+  "schema_version": "free-pit-bundle-readiness-v1",
+  "status": "in_progress"
+}

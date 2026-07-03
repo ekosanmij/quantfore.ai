@@ -15,7 +15,7 @@
   ],
   "claims_eligible": false,
   "decision": "blocked",
-  "generated_at": "2026-07-02T13:59:13.394642Z",
+  "generated_at": "2026-07-03T06:30:35.929780Z",
   "membership": {
     "episode_count": 761,
     "maximum_monthly_count": 506,
@@ -211,10 +211,10 @@
       "url": "https://raw.githubusercontent.com/hanshof/sp500_constituents/a91ef88fad5ace83bed1f3452f451247295bcd18/sp_500_historical_components.csv"
     },
     "tiingo_inventory": {
-      "csv_sha256": "6e95b639ae020c505a5f16691292d1b221c3a8691faf27f4150c854e3c8902a9",
+      "csv_sha256": "bbb128e6fcae594df6e174a6fc067b26dab487d13527029f0f53798fc65e7d1f",
       "license": "internal use only; raw data is not committed",
       "url": "https://apimedia.tiingo.com/docs/tiingo/daily/supported_tickers.zip",
-      "zip_sha256": "e8c02026646dea1b7921ebc44f98baed0441b1be681b2bee5ff7ccbbf4572ccb"
+      "zip_sha256": "bd2fdb1f346b4c90d700191995f0f48c1c169fdacca132727edb12420ea3601a"
     }
   },
   "tiingo_preflight": {
@@ -228,7 +228,7 @@
     "full_episode_fraction": 0.8935611,
     "minimum_months_for_required_symbols": 2,
     "minimum_months_for_safe_symbols": 2,
-    "private_acquisition_plan_sha256": "24ecb1e9f2948e2aada5e5b3817b267c6ea0593a50b138c74b3696b64c2ae02d",
+    "private_acquisition_plan_sha256": "27755aa00a59a111745b2a7e4d517278328798751dfdaaf35f5b63ff19221075",
     "required_unique_symbol_count": 754,
     "safe_acquisition_batch_counts": [
       500,
