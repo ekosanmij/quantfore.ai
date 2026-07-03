@@ -152,9 +152,10 @@ def _resolve_security_ids(
             eligible_rows = [
                 row
                 for row in identifier_rows
-                if (
-                row.valid_from <= fact.fiscal_period_end
-                and (row.valid_to is None or fact.fiscal_period_end <= row.valid_to)
+                if row.is_permanent
+                or (
+                    row.valid_from <= fact.fiscal_period_end
+                    and (row.valid_to is None or fact.fiscal_period_end <= row.valid_to)
                 )
             ]
             eligible_ids = {row.security_id for row in eligible_rows}
