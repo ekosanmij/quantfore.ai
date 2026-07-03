@@ -17,7 +17,7 @@ family_weights:
   growth: 0.20
   momentum: 0.20
   risk: 0.20
-development: 2014-01-01/2018-12-31
+development: 2017-01-01/2018-12-31
 validation: 2019-01-01/2021-12-31
 holdout: 2022-01-01/2025-06-30
 ```
@@ -283,7 +283,7 @@ sector median, or a universe median.
 
 | Split | Dates | Permitted use |
 | --- | --- | --- |
-| Development | 2014-01-01–2018-12-31 | Formula implementation and data-quality debugging. |
+| Development | 2017-01-01–2018-12-31 | Formula implementation and data-quality debugging. |
 | Validation | 2019-01-01–2021-12-31 | One documented controlled revision cycle only. Any change creates `v1.1` and a new lock hash. |
 | Holdout | 2022-01-01–2025-06-30 | Exactly one locked final evaluation after code, data, formulas, weights, and thresholds are committed. June 30, 2025 is the latest month-end whose 252-session outcome is mature on July 2, 2026. |
 

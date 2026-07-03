@@ -18,15 +18,18 @@ afterward; review and commit them deliberately if licensing permits.
 
 ## Run
 
-The bundle manifest hash and evidence timestamp are mandatory pins:
+The bundle manifest, price-exclusion evidence, and evidence timestamp are
+mandatory pins:
 
 ```bash
 PYTHONPATH="$PWD:$PWD/packages/research" .venv/bin/python \
   pipelines/close_point_in_time_sprint.py \
   /private/vendor-export \
   --expected-manifest-hash <manifest-sha256> \
+  --price-exclusions /private/price-exclusions-v1.json \
+  --expected-price-exclusions-hash <price-exclusions-sha256> \
   --universe-id sp500-pit-v1 \
-  --start-date 2015-01-01 \
+  --start-date 2017-01-01 \
   --end-date 2025-06-30 \
   --experiment-id pit_baseline_v0_1 \
   --evidence-timestamp 2026-07-02T10:00:00Z
@@ -82,8 +85,9 @@ reports/reproducibility/sprint7-closure-v1.md
 ```
 
 The closure report records the clean commit, pinned vendor-manifest hash,
-configuration, both values for every invariant, canonical audit/report/lineage
-hashes, and the Sprint 7 Definition of Done statement.
+configuration, the frozen full-universe exclusion hash and coverage floor,
+both values for every invariant, canonical audit/report/lineage hashes, and the
+Sprint 7 Definition of Done statement.
 
 `claims_eligible=false` remains in force. Reproducibility closes the data and
 baseline engineering sprint; it does not establish investment efficacy.

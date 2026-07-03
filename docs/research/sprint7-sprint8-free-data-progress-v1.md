@@ -5,7 +5,8 @@ Status: **IN PROGRESS — NOT CLOSURE EVIDENCE**
 This document records the zero-cost, personal/internal-research data work
 completed as of July 3, 2026. It deliberately does not claim that Sprint 7 or
 Sprint 8 is closed. `claims_eligible=false` remains in force, the strict Sprint
-7 bundle has not been created, and no final bundle manifest SHA-256 exists.
+7 bundle is still undergoing its fresh-database audit, and no passing closure
+artifact exists.
 
 ## Accepted scope
 
@@ -16,6 +17,9 @@ Sprint 8 is closed. `claims_eligible=false` remains in force, the strict Sprint
   remain beneath `data/raw/` and are Git-ignored.
 - Sprint 8 uses an amended zero-cost SEC EDGAR route rather than silently
   claiming that the original Sharadar vendor contract was fulfilled.
+- The zero-cost composite evidence window is `2017-01-01` through
+  `2025-06-30`. The earlier 2014–2016 preflight remains frozen as negative
+  coverage evidence but is outside this amended experiment contract.
 - The mature holdout cutoff is `2025-06-30`. This is the latest month-end whose
   252-session outcome is available through `2026-07-02`.
 
@@ -33,8 +37,11 @@ Sprint 8 is closed. `claims_eligible=false` remains in force, the strict Sprint
   and never persists the API key.
 - Frozen price rows retain raw and adjusted OHLCV. Exact raw Tiingo responses
   also retain `divCash` and `splitFactor` for later corporate-action extraction.
-- Current frozen progress is 292 of 673 safe symbols, comprising 870,365 daily
-  rows. Batch 1 is 292/500; batch 2 is 0/173.
+- Both batches are complete: 673 of 673 planned symbols and 2,036,866 frozen
+  daily rows (batch 1 is 500/500; batch 2 is 173/173).
+- A post-download episode audit found 16 planned symbols whose now-recycled
+  Tiingo endpoints return only a later issuer. Those downloads remain frozen
+  as negative evidence and are never treated as historical prices.
 
 ### Permanent identifiers
 
@@ -46,7 +53,32 @@ Sprint 8 is closed. `claims_eligible=false` remains in force, the strict Sprint
   directly by ticker.
 - 671 labels have resolved permanent identifiers.
 - 83 labels are explicitly routed to dated corporate-lineage review.
-- No label remains silently ambiguous or unresolved.
+- All 83 historical labels now have SEC/Wikidata-backed identities. Fifty-four
+  of the 81 price-lineage episodes have full identity-safe price chains,
+  including SEC-verified predecessor/current aliases and split alias series.
+- The remaining historical lineage gaps plus the recycled-endpoint episodes
+  are explicit, reason-coded price exclusions. No label remains silently
+  ambiguous.
+
+### Membership, exclusions, and listing endpoints
+
+- Three revision-pinned Wikipedia samples reconcile by permanent identity:
+  2018-12-31, 2022-12-31, and 2025-06-30. The sole raw-label difference is the
+  verified `KORS` to `CPRI` rename.
+- Tiingo inventory endpoints and exact terminal price bytes are frozen for 109
+  ended listings. Tiingo does not supply a separate delisting-return field, so
+  those returns remain null and are never inferred from an ordinary last-day
+  return.
+- The amended 2017–2025 contract intersects 23 reason-coded price exclusions.
+  Minimum monthly full-universe coverage is `0.962451`, with zero months below
+  the frozen Sprint 7 `0.95` gate. The denominator includes every historical
+  membership episode, including excluded episodes.
+- The deterministic strict bundle contains 638 securities, 645 coalesced
+  membership episodes, 1,266,438 price rows, 15,399 corporate actions, and 57
+  ended listings. Its candidate manifest SHA-256 is
+  `eae3a516b81679f2b939adcb50e8f26f5ec1dcbc060f7710472e1fc38b929f66`;
+  closure acceptance remains contingent on the fresh audit and two-rebuild
+  gate.
 
 ### Licence evidence
 
@@ -67,6 +99,9 @@ Sprint 8 is closed. `claims_eligible=false` remains in force, the strict Sprint
   quarterly filings across the 547 CIKs for `2012-01-01` through `2025-12-31`.
   That plan is the input for filing acceptance timestamps and dated SIC
   classification evidence.
+- The resumable filing-index crawl has 16,663 hash-verified completion records;
+  the final registry remains pending until all 28,919 planned filings have been
+  processed and transient SEC failures have been retried.
 
 ### Holdout contract
 
@@ -92,18 +127,24 @@ Sprint 8 is closed. `claims_eligible=false` remains in force, the strict Sprint
 | --- | --- | --- |
 | Acquisition plan | `data/raw/free-point-in-time/acquisition-plan-v1-27755aa00a59a111.json` | `27755aa00a59a111745b2a7e4d517278328798751dfdaaf35f5b63ff19221075` |
 | Resolved identifier registry | `data/raw/free-point-in-time/resolved-identifiers-v1.json` | `a047f00054e0ebc5f506a439fd3eea3fbaf9b35bbb7ac665f742cecc6fa06876` |
-| Tiingo batch 1 registry | `data/raw/free-point-in-time/tiingo-prices-v1/batch-001/batch-registry.json` | `a7fb1b49271fb71d44f124c759e2e0da32aa5535779b9ecc97dcc1ace0b4a804` |
+| Tiingo batch 1 registry | `data/raw/free-point-in-time/tiingo-prices-v1/batch-001/batch-registry.json` | `ed47ec459e05e90802ef5396fc82e1f3b19dfe2cf64d4859c762b76e77f3cfe3` |
+| Tiingo batch 2 registry | `data/raw/free-point-in-time/tiingo-prices-v1/batch-002/batch-registry.json` | `6d25377ef35d33ae038f8b1827486e79ccd57580540b33e4fd48b912460cc767` |
+| Reconciled lineage | `data/raw/free-point-in-time/reconciled-lineage-v1.json` | `39f039174612010e24d6659276711271427dca10929e230ce612c6ca591e556d` |
+| Price exclusions | `data/raw/free-point-in-time/price-exclusions-v1.json` | `78da4b5509122b336597441d06df388c9fdec5ff9618a6785f291fcfe698fbba` |
+| Delisting evidence | `data/raw/free-point-in-time/delisting-evidence-v1.json` | `547d2063d33af403731c39e0348b6b0d95e441866a588717bf948ce5389ec2f4` |
+| Strict equity bundle manifest | `data/raw/free-point-in-time/composite-equity-bundle-v1/manifest.json` | `eae3a516b81679f2b939adcb50e8f26f5ec1dcbc060f7710472e1fc38b929f66` |
+| Membership reconciliation | `data/raw/free-point-in-time/wikipedia-membership-samples-v1/registry.json` | `e5ee52e2ce8b01740632e5138b5bb10c89395e77ccdbde790df56ec84b627277` |
 | SEC source registry | `data/raw/free-point-in-time/sec-pit-v1/registry.json` | `f80206b5178b3029c83f8af49e3a06c19c93a8f29ae865bf6669ac059e7e314e` |
 | SEC filing-evidence plan | `data/raw/free-point-in-time/sec-filing-evidence-plan-v1.json` | `a7398f620c21a66510c66065252bdbed92094a50b1ae9a6c06167c9478882a63` |
 | Personal-use confirmation | `data/raw/free-point-in-time/license-evidence/personal-internal-use-v1.json` | `6e1127c547e75a5aa6a015576584b2bf63c7337cd8d3e0a012a2ebc8f4ceb8ed` |
 
 The Git-tracked readiness report is
 `reports/data-audits/free-pit-bundle-readiness-v1.json`, SHA-256
-`25d0c4fa45c06d600409ab2c6361d8865a4c0476557cfa6e61ff8a57323005da`.
+`ffba083f22273ec72eda6c0012cc32734215f556962435f20be0780dc51311de`.
 
 ## Validation completed
 
-- Full research test suite: 272 tests passed.
+- Full research test suite: 290 tests passed.
 - Python compilation passed for pipelines and the research package.
 - `git diff --check` passed.
 - Resumability, plan-hash rejection, frozen-page tamper rejection, OpenFIGI
@@ -112,26 +153,20 @@ The Git-tracked readiness report is
 
 ## Remaining work and hard blockers
 
-1. Freeze the remaining 381 safe Tiingo symbols. The final 173-symbol batch
-   cannot start until the free monthly symbol allowance resets.
-2. Resolve the 83 dated corporate-lineage cases and acquire any required alias
-   price series without querying recycled ticker identities blindly.
-3. Freeze delisting dates and any source-supplied terminal returns; missing
-   returns must remain explicit rather than imputed.
-4. Reconcile the three independent membership samples or retain the differences
-   as a blocking finding.
-5. Acquire and parse the 28,919 filing index records for SEC acceptance
+1. Finish acquiring and parsing the 28,919 filing index records for SEC acceptance
    timestamps and dated SIC classifications.
-6. Normalize the SEC facts with revisions, availability precision, source
+2. Normalize the SEC facts with revisions, availability precision, source
    hashes, permanent identifiers, and the amended free-source contract.
-7. Build the strict Sprint 7 equity bundle and amended Sprint 8 fundamentals
-   bundle, then run their audits.
-8. Generate the holdout lock and real reports, run two clean rebuilds, and
+3. Complete the fresh-database audit of the candidate Sprint 7 equity bundle,
+   then build and audit the amended Sprint 8 fundamentals bundle.
+4. Generate the holdout lock and real reports, run two clean rebuilds, and
    publish closure only if every hard gate passes.
 
-Until those steps finish, the planned Sprint 7 bundle path is
-`data/raw/free-point-in-time/composite-equity-bundle-v1`, its `manifest.json`
-does not exist, and its manifest SHA-256 is unavailable.
+The earlier provisional manifest was rejected after adapter validation exposed
+recycled-symbol contamination. The current candidate was rebuilt after the
+2017 contract amendment and passes strict adapter and direct boundary checks;
+it is not closure evidence until the independent audit and reproducibility gate
+also pass.
 
 ## Reproduction commands
 

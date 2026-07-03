@@ -1,6 +1,9 @@
 import json
 
-from pipelines.acquire_sec_point_in_time_fundamentals import acquire_sec_sources
+from pipelines.acquire_sec_point_in_time_fundamentals import (
+    _additional_identities,
+    acquire_sec_sources,
+)
 
 
 class Client:
@@ -43,3 +46,13 @@ def test_sec_acquisition_is_resumable(tmp_path):
     assert len(client.calls) == 2
     assert first["complete_cik_count"] == 1
     assert second["reused_cik_count"] == 1
+
+
+def test_additional_lineage_ciks_are_normalized_and_grouped():
+    assert _additional_identities(["39911:GPS", "0000039911:GAP"]) == (
+        {
+            "cik": "0000039911",
+            "tickers": ["GAP", "GPS"],
+            "share_class_figis": [],
+        },
+    )
