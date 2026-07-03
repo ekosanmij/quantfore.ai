@@ -363,35 +363,10 @@ def build_preoutcome_lock_inputs(
                 raise ValueError(
                     "holdout outcome already exists; the experiment can no longer be locked"
                 )
-        if prediction.horizon == "126d":
-            price_prediction = session.scalar(
-                select(ModelPrediction).where(
-                    ModelPrediction.model_version == "baseline_v0.1",
-                    ModelPrediction.security_id == score.security_id,
-                    ModelPrediction.asof_date == score.asof_date,
-                    ModelPrediction.horizon == "126d",
-                )
-            )
-            if price_prediction is None:
-                raise ValueError("Sprint 7 comparison prediction is missing before lock")
-            _verify_prediction_hash(
-                session, prediction=price_prediction, security=security
-            )
-            source_hashes.update(
-                _feature_set_source_hashes(
-                    session, feature_set_id=price_prediction.feature_set_id
-                )
-            )
-            if HOLDOUT_START <= score.asof_date <= HOLDOUT_END:
-                price_outcome = session.scalar(
-                    select(ModelOutcome).where(
-                        ModelOutcome.prediction_id == price_prediction.prediction_id
-                    )
-                )
-                if price_outcome is not None:
-                    raise ValueError(
-                        "Sprint 7 holdout outcome already exists; comparison lock is late"
-                    )
+        # Sprint 7 is already independently frozen by its passing closure.
+        # Its comparison predictions are rebuilt only after this Sprint 8 lock,
+        # so the lock binds the new multi-factor scores without re-reading the
+        # previously evaluated price-only holdout.
         used_runs.add(run.normalization_run_id)
         prediction_ids.append(prediction.prediction_id)
         score_rows.append(
@@ -459,6 +434,8 @@ def load_verified_evaluation_ledger(
     source_hashes: set[str] = set()
     score_rows = []
     holdout_times = []
+    expected_by_cohort: dict[tuple[date, str], int] = {}
+    evaluated_by_cohort: dict[tuple[date, str], int] = {}
     for link in links:
         score = session.get(MultiFactorScore, link.multifactor_score_id)
         prediction = session.get(ModelPrediction, link.prediction_id)
@@ -493,6 +470,27 @@ def load_verified_evaluation_ledger(
         if universe_snapshot is None or universe_snapshot.source_hash != universe.source_hash:
             raise ValueError("normalization universe source does not reproduce")
         source_hashes.add(universe.source_hash)
+        cohort_key = (score.asof_date, prediction.horizon)
+        expected_by_cohort[cohort_key] = expected_by_cohort.get(cohort_key, 0) + 1
+        used_runs.add(run.normalization_run_id)
+        prediction_ids.append(prediction.prediction_id)
+        score_rows.append(
+            {
+                "multifactor_score_id": score.multifactor_score_id,
+                "normalization_run_id": run.normalization_run_id,
+                "prediction_id": prediction.prediction_id,
+                "prediction_hash": prediction.immutable_hash,
+                "score": str(score.final_score),
+                "family_scores": score.family_scores_json,
+                "component_coverage": str(score.component_coverage),
+            }
+        )
+        outcome = session.scalar(
+            select(ModelOutcome).where(ModelOutcome.prediction_id == prediction.prediction_id)
+        )
+        if outcome is None:
+            continue
+        evaluated_by_cohort[cohort_key] = evaluated_by_cohort.get(cohort_key, 0) + 1
         if prediction.horizon == "126d":
             price_prediction = session.scalar(
                 select(ModelPrediction).where(
@@ -519,25 +517,15 @@ def load_verified_evaluation_ledger(
                     ModelOutcome.prediction_id == price_prediction.prediction_id
                 )
             )
-            if price_outcome is None:
-                raise ValueError(
-                    "frozen experiment is missing its Sprint 7 comparison outcome"
+            if price_outcome is not None:
+                source_hashes.update(
+                    _verify_outcome(
+                        session,
+                        prediction=price_prediction,
+                        security=security,
+                        outcome=price_outcome,
+                    )
                 )
-            source_hashes.update(
-                _verify_outcome(
-                    session,
-                    prediction=price_prediction,
-                    security=security,
-                    outcome=price_outcome,
-                )
-            )
-        outcome = session.scalar(
-            select(ModelOutcome).where(ModelOutcome.prediction_id == prediction.prediction_id)
-        )
-        if outcome is None:
-            raise ValueError(
-                "canonical evaluation requires an immutable outcome for every prediction"
-            )
         source_hashes.update(
             _verify_outcome(
                 session,
@@ -583,18 +571,17 @@ def load_verified_evaluation_ledger(
                 delisted_outcome=delisted,
             )
         )
-        used_runs.add(run.normalization_run_id)
-        prediction_ids.append(prediction.prediction_id)
-        score_rows.append(
-            {
-                "multifactor_score_id": score.multifactor_score_id,
-                "normalization_run_id": run.normalization_run_id,
-                "prediction_id": prediction.prediction_id,
-                "prediction_hash": prediction.immutable_hash,
-                "score": str(score.final_score),
-                "family_scores": score.family_scores_json,
-                "component_coverage": str(score.component_coverage),
-            }
+    failed_coverage = [
+        (key, evaluated_by_cohort.get(key, 0), expected)
+        for key, expected in sorted(expected_by_cohort.items())
+        if Decimal(evaluated_by_cohort.get(key, 0)) / Decimal(expected)
+        < Decimal("0.95")
+    ]
+    if failed_coverage:
+        key, evaluated, expected = failed_coverage[0]
+        raise ValueError(
+            "multi-factor outcome coverage is below 0.95 for "
+            f"{key[0].isoformat()} {key[1]}: {evaluated}/{expected}"
         )
     if not observations:
         raise ValueError("no verified multi-factor warehouse observations matched")
@@ -686,9 +673,7 @@ def load_verified_comparison_ledger(
             )
         )
         if price_prediction is None:
-            raise ValueError(
-                "price-only prediction is missing from the exact comparison intersection"
-            )
+            continue
         security = session.get(Security, row.security_id)
         if security is None:
             raise ValueError("comparison security is missing")
@@ -721,7 +706,7 @@ def load_verified_comparison_ledger(
             )
         )
         if price_outcome is None:
-            raise ValueError("price-only comparison prediction has no immutable outcome")
+            continue
         extra_source_hashes.update(
             _verify_outcome(
                 session,

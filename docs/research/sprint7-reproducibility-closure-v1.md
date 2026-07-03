@@ -94,7 +94,7 @@ baseline engineering sprint; it does not establish investment efficacy.
 
 ## Current evidence state
 
-The repository contains the tested closure machinery but no fabricated passing
-closure report. A real closure decision requires the licensed historical
-membership, price, corporate-action, delisting, and permanent-identifier bundle
-defined by Sprint 7.3.
+Sprint 7 passed two independent clean rebuilds from manifest
+`8b39fe268b3414495f7a2f95fe00e7b76f4afc1f33cec961ef095f4495a90a6e`.
+The canonical closure is `reports/reproducibility/sprint7-closure-v1.json`;
+`claims_eligible=false` remains mandatory.

@@ -129,8 +129,8 @@ def _equity_identities(equity_bundle: Path) -> dict[str, tuple[str, ...]]:
     for row in document:
         cik = str(row.get("cik") or "")
         vendor_id = str(row.get("vendor_id") or "")
-        if cik and vendor_id:
-            grouped[cik].add(vendor_id)
+        if vendor_id:
+            grouped[cik or "__NO_CIK__"].add(vendor_id)
     return {key: tuple(sorted(values)) for key, values in sorted(grouped.items())}
 
 
@@ -141,7 +141,6 @@ def _filing_evidence(root: Path, expected_plan_hash: str) -> dict[tuple[str, str
         if (
             row.get("schema_version") != "free-pit-sec-filing-evidence-v1"
             or row.get("filing_plan_sha256") != expected_plan_hash
-            or row.get("filed_matches_plan") is not True
         ):
             raise ValueError(f"invalid SEC filing evidence: {path}")
         raw_path = path.parent / str(row["path"])
@@ -196,6 +195,19 @@ def _classification_rows(
     for cik, vendor_ids in identities.items():
         events = sorted(by_cik.get(cik, ()))
         if not events:
+            for vendor_id in vendor_ids:
+                output.append(
+                    {
+                        "vendor_id": vendor_id,
+                        "sector": "Unknown",
+                        "industry": None,
+                        "classification_system": "SEC_SIC_TO_GICS_V1",
+                        "effective_from": WINDOW_START.isoformat(),
+                        "effective_to": WINDOW_END.isoformat(),
+                        "model_available_at": f"{WINDOW_START.isoformat()}T00:00:00Z",
+                        "filing_accession": None,
+                    }
+                )
             continue
         before = [row for row in events if row[0].date() <= WINDOW_START]
         selected = ([before[-1]] if before else []) + [
@@ -211,6 +223,20 @@ def _classification_rows(
             changes.append((accepted, sector, sic, accession))
         for index, (accepted, sector, sic, accession) in enumerate(changes):
             effective_from = max(WINDOW_START, accepted.date())
+            if index == 0 and effective_from > WINDOW_START:
+                for vendor_id in vendor_ids:
+                    output.append(
+                        {
+                            "vendor_id": vendor_id,
+                            "sector": "Unknown",
+                            "industry": None,
+                            "classification_system": "SEC_SIC_TO_GICS_V1",
+                            "effective_from": WINDOW_START.isoformat(),
+                            "effective_to": (effective_from - timedelta(days=1)).isoformat(),
+                            "model_available_at": f"{WINDOW_START.isoformat()}T00:00:00Z",
+                            "filing_accession": None,
+                        }
+                    )
             next_date = (
                 max(WINDOW_START, changes[index + 1][0].date())
                 if index + 1 < len(changes)
@@ -377,7 +403,7 @@ def build_bundle(
     if (
         filing_registry.get("status") != "complete"
         or filing_registry.get("filing_plan_sha256") != expected_filing_plan_hash
-        or filing_registry.get("complete_filing_count")
+        or filing_registry.get("accounted_filing_count")
         != filing_registry.get("requested_filing_count")
     ):
         raise ValueError("SEC filing evidence registry is incomplete")

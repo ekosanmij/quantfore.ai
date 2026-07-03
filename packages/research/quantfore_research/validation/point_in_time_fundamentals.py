@@ -629,7 +629,9 @@ def audit_point_in_time_fundamentals(
                     fundamental_ids=(row.fundamental_id,),
                 )
             )
-        if row.accepted_at is None or row.public_release_at is None:
+        if row.accepted_at is None or (
+            row.public_release_at is None and not require_sec_primary_evidence
+        ):
             findings.append(
                 FundamentalAuditFinding(
                     REVIEW,

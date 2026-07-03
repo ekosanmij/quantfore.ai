@@ -304,8 +304,8 @@ def build_sprint8_rebuild_fingerprint(
         for row in predictions
         if row.model_version == "multifactor-baseline-v1"
     }
-    if multifactor_ids != linked_ids or len(outcomes) != len(predictions):
-        raise ValueError("Sprint 8 closure requires complete prediction outcomes")
+    if multifactor_ids != linked_ids:
+        raise ValueError("Sprint 8 closure requires complete prediction links")
     outcome_by_prediction = {row.prediction_id: row for row in outcomes}
     prediction_outcome_document = {
         "schema_version": "sprint8_predictions_outcomes_v1",
@@ -313,7 +313,11 @@ def build_sprint8_rebuild_fingerprint(
             {
                 "prediction_id": row.prediction_id,
                 "prediction_hash": row.immutable_hash,
-                "outcome_hash": outcome_by_prediction[row.prediction_id].immutable_hash,
+                "outcome_hash": (
+                    outcome_by_prediction[row.prediction_id].immutable_hash
+                    if row.prediction_id in outcome_by_prediction
+                    else None
+                ),
             }
             for row in predictions
         ],

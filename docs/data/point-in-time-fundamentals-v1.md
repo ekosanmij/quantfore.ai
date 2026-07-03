@@ -2,13 +2,13 @@
 
 ```yaml
 contract_version: point-in-time-fundamentals-v1
-status: locked_pre_ingestion
+status: amended_sec_primary_internal_research
 claims_eligible: false
-research_window: 2014-01-01/2025-12-31
+research_window: 2017-01-01/2025-06-30
 fiscal_period_buffer_start: 2012-01-01
-primary_vendor: Nasdaq Data Link Sharadar Core US Equities Bundle
-primary_table: SHARADAR/SF1
-reconciliation_source: SEC EDGAR Companyfacts and filing archives
+primary_vendor: SEC EDGAR
+primary_table: Companyfacts plus filing-index acceptance evidence
+reconciliation_source: frozen SEC filing indexes and dated SIC evidence
 security_master: sp500-pit-v1 permanent security_id
 raw_snapshot_hash: assigned_from_exact_licensed_bytes_at_ingestion
 licence_status: executed_rights_evidence_required_before_vendor_ingestion
@@ -17,10 +17,10 @@ licence_status: executed_rights_evidence_required_before_vendor_ingestion
 ## Purpose and gate
 
 This contract freezes the point-in-time fundamental dataset used by the Sprint
-8 multi-factor baseline. The primary source is the licensed
-`SHARADAR/SF1` table from the Nasdaq Data Link Sharadar Core US Equities
-Bundle. SEC EDGAR is an independent reconciliation source and is not silently
-substituted for a missing vendor record.
+8 multi-factor baseline. For zero-cost personal/internal research, the amended
+primary source is SEC EDGAR Companyfacts bound to exact filing-index acceptance
+timestamps. This is explicitly a different contract from the original
+`SHARADAR/SF1` proposal; it is not represented as licensed-vendor evidence.
 
 The repository does not contain executed vendor rights evidence. No vendor
 credentials, raw bytes, normalized rows, model result, or performance claim may
@@ -35,7 +35,7 @@ map, unit policy, or identity policy requires a new reviewed contract version.
 
 ## Window and selected records
 
-- Prediction dates are within `2014-01-01` through `2025-12-31`, inclusive.
+- Prediction dates are within `2017-01-01` through `2025-06-30`, inclusive.
 - Fiscal periods ending on or after `2012-01-01` may be retained only as a
   two-year calculation buffer for growth, averages, and TTM construction.
   Buffer observations are not separate evaluation observations.
@@ -59,7 +59,7 @@ vendor supplied an intraday time.
 | `filed_at` | Filing date/time supplied by the vendor or regulator. It is not a proxy for vendor delivery. |
 | `accepted_at` | SEC acceptance timestamp when evidenced; otherwise null. |
 | `public_release_at` | Earliest independently evidenced public earnings release for the reported values; otherwise null. |
-| `vendor_available_at` | Earliest historical vendor availability supplied by the licensed point-in-time feed. A date-only value is conservatively interpreted as end-of-day and marked as date precision in the snapshot manifest. |
+| `vendor_available_at` | Under the amended SEC-primary route, the exact SEC acceptance timestamp at which the filing became public. |
 | `model_available_at` | Earliest time the value may enter a model: the maximum known public/vendor timestamp, followed by the frozen operational lag below. |
 | `source_snapshots.retrieved_at` | When Quantfore fetched the exact bytes. It never substitutes for historical availability. |
 
@@ -202,13 +202,12 @@ python pipelines/ingest_point_in_time_fundamentals.py /private/vendor-bundle \
   --database-url sqlite+pysqlite:///./quantfore_research.db
 ```
 
-SEC Companyfacts remains independent evidence. Its pipeline now prefers CIK
-and permanent identifier resolution over ticker matching, preserves SEC
-concepts, classifies discrete quarterly/annual contexts, rejects unsupported
-YTD contexts, and records amendments/restatements as later revisions. Because
-Companyfacts does not prove historical licensed-vendor availability, SEC facts
-become model-visible only at their actual retrieval timestamp and are not
-substituted into the primary feature dataset.
+SEC Companyfacts is the amended primary evidence. Its bundle builder resolves
+CIKs to permanent share-class FIGIs, preserves SEC concepts, classifies
+discrete quarterly/annual contexts, rejects unsupported YTD contexts, and
+records amendments/restatements as later revisions. `model_available_at` is
+one hour after the frozen filing acceptance timestamp, never the later local
+retrieval time.
 
 ```bash
 python pipelines/ingest_sec_companyfacts.py MSFT --cik 0000789019
@@ -218,11 +217,10 @@ The audit checks duplicate fact identities, timestamp completeness and order,
 prediction-date availability, source hashes, original/standardized concepts,
 unit conflicts, fiscal mapping, revision/restatement order, permanent identity,
 balance-sheet plausibility, cash-flow reconciliation, zero denominators, and
-extreme ratios. It deterministically pairs primary facts with registered SEC
-facts when no manually reviewed reconciliation file is supplied. The hard gate
-requires at least 30 distinct issuer-periods spanning all 11 sectors. Numeric
-or unit differences are retained as review findings with both source links;
-they never repair the primary value.
+extreme ratios. The original licensed-vendor route retains its 30
+issuer-period, 11-sector SEC reconciliation gate. The amended SEC-primary route
+instead enforces exact source hashes, permanent identities, acceptance-time
+bindings, revision order, and a frozen dated-SIC classification ledger.
 
 ```bash
 python pipelines/audit_point_in_time_fundamentals.py \

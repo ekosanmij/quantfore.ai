@@ -1,12 +1,10 @@
 # Sprint 7 and Sprint 8 Free-Data Progress v1
 
-Status: **IN PROGRESS — NOT CLOSURE EVIDENCE**
+Status: **SPRINT 7 CLOSED; SPRINT 8 IN PROGRESS**
 
 This document records the zero-cost, personal/internal-research data work
-completed as of July 3, 2026. It deliberately does not claim that Sprint 7 or
-Sprint 8 is closed. `claims_eligible=false` remains in force, the strict Sprint
-7 bundle is still undergoing its fresh-database audit, and no passing closure
-artifact exists.
+completed as of July 3, 2026. Sprint 7 has passing two-rebuild closure evidence.
+Sprint 8 remains in progress. `claims_eligible=false` remains in force.
 
 ## Accepted scope
 
@@ -99,9 +97,10 @@ artifact exists.
   quarterly filings across the 547 CIKs for `2012-01-01` through `2025-12-31`.
   That plan is the input for filing acceptance timestamps and dated SIC
   classification evidence.
-- The resumable filing-index crawl has 16,663 hash-verified completion records;
-  the final registry remains pending until all 28,919 planned filings have been
-  processed and transient SEC failures have been retried.
+- The filing-index registry accounts for all 28,919 planned accessions: 28,917
+  hash-verified filing indexes and two explicit orphan-accession records. The
+  two orphans consistently return HTTP 503 and are absent from SEC submissions
+  and full-text indexes; facts tied to them are prohibited from use.
 
 ### Holdout contract
 
@@ -136,6 +135,8 @@ artifact exists.
 | Membership reconciliation | `data/raw/free-point-in-time/wikipedia-membership-samples-v1/registry.json` | `e5ee52e2ce8b01740632e5138b5bb10c89395e77ccdbde790df56ec84b627277` |
 | SEC source registry | `data/raw/free-point-in-time/sec-pit-v1/registry.json` | `f80206b5178b3029c83f8af49e3a06c19c93a8f29ae865bf6669ac059e7e314e` |
 | SEC filing-evidence plan | `data/raw/free-point-in-time/sec-filing-evidence-plan-v1.json` | `a7398f620c21a66510c66065252bdbed92094a50b1ae9a6c06167c9478882a63` |
+| SEC filing-evidence registry | `data/raw/free-point-in-time/sec-filing-evidence-v1/registry.json` | `cf61c9a2af535d5a9380616cf98b61f18a78fb63c96b121f5d630db67fb12f68` |
+| SEC fundamental bundle manifest | `data/raw/free-point-in-time/sec-fundamentals-bundle-v1/manifest.json` | `0e335fb61c65a1023e5786beeec00c242993d4c8b41f38541cd3b30d877ec13a` |
 | Personal-use confirmation | `data/raw/free-point-in-time/license-evidence/personal-internal-use-v1.json` | `6e1127c547e75a5aa6a015576584b2bf63c7337cd8d3e0a012a2ebc8f4ceb8ed` |
 
 The Git-tracked readiness report is
@@ -144,7 +145,7 @@ The Git-tracked readiness report is
 
 ## Validation completed
 
-- Full research test suite: 297 tests passed.
+- Full research test suite: 299 tests passed.
 - Python compilation passed for pipelines and the research package.
 - `git diff --check` passed.
 - Resumability, plan-hash rejection, frozen-page tamper rejection, OpenFIGI
@@ -153,20 +154,15 @@ The Git-tracked readiness report is
 
 ## Remaining work and hard blockers
 
-1. Finish acquiring and parsing the 28,919 filing index records for SEC acceptance
-   timestamps and dated SIC classifications.
-2. Normalize the SEC facts with revisions, availability precision, source
-   hashes, permanent identifiers, and the amended free-source contract.
-3. Complete the fresh-database audit of the candidate Sprint 7 equity bundle,
-   then build and audit the amended Sprint 8 fundamentals bundle.
-4. Generate the holdout lock and real reports, run two clean rebuilds, and
+1. Run the fresh-database audit of the normalized SEC-primary fundamentals and
+   dated classifications.
+2. Generate the holdout lock and real reports, run two clean rebuilds, and
    publish closure only if every hard gate passes.
 
-The earlier provisional manifest was rejected after adapter validation exposed
-recycled-symbol contamination. The current candidate was rebuilt after the
-2017 contract amendment and passes strict adapter and direct boundary checks;
-it is not closure evidence until the independent audit and reproducibility gate
-also pass.
+The earlier provisional equity manifest was rejected after adapter validation
+exposed recycled-symbol contamination. The corrected 2017 contract passed two
+independent rebuilds, with exact canonical report and audit hashes. Sprint 8
+still requires its separate holdout lock and reproducibility gate.
 
 ## Reproduction commands
 

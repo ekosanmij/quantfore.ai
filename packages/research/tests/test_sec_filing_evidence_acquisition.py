@@ -85,3 +85,25 @@ def test_filing_acquisition_is_content_addressed_and_resumable(tmp_path):
     record = json.loads(completion.read_text())
     raw = completion.parent / record["path"]
     assert hashlib.sha256(raw.read_bytes()).hexdigest() == record["sha256"]
+
+
+def test_verified_orphan_accession_is_explicitly_accounted_for(tmp_path):
+    class Client:
+        def get(self, url):
+            raise AssertionError("verified unavailable accession must not be fetched")
+
+    result = acquire_filing_evidence(
+        client=Client(),
+        plan_body=plan_body(),
+        output_root=tmp_path,
+        verified_unavailable_accessions=["0000000123-20-000001"],
+    )
+
+    assert result["status"] == "complete"
+    assert result["complete_filing_count"] == 0
+    assert result["unavailable_filing_count"] == 1
+    assert result["accounted_filing_count"] == 1
+    unavailable = next(tmp_path.glob("CIK*/*.unavailable.json"))
+    record = json.loads(unavailable.read_text())
+    assert record["reason_code"] == "SEC_ARCHIVE_ORPHAN_ACCESSION"
+    assert record["fact_use_permitted"] is False

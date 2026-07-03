@@ -236,6 +236,7 @@ def acquire_filing_evidence(
     output_root: Path,
     workers: int = 4,
     max_filings: Optional[int] = None,
+    verified_unavailable_accessions: Sequence[str] = (),
 ) -> dict[str, Any]:
     plan = json.loads(plan_body)
     if plan.get("schema_version") != "free-pit-sec-filing-evidence-plan-v1":
@@ -250,15 +251,50 @@ def acquire_filing_evidence(
         raise ValueError("workers must be between 1 and 8")
 
     completed: list[dict[str, Any]] = []
+    unavailable: list[dict[str, Any]] = []
     pending: list[tuple[dict[str, Any], Path]] = []
+    unavailable_set = set(verified_unavailable_accessions)
+    unknown_unavailable = unavailable_set - {
+        str(row["accession"]) for row in filings
+    }
+    if unknown_unavailable:
+        raise ValueError(
+            "verified unavailable accessions are outside the filing plan: "
+            + ", ".join(sorted(unknown_unavailable))
+        )
     for row in filings:
         cik_dir = output_root / f"CIK{row['cik']}"
         completion = cik_dir / f"{row['accession']}.complete.json"
         prior = _completion_record(completion, plan_sha256=plan_hash, row=row)
-        if prior is None:
-            pending.append((row, completion))
-        else:
+        if prior is not None:
             completed.append(prior)
+            continue
+        if row["accession"] in unavailable_set:
+            unavailable_path = cik_dir / f"{row['accession']}.unavailable.json"
+            unavailable_record = {
+                "schema_version": "free-pit-sec-filing-unavailable-v1",
+                "filing_plan_sha256": plan_hash,
+                "cik": row["cik"],
+                "accession": row["accession"],
+                "form": row["form"],
+                "filed": row["filed"],
+                "source_url": _filing_index_url(row),
+                "reason_code": "SEC_ARCHIVE_ORPHAN_ACCESSION",
+                "observed_http_status": 503,
+                "sec_submissions_match_count": 0,
+                "sec_full_text_search_match_count": 0,
+                "fact_use_permitted": False,
+            }
+            if unavailable_path.is_file():
+                if json.loads(unavailable_path.read_text()) != unavailable_record:
+                    raise ValueError(
+                        f"frozen unavailable SEC evidence conflicts: {row['accession']}"
+                    )
+            else:
+                _atomic_write(unavailable_path, _json_bytes(unavailable_record))
+            unavailable.append(unavailable_record)
+            continue
+        pending.append((row, completion))
 
     lock = threading.Lock()
 
@@ -325,17 +361,23 @@ def acquire_filing_evidence(
                 )
 
     ordered = sorted(completed, key=lambda row: (row["cik"], row["accession"]))
+    ordered_unavailable = sorted(
+        unavailable, key=lambda row: (row["cik"], row["accession"])
+    )
+    accounted = len(ordered) + len(ordered_unavailable)
     registry = {
         "schema_version": "free-pit-sec-filing-evidence-registry-v1",
         "status": (
             "complete"
-            if len(ordered) == len(filings) and not failures
+            if accounted == len(filings) and not failures
             else "in_progress"
         ),
         "publication_prohibited": True,
         "filing_plan_sha256": plan_hash,
         "requested_filing_count": len(filings),
         "complete_filing_count": len(ordered),
+        "unavailable_filing_count": len(ordered_unavailable),
+        "accounted_filing_count": accounted,
         "downloaded_filing_count": downloaded,
         "reused_filing_count": len(ordered) - downloaded,
         "sic_available_count": sum(row["sic_available"] for row in ordered),
@@ -344,7 +386,9 @@ def acquire_filing_evidence(
         ),
         "failed_filing_count": len(failures),
         "failures": sorted(failures, key=lambda row: (row["cik"], row["accession"])),
+        "unavailable": ordered_unavailable,
         "completion_sha256": _sha256(_json_bytes(ordered)),
+        "unavailable_sha256": _sha256(_json_bytes(ordered_unavailable)),
     }
     _atomic_write(output_root / "registry.json", _json_bytes(registry))
     return registry
@@ -361,6 +405,12 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--requests-per-second", type=float, default=8.0)
     parser.add_argument("--max-filings", type=int)
     parser.add_argument("--user-agent", default=SEC_USER_AGENT)
+    parser.add_argument(
+        "--verified-unavailable-accession",
+        action="append",
+        default=[],
+        help="Explicit SEC orphan accession verified as HTTP 503 and absent from SEC indexes.",
+    )
     return parser.parse_args(argv)
 
 
@@ -379,13 +429,15 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             output_root=args.output_root,
             workers=args.workers,
             max_filings=args.max_filings,
+            verified_unavailable_accessions=args.verified_unavailable_accession,
         )
     except (KeyError, OSError, SecFilingEvidenceError, ValueError) as exc:
         print(f"SEC filing evidence acquisition failed: {exc}", file=sys.stderr)
         return 2
     print(
         f"complete={result['complete_filing_count']}/"
-        f"{result['requested_filing_count']} sic={result['sic_available_count']}"
+        f"{result['requested_filing_count']} unavailable="
+        f"{result['unavailable_filing_count']} sic={result['sic_available_count']}"
     )
     return 0 if result["status"] == "complete" else 1
 
