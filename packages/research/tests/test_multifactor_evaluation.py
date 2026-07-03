@@ -128,7 +128,7 @@ def test_holdout_cannot_run_without_exact_committed_lock(tmp_path):
         "normalization_version": "multifactor-normalization-v1",
         "model_version": "multifactor-baseline-v1",
         "holdout_start": "2022-01-01",
-        "holdout_end": "2025-12-31",
+        "holdout_end": "2025-06-30",
         "claims_eligible": False,
         "locked_at": "2026-01-01T00:00:00Z",
         "code_commit": "abc123",

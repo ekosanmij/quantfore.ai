@@ -78,7 +78,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "normalization_version": "multifactor-normalization-v1",
             "model_version": "multifactor-baseline-v1",
             "holdout_start": "2022-01-01",
-            "holdout_end": "2025-12-31",
+            "holdout_end": "2025-06-30",
             "claims_eligible": False,
             "locked_at": locked_at.astimezone(timezone.utc)
             .isoformat()
