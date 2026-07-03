@@ -71,9 +71,20 @@ Sprint 8 is closed. `claims_eligible=false` remains in force, the strict Sprint
 ### Holdout contract
 
 - Lock preparation, lock validation, evaluation filtering, tests, and research
-  documentation now consistently use `2025-06-30` as the holdout end.
+  documentation import one frozen `2025-06-30` holdout end.
 - Late-2025 cohorts are excluded because their 252-session outcomes are not
-  fully mature as of the evidence cutoff.
+  fully mature as of the evidence cutoff, and warehouse evaluation rejects
+  them rather than treating them as ordinary out-of-window observations.
+
+### Closure verification
+
+- Sprint 8 closure now rebuilds the verified evaluation and comparison ledgers
+  from each fresh closure database, recalculates their metrics, and requires
+  exact canonical equality with the supplied reports.
+- The fundamentals audit is also recalculated, including deterministic SEC
+  reconciliation, and compared in full with the supplied audit document.
+- The external rebuild program requires an expected SHA-256, is rechecked
+  immediately before each execution, and records that digest in closure output.
 
 ## Private source bindings
 
@@ -92,7 +103,7 @@ The Git-tracked readiness report is
 
 ## Validation completed
 
-- Full research test suite: 269 tests passed.
+- Full research test suite: 272 tests passed.
 - Python compilation passed for pipelines and the research package.
 - `git diff --check` passed.
 - Resumability, plan-hash rejection, frozen-page tamper rejection, OpenFIGI

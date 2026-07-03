@@ -14,6 +14,12 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from quantfore_research.evaluation.multifactor import MultiFactorEvaluationObservation
+from quantfore_research.evaluation.multifactor_contract import (
+    HOLDOUT_END,
+    HOLDOUT_END_TEXT,
+    HOLDOUT_START,
+    reject_after_frozen_cutoff,
+)
 from quantfore_research.evaluation.multifactor_comparison import (
     AttributionComponent,
     MultiModelObservation,
@@ -345,7 +351,8 @@ def build_preoutcome_lock_inputs(
         if universe_snapshot is None or universe_snapshot.source_hash != universe.source_hash:
             raise ValueError("normalization universe source does not reproduce")
         source_hashes.add(universe.source_hash)
-        if date(2022, 1, 1) <= score.asof_date <= date(2025, 12, 31):
+        reject_after_frozen_cutoff(score.asof_date)
+        if HOLDOUT_START <= score.asof_date <= HOLDOUT_END:
             uses_holdout = True
             existing = session.scalar(
                 select(ModelOutcome).where(
@@ -375,7 +382,7 @@ def build_preoutcome_lock_inputs(
                     session, feature_set_id=price_prediction.feature_set_id
                 )
             )
-            if date(2022, 1, 1) <= score.asof_date <= date(2025, 12, 31):
+            if HOLDOUT_START <= score.asof_date <= HOLDOUT_END:
                 price_outcome = session.scalar(
                     select(ModelOutcome).where(
                         ModelOutcome.prediction_id == price_prediction.prediction_id
@@ -401,7 +408,10 @@ def build_preoutcome_lock_inputs(
     if not score_rows:
         raise ValueError("no verified multi-factor predictions are available to lock")
     if not uses_holdout:
-        raise ValueError("holdout lock inputs contain no 2022-2025 predictions")
+        raise ValueError(
+            f"holdout lock inputs contain no {HOLDOUT_START.isoformat()} through "
+            f"{HOLDOUT_END_TEXT} predictions"
+        )
     if requested_runs - used_runs:
         raise ValueError("requested normalization runs are missing from lock inputs")
     outcome_ids = set(outcome_source_snapshot_ids)
@@ -434,6 +444,9 @@ def load_verified_evaluation_ledger(
 ) -> VerifiedEvaluationLedger:
     """Load only database-backed scores, immutable predictions and outcomes."""
 
+    if end_date is not None:
+        reject_after_frozen_cutoff(end_date)
+
     query = select(MultiFactorPredictionLink).order_by(
         MultiFactorPredictionLink.prediction_id
     )
@@ -463,6 +476,7 @@ def load_verified_evaluation_ledger(
             continue
         if end_date and score.asof_date > end_date:
             continue
+        reject_after_frozen_cutoff(score.asof_date)
         if link.horizon != prediction.horizon:
             raise ValueError("multi-factor prediction link horizon conflicts")
         _verify_prediction(
@@ -533,7 +547,7 @@ def load_verified_evaluation_ledger(
             )
         )
         outcome_ids.append(outcome.outcome_id)
-        if date(2022, 1, 1) <= score.asof_date <= date(2025, 12, 31):
+        if HOLDOUT_START <= score.asof_date <= HOLDOUT_END:
             holdout_times.append(_utc(outcome.evaluated_at))
         delisted = False
         delisted = session.scalar(

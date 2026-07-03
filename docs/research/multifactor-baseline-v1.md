@@ -333,7 +333,8 @@ python pipelines/evaluate_multifactor_baseline.py \
   --output reports/backtests/pit_multifactor_baseline_v1.json
 ```
 
-Any observation dated in the 2022–2025 holdout makes both `--lock-json` and
+Any observation dated from `2022-01-01` through `2025-06-30` makes both
+`--lock-json` and
 `--expected-lock-hash` mandatory. The exact lock binds contract, feature,
 normalization and model versions; the full code commit; normalization-run IDs;
 the score-ledger hash; exact evaluated source hashes; holdout dates; the frozen
@@ -348,7 +349,8 @@ hash list comes from the frozen bundle manifest, so the lock can be committed
 before any `ModelOutcome` is calculated. The later evaluator requires that
 exact list to equal the sources actually used.
 
-Prepare the lock only from a clean code commit and before any 2022–2025
+Prepare the lock only from a clean code commit and before any
+`2022-01-01` through `2025-06-30`
 multi-factor or comparison outcome exists. The command refuses a late lock,
 then writes a file whose only permitted subsequent source-control change is the
 lock-only commit:
@@ -395,7 +397,8 @@ python pipelines/compare_price_vs_multifactor.py \
   --output reports/comparisons/price-vs-multifactor-v1.json
 ```
 
-As with the standalone evaluation, any 2022–2025 row requires the exact frozen
+As with the standalone evaluation, any `2022-01-01` through `2025-06-30` row
+requires the exact frozen
 holdout lock and expected SHA-256. The report preserves verified warehouse
 lineage, code revision, `claims_eligible=false`, and explicit no-retuning design.
 
@@ -410,6 +413,8 @@ temporary SQLite databases.
 The rebuild-program interface receives the bundle directory, expected manifest
 hash, fresh database URL, isolated output root, and the same frozen
 `--generated-at` value on both invocations.
+Its exact bytes are verified against the required SHA-256 immediately before
+each invocation, and that digest is recorded in the closure document.
 
 The two runs must match on fundamental fact and availability/revision hashes,
 feature count and value hash, monthly eligible-universe hash, immutable
@@ -420,6 +425,7 @@ the audit, backtest, and comparison. Any mismatch publishes no passing closure.
 python pipelines/close_multifactor_sprint.py /private/frozen-sprint8-bundle \
   --expected-manifest-hash <sha256> \
   --rebuild-program /private/bin/rebuild_sprint8.py \
+  --expected-rebuild-program-hash <sha256> \
   --fundamental-source-snapshot-id <snapshot-id> \
   --sprint7-closure-json reports/reproducibility/sprint7-closure-v1.json \
   --expected-sprint7-closure-hash <sha256> \

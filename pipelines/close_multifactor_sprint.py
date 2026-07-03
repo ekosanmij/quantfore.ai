@@ -63,15 +63,29 @@ def _database_url(path: Path) -> str:
     return f"sqlite+pysqlite:///{path.resolve()}"
 
 
+def validate_rebuild_program(path: Path, *, expected_sha256: str) -> str:
+    """Bind the external rebuild executable to exact bytes before execution."""
+
+    body = path.read_bytes()
+    actual = hashlib.sha256(body).hexdigest()
+    if actual != expected_sha256.lower():
+        raise ValueError("Sprint 8 rebuild program SHA-256 does not match")
+    return actual
+
+
 def _run_clean_rebuild(
     *,
     rebuild_program: Path,
+    expected_rebuild_program_sha256: str,
     bundle_dir: Path,
     expected_manifest_hash: str,
     run_dir: Path,
     fundamental_source_snapshot_ids: Sequence[str],
     evidence_timestamp: datetime,
 ) -> Sprint8RebuildArtifacts:
+    validate_rebuild_program(
+        rebuild_program, expected_sha256=expected_rebuild_program_sha256
+    )
     run_dir.mkdir(parents=True, exist_ok=False)
     database_path = run_dir / "research.db"
     report_root = run_dir / "reports"
@@ -141,6 +155,7 @@ def build_sprint8_closure_document(
     git_commit: str,
     bundle_manifest_sha256: str,
     sprint7_closure_sha256: str,
+    rebuild_program_sha256: str,
     generated_at: datetime,
 ) -> dict[str, Any]:
     comparison = compare_sprint8_rebuilds(first.fingerprint, second.fingerprint)
@@ -157,6 +172,7 @@ def build_sprint8_closure_document(
         "git_commit": git_commit,
         "bundle_manifest_sha256": bundle_manifest_sha256,
         "sprint7_closure_sha256": sprint7_closure_sha256,
+        "rebuild_program_sha256": rebuild_program_sha256,
         "generated_at": generated_at.astimezone(timezone.utc)
         .isoformat()
         .replace("+00:00", "Z"),
@@ -185,6 +201,7 @@ def render_markdown(document: Mapping[str, Any]) -> str:
         f"- Clean commit: `{document['git_commit']}`",
         f"- Bundle manifest: `{document['bundle_manifest_sha256']}`",
         f"- Sprint 7 closure: `{document['sprint7_closure_sha256']}`",
+        f"- Rebuild program: `{document['rebuild_program_sha256']}`",
         "",
         "## Two-rebuild comparison",
         "",
@@ -219,6 +236,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("bundle_dir", type=Path)
     parser.add_argument("--expected-manifest-hash", required=True)
     parser.add_argument("--rebuild-program", required=True, type=Path)
+    parser.add_argument("--expected-rebuild-program-hash", required=True)
     parser.add_argument("--fundamental-source-snapshot-id", action="append", required=True)
     parser.add_argument("--sprint7-closure-json", required=True, type=Path)
     parser.add_argument("--expected-sprint7-closure-hash", required=True)
@@ -245,6 +263,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             args.sprint7_closure_json,
             expected_sha256=args.expected_sprint7_closure_hash,
         )
+        rebuild_program_hash = validate_rebuild_program(
+            args.rebuild_program,
+            expected_sha256=args.expected_rebuild_program_hash,
+        )
         generated_at = datetime.fromisoformat(args.generated_at.replace("Z", "+00:00"))
         if generated_at.tzinfo is None:
             raise ValueError("--generated-at must include a timezone")
@@ -252,6 +274,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             working = Path(root)
             first = _run_clean_rebuild(
                 rebuild_program=args.rebuild_program,
+                expected_rebuild_program_sha256=rebuild_program_hash,
                 bundle_dir=args.bundle_dir,
                 expected_manifest_hash=manifest_hash,
                 run_dir=working / "first",
@@ -260,6 +283,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             )
             second = _run_clean_rebuild(
                 rebuild_program=args.rebuild_program,
+                expected_rebuild_program_sha256=rebuild_program_hash,
                 bundle_dir=args.bundle_dir,
                 expected_manifest_hash=manifest_hash,
                 run_dir=working / "second",
@@ -272,6 +296,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 git_commit=git_commit,
                 bundle_manifest_sha256=manifest_hash,
                 sprint7_closure_sha256=args.expected_sprint7_closure_hash.lower(),
+                rebuild_program_sha256=rebuild_program_hash,
                 generated_at=generated_at,
             )
         outputs = (

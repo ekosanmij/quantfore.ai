@@ -25,6 +25,10 @@ except ModuleNotFoundError:
 from quantfore_research.evaluation.multifactor_warehouse import (
     build_preoutcome_lock_inputs,
 )
+from quantfore_research.evaluation.multifactor_contract import (
+    HOLDOUT_END_TEXT,
+    HOLDOUT_START_TEXT,
+)
 
 
 DEFAULT_OUTPUT = Path("experiments/multifactor-holdout-lock-v1.json")
@@ -77,8 +81,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "feature_version": "multifactor-v1",
             "normalization_version": "multifactor-normalization-v1",
             "model_version": "multifactor-baseline-v1",
-            "holdout_start": "2022-01-01",
-            "holdout_end": "2025-06-30",
+            "holdout_start": HOLDOUT_START_TEXT,
+            "holdout_end": HOLDOUT_END_TEXT,
             "claims_eligible": False,
             "locked_at": locked_at.astimezone(timezone.utc)
             .isoformat()

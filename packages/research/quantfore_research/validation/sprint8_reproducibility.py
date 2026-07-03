@@ -15,9 +15,11 @@ from quantfore_research.models import (
     MultiFactorPredictionLink,
     MultiFactorScore,
     NormalizationRun,
+    SourceSnapshot,
 )
 from quantfore_research.validation.point_in_time_fundamentals import (
     audit_point_in_time_fundamentals,
+    derive_sec_reconciliation_samples,
 )
 from quantfore_research.validation.reproducibility import (
     canonical_json_bytes,
@@ -62,6 +64,41 @@ def _hash_document(value: Mapping[str, Any]) -> str:
     return sha256_bytes(canonical_json_bytes(value))
 
 
+def _require_report_metadata(
+    document: Mapping[str, Any], *, report_id: str, report_name: str
+) -> dict[str, Any]:
+    if (
+        document.get("report_id") != report_id
+        or document.get("claims_eligible") is not False
+    ):
+        raise ValueError(f"Sprint 8 {report_name} report is not canonical")
+    generated_at = document.get("generated_at")
+    code_revision = document.get("code_revision")
+    lock_hash = document.get("holdout_lock_sha256")
+    if not isinstance(generated_at, str) or not generated_at:
+        raise ValueError(f"Sprint 8 {report_name} report lacks generated_at")
+    if not isinstance(code_revision, str) or not code_revision:
+        raise ValueError(f"Sprint 8 {report_name} report lacks code_revision")
+    if not isinstance(lock_hash, str) or len(lock_hash) != 64:
+        raise ValueError(f"Sprint 8 {report_name} report lacks a holdout lock hash")
+    return {
+        "report_id": report_id,
+        "claims_eligible": False,
+        "generated_at": generated_at,
+        "code_revision": code_revision,
+        "holdout_lock_sha256": lock_hash,
+    }
+
+
+def _require_exact_document(
+    supplied: Mapping[str, Any], calculated: Mapping[str, Any], *, report_name: str
+) -> None:
+    if canonical_json_bytes(supplied) != canonical_json_bytes(calculated):
+        raise ValueError(
+            f"Sprint 8 {report_name} report does not reproduce from closure database"
+        )
+
+
 def build_sprint8_rebuild_fingerprint(
     session: Session,
     *,
@@ -72,33 +109,84 @@ def build_sprint8_rebuild_fingerprint(
 ) -> Sprint8RebuildFingerprint:
     """Fingerprint every invariant required by Sprint 8.8."""
 
-    audit_payload = audit_document.get("audit") or {}
-    if (
-        audit_document.get("decision") not in {"pass", "review"}
-        or audit_payload.get("hard_failure_count") != 0
+    # Imported lazily to keep validation package initialization independent of
+    # the scoring/features import graph.
+    from quantfore_research.evaluation.multifactor import (
+        evaluate_multifactor_baseline,
+    )
+    from quantfore_research.evaluation.multifactor_comparison import (
+        build_multifactor_comparison,
+    )
+    from quantfore_research.evaluation.multifactor_warehouse import (
+        load_verified_comparison_ledger,
+        load_verified_evaluation_ledger,
+    )
+
+    source_ids = tuple(sorted(set(fundamental_source_snapshot_ids)))
+    if not isinstance(audit_document.get("generated_at"), str) or not isinstance(
+        audit_document.get("code_revision"), str
     ):
-        raise ValueError("Sprint 8 closure requires an accepted fundamentals audit")
-    for name, document, report_id in (
-        ("backtest", backtest_document, "pit_multifactor_baseline_v1"),
-        ("comparison", comparison_document, "price-vs-multifactor-v1"),
-    ):
-        if document.get("report_id") != report_id or document.get("claims_eligible") is not False:
-            raise ValueError(f"Sprint 8 {name} report is not canonical")
-        lineage = document.get("warehouse_lineage")
-        if not isinstance(lineage, dict) or lineage.get("source") != "verified_research_warehouse":
-            raise ValueError(f"Sprint 8 {name} report lacks verified warehouse lineage")
+        raise ValueError("Sprint 8 fundamentals audit lacks canonical metadata")
+    reconciliation_samples = derive_sec_reconciliation_samples(
+        session,
+        vendor_source_snapshot_ids=source_ids,
+    )
     reproduced_audit = audit_point_in_time_fundamentals(
         session,
-        source_snapshot_ids=tuple(sorted(set(fundamental_source_snapshot_ids))),
-        reconciliation_samples=(),
-        enforce_reconciliation_gate=False,
+        source_snapshot_ids=source_ids,
+        reconciliation_samples=reconciliation_samples,
+        enforce_reconciliation_gate=True,
     )
-    if (
-        reproduced_audit.fact_hash != audit_payload.get("fact_hash")
-        or reproduced_audit.availability_revision_hash
-        != audit_payload.get("availability_revision_hash")
-    ):
-        raise ValueError("fundamental audit does not reproduce from closure database")
+    if reproduced_audit.hard_failure_count:
+        raise ValueError("Sprint 8 closure requires a passing fundamentals audit")
+    source_hashes = {
+        row.snapshot_id: row.source_hash
+        for row in session.scalars(
+            select(SourceSnapshot).where(
+                SourceSnapshot.snapshot_id.in_(reproduced_audit.source_snapshot_ids)
+            )
+        ).all()
+    }
+    calculated_audit = {
+        "audit_id": "pit-fundamentals-v1",
+        "dataset_kind": "proof_candidate_point_in_time",
+        "claims_eligible": False,
+        "generated_at": audit_document.get("generated_at"),
+        "code_revision": audit_document.get("code_revision"),
+        "source_snapshot_hashes": dict(sorted(source_hashes.items())),
+        "decision": reproduced_audit.status,
+        "audit": reproduced_audit.to_dict(),
+    }
+    _require_exact_document(
+        audit_document, calculated_audit, report_name="fundamentals audit"
+    )
+
+    evaluation_ledger = load_verified_evaluation_ledger(session)
+    comparison_ledger = load_verified_comparison_ledger(session)
+    calculated_backtest = {
+        **_require_report_metadata(
+            backtest_document,
+            report_id="pit_multifactor_baseline_v1",
+            report_name="backtest",
+        ),
+        "warehouse_lineage": evaluation_ledger.lineage_dict(),
+        "evaluation": evaluate_multifactor_baseline(evaluation_ledger.observations),
+    }
+    calculated_comparison = {
+        **_require_report_metadata(
+            comparison_document,
+            report_id="price-vs-multifactor-v1",
+            report_name="comparison",
+        ),
+        "warehouse_lineage": comparison_ledger.lineage_dict(),
+        "comparison": build_multifactor_comparison(comparison_ledger.observations),
+    }
+    _require_exact_document(
+        backtest_document, calculated_backtest, report_name="backtest"
+    )
+    _require_exact_document(
+        comparison_document, calculated_comparison, report_name="comparison"
+    )
 
     features = list(
         session.scalars(
@@ -215,9 +303,6 @@ def build_sprint8_rebuild_fingerprint(
             for row in predictions
         ],
     }
-    evaluation = backtest_document.get("evaluation")
-    if not isinstance(evaluation, dict):
-        raise ValueError("Sprint 8 backtest report lacks evaluation metrics")
     report_hashes = {
         "fundamental_audit": sha256_bytes(
             canonical_json_bytes(audit_document, pretty=True)
@@ -238,7 +323,7 @@ def build_sprint8_rebuild_fingerprint(
         prediction_count=len(predictions),
         outcome_count=len(outcomes),
         prediction_outcome_hash=_hash_document(prediction_outcome_document),
-        backtest_metrics_hash=_hash_document(evaluation),
+        backtest_metrics_hash=_hash_document(calculated_backtest["evaluation"]),
         canonical_report_hashes=report_hashes,
     )
 
