@@ -125,7 +125,10 @@ def _resolve_security_ids(
     session: Session,
     bundle: NormalizedFundamentalBundle,
 ) -> dict[str, str]:
-    values = sorted({fact.vendor_id for fact in bundle.facts})
+    facts_by_vendor: dict[str, list[CanonicalFundamental]] = {}
+    for fact in bundle.facts:
+        facts_by_vendor.setdefault(fact.vendor_id, []).append(fact)
+    values = sorted(facts_by_vendor)
     rows = session.scalars(
         select(SecurityIdentifier).where(
             func.upper(SecurityIdentifier.identifier_type)
@@ -144,7 +147,7 @@ def _resolve_security_ids(
     result: dict[str, str] = {}
     for value in values:
         identifier_rows = by_value.get(value.upper(), [])
-        facts = [fact for fact in bundle.facts if fact.vendor_id == value]
+        facts = facts_by_vendor[value]
         security_ids: set[str] = set()
         missing_dates = []
         ambiguous_dates = []
