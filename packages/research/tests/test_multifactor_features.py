@@ -347,13 +347,21 @@ def test_market_cap_uses_raw_close_not_total_return_adjusted_close():
 def test_price_loader_bounds_history_to_required_253_sessions():
     _, session = make_session()
 
-    prices, snapshot = _load_prices(
+    loaded = _load_prices(
         session,
         security_id="security-1",
         prediction_timestamp=PREDICTION,
         source_snapshot_id="security-prices",
     )
+    cached = _load_prices(
+        session,
+        security_id="security-1",
+        prediction_timestamp=PREDICTION,
+        source_snapshot_id="security-prices",
+    )
+    prices, snapshot = loaded
 
+    assert cached is loaded
     assert snapshot.snapshot_id == "security-prices"
     assert len(prices) == 253
     assert prices[0].date == date(2020, 5, 8)

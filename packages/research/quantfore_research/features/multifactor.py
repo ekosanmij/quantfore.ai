@@ -567,6 +567,15 @@ def _load_prices(
     prediction_timestamp: datetime,
     source_snapshot_id: Optional[str],
 ) -> tuple[list[Price], Optional[SourceSnapshot]]:
+    cache = session.info.setdefault("multifactor_price_history_cache", {})
+    cache_key = (
+        security_id,
+        _utc(prediction_timestamp).date(),
+        source_snapshot_id,
+    )
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
     query = (
         select(SourceSnapshot)
         .join(Price, Price.source_snapshot_id == SourceSnapshot.snapshot_id)
@@ -582,7 +591,9 @@ def _load_prices(
         ).limit(1)
     )
     if snapshot is None:
-        return [], None
+        result = ([], None)
+        cache[cache_key] = result
+        return result
     prices = list(
         session.scalars(
             select(Price)
@@ -595,7 +606,9 @@ def _load_prices(
         ).all()
     )
     prices.reverse()
-    return prices, snapshot
+    result = (prices, snapshot)
+    cache[cache_key] = result
+    return result
 
 
 def _returns(prices: Sequence[Price]) -> list[tuple[date, Decimal]]:
