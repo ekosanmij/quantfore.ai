@@ -123,6 +123,18 @@ def _warehouse_decimal(value: Any) -> Optional[str]:
     return format(parsed, "f")
 
 
+def _canonical_fiscal_year(versions: Sequence[Mapping[str, Any]]) -> int:
+    """Keep one plausible issuer fiscal year across all comparative revisions."""
+
+    period_end_year = date.fromisoformat(str(versions[0]["fiscal_period_end"])).year
+    first_reported_fiscal_year = int(versions[0]["fiscal_year"])
+    return (
+        first_reported_fiscal_year
+        if abs(first_reported_fiscal_year - period_end_year) <= 1
+        else period_end_year
+    )
+
+
 def _equity_identities(equity_bundle: Path) -> dict[str, tuple[str, ...]]:
     document = json.loads((equity_bundle / "securities.json").read_text())
     grouped: dict[str, set[str]] = defaultdict(set)
@@ -362,7 +374,11 @@ def _company_rows(
         if not versions or versions[0]["form_type"].endswith("/A"):
             counts["orphan_amendment_identity"] += 1
             continue
+        canonical_fiscal_year = _canonical_fiscal_year(versions)
         for revision, row in enumerate(versions, start=1):
+            # SEC Companyfacts carries the filing's `fy` on comparative facts,
+            # so a later filing can otherwise relabel an older issuer-period.
+            row["fiscal_year"] = canonical_fiscal_year
             row["revision_version"] = revision
             rows.append(row)
     rows.sort(
