@@ -10,6 +10,7 @@ from quantfore_research.features.multifactor import (
     FundamentalBook,
     MULTIFACTOR_FEATURE_VERSION,
     NOT_APPLICABLE,
+    _load_prices,
     construct_multifactor_features,
     select_fundamentals_as_of,
     store_multifactor_features,
@@ -341,6 +342,22 @@ def test_market_cap_uses_raw_close_not_total_return_adjusted_close():
     assert price_input.value == latest.close
     assert latest.close != latest.adj_close
     assert price_input.input_name == "raw_close"
+
+
+def test_price_loader_bounds_history_to_required_253_sessions():
+    _, session = make_session()
+
+    prices, snapshot = _load_prices(
+        session,
+        security_id="security-1",
+        prediction_timestamp=PREDICTION,
+        source_snapshot_id="security-prices",
+    )
+
+    assert snapshot.snapshot_id == "security-prices"
+    assert len(prices) == 253
+    assert prices[0].date == date(2020, 5, 8)
+    assert prices[-1].date == date(2021, 1, 15)
 
 
 def test_ttm_can_be_constructed_only_from_consecutive_quarters():
