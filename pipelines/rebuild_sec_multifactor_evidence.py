@@ -134,7 +134,9 @@ def ingest_classifications(
     identifiers = list(
         session.scalars(
             select(SecurityIdentifier).where(
-                SecurityIdentifier.identifier_type == "FIGI_SHARE_CLASS",
+                SecurityIdentifier.identifier_type.in_(
+                    ("FIGI_SHARE_CLASS", "COMPOSITE_PERMANENT_ID")
+                ),
                 SecurityIdentifier.identifier_value.in_(vendor_ids),
                 SecurityIdentifier.is_permanent.is_(True),
             )
