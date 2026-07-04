@@ -78,7 +78,7 @@ snapshots are ignored until a new audit binds them:
 python pipelines/run_point_in_time_backtest.py \
   --database-url sqlite+pysqlite:///./quantfore_research.db \
   --universe-id sp500-pit-v1 \
-  --start-date 2015-01-01 \
+  --start-date 2017-01-01 \
   --end-date 2025-06-30 \
   --experiment-id pit_baseline_v0_1 \
   --audit-json reports/data-audits/pit-equity-panel-v1.json

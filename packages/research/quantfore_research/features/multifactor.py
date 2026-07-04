@@ -640,6 +640,8 @@ def _sector_reason(
     if not sector:
         return "SECTOR_UNKNOWN"
     normalized_sector = sector.strip().upper()
+    if normalized_sector in {"UNKNOWN", "SECTOR_UNKNOWN"}:
+        return "SECTOR_UNKNOWN"
     normalized_industry = (industry or "").strip().upper()
     if (
         normalized_sector == "40" or normalized_sector.startswith("FINANC")

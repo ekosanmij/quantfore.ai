@@ -163,6 +163,39 @@ def test_clean_accounting_facts_pass_structural_audit():
     assert len(audit.availability_revision_hash) == 64
 
 
+def test_sec_primary_mode_requires_acceptance_bound_source_evidence():
+    session = make_session()
+    seed_security(session)
+    session.get(SourceSnapshot, "vendor-snapshot").vendor = "SEC EDGAR Primary"
+    fact = add_fact(session, "revenue", "100")
+    fact.vendor_available_at = fact.accepted_at
+    fact.public_release_at = None
+    session.commit()
+
+    audit = audit_point_in_time_fundamentals(
+        session,
+        source_snapshot_ids=["vendor-snapshot"],
+        enforce_reconciliation_gate=False,
+        require_sec_primary_evidence=True,
+    )
+
+    assert audit.hard_failure_count == 0
+    assert audit.evidence_mode == "sec_primary_source_integrity"
+
+    seed_security(session, security_id="security-2")
+    add_fact(session, "revenue", "100", security_id="security-2")
+    session.commit()
+    failed = audit_point_in_time_fundamentals(
+        session,
+        source_snapshot_ids=["vendor-snapshot"],
+        enforce_reconciliation_gate=False,
+        require_sec_primary_evidence=True,
+    )
+    assert "SEC_AVAILABILITY_BINDING_INVALID" in {
+        finding.code for finding in failed.findings
+    }
+
+
 def test_audit_catches_future_use_restatement_order_and_accounting_problems():
     session = make_session()
     seed_security(session)
@@ -391,3 +424,38 @@ def test_feature_gate_binds_passing_audit_to_exact_warehouse_content(tmp_path):
             expected_audit_sha256="0" * 64,
             source_snapshot_ids=["vendor-snapshot"],
         )
+
+
+def test_feature_gate_accepts_amended_sec_primary_integrity_audit(tmp_path):
+    session = make_session()
+    seed_security(session)
+    session.get(SourceSnapshot, "vendor-snapshot").vendor = "SEC EDGAR Primary"
+    fact = add_fact(session, "revenue", "100")
+    fact.vendor_available_at = fact.accepted_at
+    fact.public_release_at = None
+    session.commit()
+    audit = audit_point_in_time_fundamentals(
+        session,
+        source_snapshot_ids=["vendor-snapshot"],
+        enforce_reconciliation_gate=False,
+        require_sec_primary_evidence=True,
+    )
+    document = build_audit_document(
+        audit,
+        generated_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
+        code_revision="test-revision",
+        source_snapshot_hashes={"vendor-snapshot": HASH},
+    )
+    body = (json.dumps(document, indent=2, sort_keys=True) + "\n").encode()
+    path = tmp_path / "sec-primary-audit.json"
+    path.write_bytes(body)
+
+    binding = verify_fundamental_audit(
+        session,
+        audit_path=path,
+        expected_audit_sha256=hashlib.sha256(body).hexdigest(),
+        source_snapshot_ids=["vendor-snapshot"],
+    )
+
+    assert binding.audit_status == "pass"
+    assert binding.fact_hash == audit.fact_hash

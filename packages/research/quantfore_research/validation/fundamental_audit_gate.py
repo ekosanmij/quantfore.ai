@@ -65,7 +65,11 @@ def verify_fundamental_audit(
         raise ValueError("fundamental audit is not accepted for feature execution")
     reconciliation = audit.get("reconciliation") or {}
     required_sectors = reconciliation.get("required_sectors") or []
-    if (
+    sec_primary = reconciliation.get("evidence_mode") == "sec_primary_source_integrity"
+    if sec_primary:
+        if reconciliation.get("gate_enforced") is not False:
+            raise ValueError("SEC-primary audit has an invalid evidence gate")
+    elif (
         reconciliation.get("gate_enforced") is not True
         or reconciliation.get("issuer_period_count", 0)
         < reconciliation.get("minimum_issuer_periods", 30)
@@ -94,6 +98,7 @@ def verify_fundamental_audit(
         source_snapshot_ids=selected_ids,
         reconciliation_samples=(),
         enforce_reconciliation_gate=False,
+        require_sec_primary_evidence=sec_primary,
     )
     if reproduced.fact_hash != audit.get("fact_hash"):
         raise ValueError("fundamental audit fact hash does not match the warehouse")

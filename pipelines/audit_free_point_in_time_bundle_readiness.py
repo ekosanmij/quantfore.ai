@@ -22,6 +22,24 @@ DEFAULT_LICENSE_EVIDENCE = (
     REPO_ROOT
     / "data/raw/free-point-in-time/license-evidence/personal-internal-use-v1.json"
 )
+DEFAULT_LINEAGE_REGISTRY = (
+    REPO_ROOT / "data/raw/free-point-in-time/lineage-evidence-v1/registry.json"
+)
+DEFAULT_LINEAGE_PRICE_ROOT = (
+    REPO_ROOT / "data/raw/free-point-in-time/lineage-prices-v1"
+)
+DEFAULT_RECONCILED_LINEAGE = (
+    REPO_ROOT / "data/raw/free-point-in-time/reconciled-lineage-v1.json"
+)
+DEFAULT_MEMBERSHIP_SAMPLES = (
+    REPO_ROOT / "data/raw/free-point-in-time/wikipedia-membership-samples-v1/registry.json"
+)
+DEFAULT_PRICE_EXCLUSIONS = (
+    REPO_ROOT / "data/raw/free-point-in-time/price-exclusions-v1.json"
+)
+DEFAULT_DELISTING_EVIDENCE = (
+    REPO_ROOT / "data/raw/free-point-in-time/delisting-evidence-v1.json"
+)
 DEFAULT_JSON_OUTPUT = (
     REPO_ROOT / "reports/data-audits/free-pit-bundle-readiness-v1.json"
 )
@@ -50,6 +68,12 @@ def build_readiness(
     identifier_registry_path: Path,
     bundle_path: Path,
     license_evidence_path: Optional[Path] = None,
+    lineage_registry_path: Optional[Path] = None,
+    lineage_price_root: Optional[Path] = None,
+    reconciled_lineage_path: Optional[Path] = None,
+    membership_samples_path: Optional[Path] = None,
+    price_exclusions_path: Optional[Path] = None,
+    delisting_evidence_path: Optional[Path] = None,
 ) -> dict[str, Any]:
     plan_body = plan_path.read_bytes()
     plan_hash = _sha256(plan_body)
@@ -110,6 +134,89 @@ def build_readiness(
     }
     expected_price_count = len(expected_symbols)
     completed_price_count = len(completed_symbols)
+    verified_identity_count = 0
+    verified_identity_tickers: list[str] = []
+    verified_price_lineage_count = 0
+    verified_price_lineage_tickers: list[str] = []
+    lineage_registry_hash = None
+    if lineage_registry_path is not None and lineage_registry_path.is_file():
+        lineage_body = lineage_registry_path.read_bytes()
+        lineage = json.loads(lineage_body)
+        if (
+            lineage.get("acquisition_plan_sha256") != plan_hash
+            or lineage.get("identifier_registry_sha256") != _sha256(identifier_body)
+        ):
+            raise ValueError("lineage evidence registry has wrong source hashes")
+        direct_plan = lineage.get("direct_price_plan", {})
+        direct_plan_path = lineage_registry_path.parent / str(direct_plan.get("path", ""))
+        if (
+            not direct_plan_path.is_file()
+            or _sha256(direct_plan_path.read_bytes()) != direct_plan.get("sha256")
+        ):
+            raise ValueError("direct lineage price plan does not reproduce")
+        direct_rows = [
+            row
+            for row in lineage.get("episodes", [])
+            if row.get("status") == "direct_ticker_verified"
+        ]
+        direct_batch_registry = (
+            lineage_price_root / "batch-001/batch-registry.json"
+            if lineage_price_root is not None
+            else None
+        )
+        if direct_batch_registry is not None and direct_batch_registry.is_file():
+            batch = json.loads(direct_batch_registry.read_text())
+            if (
+                batch.get("status") != "complete"
+                or batch.get("acquisition_plan_sha256") != direct_plan["sha256"]
+                or batch.get("complete_symbol_count") != len(direct_rows)
+            ):
+                raise ValueError("direct lineage price batch is incomplete")
+            verified_identity_tickers = sorted(row["ticker"] for row in direct_rows)
+            verified_identity_count = len(verified_identity_tickers)
+            verified_price_lineage_tickers = list(verified_identity_tickers)
+            verified_price_lineage_count = verified_identity_count
+        lineage_registry_hash = _sha256(lineage_body)
+    reconciled_lineage_hash = None
+    unresolved_episode_ids: set[str] = set()
+    if reconciled_lineage_path is not None and reconciled_lineage_path.is_file():
+        reconciled_body = reconciled_lineage_path.read_bytes()
+        reconciled = json.loads(reconciled_body)
+        if reconciled.get("lineage_registry_sha256") != lineage_registry_hash:
+            raise ValueError("reconciled lineage has wrong source registry hash")
+        identity_rows = [
+            row
+            for row in reconciled.get("episodes", [])
+            if row.get("status")
+            in {"ready_for_bundle", "identity_verified_price_missing"}
+        ]
+        additional_identity_rows = [
+            row
+            for row in reconciled.get("additional_identities", [])
+            if row.get("status") == "identity_verified"
+        ]
+        ready_rows = [row for row in identity_rows if row["status"] == "ready_for_bundle"]
+        unresolved_episode_ids = {
+            row["episode_id"]
+            for row in reconciled.get("episodes", [])
+            if row.get("status") != "ready_for_bundle"
+        }
+        for row in ready_rows:
+            for price in row["selected_identity"]["usable_prices"]:
+                completion_path = Path(price["completion_path"])
+                if (
+                    not completion_path.is_file()
+                    or _sha256(completion_path.read_bytes())
+                    != price["completion_sha256"]
+                ):
+                    raise ValueError("reconciled lineage price evidence does not reproduce")
+        verified_identity_tickers = sorted(
+            {row["ticker"] for row in [*identity_rows, *additional_identity_rows]}
+        )
+        verified_identity_count = len(verified_identity_tickers)
+        verified_price_lineage_tickers = sorted(row["ticker"] for row in ready_rows)
+        verified_price_lineage_count = len(verified_price_lineage_tickers)
+        reconciled_lineage_hash = _sha256(reconciled_body)
     blockers = []
     if completed_price_count != expected_price_count:
         blockers.append(
@@ -123,6 +230,7 @@ def build_readiness(
         + identity_counts["ambiguous_ticker_count"]
         + identity_counts["unresolved_ticker_count"]
     )
+    unresolved_identity_count = max(0, unresolved_identity_count - verified_identity_count)
     if unresolved_identity_count:
         blockers.append(
             {
@@ -130,7 +238,59 @@ def build_readiness(
                 "message": f"{unresolved_identity_count} ticker labels still require identity resolution",
             }
         )
-    unresolved_episodes = len(plan.get("unresolved_episodes", []))
+    exclusion_evidence: dict[str, Any] = {
+        "path": None,
+        "sha256": None,
+        "exclusion_count": 0,
+        "minimum_monthly_coverage": None,
+        "coverage_gate_passed": False,
+        "failed_month_count": None,
+        "first_sustained_passing_month": None,
+    }
+    excluded_episode_count = 0
+    if price_exclusions_path is not None and price_exclusions_path.is_file():
+        exclusion_body = price_exclusions_path.read_bytes()
+        exclusion_document = json.loads(exclusion_body)
+        if not (
+            exclusion_document.get("schema_version") == "free-pit-price-exclusions-v1"
+            and exclusion_document.get("reconciled_lineage_sha256")
+            == reconciled_lineage_hash
+            and exclusion_document.get("lineage_registry_sha256")
+            == lineage_registry_hash
+        ):
+            raise ValueError("price exclusion evidence is invalid or stale")
+        exclusion_ids = {row["episode_id"] for row in exclusion_document["exclusions"]}
+        if exclusion_document.get("unaccounted_episode_count") != 0:
+            raise ValueError("price exclusions leave active-window episodes unaccounted")
+        for row in exclusion_document["exclusions"]:
+            evidence_path = Path(row["evidence_path"])
+            if not evidence_path.is_file() or _sha256(evidence_path.read_bytes()) != row["evidence_sha256"]:
+                raise ValueError("price exclusion evidence does not reproduce")
+        excluded_episode_count = len(exclusion_ids)
+        exclusion_evidence = {
+            "path": str(price_exclusions_path.resolve()),
+            "sha256": _sha256(exclusion_body),
+            "exclusion_count": excluded_episode_count,
+            "minimum_monthly_coverage": exclusion_document["minimum_monthly_coverage"],
+            "coverage_gate_passed": exclusion_document["coverage_gate_passed"],
+            "failed_month_count": exclusion_document["failed_month_count"],
+            "first_sustained_passing_month": exclusion_document[
+                "first_sustained_passing_month"
+            ],
+        }
+        if not exclusion_document["coverage_gate_passed"]:
+            blockers.append(
+                {
+                    "code": "price_exclusion_coverage_failed",
+                    "message": (
+                        "explicit price exclusions reduce minimum monthly coverage to "
+                        f"{exclusion_document['minimum_monthly_coverage']}, below 0.95"
+                    ),
+                }
+            )
+    unresolved_episodes = 0 if excluded_episode_count else max(
+        0, len(plan.get("unresolved_episodes", [])) - verified_price_lineage_count
+    )
     if unresolved_episodes:
         blockers.append(
             {
@@ -179,17 +339,88 @@ def build_readiness(
             "redistribution_permitted_or_intended": False,
             "terms_sha256": terms["sha256"],
         }
-    blockers.extend(
-        [
+    membership_reconciliation: dict[str, Any] = {
+        "complete": False,
+        "path": None,
+        "sha256": None,
+        "sample_count": 0,
+    }
+    if membership_samples_path is None or not membership_samples_path.is_file():
+        blockers.append(
+            {
+                "code": "independent_membership_reconciliation_pending",
+                "message": "three independent revision-pinned membership samples are not frozen",
+            }
+        )
+    else:
+        membership_body = membership_samples_path.read_bytes()
+        membership = json.loads(membership_body)
+        if not (
+            membership.get("schema_version")
+            == "free-pit-wikipedia-membership-samples-v1"
+            and membership.get("sample_count") == 3
+            and membership.get("all_identity_exact_match") is True
+        ):
+            raise ValueError("independent membership samples do not reconcile")
+        for sample in membership["samples"]:
+            raw_path = membership_samples_path.parent / sample["path"]
+            if not raw_path.is_file() or _sha256(raw_path.read_bytes()) != sample["sha256"]:
+                raise ValueError("Wikipedia membership sample does not reproduce")
+        membership_reconciliation = {
+            "complete": True,
+            "path": str(membership_samples_path.resolve()),
+            "sha256": _sha256(membership_body),
+            "sample_count": 3,
+            "samples": membership["samples"],
+        }
+    delisting_evidence: dict[str, Any] = {
+        "complete": False,
+        "path": None,
+        "sha256": None,
+        "ended_listing_count": 0,
+        "unavailable_outcome_count": 0,
+    }
+    if delisting_evidence_path is None or not delisting_evidence_path.is_file():
+        blockers.append(
             {
                 "code": "delisting_evidence_pending",
                 "message": "delisting dates and any available terminal returns are not yet frozen",
-            },
-            {
-                "code": "independent_membership_reconciliation_pending",
-                "message": "the three secondary membership samples do not yet agree exactly",
-            },
-        ]
+            }
+        )
+    else:
+        delisting_body = delisting_evidence_path.read_bytes()
+        delisting = json.loads(delisting_body)
+        if not (
+            delisting.get("schema_version") == "free-pit-delisting-evidence-v1"
+            and delisting.get("status") == "complete"
+            and delisting.get("reconciled_lineage_sha256") == reconciled_lineage_hash
+            and delisting.get("price_exclusions_sha256") == exclusion_evidence["sha256"]
+            and delisting.get("unavailable_outcome_count") == excluded_episode_count
+            and delisting.get("source_capability", {}).get(
+                "separate_delisting_return_available"
+            )
+            is False
+        ):
+            raise ValueError("delisting evidence is invalid or stale")
+        for row in delisting["bound_price_completions"]:
+            completion_path = Path(row["completion_path"])
+            if not completion_path.is_file() or _sha256(completion_path.read_bytes()) != row["completion_sha256"]:
+                raise ValueError("delisting price completion does not reproduce")
+        for row in delisting["unavailable_outcomes"]:
+            metadata_path = Path(row["evidence_path"])
+            if not metadata_path.is_file() or _sha256(metadata_path.read_bytes()) != row["evidence_sha256"]:
+                raise ValueError("unavailable delisting metadata does not reproduce")
+        delisting_evidence = {
+            "complete": True,
+            "path": str(delisting_evidence_path.resolve()),
+            "sha256": _sha256(delisting_body),
+            "ended_listing_count": delisting["ended_listing_count"],
+            "unavailable_outcome_count": delisting["unavailable_outcome_count"],
+            "separate_delisting_return_available": False,
+        }
+    manifest_path = bundle_path / "manifest.json"
+    manifest_sha256 = (
+        _sha256(manifest_path.read_bytes()) if manifest_path.is_file() else None
     )
     ready = not blockers
     return {
@@ -212,11 +443,36 @@ def build_readiness(
             "registry_sha256": _sha256(identifier_body),
             **identity_counts,
         },
+        "lineage": {
+            "registry_path": (
+                str(lineage_registry_path.resolve())
+                if lineage_registry_path is not None and lineage_registry_path.is_file()
+                else None
+            ),
+            "registry_sha256": lineage_registry_hash,
+            "reconciled_path": (
+                str(reconciled_lineage_path.resolve())
+                if reconciled_lineage_path is not None
+                and reconciled_lineage_path.is_file()
+                else None
+            ),
+            "reconciled_sha256": reconciled_lineage_hash,
+            "verified_identity_count": verified_identity_count,
+            "verified_identity_tickers": verified_identity_tickers,
+            "verified_price_lineage_count": verified_price_lineage_count,
+            "verified_price_lineage_tickers": verified_price_lineage_tickers,
+            "remaining_identity_count": unresolved_identity_count,
+            "remaining_episode_count": unresolved_episodes,
+            "excluded_episode_count": excluded_episode_count,
+        },
+        "price_exclusions": exclusion_evidence,
+        "delisting_evidence": delisting_evidence,
         "license": license_evidence,
+        "membership_reconciliation": membership_reconciliation,
         "bundle": {
             "planned_path": str(bundle_path.resolve()),
-            "manifest_sha256": None,
-            "created": False,
+            "manifest_sha256": manifest_sha256,
+            "created": manifest_sha256 is not None,
         },
         "blockers": blockers,
     }
@@ -225,6 +481,7 @@ def build_readiness(
 def render_markdown(report: dict[str, Any]) -> str:
     prices = report["prices"]
     identifiers = report["identifiers"]
+    lineage = report["lineage"]
     lines = [
         "# Free Point-in-Time Bundle Readiness v1",
         "",
@@ -233,15 +490,24 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- Acquisition plan SHA-256: `{report['private_acquisition_plan']['sha256']}`",
         f"- Frozen prices: {prices['complete_symbol_count']} / {prices['expected_symbol_count']} symbols ({prices['frozen_price_row_count']} rows)",
         f"- Unique permanent-ID mappings: {identifiers['resolved_ticker_count']} / {identifiers['requested_ticker_count']}",
+        f"- Additional historical identities verified: {lineage['verified_identity_count']}",
+        f"- Historical episodes with verified price lineage: {lineage['verified_price_lineage_count']}",
         f"- Planned bundle path: `{report['bundle']['planned_path']}`",
-        "- Final manifest SHA-256: not created",
+        (
+            f"- Candidate manifest SHA-256: `{report['bundle']['manifest_sha256']}`"
+            if report["bundle"]["created"]
+            else "- Candidate manifest SHA-256: not created"
+        ),
         "",
         "## Blocking findings",
         "",
     ]
-    lines.extend(
-        f"- `{row['code']}`: {row['message']}." for row in report["blockers"]
-    )
+    if report["blockers"]:
+        lines.extend(
+            f"- `{row['code']}`: {row['message']}." for row in report["blockers"]
+        )
+    else:
+        lines.append("- None.")
     return "\n".join(lines) + "\n"
 
 
@@ -256,6 +522,24 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--bundle-path", type=Path, default=DEFAULT_BUNDLE_PATH)
     parser.add_argument(
         "--license-evidence", type=Path, default=DEFAULT_LICENSE_EVIDENCE
+    )
+    parser.add_argument(
+        "--lineage-registry", type=Path, default=DEFAULT_LINEAGE_REGISTRY
+    )
+    parser.add_argument(
+        "--lineage-price-root", type=Path, default=DEFAULT_LINEAGE_PRICE_ROOT
+    )
+    parser.add_argument(
+        "--reconciled-lineage", type=Path, default=DEFAULT_RECONCILED_LINEAGE
+    )
+    parser.add_argument(
+        "--membership-samples", type=Path, default=DEFAULT_MEMBERSHIP_SAMPLES
+    )
+    parser.add_argument(
+        "--price-exclusions", type=Path, default=DEFAULT_PRICE_EXCLUSIONS
+    )
+    parser.add_argument(
+        "--delisting-evidence", type=Path, default=DEFAULT_DELISTING_EVIDENCE
     )
     parser.add_argument("--json-output", type=Path, default=DEFAULT_JSON_OUTPUT)
     parser.add_argument("--markdown-output", type=Path)
@@ -272,6 +556,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             identifier_registry_path=args.identifier_registry,
             bundle_path=args.bundle_path,
             license_evidence_path=args.license_evidence,
+            lineage_registry_path=args.lineage_registry,
+            lineage_price_root=args.lineage_price_root,
+            reconciled_lineage_path=args.reconciled_lineage,
+            membership_samples_path=args.membership_samples,
+            price_exclusions_path=args.price_exclusions,
+            delisting_evidence_path=args.delisting_evidence,
         )
         markdown_path = args.markdown_output or args.json_output.with_suffix(".md")
         _atomic_write(args.json_output, _json_bytes(report))

@@ -1,17 +1,15 @@
 # Free Point-in-Time Bundle Readiness v1
 
-Status: **IN_PROGRESS**
+Status: **READY**
 
 - Acquisition plan SHA-256: `27755aa00a59a111745b2a7e4d517278328798751dfdaaf35f5b63ff19221075`
-- Frozen prices: 292 / 673 symbols (870365 rows)
+- Frozen prices: 673 / 673 symbols (2036866 rows)
 - Unique permanent-ID mappings: 671 / 754
+- Additional historical identities verified: 83
+- Historical episodes with verified price lineage: 54
 - Planned bundle path: `/Users/ekosanmi.j/Documents/quantfore.ai/data/raw/free-point-in-time/composite-equity-bundle-v1`
-- Final manifest SHA-256: not created
+- Candidate manifest SHA-256: `8b39fe268b3414495f7a2f95fe00e7b76f4afc1f33cec961ef095f4495a90a6e`
 
 ## Blocking findings
 
-- `incomplete_price_acquisition`: 292 of 673 safe symbols are frozen.
-- `incomplete_permanent_identity_lineage`: 83 ticker labels still require identity resolution.
-- `unresolved_price_alias_episodes`: 81 membership episodes require price/corporate-action lineage.
-- `delisting_evidence_pending`: delisting dates and any available terminal returns are not yet frozen.
-- `independent_membership_reconciliation_pending`: the three secondary membership samples do not yet agree exactly.
+- None.

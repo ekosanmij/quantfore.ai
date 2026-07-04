@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import subprocess
 import sys
 import tempfile
@@ -229,6 +230,9 @@ def build_closure_document(
     end_date: date,
     experiment_id: str,
     evidence_timestamp: datetime,
+    price_exclusions_sha256: str = "0" * 64,
+    price_exclusion_count: int = 0,
+    minimum_monthly_price_coverage: str = "1",
 ) -> dict[str, Any]:
     comparison = compare_rebuild_fingerprints(
         first.fingerprint, second.fingerprint
@@ -247,6 +251,7 @@ def build_closure_document(
         "clean_worktree_verified": True,
         "git_commit": git_commit,
         "bundle_manifest_sha256": bundle_manifest_sha256,
+        "price_exclusions_sha256": price_exclusions_sha256,
         "configuration": {
             "universe_id": universe_id,
             "start_date": start_date.isoformat(),
@@ -257,6 +262,8 @@ def build_closure_document(
             .replace("+00:00", "Z"),
             "rebuild_count": 2,
             "database_kind": "fresh_temporary_sqlite",
+            "price_exclusion_count": price_exclusion_count,
+            "minimum_monthly_price_coverage": minimum_monthly_price_coverage,
         },
         "reproducibility": comparison,
         "canonical_evidence": {
@@ -286,6 +293,8 @@ def render_markdown(document: Mapping[str, Any]) -> str:
         f"- Decision: `{document['closure_decision']}`",
         f"- Clean commit: `{document['git_commit']}`",
         f"- Bundle manifest: `{document['bundle_manifest_sha256']}`",
+        f"- Price exclusions: `{document['price_exclusions_sha256']}`",
+        f"- Minimum full-universe price coverage: `{config['minimum_monthly_price_coverage']}`",
         f"- Universe: `{config['universe_id']}`",
         f"- Backtest window: `{config['start_date']}` through `{config['end_date']}`",
         f"- Evidence timestamp: `{config['evidence_timestamp']}`",
@@ -355,6 +364,8 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     )
     parser.add_argument("bundle_dir", type=Path)
     parser.add_argument("--expected-manifest-hash", required=True)
+    parser.add_argument("--price-exclusions", type=Path)
+    parser.add_argument("--expected-price-exclusions-hash")
     parser.add_argument("--universe-id", default="sp500-pit-v1")
     parser.add_argument("--calendar", default="XNYS")
     parser.add_argument("--start-date", type=_date, required=True)
@@ -403,12 +414,31 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     args = parse_args(argv)
     try:
         git_commit = require_clean_git_worktree()
+        if args.price_exclusions is None or not args.expected_price_exclusions_hash:
+            raise ValueError(
+                "--price-exclusions and --expected-price-exclusions-hash are required"
+            )
         bundle = PointInTimeEquityBundleAdapter(
             args.bundle_dir,
             expected_manifest_hash=args.expected_manifest_hash,
         ).load()
         if bundle.universe_id != args.universe_id:
             raise ValueError("bundle universe does not match --universe-id")
+        if args.start_date != bundle.window_start or args.end_date != bundle.window_end:
+            raise ValueError("closure dates must exactly match the bundle window")
+        exclusion_body = args.price_exclusions.read_bytes()
+        exclusion_hash = sha256_bytes(exclusion_body)
+        if exclusion_hash != args.expected_price_exclusions_hash.lower():
+            raise ValueError("price exclusion SHA-256 does not match")
+        exclusion_document = json.loads(exclusion_body)
+        if not (
+            exclusion_document.get("schema_version") == "free-pit-price-exclusions-v1"
+            and exclusion_document.get("coverage_gate_passed") is True
+            and exclusion_document.get("unaccounted_episode_count") == 0
+            and exclusion_document.get("window_start") == bundle.window_start.isoformat()
+            and exclusion_document.get("window_end") == bundle.window_end.isoformat()
+        ):
+            raise ValueError("price exclusion coverage evidence is invalid")
         with tempfile.TemporaryDirectory(prefix="quantfore-sprint7-closure-") as root:
             working = Path(root)
             first = _run_clean_rebuild(
@@ -447,6 +477,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 end_date=args.end_date,
                 experiment_id=args.experiment_id,
                 evidence_timestamp=args.evidence_timestamp,
+                price_exclusions_sha256=exclusion_hash,
+                price_exclusion_count=int(exclusion_document["exclusion_count"]),
+                minimum_monthly_price_coverage=str(
+                    exclusion_document["minimum_monthly_coverage"]
+                ),
             )
         outputs = (
             (args.audit_json_output, first.audit_json),

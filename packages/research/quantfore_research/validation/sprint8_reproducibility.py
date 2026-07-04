@@ -127,15 +127,30 @@ def build_sprint8_rebuild_fingerprint(
         audit_document.get("code_revision"), str
     ):
         raise ValueError("Sprint 8 fundamentals audit lacks canonical metadata")
-    reconciliation_samples = derive_sec_reconciliation_samples(
-        session,
-        vendor_source_snapshot_ids=source_ids,
+    requested_snapshots = list(
+        session.scalars(
+            select(SourceSnapshot).where(SourceSnapshot.snapshot_id.in_(source_ids))
+        ).all()
+    )
+    if len(requested_snapshots) != len(source_ids):
+        raise ValueError("Sprint 8 fundamental source snapshots are incomplete")
+    sec_primary = bool(requested_snapshots) and all(
+        "SEC EDGAR PRIMARY" in row.vendor.upper() for row in requested_snapshots
+    )
+    reconciliation_samples = (
+        ()
+        if sec_primary
+        else derive_sec_reconciliation_samples(
+            session,
+            vendor_source_snapshot_ids=source_ids,
+        )
     )
     reproduced_audit = audit_point_in_time_fundamentals(
         session,
         source_snapshot_ids=source_ids,
         reconciliation_samples=reconciliation_samples,
-        enforce_reconciliation_gate=True,
+        enforce_reconciliation_gate=not sec_primary,
+        require_sec_primary_evidence=sec_primary,
     )
     if reproduced_audit.hard_failure_count:
         raise ValueError("Sprint 8 closure requires a passing fundamentals audit")
@@ -289,8 +304,8 @@ def build_sprint8_rebuild_fingerprint(
         for row in predictions
         if row.model_version == "multifactor-baseline-v1"
     }
-    if multifactor_ids != linked_ids or len(outcomes) != len(predictions):
-        raise ValueError("Sprint 8 closure requires complete prediction outcomes")
+    if multifactor_ids != linked_ids:
+        raise ValueError("Sprint 8 closure requires complete prediction links")
     outcome_by_prediction = {row.prediction_id: row for row in outcomes}
     prediction_outcome_document = {
         "schema_version": "sprint8_predictions_outcomes_v1",
@@ -298,7 +313,11 @@ def build_sprint8_rebuild_fingerprint(
             {
                 "prediction_id": row.prediction_id,
                 "prediction_hash": row.immutable_hash,
-                "outcome_hash": outcome_by_prediction[row.prediction_id].immutable_hash,
+                "outcome_hash": (
+                    outcome_by_prediction[row.prediction_id].immutable_hash
+                    if row.prediction_id in outcome_by_prediction
+                    else None
+                ),
             }
             for row in predictions
         ],

@@ -147,7 +147,7 @@ def _completion_record(path: Path, *, identity_hash: str, cik: str) -> Optional[
     record = json.loads(path.read_text())
     if record.get("identifier_registry_sha256") != identity_hash or record.get("cik") != cik:
         raise ValueError(f"conflicting SEC completion for CIK {cik}")
-    for dataset in ("companyfacts", "submissions"):
+    for dataset in record.get("datasets", ("companyfacts", "submissions")):
         source = record.get(dataset, {})
         raw_path = path.parent / str(source.get("path", ""))
         if not raw_path.is_file() or _sha256(raw_path.read_bytes()) != source.get("sha256"):
@@ -163,10 +163,26 @@ def acquire_sec_sources(
     max_ciks: Optional[int] = None,
     request_delay_seconds: float = 0.12,
     workers: int = 8,
+    additional_identities: Sequence[Mapping[str, Any]] = (),
+    include_resolved_identities: bool = True,
+    include_companyfacts: bool = True,
 ) -> dict[str, Any]:
     registry = json.loads(identifier_body)
     identity_hash = _sha256(identifier_body)
-    identities = _resolved_ciks(registry)
+    identities = _resolved_ciks(registry) if include_resolved_identities else []
+    by_cik = {row["cik"]: row for row in identities}
+    for supplied in additional_identities:
+        cik = str(supplied["cik"]).zfill(10)
+        if len(cik) != 10 or not cik.isdigit():
+            raise ValueError(f"invalid additional CIK: {cik!r}")
+        target = by_cik.setdefault(
+            cik,
+            {"cik": cik, "tickers": [], "share_class_figis": []},
+        )
+        target["tickers"] = sorted(
+            {*target["tickers"], *[str(value) for value in supplied.get("tickers", [])]}
+        )
+    identities = [by_cik[cik] for cik in sorted(by_cik)]
     if max_ciks is not None:
         if max_ciks < 1:
             raise ValueError("max_ciks must be positive")
@@ -194,10 +210,11 @@ def acquire_sec_sources(
         cik = identity["cik"]
         cik_dir = output_root / f"CIK{cik}"
         sources: dict[str, dict[str, Any]] = {}
-        urls = {
-            "companyfacts": f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json",
-            "submissions": f"https://data.sec.gov/submissions/CIK{cik}.json",
-        }
+        urls = {"submissions": f"https://data.sec.gov/submissions/CIK{cik}.json"}
+        if include_companyfacts:
+            urls["companyfacts"] = (
+                f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
+            )
         for dataset, url in urls.items():
             body = client.get(url)
             _validate_payload(body, cik=cik, dataset=dataset)
@@ -221,6 +238,7 @@ def acquire_sec_sources(
             "tickers": identity["tickers"],
             "share_class_figis": identity["share_class_figis"],
             "identifier_registry_sha256": identity_hash,
+            "datasets": sorted(sources),
             "retrieved_at": datetime.now(timezone.utc)
             .isoformat()
             .replace("+00:00", "Z"),
@@ -284,7 +302,31 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--request-delay-seconds", type=float, default=0.12)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--user-agent", default=SEC_USER_AGENT)
+    parser.add_argument(
+        "--additional-cik",
+        action="append",
+        default=[],
+        metavar="CIK:TICKER",
+    )
+    parser.add_argument("--additional-only", action="store_true")
+    parser.add_argument("--submissions-only", action="store_true")
     return parser.parse_args(argv)
+
+
+def _additional_identities(values: Sequence[str]) -> tuple[dict[str, Any], ...]:
+    grouped: dict[str, set[str]] = {}
+    for value in values:
+        try:
+            cik, ticker = value.split(":", 1)
+        except ValueError as exc:
+            raise ValueError("--additional-cik must use CIK:TICKER") from exc
+        if not cik.isdigit() or not ticker.strip():
+            raise ValueError("--additional-cik must use CIK:TICKER")
+        grouped.setdefault(cik.zfill(10), set()).add(ticker.strip().upper())
+    return tuple(
+        {"cik": cik, "tickers": sorted(tickers), "share_class_figis": []}
+        for cik, tickers in sorted(grouped.items())
+    )
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
@@ -300,6 +342,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             max_ciks=args.max_ciks,
             request_delay_seconds=args.request_delay_seconds,
             workers=args.workers,
+            additional_identities=_additional_identities(args.additional_cik),
+            include_resolved_identities=not args.additional_only,
+            include_companyfacts=not args.submissions_only,
         )
     except (KeyError, OSError, SecAcquisitionError, ValueError) as exc:
         print(f"SEC PIT acquisition failed: {exc}", file=sys.stderr)

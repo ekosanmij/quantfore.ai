@@ -173,6 +173,11 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--candidate-fact-ids", type=Path)
     parser.add_argument("--reconciliation-json", type=Path)
     parser.add_argument("--allow-incomplete-reconciliation", action="store_true")
+    parser.add_argument(
+        "--sec-primary-evidence",
+        action="store_true",
+        help="Use the amended SEC-primary source-integrity gate.",
+    )
     parser.add_argument("--json-output", type=Path, default=DEFAULT_JSON_OUTPUT)
     parser.add_argument("--markdown-output", type=Path, default=DEFAULT_MARKDOWN_OUTPUT)
     parser.add_argument("--generated-at", type=_timestamp)
@@ -190,6 +195,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             )
         session_factory = open_research_database(args.database_url)
         with session_factory() as session:
+            if args.sec_primary_evidence and args.reconciliation_json is not None:
+                raise ValueError(
+                    "--sec-primary-evidence cannot use --reconciliation-json"
+                )
             samples = (
                 load_reconciliation_samples(args.reconciliation_json)
                 if args.reconciliation_json is not None
@@ -197,6 +206,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                     session,
                     vendor_source_snapshot_ids=args.source_snapshot_id,
                 )
+                if not args.sec_primary_evidence
+                else ()
             )
             audit = audit_point_in_time_fundamentals(
                 session,
@@ -204,7 +215,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 prediction_timestamp=args.prediction_timestamp,
                 candidate_fact_ids=candidate_ids,
                 reconciliation_samples=samples,
-                enforce_reconciliation_gate=not args.allow_incomplete_reconciliation,
+                enforce_reconciliation_gate=(
+                    not args.allow_incomplete_reconciliation
+                    and not args.sec_primary_evidence
+                ),
+                require_sec_primary_evidence=args.sec_primary_evidence,
             )
             from quantfore_research.models import SourceSnapshot
             from sqlalchemy import select
