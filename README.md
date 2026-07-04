@@ -8,6 +8,35 @@ The core question Quantfore AI is built to answer is:
 
 > Has the thesis changed, does it matter, and what should be reviewed before the next decision?
 
+## Current Research Status
+
+Status as of July 4, 2026: **Sprint 7 is closed; Sprint 8 is in progress.**
+`claims_eligible=false` remains in force, so the repository does not support
+public performance or alpha claims.
+
+- Sprint 7 passed its reproducibility gate with two clean database rebuilds.
+  The point-in-time S&P 500 baseline covers `2017-01-01` through `2025-06-30`,
+  with 638 securities, 1,266,438 price rows, 41,024 predictions, 40,772
+  evaluated outcomes, and minimum monthly full-universe price coverage of
+  `0.962451`.
+- The free-data acquisition is complete for its amended personal/internal-use
+  contract: 673 of 673 planned Tiingo symbols, all 754 required OpenFIGI
+  queries, SEC Companyfacts and submissions for 547 of 547 resolved CIKs, and
+  all 28,919 planned filing accessions accounted for (28,917 verified filing
+  indexes plus two explicitly unavailable orphan accessions).
+- The SEC-primary fundamentals bundle contains 764,865 filing-bound facts and
+  697 dated classification records. The mature evaluation cutoff is centrally
+  fixed at `2025-06-30`.
+- Sprint 8 now has database-derived report verification and rebuild-program
+  SHA-256 binding. Its remaining gates are the fresh-database fundamentals
+  audit, holdout lock, and two matching closure rebuilds.
+- Raw Tiingo, SEC, OpenFIGI, membership, identifier, and licence evidence stays
+  under Git-ignored `data/raw/`; Tiingo data is not redistributed.
+
+See the [Sprint 7/Sprint 8 progress record](docs/research/sprint7-sprint8-free-data-progress-v1.md)
+and [Sprint 7 closure evidence](reports/reproducibility/sprint7-closure-v1.md)
+for the exact scope, hashes, limitations, and remaining work.
+
 ## Local Setup
 
 From the repository root:
@@ -238,8 +267,10 @@ apps/
   web/           Future Next.js application.
 packages/
   research/      Shared research/modeling code.
-pipelines/       Future ingestion, feature, and validation pipelines.
+pipelines/       Acquisition, ingestion, feature, audit, and closure pipelines.
 infra/           Future infrastructure definitions.
+reports/         Git-tracked audits, backtests, and reproducibility evidence.
+experiments/     Versioned experiment contracts and holdout locks.
 ```
 
 ## Current Documentation
@@ -249,19 +280,23 @@ infra/           Future infrastructure definitions.
 - [Data vendor matrix](docs/data/data-vendor-matrix.md)
 - [Validation plan](docs/research/validation-plan.md)
 - [Synthetic baseline backtest contract](docs/research/synthetic-backtest-contract-v0.md)
+- [Sprint 7 and Sprint 8 free-data progress](docs/research/sprint7-sprint8-free-data-progress-v1.md)
+- [Sprint 7 reproducibility closure](reports/reproducibility/sprint7-closure-v1.md)
 
-## First Build Priorities
+## Current Build Priorities
 
-The first engineering milestone should be a reproducible research system, not a polished frontend.
+The reproducible point-in-time research foundation and Sprint 7 baseline are
+implemented. The immediate milestone is Sprint 8 closure, not a polished
+frontend.
 
-Initial build tickets:
+Current priorities:
 
-- Data snapshot registry for vendor, dataset, retrieval time, hash, storage URI, and license tag.
-- Point-in-time universe loader for S&P 500 membership by as-of date.
-- Feature registry with as-of date, availability date, version, and source hash.
-- Baseline factor scorer for sector-neutral value, quality, momentum, revision, and risk factors.
-- Backtest engine with weekly decisions, monthly rebalance, benchmark comparison, transaction costs, and metrics by year/regime.
-- Prediction ledger that stores model output before outcomes and prevents silent edits.
+- Complete the SEC-primary fundamentals audit on a fresh database.
+- Freeze the Sprint 8 holdout lock and its exact source/run lineage.
+- Run two independent Sprint 8 rebuilds and publish closure only if their
+  canonical audits, ledgers, evaluations, and comparisons match exactly.
+- Keep `claims_eligible=false` until the separate performance and governance
+  requirements are satisfied.
 - Transcript and filing extractor for guidance, KPIs, risks, management claims, and evidence snippets.
 - Stock decision endpoint returning action label, score, confidence, drivers, Thesis Drift Index, risk flags, and evidence.
 - Model evidence dashboard showing out-of-sample performance, failed tests, and known weaknesses.
@@ -289,6 +324,15 @@ Initial build tickets:
 
 ## Status
 
-This repository is at the foundation stage. It now includes the working documentation, a first `packages/research` Python package, SQLAlchemy research tables, initial ingestion scripts for FRED macro data, SEC companyfacts, and sample prices, plus baseline feature, scoring, outcome-evaluation, and synthetic historical-backtest pipelines.
+This repository now includes the research package, SQLAlchemy warehouse,
+immutable source-snapshot lineage, historical S&P 500 universe reconstruction,
+point-in-time equity and SEC fundamentals ingestion, feature/scoring ledgers,
+outcome evaluation, reproducibility validation, and Git-tracked Sprint 7
+closure evidence. The synthetic smoke-check remains available for fast local
+verification, while the closed Sprint 7 evidence uses the amended real-market
+personal/internal-research dataset described above.
 
-Runtime API services, production orchestration, trained ML models, proof-grade real-market backtesting, and frontend applications are not implemented yet. The current backtest infrastructure is an engineering harness over deterministic synthetic data only.
+Runtime API services, production orchestration, trained ML ranking models,
+commercially licensed proof-grade datasets, and frontend applications are not
+implemented yet. Sprint 8 remains open, and no real-market performance claim is
+authorized.
