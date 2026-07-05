@@ -1,12 +1,12 @@
 {
   "claims_eligible": false,
-  "code_commit": "34ef96e07a887028c14d6d2019d33e30e3db8d51",
+  "code_commit": "be01cac1a3191131f734cb13b5e78552109d8d82",
   "contract_version": "multifactor-baseline-v1",
   "feature_version": "multifactor-v1",
   "holdout_end": "2025-06-30",
   "holdout_start": "2022-01-01",
   "lock_version": "multifactor-holdout-lock-v1",
-  "locked_at": "2026-07-04T22:06:37Z",
+  "locked_at": "2026-07-05T08:40:50Z",
   "model_version": "multifactor-baseline-v1",
   "normalization_run_ids": [
     "multifactor-normalization-v1_sp500-pit-v1_2018-10-31",
