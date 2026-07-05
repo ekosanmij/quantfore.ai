@@ -73,6 +73,23 @@ def validate_rebuild_program(path: Path, *, expected_sha256: str) -> str:
     return actual
 
 
+def _audit_source_snapshot_ids(audit: Mapping[str, Any]) -> tuple[str, ...]:
+    source_hashes = audit.get("source_snapshot_hashes")
+    if (
+        not isinstance(source_hashes, dict)
+        or not source_hashes
+        or not all(
+            isinstance(snapshot_id, str)
+            and snapshot_id
+            and isinstance(source_hash, str)
+            and len(source_hash) == 64
+            for snapshot_id, source_hash in source_hashes.items()
+        )
+    ):
+        raise ValueError("Sprint 8 audit lacks frozen source snapshot bindings")
+    return tuple(sorted(source_hashes))
+
+
 def _run_clean_rebuild(
     *,
     rebuild_program: Path,
@@ -80,7 +97,6 @@ def _run_clean_rebuild(
     bundle_dir: Path,
     expected_manifest_hash: str,
     run_dir: Path,
-    fundamental_source_snapshot_ids: Sequence[str],
     evidence_timestamp: datetime,
 ) -> Sprint8RebuildArtifacts:
     validate_rebuild_program(
@@ -122,7 +138,7 @@ def _run_clean_rebuild(
     with factory() as session:
         fingerprint = build_sprint8_rebuild_fingerprint(
             session,
-            fundamental_source_snapshot_ids=fundamental_source_snapshot_ids,
+            fundamental_source_snapshot_ids=_audit_source_snapshot_ids(audit),
             audit_document=audit,
             backtest_document=backtest,
             comparison_document=comparison,
@@ -237,7 +253,6 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--expected-manifest-hash", required=True)
     parser.add_argument("--rebuild-program", required=True, type=Path)
     parser.add_argument("--expected-rebuild-program-hash", required=True)
-    parser.add_argument("--fundamental-source-snapshot-id", action="append", required=True)
     parser.add_argument("--sprint7-closure-json", required=True, type=Path)
     parser.add_argument("--expected-sprint7-closure-hash", required=True)
     parser.add_argument("--generated-at", required=True)
@@ -278,7 +293,6 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 bundle_dir=args.bundle_dir,
                 expected_manifest_hash=manifest_hash,
                 run_dir=working / "first",
-                fundamental_source_snapshot_ids=args.fundamental_source_snapshot_id,
                 evidence_timestamp=generated_at,
             )
             second = _run_clean_rebuild(
@@ -287,7 +301,6 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 bundle_dir=args.bundle_dir,
                 expected_manifest_hash=manifest_hash,
                 run_dir=working / "second",
-                fundamental_source_snapshot_ids=args.fundamental_source_snapshot_id,
                 evidence_timestamp=generated_at,
             )
             closure = build_sprint8_closure_document(

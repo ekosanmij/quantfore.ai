@@ -415,6 +415,9 @@ hash, fresh database URL, isolated output root, and the same frozen
 `--generated-at` value on both invocations.
 Its exact bytes are verified against the required SHA-256 immediately before
 each invocation, and that digest is recorded in the closure document.
+Each fresh database's SEC source snapshot UUID is discovered from that run's
+recalculated, hash-bound audit rather than incorrectly reusing a UUID from a
+different database.
 
 The two runs must match on fundamental fact and availability/revision hashes,
 feature count and value hash, monthly eligible-universe hash, immutable
@@ -426,7 +429,6 @@ python pipelines/close_multifactor_sprint.py /private/frozen-sprint8-bundle \
   --expected-manifest-hash <sha256> \
   --rebuild-program /private/bin/rebuild_sprint8.py \
   --expected-rebuild-program-hash <sha256> \
-  --fundamental-source-snapshot-id <snapshot-id> \
   --sprint7-closure-json reports/reproducibility/sprint7-closure-v1.json \
   --expected-sprint7-closure-hash <sha256> \
   --generated-at 2026-01-01T00:00:00Z
