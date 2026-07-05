@@ -1,9 +1,22 @@
 from pipelines.build_sec_point_in_time_fundamental_bundle import (
+    _canonical_fiscal_year,
     _period_type,
     _quarter,
     _sic_sector,
     _warehouse_decimal,
 )
+
+
+def test_comparative_revisions_keep_one_plausible_fiscal_year():
+    assert _canonical_fiscal_year(
+        [
+            {"fiscal_period_end": "2012-12-31", "fiscal_year": 2015},
+            {"fiscal_period_end": "2012-12-31", "fiscal_year": 2016},
+        ]
+    ) == 2012
+    assert _canonical_fiscal_year(
+        [{"fiscal_period_end": "2025-01-31", "fiscal_year": 2024}]
+    ) == 2024
 
 
 def test_period_classification_rejects_ytd_contexts():

@@ -312,14 +312,14 @@ def select_fundamentals_as_of(
     """Select the greatest revision actually available by the prediction time."""
 
     timestamp = _utc(prediction_timestamp)
-    query = select(Fundamental).where(Fundamental.security_id == security_id)
+    query = (
+        select(Fundamental)
+        .where(Fundamental.security_id == security_id)
+        .where(Fundamental.model_available_at <= timestamp)
+    )
     if source_snapshot_ids is not None:
         query = query.where(Fundamental.source_snapshot_id.in_(source_snapshot_ids))
-    candidates = [
-        row
-        for row in session.scalars(query).all()
-        if _utc(row.model_available_at) <= timestamp
-    ]
+    candidates = list(session.scalars(query).all())
     selected: dict[tuple[object, ...], Fundamental] = {}
     for row in candidates:
         identity = (
@@ -567,6 +567,15 @@ def _load_prices(
     prediction_timestamp: datetime,
     source_snapshot_id: Optional[str],
 ) -> tuple[list[Price], Optional[SourceSnapshot]]:
+    cache = session.info.setdefault("multifactor_price_history_cache", {})
+    cache_key = (
+        security_id,
+        _utc(prediction_timestamp).date(),
+        source_snapshot_id,
+    )
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
     query = (
         select(SourceSnapshot)
         .join(Price, Price.source_snapshot_id == SourceSnapshot.snapshot_id)
@@ -582,7 +591,9 @@ def _load_prices(
         ).limit(1)
     )
     if snapshot is None:
-        return [], None
+        result = ([], None)
+        cache[cache_key] = result
+        return result
     prices = list(
         session.scalars(
             select(Price)
@@ -590,10 +601,14 @@ def _load_prices(
             .where(Price.source_snapshot_id == snapshot.snapshot_id)
             .where(Price.date <= prediction_timestamp.date())
             .where(Price.adj_close.is_not(None))
-            .order_by(Price.date, Price.price_id)
+            .order_by(Price.date.desc(), Price.price_id.desc())
+            .limit(253)
         ).all()
     )
-    return prices, snapshot
+    prices.reverse()
+    result = (prices, snapshot)
+    cache[cache_key] = result
+    return result
 
 
 def _returns(prices: Sequence[Price]) -> list[tuple[date, Decimal]]:

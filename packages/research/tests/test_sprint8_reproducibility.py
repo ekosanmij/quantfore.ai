@@ -7,6 +7,7 @@ import pytest
 
 from pipelines.close_multifactor_sprint import (
     Sprint8RebuildArtifacts,
+    _audit_source_snapshot_ids,
     build_sprint8_closure_document,
     render_markdown,
     validate_rebuild_program,
@@ -142,3 +143,17 @@ def test_rebuild_program_is_hash_bound_before_execution(tmp_path):
     assert validate_rebuild_program(program, expected_sha256=expected) == expected
     with pytest.raises(ValueError, match="rebuild program SHA-256"):
         validate_rebuild_program(program, expected_sha256="0" * 64)
+
+
+def test_closure_discovers_each_rebuilds_hash_bound_source_snapshot():
+    assert _audit_source_snapshot_ids(
+        {
+            "source_snapshot_hashes": {
+                "snapshot-b": "b" * 64,
+                "snapshot-a": "a" * 64,
+            }
+        }
+    ) == ("snapshot-a", "snapshot-b")
+
+    with pytest.raises(ValueError, match="source snapshot bindings"):
+        _audit_source_snapshot_ids({"source_snapshot_hashes": {}})
