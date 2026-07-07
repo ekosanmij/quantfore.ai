@@ -1,14 +1,25 @@
 # Quantfore AI
 
-Quantfore AI is a thesis-change and risk/reward decisioning platform for investors.
+Quantfore AI is an evidence-centric investment research system for monitoring
+thesis evolution and estimating forward risk/reward in public equities. It is
+designed to maintain a point-in-time representation of an investment case,
+reconcile new fundamental and market evidence against that prior state, and
+identify changes that warrant analytical review.
 
-It is not an AI stock picker, a trading bot, a robo-adviser, or a system that tells users what to buy or sell. The product vision is to help serious investors monitor how an investment thesis changes over time, understand whether forward risk/reward has improved or deteriorated, and make more disciplined research decisions with evidence.
+The system combines structured fundamentals, market data, corporate
+disclosures, expectations, macro regimes, and portfolio context within an
+auditable decision architecture. Its mandate is analytical rather than
+executional: Quantfore produces traceable research outputs, calibrated signals,
+and explicit uncertainty for human evaluation. Personalised suitability,
+discretionary portfolio management, and trade execution sit outside the current
+system boundary.
 
-The core question Quantfore AI is built to answer is:
+The research programme is organised around a consequential question:
 
-> Has the thesis changed, does it matter, and what should be reviewed before the next decision?
+> Which new evidence changes the investment thesis, how material is that
+> change, and how does it alter the distribution of forward outcomes?
 
-## Current Research Status
+## Research Programme Status
 
 Status as of July 4, 2026: **Sprint 7 is closed; Sprint 8 is in progress.**
 `claims_eligible=false` remains in force, so the repository does not support
@@ -86,172 +97,233 @@ excess_return=0.05 max_drawdown=-0.2
 sample data. Its prices, volumes, returns, and drawdowns are fictional and must
 not be used for performance claims.
 
-## Product Vision
+## Investment Research Thesis
 
-Investors do not lack information. They lack a disciplined system for detecting when the facts behind an investment case have changed.
+The binding constraint in fundamental investing is rarely access to
+information. It is the ability to preserve the original investment thesis,
+distinguish signal from narrative noise, and determine whether subsequent
+evidence changes the probability or magnitude of the relevant outcomes.
 
-Quantfore AI is intended to become a research and decisioning layer that tracks company fundamentals, filings, earnings transcripts, analyst expectations, market regime, valuation, sentiment, price behavior, and portfolio exposure. The product should surface what changed, why it matters, how confidence shifted, and how the current risk/reward compares with the original thesis.
+Quantfore is being developed as the analytical layer for that process. It will
+integrate company fundamentals, disclosures, earnings transcripts, consensus
+expectations, valuation, price behaviour, market regimes, and portfolio
+exposures into a longitudinal model of each security. Every material change
+should be attributable to dated source evidence and evaluated relative to what
+was knowable at the time.
 
-The first product should focus on research support and general investment guidance. It should avoid personalized suitability, discretionary management, live trade execution, and unsupported performance claims until the necessary validation, compliance review, and operating controls exist.
+The intended output is not a context-free score. It is a structured account of
+what changed, why the change is decision-relevant, which assumptions are now
+under pressure, how confidence has been revised, and whether prospective
+asymmetry has improved or deteriorated.
 
-## Core Positioning
+## System Mandate
 
-Quantfore AI should be positioned as:
+Quantfore's domain is investment intelligence and decision support:
 
-- A thesis-change monitoring platform.
-- A risk/reward decisioning engine.
-- A portfolio-aware research layer.
-- A structured evidence system for investment decisions.
-- A model-assisted analyst that explains its reasoning.
+- Maintain a versioned, evidence-linked representation of the company thesis.
+- Detect fundamental, expectations, regime, and market-state changes.
+- Rank forward opportunities using calibrated, benchmark-relative estimates.
+- Decompose risk at security and portfolio level.
+- Expose the evidence, model provenance, uncertainty, and counterarguments
+  behind every analytical output.
 
-Quantfore AI should not be positioned as:
+The current mandate excludes personalised suitability determinations,
+discretionary management, order generation, and trade execution. These are
+architectural and governance boundaries, not merely marketing qualifications:
+the research system is designed to inform accountable human judgement, with no
+unsupported inference of certainty or investment performance.
 
-- An AI stock picker.
-- A black-box buy/sell signal service.
-- A guaranteed alpha product.
-- A replacement for investor judgment.
-- A financial adviser by default.
-- A live execution or automated trading system.
+## Initial Research Domain
 
-## Initial Market Focus
+The initial user is a research-intensive, self-directed investor who allocates
+meaningful capital to individual equities or ETFs and requires a more rigorous
+process for initiation, monitoring, sizing review, and thesis invalidation.
 
-The first target user is the serious self-directed investor who already researches individual equities or ETFs, manages meaningful personal capital, and wants a more systematic way to decide when to buy, hold, trim, add, avoid, or review.
+The initial scope is deliberately constrained:
 
-The initial product assumptions are:
+- Market: US equities, initially the S&P 500 and subsequently the Russell 1000
+  once data and pipeline controls are stable.
+- User geography: UK/EU initially, with the US considered in a later product
+  phase.
+- Forecast horizon: approximately 3 to 12 months.
+- Monitoring cadence: weekly signal review with a monthly portfolio-formation
+  baseline.
+- Product boundary: general research and analytical decision support, subject
+  to explicit claims, licensing, and compliance controls.
 
-- Primary user: UK/EU and later US prosumer investors who buy US equities.
-- Initial universe: S&P 500, expanding to Russell 1000 after pipeline stability.
-- Investment horizon: 3 to 12 months.
-- Score cadence: weekly monitoring and monthly rebalance baseline.
-- Product stance: research and decision support first, not regulated personalized advice.
+## Differentiated Research Assets
 
-## Product Wedge
+The central research hypothesis is that modelling **thesis change** can add
+information beyond static factor exposures, retrospective summaries, and
+generic financial question answering. That hypothesis will be accepted only if
+it demonstrates incremental predictive or workflow value under the validation
+programme.
 
-The proprietary wedge is thesis-change decisioning.
+The intended proprietary system comprises:
 
-Most tools help users find stocks, read news, view charts, or ask finance questions. Quantfore AI should focus on the more defensible workflow: tracking whether the investment case has changed.
+- **Company Thesis Memory Graph** — a temporally versioned representation of
+  thesis assertions, key performance indicators, management guidance, risks,
+  catalysts, and contradictory evidence.
+- **Thesis Drift Index** — a calibrated measure of the direction, magnitude,
+  and stability of change in the investment case.
+- **Regime Vulnerability Map** — security-specific sensitivity to rates,
+  inflation, energy, currencies, credit, volatility, liquidity, and breadth.
+- **Prediction Ledger** — an immutable record binding scores and explanations
+  to model versions, feature values, universe membership, source snapshots, and
+  subsequently realised outcomes.
+- **User Decision Graph** — an interaction layer for studying how evidence,
+  alerts, and model revisions affect research behaviour and decision quality.
 
-The core proprietary assets are expected to be:
+## Planned Analytical Surfaces
 
-- Company Thesis Memory Graph: a structured history of each company's thesis, KPIs, risks, guidance, management claims, catalysts, and prior evidence.
-- Thesis Drift Index: a measurable signal for whether the thesis is improving, weakening, or breaking.
-- Regime Vulnerability Map: a stock-specific view of sensitivity to rates, inflation, oil, USD, credit spreads, volatility, liquidity, and market breadth.
-- Prediction Ledger: an immutable record of scores, evidence, model versions, data snapshots, and realized outcomes.
-- User Decision Graph: a product-feedback layer showing how users interact with alerts, watchlists, decisions, and reviews.
+The product interface is intended to make the research process inspectable
+rather than obscure model complexity behind a single recommendation:
 
-## MVP Product Surfaces
+- **Opportunity Monitor** — cross-sectional rankings, calibrated confidence,
+  score revisions, dominant factor contributions, and active risk flags.
+- **Security Research View** — the current thesis state, competing bull and
+  bear hypotheses, valuation context, Thesis Drift Index, invalidation
+  conditions, and primary-source evidence.
+- **Change Attribution Feed** — material weekly revisions with the observations
+  and model components responsible for each change.
+- **Portfolio Lens** — concentration, factor and regime exposure, correlation,
+  overlap, liquidity, and marginal risk contribution.
+- **Model Evidence** — versioned out-of-sample results, benchmark comparisons,
+  regime and sector decomposition, calibration, failed tests, and known model
+  limitations.
+- **Research Copilot** — source-grounded retrieval and synthesis across filings,
+  transcripts, and structured evidence, with citations and provenance.
+- **Surveillance Alerts** — thesis drift, estimate revisions, factor migration,
+  earnings evidence, and watchlist state changes.
 
-The MVP should be useful before it is beautiful. It should make the model, evidence, and decision context inspectable.
+## Research and Model Architecture
 
-Planned product surfaces:
+Quantfore is model-led, but the governing objective is epistemic traceability:
+an output that cannot be reconstructed from its information set, feature
+values, model version, and source evidence is not admissible.
 
-- Opportunity List: ranked stocks with score, confidence, score change, action label, top drivers, and risk flags.
-- Stock Decision Page: thesis summary, buy/watch/avoid style classification, bull and bear case, valuation, risk, Thesis Drift Index, and source evidence.
-- What Changed Feed: the largest weekly score moves and the exact evidence behind each change.
-- Portfolio Lens: CSV or manual holdings analysis for concentration, factor exposure, correlation, overlap, and risk contribution.
-- Model Evidence Page: current model version, backtest summary, known weaknesses, performance by year, sector, and regime.
-- Research Copilot: source-grounded Q&A over filings, transcripts, and evidence, without unsupported buy/sell claims.
-- Alerts: thesis drift, estimate revisions, score upgrades/downgrades, earnings summaries, and watchlist changes.
+The target architecture is layered:
 
-## Model And Research Direction
+1. Source ingestion for prices, corporate actions, fundamentals, filings,
+   transcripts, estimates, macro series, and company events.
+2. Point-in-time normalisation with event time, publication time, vendor
+   availability time, ingestion time, source hashes, and licence metadata.
+3. A survivorship-aware security master, historical universe membership, and
+   immutable raw-data lineage.
+4. Interpretable factor baselines spanning value, quality, momentum, revisions,
+   risk, liquidity, and macro sensitivity.
+5. Cross-sectional ranking models for benchmark-relative return and downside
+   distributions, with calibration and ablation against simple baselines.
+6. Regime inference and security-level vulnerability modelling.
+7. Portfolio risk decomposition across volatility, drawdown, beta,
+   correlation, concentration, factor exposure, and liquidity.
+8. Retrieval and language-model components for evidence extraction,
+   normalisation, contradiction detection, synthesis, and explanation.
+9. A governance layer that records forecasts before outcomes are observable and
+   binds research artefacts to data and code provenance.
 
-Quantfore AI should be built model-first, but not black-box-first. The model must be auditable, reproducible, and explainable.
-
-The intended decision system is layered:
-
-1. Raw data ingestion for prices, fundamentals, filings, transcripts, estimates, macro, and events.
-2. Point-in-time feature store with availability timestamps, source hashes, and vendor metadata.
-3. Factor baseline for value, quality, momentum, revisions, risk, liquidity, and macro exposure.
-4. ML ranking model, likely LightGBM or XGBoost, for forward benchmark-relative risk/reward ranking.
-5. Regime engine to adjust factor relevance by macro and market state.
-6. Risk engine for volatility, drawdown, beta, correlation, liquidity, and portfolio concentration.
-7. LLM/RAG layer for extraction and explanation, not autonomous investment decisions.
-8. Governance layer that stores every prediction before outcomes are known.
-
-LLMs should extract, structure, summarize, and explain evidence. They should not be the sole source of buy/sell decisions.
+Language models are therefore evidence-processing components, not independent
+sources of investment truth. Their outputs remain subordinate to source
+grounding, deterministic controls, quantitative validation, and model-risk
+review.
 
 ## Validation Standard
 
-Quantfore AI should not claim alpha, market-beating performance, or predictive certainty before proof.
+Research claims graduate only through pre-specified evidence gates. The
+validation framework requires:
 
-Validation must be:
+- Point-in-time information sets and explicit availability semantics.
+- Historical universe reconstruction and survivorship-bias controls.
+- Purged or embargoed temporal splits where overlap creates leakage risk.
+- Transaction-cost, turnover, liquidity, and capacity assumptions appropriate
+  to the tested strategy.
+- Locked data snapshots, experiment contracts, model versions, and holdouts.
+- Reproducible results from clean, independent database rebuilds.
+- Comparison with credible naïve, factor, and portfolio-construction baselines.
+- Stability analysis across time, sector, market regime, and forecast horizon.
+- Forward observation before any externally communicated performance claim.
 
-- Point-in-time.
-- Survivorship-bias controlled.
-- Cost-adjusted.
-- Reproducible from locked data snapshots.
-- Compared against simple baselines.
-- Logged in an experiment registry.
-- Forward-tested before broad public performance claims.
+The programme evaluates distinct propositions rather than collapsing them into
+a single backtest:
 
-The validation work should test both model validity and workflow utility:
+- **Signal validity:** does the system contain incremental information about
+  forward relative return, downside, or thesis deterioration?
+- **Ranking efficacy:** does cross-sectional ordering remain useful out of
+  sample and after controlling for conventional factor exposures?
+- **Portfolio utility:** do implementable model-guided portfolios improve
+  risk-adjusted outcomes after realistic costs and constraints?
+- **Change detection:** are material thesis revisions identified earlier or
+  more reliably than simpler price-, filing-, or analyst-revision baselines?
+- **Decision quality:** does the workflow improve investor consistency and
+  comprehension without inducing automation bias or false confidence?
 
-- Does the signal predict future risk-adjusted return, downside risk, or thesis deterioration?
-- Does the ranking model separate stronger and weaker opportunities?
-- Do model-guided portfolios improve risk-adjusted outcomes after costs?
-- Does thesis monitoring detect meaningful changes faster or more reliably than human-only workflows?
-- Do users understand the output without becoming overconfident or treating it as personalized advice?
+## Claims Governance
 
-## Claims And Compliance Position
+The repository operates under an explicit claims-control regime. Research
+milestones establish engineering integrity and empirical evidence separately;
+successful ingestion, leakage control, or reproducibility does not by itself
+establish predictive validity or investment efficacy.
 
-Before proof exists, Quantfore AI may say it provides:
+While `claims_eligible=false`, permissible descriptions are limited to the
+system's implemented research capabilities, dataset scope, and verified
+engineering properties. Statements about alpha, market outperformance,
+predictive certainty, personalised recommendations, or risk elimination require
+the relevant validation, licensing, governance, and compliance gates to have
+been passed and documented.
 
-- Research support.
-- Evidence-backed monitoring.
-- Thesis-change detection.
-- Risk/reward analysis.
-- Structured investment workflow support.
-- Decision support for human review.
-
-Before proof exists, Quantfore AI must not say it:
-
-- Beats the market.
-- Generates guaranteed alpha.
-- Predicts winning stocks.
-- Tells users what to buy or sell.
-- Provides personalized financial advice.
-- Eliminates investment risk.
-
-Default public framing:
-
-> Quantfore AI provides research support and evidence-backed monitoring. It does not provide personalized financial advice, guarantee returns, or tell users what they should buy or sell.
+This distinction is enforced through experiment contracts, immutable prediction
+records, reproducibility reports, and the project [claims
+policy](docs/compliance/claims-policy.md), rather than relying on disclaimer
+language to compensate for weak evidence.
 
 ## Data Strategy
 
-The data strategy has two tracks:
+Data is classified by the claims it is capable of supporting:
 
-- Prototype data: affordable sources for demos, UX testing, ingestion pipelines, and workflow validation.
-- Proof-grade data: point-in-time, survivorship-bias-aware, commercially licensable sources for backtests, paper trading, paid-product claims, and future audit.
+- **Development-grade data** supports pipeline engineering, schema validation,
+  interface research, and controlled internal experiments.
+- **Research-grade data** adds documented point-in-time semantics, historical
+  membership, identifier continuity, corporate actions, and reproducible
+  snapshots suitable for model development and internal evaluation.
+- **Claims-grade data** must additionally satisfy commercial licensing,
+  redistribution, auditability, and governance requirements appropriate to the
+  intended external claim and product use.
 
-Prototype data may be good enough for user experience and ingestion tests. It is not automatically good enough for model-performance claims.
+The information model spans prices and corporate actions, financial statements,
+analyst estimates and revisions, regulatory filings, earnings transcripts,
+macro and regime variables, sector and peer context, and dated corporate events.
+Every observation must retain enough temporal and legal provenance to answer
+both *when could the model have known this?* and *what use does the licence
+permit?*
 
-Initial data categories:
+Required lineage includes source event and publication timestamps, vendor
+availability and retrieval timestamps, model availability time, stable security
+and vendor identifiers, content hashes, transformation provenance, and licence
+tags.
 
-- Prices and corporate actions.
-- Fundamentals and financial statements.
-- Analyst estimates and revisions.
-- SEC filings.
-- Earnings transcripts.
-- Macro and regime data.
-- Sector and peer data.
-- Events such as earnings, guidance, restatements, and corporate actions.
+## Target Application Architecture
 
-Data quality requirements include source timestamps, public release timestamps, vendor availability timestamps, model availability timestamps, data vendor IDs, source hashes, and license tags.
+This repository is currently the research-system spine, containing data
+contracts, pipelines, model code, experiment definitions, audits, and
+reproducibility evidence. The prospective application stack is:
 
-## Proposed Technical Architecture
-
-This repository is currently the project spine and working documentation. The intended application architecture is:
-
-- Backend: Python and FastAPI.
-- Frontend: Next.js and React.
-- Warehouse: PostgreSQL, with TimescaleDB optional.
-- Raw storage: S3-compatible object storage.
-- Feature store: custom Postgres/Parquet registry first, Feast later if needed.
-- Orchestration: Dagster preferred, Airflow acceptable.
-- Models: scikit-learn, LightGBM/XGBoost, SHAP, Bayesian calibration.
-- LLM/RAG: provider-agnostic extraction and explanation layer with stored prompts, outputs, model versions, and source evidence.
-- Vector search: pgvector first.
-- Auth and payments: Clerk/Auth0 and Stripe when productization begins.
+- **Services:** Python and FastAPI.
+- **Interface:** Next.js and React.
+- **Analytical store:** PostgreSQL, with TimescaleDB where its time-series
+  primitives are operationally justified.
+- **Raw evidence store:** S3-compatible, immutable object storage.
+- **Feature registry:** PostgreSQL/Parquet with point-in-time retrieval and
+  lineage; Feast only if operating complexity warrants it.
+- **Orchestration:** Dagster, with explicit asset lineage and partitioned
+  backfills.
+- **Modelling:** scikit-learn, LightGBM/XGBoost, SHAP-based diagnostics,
+  probabilistic calibration, and experiment tracking.
+- **Evidence intelligence:** provider-agnostic retrieval and language-model
+  services with versioned prompts, outputs, citations, evaluations, and source
+  bindings.
+- **Retrieval:** PostgreSQL and pgvector initially.
+- **Product infrastructure:** managed identity and billing introduced only at
+  the product deployment stage.
 
 ## Repository Structure
 
@@ -285,54 +357,67 @@ experiments/     Versioned experiment contracts and holdout locks.
 
 ## Current Build Priorities
 
-The reproducible point-in-time research foundation and Sprint 7 baseline are
-implemented. The immediate milestone is Sprint 8 closure, not a polished
-frontend.
+The point-in-time research substrate and Sprint 7 price baseline are complete.
+The immediate objective is to close Sprint 8's SEC-primary multifactor baseline
+under the same reproducibility standard; application-layer work remains
+deliberately downstream of that gate.
 
 Current priorities:
 
-- Complete the SEC-primary fundamentals audit on a fresh database.
-- Freeze the Sprint 8 holdout lock and its exact source/run lineage.
-- Run two independent Sprint 8 rebuilds and publish closure only if their
-  canonical audits, ledgers, evaluations, and comparisons match exactly.
-- Keep `claims_eligible=false` until the separate performance and governance
-  requirements are satisfied.
-- Transcript and filing extractor for guidance, KPIs, risks, management claims, and evidence snippets.
-- Stock decision endpoint returning action label, score, confidence, drivers, Thesis Drift Index, risk flags, and evidence.
-- Model evidence dashboard showing out-of-sample performance, failed tests, and known weaknesses.
+- Execute the SEC-primary fundamentals audit against a fresh database.
+- Freeze the Sprint 8 holdout contract and bind it to exact source and run
+  lineage.
+- Produce two independent Sprint 8 rebuilds whose canonical audits, ledgers,
+  evaluations, and comparisons agree exactly before publishing closure.
+- Preserve `claims_eligible=false` until the independent performance,
+  licensing, governance, and compliance conditions are satisfied.
+- Develop filing and transcript extraction for guidance, KPIs, risks,
+  management assertions, and citation-ready evidence spans.
+- Specify the security-research API across thesis state, score distribution,
+  confidence, factor attribution, Thesis Drift Index, active risks, and source
+  evidence.
+- Build model-evidence reporting for out-of-sample results, calibration,
+  negative findings, failure modes, and known limitations.
 
 ## Roadmap
 
 | Phase | Focus | Proof Gate |
 |---|---|---|
-| 0. Design and data procurement | Finalize universe, vendors, legal posture, data schemas, and experiment registry. | Vendor contracts and timestamps support point-in-time testing. |
-| 1. Research engine prototype | Ingest prices, fundamentals, macro, filings, baseline factors, and first S&P 500 backtest. | Leakage tests pass and simple factors behave plausibly. |
-| 2. ML ranker and validation | Build ranker, regime engine, risk engine, score ledger, and validation dashboard. | Out-of-sample metrics exceed thresholds or model is killed/refined. |
-| 3. Thesis Memory Graph | Ingest filings/transcripts, build extraction templates, TDI v0, and evidence links. | TDI shows predictive value, workflow value, or both. |
-| 4. Private beta product | Build cockpit, stock pages, watchlists, portfolio CSV, and alerts. | 50-100 beta users with measured trust and willingness to pay. |
-| 5. Paid beta | Add billing, reporting, stronger governance, support, and live paper tracking. | Paid conversion and retention are acceptable; claims remain substantiated. |
+| 0. Research design and data procurement | Fix the universe, information-time semantics, vendor rights, schemas, and experiment registry. | Source contracts and timestamps support point-in-time reconstruction. |
+| 1. Reproducible baseline | Ingest prices, fundamentals, macro data, and filings; establish interpretable S&P 500 baselines. | Leakage controls, clean rebuilds, and baseline-behaviour tests pass. |
+| 2. Ranking and risk models | Develop cross-sectional rankers, regime inference, portfolio risk, prediction ledgers, and evidence reporting. | Pre-registered out-of-sample gates are met, or the model is rejected or revised. |
+| 3. Thesis intelligence | Construct the Thesis Memory Graph, evidence extraction, contradiction analysis, and Thesis Drift Index. | Proprietary features demonstrate incremental predictive value, workflow value, or both. |
+| 4. Private research beta | Deliver the research cockpit, security views, watchlists, portfolio analysis, and surveillance. | 50-100 research users demonstrate comprehension, calibrated trust, retention, and willingness to pay. |
+| 5. Governed paid beta | Introduce billing, reporting, operational controls, support, and live paper observation. | Commercial use, retention, and every external claim satisfy the applicable evidence and governance gates. |
 
 ## Operating Principles
 
-- Evidence over prediction.
-- Thesis change over stock picking.
-- Human judgment over autonomous advice.
-- Auditability over hype.
-- Point-in-time truth over convenient backtests.
-- Clear uncertainty over false precision.
-- Compliance-aware language from day one.
+- Preserve the information set that existed at the decision timestamp.
+- Bind every material output to evidence, data lineage, and model provenance.
+- Treat thesis change as a longitudinal inference problem, not a news-summary
+  task.
+- Prefer calibrated distributions and explicit uncertainty to spurious
+  precision.
+- Benchmark proprietary complexity against simple, credible alternatives.
+- Record negative results and failed hypotheses as first-class research
+  artefacts.
+- Separate engineering reproducibility, statistical validity, economic utility,
+  and product claims.
+- Keep consequential investment judgement accountable to a human decision
+  process.
 
 ## Status
 
-This repository now includes the research package, SQLAlchemy warehouse,
-immutable source-snapshot lineage, historical S&P 500 universe reconstruction,
-point-in-time equity and SEC fundamentals ingestion, feature/scoring ledgers,
-outcome evaluation, reproducibility validation, and Git-tracked Sprint 7
-closure evidence. The synthetic smoke-check remains available for fast local
-verification, while the closed Sprint 7 evidence uses the amended real-market
-personal/internal-research dataset described above.
+The implemented system comprises the Python research package, SQLAlchemy
+warehouse, immutable source-snapshot lineage, historical S&P 500 universe
+reconstruction, point-in-time equity and SEC-fundamentals ingestion,
+feature/scoring/prediction ledgers, realised-outcome evaluation, leakage guards,
+reproducibility validation, and Git-tracked Sprint 7 closure evidence. A
+synthetic end-to-end fixture provides rapid local verification; the closed
+Sprint 7 evidence is derived from the amended real-market dataset licensed for
+personal/internal research described above.
 
-Runtime API services, production orchestration, trained ML ranking models,
-commercially licensed proof-grade datasets, and frontend applications are not
-implemented yet. Sprint 8 remains open, and no real-market performance claim is
-authorized.
+Runtime APIs, production orchestration, trained machine-learning rankers,
+commercially licensed claims-grade datasets, and end-user applications remain
+prospective. Sprint 8 is open. No real-market performance or alpha claim is
+currently authorized.
