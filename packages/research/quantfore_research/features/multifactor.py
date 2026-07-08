@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from decimal import Decimal
@@ -520,6 +521,47 @@ def _raw_close_input(row: Price, snapshot: SourceSnapshot) -> FeatureInput:
             row.date, datetime.min.time(), tzinfo=timezone.utc
         ),
         period_end=row.date,
+    )
+
+
+def _price_window_input(
+    rows: Sequence[Price],
+    snapshot: SourceSnapshot,
+    *,
+    input_type: str = "adjusted_close_window",
+) -> FeatureInput:
+    """Bind one contiguous price window to a digest instead of per-row lineage.
+
+    Storing every window row duplicated the frozen price panel thousands of
+    times over and dominated warehouse size. The digest commits to the exact
+    ordered rows (price_id, date, adjusted close), so lineage remains
+    verifiable against the prices table, while the aggregate preserves the
+    leakage contract: model_available_at is the latest session in the window.
+    """
+
+    if not rows:
+        raise ValueError("price window lineage requires at least one row")
+    digest = hashlib.sha256()
+    for row in rows:
+        assert row.adj_close is not None
+        digest.update(
+            f"{row.price_id}|{row.date.isoformat()}|{row.adj_close}\n".encode()
+        )
+    last = rows[-1]
+    return FeatureInput(
+        input_type=input_type,
+        input_name=(
+            f"{input_type}[{rows[0].date.isoformat()}..{last.date.isoformat()}]"
+        ),
+        record_id=f"price-window-sha256:{digest.hexdigest()}",
+        value=Decimal(len(rows)),
+        unit="observations",
+        source_snapshot_id=snapshot.snapshot_id,
+        source_hash=snapshot.source_hash,
+        model_available_at=datetime.combine(
+            last.date, datetime.min.time(), tzinfo=timezone.utc
+        ),
+        period_end=last.date,
     )
 
 
@@ -1062,7 +1104,7 @@ def _market_features(
             name: RawFeature(definition, None, MISSING, "SOURCE_MISSING", ())
             for name, definition in definitions.items()
         }
-    evidence = tuple(_price_input(row, snapshot) for row in prices)
+    evidence = (_price_window_input(prices, snapshot),)
 
     def price_at(offset: int) -> Decimal:
         if len(prices) <= offset:
@@ -1111,7 +1153,7 @@ def _market_features(
         lambda: (
             _sample_std([value for _, value in security_returns[-126:]])
             * ANNUALIZATION_FACTOR,
-            tuple(_price_input(row, snapshot) for row in prices[-127:]),
+            (_price_window_input(prices[-127:], snapshot),),
         ) if len(security_returns) >= 126 else (_raise("INSUFFICIENT_HISTORY", evidence)),
     )
     result["downside_volatility_126d"] = _feature(
@@ -1149,9 +1191,7 @@ def _downside_volatility(
         return _raise("INSUFFICIENT_HISTORY", evidence)
     values = [min(value, Decimal("0")) for _, value in returns[-126:]]
     rms = (sum((value * value for value in values), Decimal("0")) / Decimal(126)).sqrt()
-    return rms * ANNUALIZATION_FACTOR, tuple(
-        _price_input(row, snapshot) for row in prices[-127:]
-    )
+    return rms * ANNUALIZATION_FACTOR, (_price_window_input(prices[-127:], snapshot),)
 
 
 def _maximum_drawdown(
@@ -1172,7 +1212,7 @@ def _maximum_drawdown(
             return _raise("INVALID_DENOMINATOR", evidence)
         peak = max(peak, row.adj_close)
         drawdown = min(drawdown, row.adj_close / peak - Decimal("1"))
-    return drawdown, tuple(_price_input(row, snapshot) for row in selected)
+    return drawdown, (_price_window_input(selected, snapshot),)
 
 
 def _beta(
@@ -1208,12 +1248,9 @@ def _beta(
     )
     if variance_sum <= 0:
         return _raise("INVALID_DENOMINATOR")
-    inputs = tuple(
-        [_price_input(row, snapshot) for row in prices[-253:]]
-        + [
-            _price_input(row, benchmark_snapshot)
-            for row in benchmark_prices[-253:]
-        ]
+    inputs = (
+        _price_window_input(prices[-253:], snapshot),
+        _price_window_input(benchmark_prices[-253:], benchmark_snapshot),
     )
     return covariance_sum / variance_sum, inputs
 

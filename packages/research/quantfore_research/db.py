@@ -36,10 +36,18 @@ def build_engine(
 
     if is_sqlite:
         @event.listens_for(engine, "connect")
-        def _enable_sqlite_foreign_keys(dbapi_connection, connection_record):
+        def _configure_sqlite_connection(dbapi_connection, connection_record):
             del connection_record
             cursor = dbapi_connection.cursor()
             cursor.execute("PRAGMA foreign_keys=ON")
+            # Rebuild databases are derived, hash-verified artifacts: any
+            # interrupted build is discarded and reproduced from frozen raw
+            # bytes, so relaxed durability trades nothing while removing the
+            # per-transaction fsync stalls that dominate bulk ingestion.
+            cursor.execute("PRAGMA journal_mode=WAL")
+            cursor.execute("PRAGMA synchronous=NORMAL")
+            cursor.execute("PRAGMA temp_store=MEMORY")
+            cursor.execute("PRAGMA cache_size=-262144")
             cursor.close()
 
     return engine
