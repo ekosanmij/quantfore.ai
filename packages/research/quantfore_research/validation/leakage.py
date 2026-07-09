@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+from bisect import bisect_right
 from dataclasses import dataclass
 from datetime import date, datetime, time, timezone
 from decimal import Decimal
-from typing import Iterable, Mapping, Optional, Sequence
+from typing import Iterable, Mapping, NamedTuple, Optional, Sequence
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from quantfore_research.features.baseline import calculate_baseline_price_features
@@ -66,11 +67,21 @@ class PointInTimeSecurityContext:
     evidence: tuple[PointInTimeInputEvidence, ...]
 
 
+class PriceHistoryRow(NamedTuple):
+    """The price columns the point-in-time feature path actually consumes."""
+
+    price_id: str
+    security_id: str
+    date: date
+    adj_close: Decimal
+    source_snapshot_id: str
+
+
 @dataclass(frozen=True)
 class PointInTimeFeatureInputs:
     context: PointInTimeSecurityContext
     source_snapshot: SourceSnapshot
-    prices: tuple[Price, ...]
+    prices: tuple[PriceHistoryRow, ...]
     evidence: tuple[PointInTimeInputEvidence, ...]
 
 
@@ -644,6 +655,105 @@ def validate_point_in_time_cohort(
     return expected
 
 
+def _price_snapshot_candidates(
+    session: Session, *, security_id: str
+) -> tuple[tuple[SourceSnapshot, date], ...]:
+    """All adjusted-price snapshots for one security, newest first.
+
+    Each entry carries the snapshot's earliest adjusted-close date so callers
+    can reproduce the per-prediction-date eligibility filter without repeating
+    the join. Memoized per session: prices are immutable while features are
+    being constructed and stored.
+    """
+
+    cache = session.info.setdefault("pit_price_snapshot_candidates", {})
+    cached = cache.get(security_id)
+    if cached is None:
+        rows = session.execute(
+            select(
+                Price.source_snapshot_id,
+                func.min(Price.date).label("first_date"),
+            )
+            .where(Price.security_id == security_id)
+            .where(Price.adj_close.is_not(None))
+            .group_by(Price.source_snapshot_id)
+        ).all()
+        snapshots = {
+            snapshot.snapshot_id: snapshot
+            for snapshot in session.scalars(
+                select(SourceSnapshot).where(
+                    SourceSnapshot.snapshot_id.in_(
+                        [row.source_snapshot_id for row in rows]
+                    )
+                )
+            )
+        } if rows else {}
+        cached = tuple(
+            sorted(
+                (
+                    (snapshots[row.source_snapshot_id], row.first_date)
+                    for row in rows
+                ),
+                key=lambda item: (
+                    _stored_timestamp(item[0].retrieved_at),
+                    item[0].snapshot_id,
+                ),
+                reverse=True,
+            )
+        )
+        cache[security_id] = cached
+    return cached
+
+
+def _snapshot_price_history(
+    session: Session, *, security_id: str, snapshot_id: str
+) -> tuple[
+    tuple[PriceHistoryRow, ...],
+    tuple[date, ...],
+    tuple[PointInTimeInputEvidence, ...],
+]:
+    """One immutable adjusted-close history, its date index, and its evidence.
+
+    Every element is a pure function of the stored rows, so prefix slices of
+    these parallel tuples reproduce exactly what per-prediction-date queries
+    and per-row evidence construction previously returned.
+    """
+
+    cache = session.info.setdefault("pit_price_history_cache", {})
+    key = (security_id, snapshot_id)
+    cached = cache.get(key)
+    if cached is None:
+        rows = tuple(
+            PriceHistoryRow(
+                price_id=row.price_id,
+                security_id=row.security_id,
+                date=row.date,
+                adj_close=row.adj_close,
+                source_snapshot_id=row.source_snapshot_id,
+            )
+            for row in session.execute(
+                select(
+                    Price.price_id,
+                    Price.security_id,
+                    Price.date,
+                    Price.adj_close,
+                    Price.source_snapshot_id,
+                )
+                .where(Price.security_id == security_id)
+                .where(Price.source_snapshot_id == snapshot_id)
+                .where(Price.adj_close.is_not(None))
+                .order_by(Price.date, Price.price_id)
+            )
+        )
+        cached = (
+            rows,
+            tuple(row.date for row in rows),
+            tuple(_price_evidence(row) for row in rows),
+        )
+        cache[key] = cached
+    return cached
+
+
 def load_point_in_time_feature_inputs(
     session: Session,
     *,
@@ -653,20 +763,22 @@ def load_point_in_time_feature_inputs(
     """Load one coherent historical price snapshot and prove every input."""
 
     prediction_date = context.prediction_timestamp.date()
-    candidate = (
-        select(SourceSnapshot)
-        .join(Price, Price.source_snapshot_id == SourceSnapshot.snapshot_id)
-        .where(Price.security_id == context.security.security_id)
-        .where(Price.date <= prediction_date)
-        .where(Price.adj_close.is_not(None))
-    )
-    if source_snapshot_id is not None:
-        candidate = candidate.where(SourceSnapshot.snapshot_id == source_snapshot_id)
-    snapshot = session.scalar(
-        candidate.order_by(
-            SourceSnapshot.retrieved_at.desc(), SourceSnapshot.snapshot_id.desc()
-        ).limit(1)
-    )
+    # Equivalent to the previous per-call query, which picked the newest
+    # (retrieved_at, snapshot_id) snapshot owning at least one adjusted close
+    # on or before prediction_date, then loaded that snapshot's rows up to
+    # prediction_date ordered by (date, price_id).
+    snapshot = None
+    for candidate_snapshot, first_date in _price_snapshot_candidates(
+        session, security_id=context.security.security_id
+    ):
+        if (
+            source_snapshot_id is not None
+            and candidate_snapshot.snapshot_id != source_snapshot_id
+        ):
+            continue
+        if first_date <= prediction_date:
+            snapshot = candidate_snapshot
+            break
     if snapshot is None:
         raise PointInTimeLeakageError(
             [
@@ -678,18 +790,19 @@ def load_point_in_time_feature_inputs(
                 )
             ]
         )
-    prices = tuple(
-        session.scalars(
-            select(Price)
-            .where(Price.security_id == context.security.security_id)
-            .where(Price.source_snapshot_id == snapshot.snapshot_id)
-            .where(Price.date <= prediction_date)
-            .where(Price.adj_close.is_not(None))
-            .order_by(Price.date, Price.price_id)
-        )
+    history, history_dates, history_evidence = _snapshot_price_history(
+        session,
+        security_id=context.security.security_id,
+        snapshot_id=snapshot.snapshot_id,
     )
-    price_evidence = validate_candidate_price_inputs(
-        prices, prediction_timestamp=context.prediction_timestamp
+    eligible = bisect_right(history_dates, prediction_date)
+    prices = history[:eligible]
+    # Slicing the precomputed per-row evidence and validating it matches
+    # validate_candidate_price_inputs, which built the same evidence rows
+    # before running the identical availability gate.
+    price_evidence = history_evidence[:eligible]
+    validate_point_in_time_evidence(
+        price_evidence, prediction_timestamp=context.prediction_timestamp
     )
     evidence = (*context.evidence, *price_evidence)
     validate_point_in_time_evidence(

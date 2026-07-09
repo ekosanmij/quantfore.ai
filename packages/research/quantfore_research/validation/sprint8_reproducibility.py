@@ -203,9 +203,13 @@ def build_sprint8_rebuild_fingerprint(
         comparison_document, calculated_comparison, report_name="comparison"
     )
 
+    # Core rows: every load below reads plain mapped columns through the same
+    # type processors as the ORM entities they replace, so document contents
+    # and hashes are identical while avoiding full-object hydration of the
+    # ~1M-row feature/score/prediction tables.
     features = list(
-        session.scalars(
-            select(Feature)
+        session.execute(
+            select(Feature.__table__)
             .where(Feature.version == "multifactor-v1")
             .order_by(
                 Feature.asof_date,
@@ -237,15 +241,15 @@ def build_sprint8_rebuild_fingerprint(
         ],
     }
     runs = list(
-        session.scalars(
-            select(NormalizationRun).order_by(
+        session.execute(
+            select(NormalizationRun.__table__).order_by(
                 NormalizationRun.asof_date, NormalizationRun.normalization_run_id
             )
         ).all()
     )
     scores = list(
-        session.scalars(
-            select(MultiFactorScore).order_by(
+        session.execute(
+            select(MultiFactorScore.__table__).order_by(
                 MultiFactorScore.asof_date,
                 MultiFactorScore.security_id,
                 MultiFactorScore.normalization_run_id,
@@ -254,6 +258,12 @@ def build_sprint8_rebuild_fingerprint(
     )
     if not runs or not scores:
         raise ValueError("Sprint 8 closure database has no normalized scores")
+    eligible_by_run: dict[str, list[str]] = {}
+    for row in scores:
+        if row.eligible:
+            eligible_by_run.setdefault(row.normalization_run_id, []).append(
+                row.security_id
+            )
     eligible_document = {
         "schema_version": "sprint8_monthly_eligible_universe_v1",
         "runs": [
@@ -263,25 +273,22 @@ def build_sprint8_rebuild_fingerprint(
                 "asof_date": run.asof_date,
                 "input_hash": run.input_hash,
                 "eligible_security_ids": sorted(
-                    row.security_id
-                    for row in scores
-                    if row.normalization_run_id == run.normalization_run_id
-                    and row.eligible
+                    eligible_by_run.get(run.normalization_run_id, ())
                 ),
             }
             for run in runs
         ],
     }
     links = list(
-        session.scalars(
-            select(MultiFactorPredictionLink).order_by(
+        session.execute(
+            select(MultiFactorPredictionLink.__table__).order_by(
                 MultiFactorPredictionLink.prediction_id
             )
         ).all()
     )
     predictions = list(
-        session.scalars(
-            select(ModelPrediction)
+        session.execute(
+            select(ModelPrediction.__table__)
             .where(
                 ModelPrediction.model_version.in_(
                     ("multifactor-baseline-v1", "baseline_v0.1")
@@ -292,8 +299,8 @@ def build_sprint8_rebuild_fingerprint(
     )
     prediction_ids = {row.prediction_id for row in predictions}
     outcomes = list(
-        session.scalars(
-            select(ModelOutcome)
+        session.execute(
+            select(ModelOutcome.__table__)
             .where(ModelOutcome.prediction_id.in_(prediction_ids))
             .order_by(ModelOutcome.prediction_id)
         ).all()

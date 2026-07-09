@@ -31,6 +31,7 @@ from quantfore_research.evaluation import (
     normalized_utc,
     parse_horizon,
 )
+from quantfore_research.evaluation.outcomes import PricePoint
 from quantfore_research.models import (
     ModelOutcome,
     ModelPrediction,
@@ -44,7 +45,7 @@ from quantfore_research.ingest.point_in_time_equities import deterministic_id
 @dataclass(frozen=True)
 class PriceSnapshotSelection:
     snapshot: SourceSnapshot
-    prices: tuple[Price, ...]
+    prices: tuple[PricePoint, ...]
 
 
 @dataclass(frozen=True)
@@ -87,11 +88,47 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def _cached_adjusted_close_series(
+    session,
+    *,
+    security_id: str,
+    snapshot_id: str,
+) -> tuple[PricePoint, ...]:
+    """Load one immutable (security, snapshot) adjusted-close series once.
+
+    Outcome evaluation and warehouse verification revisit the same series for
+    every prediction of a security; prices never change inside those
+    read/append transactions, so a session-scoped memo returns the identical
+    rows the per-call query produced.
+    """
+
+    cache = session.info.setdefault("outcome_price_series_cache", {})
+    key = (security_id, snapshot_id)
+    series = cache.get(key)
+    if series is None:
+        series = tuple(
+            PricePoint(date=row.date, adj_close=row.adj_close)
+            for row in session.execute(
+                select(Price.date, Price.adj_close)
+                .where(Price.security_id == security_id)
+                .where(Price.source_snapshot_id == snapshot_id)
+                .where(Price.adj_close.is_not(None))
+                .order_by(Price.date)
+            )
+        )
+        cache[key] = series
+    return series
+
+
 def load_price_snapshot_candidates(
     session,
     *,
     security_id: str,
 ) -> list[PriceSnapshotSelection]:
+    cache = session.info.setdefault("outcome_price_candidate_cache", {})
+    cached = cache.get(security_id)
+    if cached is not None:
+        return cached
     snapshots = list(
         session.scalars(
             select(SourceSnapshot)
@@ -106,21 +143,19 @@ def load_price_snapshot_candidates(
             )
         )
     )
-    return [
+    result = [
         PriceSnapshotSelection(
             snapshot=snapshot,
-            prices=tuple(
-                session.scalars(
-                    select(Price)
-                    .where(Price.security_id == security_id)
-                    .where(Price.source_snapshot_id == snapshot.snapshot_id)
-                    .where(Price.adj_close.is_not(None))
-                    .order_by(Price.date)
-                )
+            prices=_cached_adjusted_close_series(
+                session,
+                security_id=security_id,
+                snapshot_id=snapshot.snapshot_id,
             ),
         )
         for snapshot in snapshots
     ]
+    cache[security_id] = result
+    return result
 
 
 def load_stored_snapshot_prices(
@@ -129,17 +164,13 @@ def load_stored_snapshot_prices(
     security_id: str,
     snapshot_id: str,
     lineage_name: str,
-) -> tuple[Price, ...]:
+) -> tuple[PricePoint, ...]:
     if session.get(SourceSnapshot, snapshot_id) is None:
         raise ValueError(f"stored {lineage_name} snapshot does not exist: {snapshot_id}")
-    prices = tuple(
-        session.scalars(
-            select(Price)
-            .where(Price.security_id == security_id)
-            .where(Price.source_snapshot_id == snapshot_id)
-            .where(Price.adj_close.is_not(None))
-            .order_by(Price.date)
-        )
+    prices = _cached_adjusted_close_series(
+        session,
+        security_id=security_id,
+        snapshot_id=snapshot_id,
     )
     if not prices:
         raise ValueError(

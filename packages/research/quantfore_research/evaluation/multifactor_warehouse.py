@@ -753,8 +753,18 @@ def load_verified_comparison_ledger(
                 )
             ).all()
         )
+        loaded_features = {
+            row.feature_id: row
+            for row in session.scalars(
+                select(Feature).where(
+                    Feature.feature_id.in_(
+                        [value.feature_id for value in normalized_rows]
+                    )
+                )
+            )
+        } if normalized_rows else {}
         features = {
-            value.feature_id: session.get(Feature, value.feature_id)
+            value.feature_id: loaded_features.get(value.feature_id)
             for value in normalized_rows
         }
         components = tuple(

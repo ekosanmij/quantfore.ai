@@ -248,6 +248,16 @@ def _select_price_snapshot(
     security_id: str,
     pinned_snapshot_id: Optional[str] = None,
 ) -> SourceSnapshot:
+    # Memoized per session: the price panel is immutable while a backtest
+    # appends features/predictions/outcomes, so the selection cannot change
+    # between the monthly cohorts that repeat this call per security.
+    cache = session.info.setdefault("backtest_price_snapshot_cache", {})
+    cache_key = (security_id, pinned_snapshot_id)
+    cached = cache.get(cache_key)
+    if cached is not None:
+        if isinstance(cached, ValueError):
+            raise cached
+        return cached
     statement = (
         select(SourceSnapshot)
         .join(Price, Price.source_snapshot_id == SourceSnapshot.snapshot_id)
@@ -258,7 +268,9 @@ def _select_price_snapshot(
         statement = statement.where(SourceSnapshot.snapshot_id == pinned_snapshot_id)
     snapshots = session.scalars(statement.distinct()).all()
     if not snapshots:
-        raise ValueError(f"no adjusted price snapshot for security {security_id}")
+        error = ValueError(f"no adjusted price snapshot for security {security_id}")
+        cache[cache_key] = error
+        raise error
     scored = []
     for snapshot in snapshots:
         row_count = session.scalar(
@@ -269,26 +281,41 @@ def _select_price_snapshot(
             .where(Price.adj_close.is_not(None))
         )
         scored.append((int(row_count or 0), snapshot))
-    return max(
+    selected = max(
         scored,
         key=lambda item: (
             item[0], normalized_utc(item[1].retrieved_at), item[1].snapshot_id
         ),
     )[1]
+    cache[cache_key] = selected
+    return selected
 
 
 def _snapshot_prices(
     session: Session, *, security_id: str, snapshot_id: str
-) -> tuple[Price, ...]:
-    return tuple(
-        session.scalars(
-            select(Price)
-            .where(Price.security_id == security_id)
-            .where(Price.source_snapshot_id == snapshot_id)
-            .where(Price.adj_close.is_not(None))
-            .order_by(Price.date, Price.price_id)
+) -> tuple[Any, ...]:
+    """Return the immutable adjusted-close rows once per session and reuse.
+
+    Only ``date`` and ``adj_close`` are consumed downstream (prediction-date
+    discovery and outcome calculation), and the memoized rows come from the
+    identical query the uncached version ran per call.
+    """
+
+    cache = session.info.setdefault("backtest_snapshot_price_cache", {})
+    cache_key = (security_id, snapshot_id)
+    cached = cache.get(cache_key)
+    if cached is None:
+        cached = tuple(
+            session.execute(
+                select(Price.date, Price.adj_close)
+                .where(Price.security_id == security_id)
+                .where(Price.source_snapshot_id == snapshot_id)
+                .where(Price.adj_close.is_not(None))
+                .order_by(Price.date, Price.price_id)
+            ).all()
         )
-    )
+        cache[cache_key] = cached
+    return cached
 
 
 def _monthly_prediction_dates(

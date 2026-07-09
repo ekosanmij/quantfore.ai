@@ -39,6 +39,7 @@ from quantfore_research.features.multifactor import (
 )
 from quantfore_research.ingest.point_in_time_equities import (
     PointInTimeEquityBundleAdapter,
+    deterministic_id,
 )
 from quantfore_research.ingest.point_in_time_fundamentals import (
     PointInTimeFundamentalBundleAdapter,
@@ -170,6 +171,15 @@ def ingest_classifications(
         license_tag="public_source_internal_research",
         source_hash=source_hash,
         storage_uri=storage_uri,
+        # Deterministic ID: classification lineage is copied into stored
+        # rows, so two clean rebuilds must mint the same value.
+        snapshot_id=deterministic_id(
+            "source_snapshot",
+            "SEC EDGAR Primary",
+            "filing_index_sic_classifications_v1",
+            retrieved_at.isoformat(),
+            source_hash,
+        ),
     )
     inserted = 0
     for row in rows:
@@ -255,11 +265,15 @@ def build_monthly_multifactor_ledger(
         dates = _prediction_dates(session)
         price_snapshots = _price_snapshots(session)
     run_ids = []
-    for position, prediction_date in enumerate(dates, start=1):
-        prediction_timestamp = datetime.combine(
-            prediction_date, datetime.max.time(), tzinfo=timezone.utc
-        )
-        with session_scope(session_factory) as session:
+    # One session (and one commit) for every month: each month's statements
+    # run in the same order as the previous per-month transactions, and the
+    # shared session lets the immutable fundamental and price histories be
+    # loaded once per security instead of once per security-month.
+    with session_scope(session_factory) as session:
+        for position, prediction_date in enumerate(dates, start=1):
+            prediction_timestamp = datetime.combine(
+                prediction_date, datetime.max.time(), tzinfo=timezone.utc
+            )
             contexts = expected_point_in_time_cohort(
                 session,
                 universe_id=UNIVERSE_ID,
@@ -310,20 +324,25 @@ def build_monthly_multifactor_ledger(
                 normalization_run_id=run_id,
                 raw_feature_ids=raw_feature_ids,
             )
-        run_ids.append(run_id)
-        if position == 1 or position % 12 == 0 or position == len(dates):
-            print(f"multifactor_months={position}/{len(dates)}", flush=True)
+            run_ids.append(run_id)
+            if position == 1 or position % 12 == 0 or position == len(dates):
+                print(f"multifactor_months={position}/{len(dates)}", flush=True)
     return tuple(run_ids)
 
 
 def _evaluate_multifactor_predictions(
     session_factory, *, evaluated_at: datetime
 ) -> tuple[int, int]:
-    with session_factory() as session:
+    # One session (and one commit) for the whole ledger: each prediction's
+    # evaluation is independent and deterministic, and the shared session lets
+    # the immutable per-security price series be read once instead of once per
+    # prediction. The iteration order is unchanged.
+    evaluated = 0
+    skipped = 0
+    with session_scope(session_factory) as session:
         benchmark = session.scalar(select(Security).where(Security.ticker == "SPY"))
         if benchmark is None:
             raise ValueError("SPY benchmark is missing")
-        benchmark_id = benchmark.security_id
         prediction_ids = list(
             session.scalars(
                 select(ModelPrediction.prediction_id)
@@ -331,13 +350,9 @@ def _evaluate_multifactor_predictions(
                 .order_by(ModelPrediction.asof_date, ModelPrediction.prediction_id)
             ).all()
         )
-    evaluated = 0
-    skipped = 0
-    for position, prediction_id in enumerate(prediction_ids, start=1):
-        with session_scope(session_factory) as session:
+        for position, prediction_id in enumerate(prediction_ids, start=1):
             prediction = session.get(ModelPrediction, prediction_id)
-            benchmark = session.get(Security, benchmark_id)
-            if prediction is None or benchmark is None:
+            if prediction is None:
                 raise ValueError("prediction evaluation lineage disappeared")
             report = evaluate_prediction(
                 session,
@@ -345,16 +360,16 @@ def _evaluate_multifactor_predictions(
                 benchmark=benchmark,
                 evaluated_at=evaluated_at,
             )
-        if report.status == "evaluated":
-            evaluated += 1
-        else:
-            skipped += 1
-        if position % 10000 == 0 or position == len(prediction_ids):
-            print(
-                f"multifactor_outcomes={position}/{len(prediction_ids)} "
-                f"evaluated={evaluated} skipped={skipped}",
-                flush=True,
-            )
+            if report.status == "evaluated":
+                evaluated += 1
+            else:
+                skipped += 1
+            if position % 10000 == 0 or position == len(prediction_ids):
+                print(
+                    f"multifactor_outcomes={position}/{len(prediction_ids)} "
+                    f"evaluated={evaluated} skipped={skipped}",
+                    flush=True,
+                )
     return evaluated, skipped
 
 

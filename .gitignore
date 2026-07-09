@@ -14,6 +14,9 @@ quantfore_research.db
 docs/specs/*
 !docs/specs/.gitkeep
 
+# Local brand asset workspace; publish deliberately if approved
+brand/
+
 # Environment files
 .env
 .env.*
