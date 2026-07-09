@@ -23,10 +23,11 @@ except ModuleNotFoundError:
         open_research_database,
     )
 
-from sqlalchemy import func, select
+from sqlalchemy import func, insert, select
 from sqlalchemy.orm import Session
 
 from quantfore_research.db import session_scope
+from quantfore_research.ingest.point_in_time_equities import deterministic_id
 from quantfore_research.ingest.point_in_time_fundamentals import (
     CanonicalFundamental,
     NormalizedFundamentalBundle,
@@ -116,6 +117,16 @@ def _snapshot(
             license_tag=license_tag,
             source_hash=source_hash,
             storage_uri=storage_uri,
+            # Deterministic ID (same recipe as the equity bundle snapshots):
+            # this ID is copied into every audited fact row, so two clean
+            # rebuilds must mint the same value.
+            snapshot_id=deterministic_id(
+                "source_snapshot",
+                vendor,
+                dataset,
+                retrieved_at.astimezone(timezone.utc).isoformat(),
+                source_hash,
+            ),
         ),
         True,
     )
@@ -281,13 +292,35 @@ def ingest_bundle(
     inserted_snapshots += int(inserted)
     reused_snapshots += int(not inserted)
 
+    # The set-based fast path below must reproduce the ORM insert path
+    # byte-for-byte: the `Fundamental` init hook mirrors the legacy columns
+    # (metric/period_end/accession_no/available_at) from the canonical v1
+    # fields and demotes quarter-less QUARTERLY rows to ANNUAL, and the
+    # before_insert hook requires every row's source_hash to equal its
+    # snapshot's hash. All rows share one snapshot here, so that per-row
+    # SELECT collapses to the single equality already guaranteed by
+    # construction (source_hash=data_snapshot.source_hash).
+    session.flush()
     inserted_facts = 0
     reused_facts = 0
-    for fact in bundle.facts:
-        fundamental_id = deterministic_fundamental_id(
-            bundle.vendor, bundle.source.source_hash, fact
-        )
-        existing = session.get(Fundamental, fundamental_id)
+    fact_ids = [
+        deterministic_fundamental_id(bundle.vendor, bundle.source.source_hash, fact)
+        for fact in bundle.facts
+    ]
+    existing_by_id: dict[str, object] = {}
+    fundamentals_table = Fundamental.__table__
+    for start in range(0, len(fact_ids), 500):
+        chunk = fact_ids[start : start + 500]
+        for row in session.execute(
+            select(fundamentals_table).where(
+                fundamentals_table.c.fundamental_id.in_(chunk)
+            )
+        ):
+            existing_by_id[row.fundamental_id] = row
+    now = datetime.now(timezone.utc)
+    pending: list[dict] = []
+    for fact, fundamental_id in zip(bundle.facts, fact_ids):
+        existing = existing_by_id.get(fundamental_id)
         if existing is not None:
             if not _same_fact(
                 existing,
@@ -301,31 +334,47 @@ def ingest_bundle(
                 )
             reused_facts += 1
             continue
-        session.add(
-            Fundamental(
-                fundamental_id=fundamental_id,
-                security_id=security_ids[fact.vendor_id],
-                fiscal_period_end=fact.fiscal_period_end,
-                fiscal_year=fact.fiscal_year,
-                fiscal_quarter=fact.fiscal_quarter,
-                period_type=fact.period_type,
-                form_type=fact.form_type,
-                filing_accession=fact.filing_accession,
-                filed_at=fact.filed_at,
-                accepted_at=fact.accepted_at,
-                public_release_at=fact.public_release_at,
-                vendor_available_at=fact.vendor_available_at,
-                model_available_at=fact.model_available_at,
-                revision_version=fact.revision_version,
-                concept=fact.concept,
-                standardized_concept=fact.standardized_concept,
-                value=fact.value,
-                unit=fact.unit,
-                source_snapshot_id=data_snapshot.snapshot_id,
-                source_hash=data_snapshot.source_hash,
-            )
+        period_type = fact.period_type
+        fiscal_quarter = fact.fiscal_quarter
+        if period_type == "QUARTERLY" and fiscal_quarter is None:
+            period_type = "ANNUAL"
+        pending.append(
+            {
+                "fundamental_id": fundamental_id,
+                "security_id": security_ids[fact.vendor_id],
+                "fiscal_period_end": fact.fiscal_period_end,
+                "fiscal_year": fact.fiscal_year,
+                "fiscal_quarter": fiscal_quarter,
+                "period_type": period_type,
+                "form_type": fact.form_type,
+                "filing_accession": fact.filing_accession,
+                "filed_at": fact.filed_at,
+                "accepted_at": fact.accepted_at,
+                "public_release_at": fact.public_release_at,
+                "vendor_available_at": fact.vendor_available_at,
+                "model_available_at": fact.model_available_at,
+                "revision_version": fact.revision_version,
+                "concept": fact.concept,
+                "standardized_concept": fact.standardized_concept,
+                "value": fact.value,
+                "unit": fact.unit,
+                "source_snapshot_id": data_snapshot.snapshot_id,
+                "source_hash": data_snapshot.source_hash,
+                "metric": fact.concept,
+                "period_end": fact.fiscal_period_end,
+                "accession_no": fact.filing_accession,
+                "available_at": fact.model_available_at,
+                "fiscal_period": None,
+                "created_at": now,
+                "updated_at": now,
+            }
         )
         inserted_facts += 1
+        if len(pending) >= 20000:
+            session.execute(insert(Fundamental), pending)
+            pending = []
+    if pending:
+        session.execute(insert(Fundamental), pending)
     session.flush()
     return FundamentalIngestionResult(
         source_snapshots_inserted=inserted_snapshots,

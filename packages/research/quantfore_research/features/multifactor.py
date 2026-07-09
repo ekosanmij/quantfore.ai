@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import hashlib
+import uuid
+from bisect import bisect_right
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from decimal import Decimal
-from typing import Any, Iterable, Mapping, Optional, Sequence
+from typing import Any, Iterable, Mapping, NamedTuple, Optional, Sequence
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from quantfore_research.models import (
@@ -27,6 +29,7 @@ from quantfore_research.validation.fundamental_audit_gate import (
 
 MULTIFACTOR_FEATURE_VERSION = "multifactor-v1"
 MULTIFACTOR_FEATURE_SET_NAME = "pit_multifactor_raw_features"
+MULTIFACTOR_FEATURE_ID_NAMESPACE = uuid.UUID("9be3b2ad-8ba4-5cf4-9f76-4a4b41f3a09d")
 APPLICABLE = "APPLICABLE"
 MISSING = "MISSING"
 NOT_APPLICABLE = "NOT_APPLICABLE"
@@ -313,14 +316,32 @@ def select_fundamentals_as_of(
     """Select the greatest revision actually available by the prediction time."""
 
     timestamp = _utc(prediction_timestamp)
-    query = (
-        select(Fundamental)
-        .where(Fundamental.security_id == security_id)
-        .where(Fundamental.model_available_at <= timestamp)
+    # Facts are append-only and ingested before feature construction, so one
+    # memoized per-security load plus in-Python availability/snapshot filters
+    # selects exactly the rows the previous per-call query returned.
+    cache = session.info.setdefault("multifactor_fundamental_history_cache", {})
+    history = cache.get(security_id)
+    if history is None:
+        history = tuple(
+            session.execute(
+                select(Fundamental.__table__).where(
+                    Fundamental.security_id == security_id
+                )
+            ).all()
+        )
+        cache[security_id] = history
+    requested_snapshots = (
+        None if source_snapshot_ids is None else set(source_snapshot_ids)
     )
-    if source_snapshot_ids is not None:
-        query = query.where(Fundamental.source_snapshot_id.in_(source_snapshot_ids))
-    candidates = list(session.scalars(query).all())
+    candidates = [
+        row
+        for row in history
+        if _utc(row.model_available_at) <= timestamp
+        and (
+            requested_snapshots is None
+            or row.source_snapshot_id in requested_snapshots
+        )
+    ]
     selected: dict[tuple[object, ...], Fundamental] = {}
     for row in candidates:
         identity = (
@@ -602,53 +623,140 @@ def resolve_security_classification(
     return row
 
 
+class PriceWindowRow(NamedTuple):
+    """The price columns multi-factor construction and lineage consume."""
+
+    price_id: str
+    security_id: str
+    date: date
+    close: Optional[Decimal]
+    adj_close: Decimal
+    source_snapshot_id: str
+
+
+def _price_snapshot_candidates(
+    session: Session, *, security_id: str
+) -> tuple[tuple[SourceSnapshot, date], ...]:
+    """Adjusted-price snapshots for one security, newest first, memoized.
+
+    Carries each snapshot's earliest adjusted-close date so per-month calls
+    can apply the prediction-date eligibility filter without re-joining.
+    """
+
+    cache = session.info.setdefault("multifactor_price_snapshot_candidates", {})
+    cached = cache.get(security_id)
+    if cached is None:
+        rows = session.execute(
+            select(
+                Price.source_snapshot_id,
+                func.min(Price.date).label("first_date"),
+            )
+            .where(Price.security_id == security_id)
+            .where(Price.adj_close.is_not(None))
+            .group_by(Price.source_snapshot_id)
+        ).all()
+        snapshots = {
+            snapshot.snapshot_id: snapshot
+            for snapshot in session.scalars(
+                select(SourceSnapshot).where(
+                    SourceSnapshot.snapshot_id.in_(
+                        [row.source_snapshot_id for row in rows]
+                    )
+                )
+            )
+        } if rows else {}
+        cached = tuple(
+            sorted(
+                (
+                    (snapshots[row.source_snapshot_id], row.first_date)
+                    for row in rows
+                ),
+                key=lambda item: (_utc(item[0].retrieved_at), item[0].snapshot_id),
+                reverse=True,
+            )
+        )
+        cache[security_id] = cached
+    return cached
+
+
+def _snapshot_price_history(
+    session: Session, *, security_id: str, snapshot_id: str
+) -> tuple[tuple[PriceWindowRow, ...], tuple[date, ...]]:
+    """One immutable full adjusted-close history and its parallel date index."""
+
+    cache = session.info.setdefault("multifactor_price_history_cache_v2", {})
+    key = (security_id, snapshot_id)
+    cached = cache.get(key)
+    if cached is None:
+        rows = tuple(
+            PriceWindowRow(
+                price_id=row.price_id,
+                security_id=row.security_id,
+                date=row.date,
+                close=row.close,
+                adj_close=row.adj_close,
+                source_snapshot_id=row.source_snapshot_id,
+            )
+            for row in session.execute(
+                select(
+                    Price.price_id,
+                    Price.security_id,
+                    Price.date,
+                    Price.close,
+                    Price.adj_close,
+                    Price.source_snapshot_id,
+                )
+                .where(Price.security_id == security_id)
+                .where(Price.source_snapshot_id == snapshot_id)
+                .where(Price.adj_close.is_not(None))
+                .order_by(Price.date, Price.price_id)
+            )
+        )
+        cached = (rows, tuple(row.date for row in rows))
+        cache[key] = cached
+    return cached
+
+
 def _load_prices(
     session: Session,
     *,
     security_id: str,
     prediction_timestamp: datetime,
     source_snapshot_id: Optional[str],
-) -> tuple[list[Price], Optional[SourceSnapshot]]:
+) -> tuple[list[PriceWindowRow], Optional[SourceSnapshot]]:
+    # Equivalent to the previous per-call queries: pick the newest
+    # (retrieved_at, snapshot_id) snapshot owning at least one adjusted close
+    # on or before the prediction date, then return that snapshot's last 253
+    # eligible rows ascending by (date, price_id).
+    prediction_date = _utc(prediction_timestamp).date()
     cache = session.info.setdefault("multifactor_price_history_cache", {})
-    cache_key = (
-        security_id,
-        _utc(prediction_timestamp).date(),
-        source_snapshot_id,
-    )
+    cache_key = (security_id, prediction_date, source_snapshot_id)
     cached = cache.get(cache_key)
     if cached is not None:
         return cached
-    query = (
-        select(SourceSnapshot)
-        .join(Price, Price.source_snapshot_id == SourceSnapshot.snapshot_id)
-        .where(Price.security_id == security_id)
-        .where(Price.date <= prediction_timestamp.date())
-        .where(Price.adj_close.is_not(None))
-    )
-    if source_snapshot_id is not None:
-        query = query.where(SourceSnapshot.snapshot_id == source_snapshot_id)
-    snapshot = session.scalar(
-        query.order_by(
-            SourceSnapshot.retrieved_at.desc(), SourceSnapshot.snapshot_id.desc()
-        ).limit(1)
-    )
+    snapshot = None
+    for candidate_snapshot, first_date in _price_snapshot_candidates(
+        session, security_id=security_id
+    ):
+        if (
+            source_snapshot_id is not None
+            and candidate_snapshot.snapshot_id != source_snapshot_id
+        ):
+            continue
+        if first_date <= prediction_date:
+            snapshot = candidate_snapshot
+            break
     if snapshot is None:
-        result = ([], None)
+        result: tuple[list[PriceWindowRow], Optional[SourceSnapshot]] = ([], None)
         cache[cache_key] = result
         return result
-    prices = list(
-        session.scalars(
-            select(Price)
-            .where(Price.security_id == security_id)
-            .where(Price.source_snapshot_id == snapshot.snapshot_id)
-            .where(Price.date <= prediction_timestamp.date())
-            .where(Price.adj_close.is_not(None))
-            .order_by(Price.date.desc(), Price.price_id.desc())
-            .limit(253)
-        ).all()
+    history, history_dates = _snapshot_price_history(
+        session,
+        security_id=security_id,
+        snapshot_id=snapshot.snapshot_id,
     )
-    prices.reverse()
-    result = (prices, snapshot)
+    upto = history[: bisect_right(history_dates, prediction_date)]
+    result = (list(upto[-253:]), snapshot)
     cache[cache_key] = result
     return result
 
@@ -1354,6 +1462,14 @@ def store_multifactor_features(
         snapshot = snapshots[source_id]
         session.add(
             Feature(
+                # Deterministic ID: feature IDs feed the normalization input
+                # hash, so two clean rebuilds must mint the same value.
+                feature_id=str(
+                    uuid.uuid5(
+                        MULTIFACTOR_FEATURE_ID_NAMESPACE,
+                        f"{feature_set_id}|{item.definition.name}",
+                    )
+                ),
                 feature_set_id=feature_set_id,
                 security_id=batch.security_id,
                 asof_date=batch.prediction_timestamp.date(),

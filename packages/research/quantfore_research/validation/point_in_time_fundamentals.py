@@ -242,8 +242,8 @@ def derive_sec_reconciliation_samples(
         row.snapshot_id: row
         for row in session.scalars(select(SourceSnapshot)).all()
     }
-    query = select(Fundamental)
-    all_facts = list(session.scalars(query).all())
+    query = select(Fundamental.__table__)
+    all_facts = list(session.execute(query).all())
     requested = set(vendor_source_snapshot_ids or ())
     vendor_facts = [
         row
@@ -499,7 +499,11 @@ def audit_point_in_time_fundamentals(
 ) -> PointInTimeFundamentalAudit:
     """Audit lineage, revisions, accounting plausibility and SEC samples."""
 
-    query = select(Fundamental).order_by(
+    # Core rows instead of ORM entities: the audit only reads mapped columns,
+    # and both paths share the identical column type processors, so every
+    # audited value (and therefore every hash) is unchanged while skipping
+    # per-row ORM identity/instance overhead across ~765K facts.
+    query = select(Fundamental.__table__).order_by(
         Fundamental.security_id,
         Fundamental.fiscal_period_end,
         Fundamental.concept,
@@ -508,7 +512,7 @@ def audit_point_in_time_fundamentals(
     )
     if source_snapshot_ids is not None:
         query = query.where(Fundamental.source_snapshot_id.in_(source_snapshot_ids))
-    facts = list(session.scalars(query).all())
+    facts = list(session.execute(query).all())
     findings: list[FundamentalAuditFinding] = []
     facts_by_id = {row.fundamental_id: row for row in facts}
     snapshots = {

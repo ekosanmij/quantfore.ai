@@ -92,8 +92,20 @@ def _normalize_price_points(
     series_name: str,
 ) -> list[PricePoint]:
     try:
+        # A PricePoint that already satisfies every conversion-time check is
+        # reused as-is; reconstruction would produce an equal object, and any
+        # point failing the checks takes the original path so the exact same
+        # errors are raised.
         points = [
-            PricePoint(
+            point
+            if (
+                type(point) is PricePoint
+                and isinstance(point.date, date)
+                and isinstance(point.adj_close, Decimal)
+                and point.adj_close.is_finite()
+                and point.adj_close > 0
+            )
+            else PricePoint(
                 date=_price_date(point, series_name=series_name),
                 adj_close=_price_adj_close(point, series_name=series_name),
             )

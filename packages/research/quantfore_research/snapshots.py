@@ -41,8 +41,14 @@ def record_source_snapshot(
     source_hash: str,
     storage_uri: str,
     retrieved_at: Optional[datetime] = None,
+    snapshot_id: Optional[str] = None,
 ) -> SourceSnapshot:
-    """Insert a source snapshot record and flush it to the database."""
+    """Insert a source snapshot record and flush it to the database.
+
+    Reproducible-rebuild callers must pass a deterministic ``snapshot_id``:
+    snapshot IDs are copied into audited fact rows and feature lineage, so a
+    random ID makes two otherwise identical rebuilds hash differently.
+    """
 
     snapshot = SourceSnapshot(
         vendor=_required_text("vendor", vendor),
@@ -52,6 +58,8 @@ def record_source_snapshot(
         source_hash=_required_text("source_hash", source_hash),
         storage_uri=_required_text("storage_uri", storage_uri),
     )
+    if snapshot_id is not None:
+        snapshot.snapshot_id = _required_text("snapshot_id", snapshot_id)
     session.add(snapshot)
     session.flush()
     return snapshot
