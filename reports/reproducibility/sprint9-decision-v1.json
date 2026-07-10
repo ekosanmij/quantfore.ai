@@ -1,0 +1,209 @@
+{
+  "report_version": "sprint9-decision-v1",
+  "generated_at": "2026-07-10T17:45:24Z",
+  "decision": "EXPAND_DATA_AND_IMPLEMENT_MODEL_V2_BEFORE_SHADOW_TESTING",
+  "claims_eligible": false,
+  "sprint9_status": "COMPLETE",
+  "human_report": {
+    "path": "reports/reproducibility/sprint9-decision-v1.md",
+    "sha256": "ae318a3ab3016b28b5654d33c486cb7993e9fc27987f7c552440185c2f57537d"
+  },
+  "sprint9_question": {
+    "question": "Was Sprint 8's signal broad, reliable, and investable enough to justify Model V2?",
+    "broad": false,
+    "reliable": false,
+    "investable": false,
+    "answer": "NO_FOR_PROMOTION_OR_SHADOW_ACTIVATION__YES_ONLY_FOR_CONDITIONAL_OUTCOME_BLIND_MODEL_V2_ENGINEERING"
+  },
+  "sprint8_assessment": {
+    "engineering_reproducibility": "PASS",
+    "engineering_promotion_gates": "FAIL",
+    "model_performance_promotion_gates": "FAIL",
+    "signal_efficacy_established": false,
+    "ranking_usefulness_established": false,
+    "investability_established": false,
+    "product_use_authorized": false
+  },
+  "key_evidence": {
+    "universe_stock_months": 50600,
+    "eligible_final_score_stock_months": 60,
+    "aggregate_final_score_coverage": 0.001186,
+    "monthly_cohorts": 102,
+    "months_with_no_final_score": 59,
+    "months_at_or_above_90pct_coverage": 0,
+    "unique_universe_securities": 636,
+    "unique_evaluated_securities": 5,
+    "evaluated_sectors": 1,
+    "evaluated_sector_label": "Financials",
+    "reit_sic_6798_evaluated_rows": 51,
+    "insurer_sic_6331_evaluated_rows": 9,
+    "quality_available_universe_rows": 15,
+    "quality_available_evaluated_rows": 0,
+    "rank_ic_mean": 0.6889,
+    "rank_ic_calculable_months": 9,
+    "rank_ic_calculable_holdout_months": 0,
+    "rank_ic_nonoverlap_tstat": null,
+    "gross_selected_excess_return": -0.063705,
+    "net_selected_excess_return_25bps": -0.064054,
+    "benchmark_hit_rate_25bps": 0.3953,
+    "selected_minus_eligible_equal_weight": -0.0042,
+    "selected_minus_equal_weight_multiname_months": -0.0203,
+    "selected_holdings_per_period": 1,
+    "maximum_single_name_weight": 1.0,
+    "maximum_sector_weight": 1.0,
+    "bottom_bucket_months": 0,
+    "selected_rows_passing_25m_liquidity_screen": 43,
+    "selected_rows_total": 43,
+    "observed_primary_failure": "COVERAGE_CLASSIFICATION_AND_COHORT_CONSTRUCTION",
+    "transaction_costs_primary_failure": false
+  },
+  "path_decisions": {
+    "promote_sprint8": "NO_GO",
+    "tune_on_exposed_2017_2025_returns": "NO_GO",
+    "start_shadow_testing_now": "NO_GO_NOT_READY",
+    "expand_point_in_time_accounting_data": "GO_REQUIRED",
+    "implement_locked_model_v2": "GO_CONDITIONAL_ENGINEERING_ONLY",
+    "pause_return_driven_modeling": "GO",
+    "use_quant_scores_in_product": "NO_GO",
+    "parallel_thesis_memory_product_work": "OPTIONAL_SEPARATE_SCOPE"
+  },
+  "sprint9_deliverables": {
+    "9.1": {
+      "name": "Evidence Readout",
+      "status": "COMPLETE",
+      "decision": "ENGINEERING_REPRODUCIBLE_MODEL_NOT_PROMOTED"
+    },
+    "9.2": {
+      "name": "Coverage And Cohort Audit",
+      "status": "COMPLETE",
+      "decision": "BREADTH_FAILED_ALL_STOCK_MONTHS_RECONCILED"
+    },
+    "9.3": {
+      "name": "Factor Family Diagnostic",
+      "status": "COMPLETE",
+      "decision": "NOT_A_BROAD_FIVE_FAMILY_MODEL_IN_PRACTICE"
+    },
+    "9.4": {
+      "name": "Investability Diagnostic",
+      "status": "COMPLETE",
+      "decision": "NOT_INVESTABLE_ON_OBSERVED_EVIDENCE"
+    },
+    "9.5": {
+      "name": "Model V2 Hypothesis Contract",
+      "status": "COMPLETE",
+      "decision": "HYPOTHESIS_LOCKED_IMPLEMENTATION_NOT_OUTCOME_AUTHORIZED"
+    },
+    "9.6": {
+      "name": "Financial Sector Treatment",
+      "status": "COMPLETE",
+      "decision": "SEPARATE_SUBTYPE_BRANCHES_REQUIRED_NOT_IMPLEMENTED"
+    },
+    "9.7": {
+      "name": "Shadow Prediction Ledger Design",
+      "status": "COMPLETE",
+      "decision": "IMPLEMENTATION_READY_NOT_PREDICTION_AUTHORIZED"
+    },
+    "9.8": {
+      "name": "Sprint 9 Decision Report",
+      "status": "COMPLETE",
+      "decision": "EXPAND_DATA_AND_IMPLEMENT_MODEL_V2_BEFORE_SHADOW_TESTING"
+    }
+  },
+  "sprint10": {
+    "theme": "MODEL_V2_PRE_SHADOW_READINESS",
+    "objective": "Implement point-in-time subtype branches and broad five-family coverage without return tuning, prove the engineering gates, then create the executable lock.",
+    "work_packages": [
+      "POINT_IN_TIME_SUBTYPE_CLASSIFICATION",
+      "BRANCH_ACCOUNTING_DATA_AND_HISTORY_EXPANSION",
+      "BRANCH_AWARE_MODEL_V2_IMPLEMENTATION",
+      "OUTCOME_BLIND_TWO_REBUILD_ENGINEERING_PROOF",
+      "EXECUTABLE_LOCK_AND_SHADOW_OPERATIONS_REHEARSAL",
+      "CONDITIONAL_FIRST_2026_07_31_SHADOW_BATCH"
+    ]
+  },
+  "shadow_entry_gates": [
+    "MODEL_V2_CODE_AND_FORMULAS_COMMITTED",
+    "CLASSIFICATION_FORMULA_SOURCE_SCHEDULE_EVALUATION_REPORT_COST_AND_NOTIONAL_HASHES_LOCKED",
+    "TWO_CLEAN_REBUILDS_MATCH",
+    "KNOWN_BRANCH_OR_SUBTYPE_COVERAGE_GTE_98PCT_EVERY_MONTH",
+    "FINAL_SCORE_COVERAGE_GTE_90PCT_EVERY_MONTH",
+    "ACTIVE_BRANCH_SCORE_COVERAGE_GTE_80PCT_EVERY_MONTH",
+    "ELIGIBLE_NAMES_PER_ACTIVE_BRANCH_GTE_20",
+    "REPRESENTED_BRANCHES_GTE_5_AND_SECTORS_GTE_5",
+    "ALL_FIVE_FIXED_WEIGHT_FAMILIES_PRESENT_IN_EVERY_SCORED_ROW",
+    "EVERY_EXCLUDED_ROW_HAS_STABLE_REASON_CODES",
+    "SHADOW_LEDGER_ACCOUNTS_FOR_EVERY_EXPECTED_MEMBER",
+    "PRODUCT_LABEL_NULL_FOR_EVERY_SHADOW_ROW",
+    "LOCK_ONLY_COMMIT_IS_ONLY_CHANGE_AFTER_IMPLEMENTATION_COMMIT"
+  ],
+  "stop_conditions": [
+    "FINAL_SCORE_COVERAGE_CANNOT_REACH_90PCT_WITHOUT_RULE_RELAXATION",
+    "FEWER_THAN_FIVE_VIABLE_BRANCHES_OR_SECTORS",
+    "ACCOUNTING_FAMILIES_REMAIN_UNAVAILABLE_AND_SCORE_IS_PRICE_RISK_ONLY",
+    "POINT_IN_TIME_SUBTYPE_EVIDENCE_CANNOT_BE_ESTABLISHED",
+    "LEAKAGE_REVISION_SURVIVORSHIP_OR_SOURCE_HASH_FAILURE",
+    "RETURN_DRIVEN_FORMULA_WEIGHT_THRESHOLD_OR_ELIGIBILITY_CHANGE_REQUIRED",
+    "EXECUTABLE_LOCK_NOT_COMMITTED_BEFORE_FIRST_SCHEDULED_BOUNDARY"
+  ],
+  "first_shadow_batch_policy": {
+    "scheduled_date": "2026-07-31",
+    "authorized_now": false,
+    "backfill_after_outcome_availability_allowed": false,
+    "silent_window_change_allowed": false,
+    "missed_or_failed_batch_behavior": "RETAIN_AND_REPORT_FAILURE"
+  },
+  "evidence_inputs": [
+    {
+      "path": "reports/reproducibility/sprint8-closure-v1.json",
+      "sha256": "edce8123922a5157dc979ae9db34834a69fbe31b8a0aa1baf8ae132088fc064c"
+    },
+    {
+      "path": "reports/research/sprint9-evidence-readout-v1.json",
+      "sha256": "2098eab4e91325988a4901948c28bf476804b8eb59bf0e39f5e5bf1c8199e6ec"
+    },
+    {
+      "path": "reports/data-audits/sprint9-cohort-funnel-v1.json",
+      "sha256": "1e5b3b1e001d77ceeded4fbedfcc9387bd8af6f27e89792616b53b257f329d1d"
+    },
+    {
+      "path": "reports/research/sprint9-factor-diagnostics-v1.json",
+      "sha256": "c84a1eca3d9ab938bdb3de796a40a9d264dfd9cb319198b3ffef6263feb2935d"
+    },
+    {
+      "path": "reports/backtests/sprint9-investability-diagnostic-v1.json",
+      "sha256": "fcb6af611b1e4b3f625591660658b23f99bd48406b53400f2342181023764edc"
+    },
+    {
+      "path": "docs/research/sector-specific-factor-treatment-v1.json",
+      "sha256": "c0b7f2ecec1798bb50009b5e82f356794a06eb979ba1b734c0ee44f576ca237d"
+    },
+    {
+      "path": "experiments/multifactor-v2-hypothesis-lock-v1.json",
+      "sha256": "4d2de5cd47d985b8531ac1bbe60d86fe2fd8cfc5c2284e37c7ea3fac8d13d42c"
+    },
+    {
+      "path": "docs/research/shadow-ledger-v1.md",
+      "sha256": "55b0831437c8b918fd4c3f526c21a6fd7551a9ed2d7680d2f086617741e77e55"
+    },
+    {
+      "path": "packages/research/quantfore_research/models.py",
+      "sha256": "7d1b63410d7b68e382de19f9df0a4477f3d90af933567275a64a44819d91e4b2"
+    },
+    {
+      "path": "packages/research/quantfore_research/shadow/ledger.py",
+      "sha256": "90c9b8e7a9b81de4db9652417317038708c5ebc3f42287de706f2f4f23def5cf"
+    },
+    {
+      "path": "pipelines/create_shadow_predictions.py",
+      "sha256": "513468a3ae94b55a68088248c7b3f86a82c59e23eea276f3e780a3a29db048df"
+    },
+    {
+      "path": "packages/research/tests/test_shadow_prediction_ledger.py",
+      "sha256": "84e1a20f94a75b2265f8dd00dc964f73a62240d5cccb9836b0dd7de16099b7cf"
+    },
+    {
+      "path": "docs/compliance/claims-policy.md",
+      "sha256": "db7fff2525ca6a92eef7b835deb3bad6696f0defa393fe32bb563435d94341c1"
+    }
+  ]
+}

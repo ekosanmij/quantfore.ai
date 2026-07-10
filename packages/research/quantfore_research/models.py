@@ -1521,6 +1521,243 @@ event.listen(ModelOutcome, "before_update", _reject_model_outcome_update)
 event.listen(ModelOutcome, "before_delete", _reject_model_outcome_delete)
 
 
+class ShadowPredictionBatch(Base):
+    """Sealed monthly shadow cohort bound to one executable model lock."""
+
+    __tablename__ = "shadow_prediction_batches"
+    __table_args__ = (
+        CheckConstraint(
+            "length(trim(model_version)) > 0",
+            name="ck_shadow_batches_model_version_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(executable_lock_uri)) > 0",
+            name="ck_shadow_batches_lock_uri_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(executable_lock_hash)) > 0",
+            name="ck_shadow_batches_lock_hash_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(code_commit)) > 0",
+            name="ck_shadow_batches_code_commit_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(execution_commit)) > 0",
+            name="ck_shadow_batches_execution_commit_nonempty",
+        ),
+        CheckConstraint(
+            "expected_member_count >= 0 AND scored_count >= 0 "
+            "AND excluded_count >= 0",
+            name="ck_shadow_batches_counts_nonnegative",
+        ),
+        CheckConstraint(
+            "expected_member_count = scored_count + excluded_count",
+            name="ck_shadow_batches_counts_reconcile",
+        ),
+        CheckConstraint(
+            "product_label_policy = 'WITHHELD_RESEARCH_ONLY'",
+            name="ck_shadow_batches_product_policy",
+        ),
+        CheckConstraint(
+            "claims_eligible = false",
+            name="ck_shadow_batches_claims_ineligible",
+        ),
+        CheckConstraint(
+            "length(trim(batch_hash)) > 0",
+            name="ck_shadow_batches_hash_nonempty",
+        ),
+        UniqueConstraint(
+            "model_version",
+            "prediction_date",
+            name="uq_shadow_batches_model_prediction_date",
+        ),
+        UniqueConstraint("batch_hash", name="uq_shadow_batches_hash"),
+        Index(
+            "ix_shadow_batches_universe_prediction_date",
+            "universe_id",
+            "prediction_date",
+        ),
+        Index("ix_shadow_batches_recorded_at", "recorded_at"),
+    )
+
+    batch_id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    model_version: Mapped[str] = mapped_column(String(100), nullable=False)
+    universe_id: Mapped[str] = mapped_column(
+        ForeignKey("universe_definitions.universe_id"), nullable=False
+    )
+    normalization_run_id: Mapped[str] = mapped_column(
+        ForeignKey("normalization_runs.normalization_run_id"), nullable=False
+    )
+    prediction_date: Mapped[date] = mapped_column(Date, nullable=False)
+    prediction_timestamp: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    recorded_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    executable_lock_uri: Mapped[str] = mapped_column(String(1024), nullable=False)
+    executable_lock_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+    code_commit: Mapped[str] = mapped_column(String(64), nullable=False)
+    execution_commit: Mapped[str] = mapped_column(String(64), nullable=False)
+    input_manifest_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
+    expected_member_count: Mapped[int] = mapped_column(nullable=False)
+    scored_count: Mapped[int] = mapped_column(nullable=False)
+    excluded_count: Mapped[int] = mapped_column(nullable=False)
+    claims_eligible: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    outcome_evaluation_authorized: Mapped[bool] = mapped_column(
+        Boolean, nullable=False
+    )
+    product_label_policy: Mapped[str] = mapped_column(
+        String(64), nullable=False, default="WITHHELD_RESEARCH_ONLY"
+    )
+    batch_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+
+
+class ShadowPredictionRecord(Base):
+    """One immutable scored or excluded member in a shadow batch."""
+
+    __tablename__ = "shadow_prediction_records"
+    __table_args__ = (
+        CheckConstraint(
+            "length(trim(ticker)) > 0",
+            name="ck_shadow_records_ticker_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(classification_branch)) > 0",
+            name="ck_shadow_records_branch_nonempty",
+        ),
+        CheckConstraint(
+            "disposition IN ('SCORED', 'EXCLUDED')",
+            name="ck_shadow_records_disposition",
+        ),
+        CheckConstraint(
+            "research_score IS NULL OR "
+            "(research_score >= 0 AND research_score <= 100)",
+            name="ck_shadow_records_score_range",
+        ),
+        CheckConstraint(
+            "research_confidence IS NULL OR "
+            "(research_confidence >= 0 AND research_confidence <= 1)",
+            name="ck_shadow_records_confidence_range",
+        ),
+        CheckConstraint(
+            "(disposition = 'SCORED' AND research_score IS NOT NULL "
+            "AND research_label IS NOT NULL) OR "
+            "(disposition = 'EXCLUDED' AND research_score IS NULL "
+            "AND research_confidence IS NULL AND research_label IS NULL)",
+            name="ck_shadow_records_disposition_fields",
+        ),
+        CheckConstraint(
+            "product_label IS NULL",
+            name="ck_shadow_records_product_label_withheld",
+        ),
+        CheckConstraint(
+            "product_label_status = 'WITHHELD_RESEARCH_ONLY'",
+            name="ck_shadow_records_product_label_status",
+        ),
+        CheckConstraint(
+            "length(trim(record_hash)) > 0",
+            name="ck_shadow_records_hash_nonempty",
+        ),
+        UniqueConstraint(
+            "batch_id",
+            "security_id",
+            name="uq_shadow_records_batch_security",
+        ),
+        UniqueConstraint("record_hash", name="uq_shadow_records_hash"),
+        Index("ix_shadow_records_batch_disposition", "batch_id", "disposition"),
+        Index("ix_shadow_records_security_id", "security_id"),
+    )
+
+    shadow_prediction_id: Mapped[str] = mapped_column(
+        String(100), primary_key=True
+    )
+    batch_id: Mapped[str] = mapped_column(
+        ForeignKey("shadow_prediction_batches.batch_id"), nullable=False
+    )
+    security_id: Mapped[str] = mapped_column(
+        ForeignKey("securities.security_id"), nullable=False
+    )
+    ticker: Mapped[str] = mapped_column(String(32), nullable=False)
+    classification_branch: Mapped[str] = mapped_column(String(80), nullable=False)
+    disposition: Mapped[str] = mapped_column(String(16), nullable=False)
+    research_score: Mapped[Optional[Decimal]] = mapped_column(Numeric(12, 6))
+    research_confidence: Mapped[Optional[Decimal]] = mapped_column(Numeric(8, 6))
+    research_label: Mapped[Optional[str]] = mapped_column(String(80))
+    product_label: Mapped[Optional[str]] = mapped_column(String(80))
+    product_label_status: Mapped[str] = mapped_column(
+        String(64), nullable=False, default="WITHHELD_RESEARCH_ONLY"
+    )
+    exclusions_json: Mapped[list[dict[str, Any]]] = mapped_column(
+        JSON, nullable=False, default=list
+    )
+    drivers_json: Mapped[list[dict[str, Any]]] = mapped_column(
+        JSON, nullable=False, default=list
+    )
+    prediction_ids_json: Mapped[dict[str, str]] = mapped_column(
+        JSON, nullable=False, default=dict
+    )
+    input_lineage_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
+    record_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+
+
+class ShadowOutcomeRecord(Base):
+    """Append-only link added only after a shadow horizon outcome matures."""
+
+    __tablename__ = "shadow_outcome_records"
+    __table_args__ = (
+        CheckConstraint(
+            "length(trim(horizon)) > 0",
+            name="ck_shadow_outcomes_horizon_nonempty",
+        ),
+        CheckConstraint(
+            "length(trim(immutable_hash)) > 0",
+            name="ck_shadow_outcomes_hash_nonempty",
+        ),
+        UniqueConstraint(
+            "shadow_prediction_id",
+            "horizon",
+            name="uq_shadow_outcomes_record_horizon",
+        ),
+        UniqueConstraint("prediction_id", name="uq_shadow_outcomes_prediction"),
+        UniqueConstraint("outcome_id", name="uq_shadow_outcomes_outcome"),
+        UniqueConstraint("immutable_hash", name="uq_shadow_outcomes_hash"),
+        Index("ix_shadow_outcomes_recorded_at", "recorded_at"),
+    )
+
+    shadow_outcome_id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    shadow_prediction_id: Mapped[str] = mapped_column(
+        ForeignKey("shadow_prediction_records.shadow_prediction_id"),
+        nullable=False,
+    )
+    prediction_id: Mapped[str] = mapped_column(
+        ForeignKey("model_predictions.prediction_id"), nullable=False
+    )
+    outcome_id: Mapped[str] = mapped_column(
+        ForeignKey("model_outcomes.outcome_id"), nullable=False
+    )
+    horizon: Mapped[str] = mapped_column(String(32), nullable=False)
+    recorded_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    immutable_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+
+
+def _reject_shadow_ledger_change(mapper, connection, target) -> None:
+    del mapper, connection, target
+    raise RuntimeError("shadow ledger artifacts are append-only")
+
+
+for _shadow_model in (
+    ShadowPredictionBatch,
+    ShadowPredictionRecord,
+    ShadowOutcomeRecord,
+):
+    event.listen(_shadow_model, "before_update", _reject_shadow_ledger_change)
+    event.listen(_shadow_model, "before_delete", _reject_shadow_ledger_change)
+
+
 class ExperimentRegistry(TimestampMixin, Base):
     """Registry entry for a model, feature, or backtest experiment."""
 
