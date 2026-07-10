@@ -1,0 +1,1841 @@
+{
+  "claims_eligible": false,
+  "code_revision": "6e0ad2a-dirty-d04e94e40308",
+  "decision": "NOT_INVESTABLE_ON_OBSERVED_EVIDENCE",
+  "diagnostic": {
+    "claims_eligible": false,
+    "concentration": {
+      "sector": {
+        "maximum_hhi": 1.0,
+        "maximum_period_sector_weight": 1.0,
+        "mean_hhi": 1.0,
+        "selection_occurrences": [
+          {
+            "holding_observation_share": 1.0,
+            "holding_observations": 43,
+            "sector": "Financials"
+          }
+        ],
+        "unique_selected_sectors": 1
+      },
+      "single_name": {
+        "maximum_hhi": 1.0,
+        "maximum_holdings_per_period": 1,
+        "maximum_period_name_weight": 1.0,
+        "mean_hhi": 1.0,
+        "mean_holdings_per_period": 1.0,
+        "minimum_holdings_per_period": 1,
+        "periods": 43,
+        "selection_occurrences": [
+          {
+            "period_share": 0.3023255813953488,
+            "periods_selected": 13,
+            "ticker": "AMT"
+          },
+          {
+            "period_share": 0.18604651162790697,
+            "periods_selected": 8,
+            "ticker": "HIG"
+          },
+          {
+            "period_share": 0.32558139534883723,
+            "periods_selected": 14,
+            "ticker": "REG"
+          },
+          {
+            "period_share": 0.18604651162790697,
+            "periods_selected": 8,
+            "ticker": "VNO"
+          }
+        ],
+        "unique_selected_names": 4
+      }
+    },
+    "decision": "NOT_INVESTABLE_ON_OBSERVED_EVIDENCE",
+    "deployable_portfolio_evaluable": false,
+    "drawdown_and_downside_capture": {
+      "downside_capture": {
+        "down_market_periods": 11,
+        "mean_benchmark_return": -0.09102115972150246,
+        "mean_selected_security_return": -0.12253549504471026,
+        "percentage": 134.62308700485934
+      },
+      "selected_holding_path": {
+        "equals_cohort_portfolio_path_because_every_period_has_one_holding": true,
+        "mean_max_drawdown": -0.19903113231087968,
+        "median_max_drawdown": -0.1587550285834893,
+        "observations": 43,
+        "worst_max_drawdown": -0.5700440065781079
+      },
+      "stitched_capital_account_max_drawdown": {
+        "evaluable": false,
+        "reason": "Monthly 126-session forward windows overlap and no single daily capital-allocation ledger was frozen. Compounding them would double-count capital.",
+        "value": null
+      }
+    },
+    "equal_weight_comparison": {
+      "eligible_equal_weight_mean_excess_return": -0.05946403552776131,
+      "eligible_equal_weight_mean_security_return": 0.010756043759900098,
+      "model_selected_mean_excess_return": -0.06370512597624566,
+      "model_selected_mean_security_return": 0.00651495331141575,
+      "model_selected_minus_eligible_equal_weight_excess": -0.004241090448484348,
+      "multi_name_mean_selection_lift": -0.020262987698314104,
+      "multi_name_periods": 9,
+      "multi_name_positive_selection_lift_rate": 0.4444444444444444,
+      "periods": 43,
+      "singleton_periods_with_no_selection_choice": 34
+    },
+    "implementability_assessment": {
+      "annualized_return_reported": false,
+      "bid_ask_spread_model_available": false,
+      "decision_reason": "The selected cohort is one stock and one sector in every period, has no bottom bucket, underperforms SPY before costs, and underperforms the same cohort's equal-weight basket.",
+      "investability_established": false,
+      "market_impact_model_available": false,
+      "ranking_useful_for_portfolio_construction_established": false,
+      "stitched_capital_account_curve_available": false,
+      "volume_screen_available": true
+    },
+    "integrity": {
+      "liquidity_ledger_sha256": "fbd1f1c6cc21a02b99d1f832237c8c91b781c5773c60117223ccdb85ee5ed7fe",
+      "outcome_reproduction": {
+        "benchmark_security_id": "66d63fe3-d840-5d2d-9bb3-4cc9f9f42fcf",
+        "maximum_absolute_published_period_return_difference": 2.2760821825863758e-08,
+        "method": "Recalculate the first 126 aligned trading-session intervals after each prediction from adjusted closes in the authoritative warehouse.",
+        "observations": 60,
+        "outcome_ledger_sha256": "929a3b1d28788681396677b82197d790c9eba573bc614f7ebbb9b2335af0410d",
+        "published_period_returns_reproduced": true,
+        "published_periods": 43,
+        "reproduction_tolerance": 1e-07
+      },
+      "portfolio_period_ledger_sha256": "24ccc09d52c428ab3c10fb220d946cf571a54753cee11be4423c504fec2036cd",
+      "published_metric_reconciliation": {
+        "absolute_differences": {
+          "downside_capture_percentage": 2.72750396e-06,
+          "eligible_equal_weight_excess_return": 6.350293888398322e-10,
+          "mean_selected_max_drawdown": 2.07832151e-09,
+          "mean_turnover": 2.5581395349e-18,
+          "net_excess_10_bps": 1.23305667e-09,
+          "net_excess_25_bps": 1.23305667e-09,
+          "net_excess_50_bps": 1.23305665e-09,
+          "top_bucket_gross_excess_return": 1.2330566712008863e-09
+        },
+        "all_checks_passed": true,
+        "tolerance": 1e-05
+      }
+    },
+    "liquidity": {
+      "complete_lookback_observations": 43,
+      "coverage": 1.0,
+      "holding_rows": [
+        {
+          "median_daily_dollar_volume_20d": 132699913.24,
+          "prediction_date": "2018-10-31",
+          "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+          "ticker": "HIG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 112277071.42,
+          "prediction_date": "2018-11-30",
+          "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+          "ticker": "HIG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 142170351.735,
+          "prediction_date": "2018-12-31",
+          "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+          "ticker": "HIG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 102266401.71,
+          "prediction_date": "2019-01-31",
+          "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+          "ticker": "HIG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 77114973.41,
+          "prediction_date": "2019-02-28",
+          "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+          "ticker": "VNO",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 57559779.21,
+          "prediction_date": "2019-03-29",
+          "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+          "ticker": "VNO",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 59674186.31,
+          "prediction_date": "2019-04-30",
+          "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+          "ticker": "VNO",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 62505375.395,
+          "prediction_date": "2019-05-31",
+          "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+          "ticker": "VNO",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 49569500.59,
+          "prediction_date": "2019-06-28",
+          "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+          "ticker": "VNO",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 54783037.78,
+          "prediction_date": "2019-07-31",
+          "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+          "ticker": "VNO",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 74011515.115,
+          "prediction_date": "2019-08-30",
+          "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+          "ticker": "VNO",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 79966962.02,
+          "prediction_date": "2019-09-30",
+          "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+          "ticker": "VNO",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 318631626.14,
+          "prediction_date": "2019-10-31",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 102867378.375,
+          "prediction_date": "2019-11-29",
+          "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+          "ticker": "HIG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 93663856.2,
+          "prediction_date": "2019-12-31",
+          "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+          "ticker": "HIG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 129376154.76,
+          "prediction_date": "2020-01-31",
+          "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+          "ticker": "HIG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 133574476.975,
+          "prediction_date": "2020-02-28",
+          "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+          "ticker": "HIG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 764227885.77,
+          "prediction_date": "2020-03-31",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 511305586.885,
+          "prediction_date": "2020-04-30",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 466549926.26,
+          "prediction_date": "2020-05-29",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 516163537.79,
+          "prediction_date": "2020-06-30",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 368335455.855,
+          "prediction_date": "2020-07-31",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 309930661.715,
+          "prediction_date": "2020-08-31",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 571487458.53,
+          "prediction_date": "2020-09-30",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 392654831.77,
+          "prediction_date": "2020-10-30",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 419143433.86,
+          "prediction_date": "2020-11-30",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 528866432.78,
+          "prediction_date": "2020-12-31",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 547112033.1,
+          "prediction_date": "2021-01-29",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 392823762.035,
+          "prediction_date": "2021-02-26",
+          "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+          "ticker": "AMT",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 74497098.575,
+          "prediction_date": "2021-03-31",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 56573282.775,
+          "prediction_date": "2021-04-30",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 64848460.63,
+          "prediction_date": "2021-05-28",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 58247940.525,
+          "prediction_date": "2021-06-30",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 48390433.45,
+          "prediction_date": "2021-07-30",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 41907027.51,
+          "prediction_date": "2021-08-31",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 54810804.235,
+          "prediction_date": "2021-09-30",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 53134872.31,
+          "prediction_date": "2021-10-29",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 60806154.255,
+          "prediction_date": "2021-11-30",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 55018363.57,
+          "prediction_date": "2021-12-31",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 65617600.86,
+          "prediction_date": "2022-01-31",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 79486586.68,
+          "prediction_date": "2022-02-28",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 69163318.72,
+          "prediction_date": "2022-03-31",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        },
+        {
+          "median_daily_dollar_volume_20d": 54488659.0,
+          "prediction_date": "2022-04-29",
+          "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+          "ticker": "REG",
+          "valid_lookback_sessions": 20
+        }
+      ],
+      "limitation": "Dollar volume does not measure bid-ask spreads, order size, market impact, borrow, or executable capacity.",
+      "lookback_sessions": 20,
+      "market_impact_or_capacity_established": false,
+      "maximum_median_daily_dollar_volume_20d": 764227885.77,
+      "median_median_daily_dollar_volume_20d": 79966962.02,
+      "method": "Median of unadjusted close times reported volume over the 20 valid sessions ending on the prediction date; no future volume is used.",
+      "minimum_median_daily_dollar_volume_20d": 41907027.51,
+      "selected_holding_observations": 43,
+      "threshold_checks": [
+        {
+          "holding_observations_evaluated": 43,
+          "holding_observations_passing": 43,
+          "pass_rate": 1.0,
+          "threshold_usd": 1000000
+        },
+        {
+          "holding_observations_evaluated": 43,
+          "holding_observations_passing": 43,
+          "pass_rate": 1.0,
+          "threshold_usd": 5000000
+        },
+        {
+          "holding_observations_evaluated": 43,
+          "holding_observations_passing": 43,
+          "pass_rate": 1.0,
+          "threshold_usd": 10000000
+        },
+        {
+          "holding_observations_evaluated": 43,
+          "holding_observations_passing": 43,
+          "pass_rate": 1.0,
+          "threshold_usd": 25000000
+        },
+        {
+          "holding_observations_evaluated": 43,
+          "holding_observations_passing": 40,
+          "pass_rate": 0.9302325581395349,
+          "threshold_usd": 50000000
+        },
+        {
+          "holding_observations_evaluated": 43,
+          "holding_observations_passing": 20,
+          "pass_rate": 0.46511627906976744,
+          "threshold_usd": 100000000
+        }
+      ],
+      "thresholds_are_diagnostic_not_promotion_gates": true
+    },
+    "long_only_top_bucket": {
+      "evaluable_as_cohort_diagnostic": true,
+      "evaluable_as_deployable_portfolio": false,
+      "gross_benchmark_hit_rate": 0.3953488372093023,
+      "holding_observations": 43,
+      "mean_forward_benchmark_return": 0.07022007928766141,
+      "mean_forward_security_return": 0.00651495331141575,
+      "mean_gross_excess_return": -0.06370512597624566,
+      "median_forward_security_return": -0.001942355575963906,
+      "median_gross_excess_return": -0.024144535535623454,
+      "periods": 43,
+      "positive_absolute_return_rate": 0.4883720930232558
+    },
+    "methodology": {
+      "benchmark": "SPY forward return on the same aligned 126-session dates.",
+      "eligible_equal_weight_comparator": "Equal weight across every eligible security in the same month.",
+      "return_interpretation": "Arithmetic mean of overlapping 126-session cohort outcomes; not an annualized or compounded capital-account return.",
+      "selection": "Equal-weight quintile 5 after the frozen tie-aware monthly ranking.",
+      "transaction_costs": "One-way cost in bps times monthly selection turnover. No spread or market-impact estimate is added.",
+      "turnover": "one_minus_overlap_divided_by_max_portfolio_size"
+    },
+    "portfolio_periods": [
+      {
+        "benchmark_return": 0.06364190734958089,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.09301366606058079,
+        "eligible_equal_weight_security_return": 0.15665557341016167,
+        "eligible_security_count": 1,
+        "prediction_date": "2018-10-31",
+        "selected_gross_excess_return": 0.09301366606058079,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+            "ticker": "HIG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.15665557341016167,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 1.0
+      },
+      {
+        "benchmark_return": 0.030269354053553174,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.24119142458292267,
+        "eligible_equal_weight_security_return": 0.27146077863647583,
+        "eligible_security_count": 1,
+        "prediction_date": "2018-11-30",
+        "selected_gross_excess_return": 0.24119142458292267,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+            "ticker": "HIG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.27146077863647583,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.20541656744413359,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.12656729276082182,
+        "eligible_equal_weight_security_return": 0.3319838602049554,
+        "eligible_security_count": 1,
+        "prediction_date": "2018-12-31",
+        "selected_gross_excess_return": 0.12656729276082182,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+            "ticker": "HIG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.3319838602049554,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.09358587935673661,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.14330303209533965,
+        "eligible_equal_weight_security_return": 0.23688891145207627,
+        "eligible_security_count": 1,
+        "prediction_date": "2019-01-31",
+        "selected_gross_excess_return": 0.14330303209533965,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+            "ticker": "HIG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.23688891145207627,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.053039838859602666,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.13279054297069262,
+        "eligible_equal_weight_security_return": -0.07975070411108995,
+        "eligible_security_count": 1,
+        "prediction_date": "2019-02-28",
+        "selected_gross_excess_return": -0.13279054297069262,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+            "ticker": "VNO",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.07975070411108995,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 1.0
+      },
+      {
+        "benchmark_return": 0.048169912536929385,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.08736448674739017,
+        "eligible_equal_weight_security_return": -0.039194574210460784,
+        "eligible_security_count": 1,
+        "prediction_date": "2019-03-29",
+        "selected_gross_excess_return": -0.08736448674739017,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+            "ticker": "VNO",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.039194574210460784,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.04896947801678987,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.08772203196364074,
+        "eligible_equal_weight_security_return": -0.038752553946850864,
+        "eligible_security_count": 1,
+        "prediction_date": "2019-04-30",
+        "selected_gross_excess_return": -0.08772203196364074,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+            "ticker": "VNO",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.038752553946850864,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.15564545803200286,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.16614107797531782,
+        "eligible_equal_weight_security_return": -0.010495619943314966,
+        "eligible_security_count": 1,
+        "prediction_date": "2019-05-31",
+        "selected_gross_excess_return": -0.16614107797531782,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+            "ticker": "VNO",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.010495619943314966,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.09635521994636564,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.02214081697623302,
+        "eligible_equal_weight_security_return": 0.07421440297013263,
+        "eligible_security_count": 1,
+        "prediction_date": "2019-06-28",
+        "selected_gross_excess_return": -0.02214081697623302,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+            "ticker": "VNO",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.07421440297013263,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.10163002313331278,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.0027564434817943947,
+        "eligible_equal_weight_security_return": 0.09887357965151838,
+        "eligible_security_count": 1,
+        "prediction_date": "2019-07-31",
+        "selected_gross_excess_return": -0.0027564434817943947,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+            "ticker": "VNO",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.09887357965151838,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.0863652415445047,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.12619360033696264,
+        "eligible_equal_weight_security_return": -0.039828358792457955,
+        "eligible_security_count": 1,
+        "prediction_date": "2019-08-30",
+        "selected_gross_excess_return": -0.12619360033696264,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+            "ticker": "VNO",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.039828358792457955,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": -0.15129426443206864,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.2854252245857268,
+        "eligible_equal_weight_security_return": -0.4367194890177954,
+        "eligible_security_count": 1,
+        "prediction_date": "2019-09-30",
+        "selected_gross_excess_return": -0.2854252245857268,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+            "ticker": "VNO",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.4367194890177954,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": -0.05481921373418359,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.07204226695687468,
+        "eligible_equal_weight_security_return": -0.12686148069105826,
+        "eligible_security_count": 2,
+        "prediction_date": "2019-10-31",
+        "selected_gross_excess_return": 0.17939439127563717,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.12457517754145357,
+        "selection_lift_over_eligible_equal_weight": 0.2514366582325119,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 1.0
+      },
+      {
+        "benchmark_return": 0.012820279340443358,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.1224442179611738,
+        "eligible_equal_weight_security_return": -0.10962393862073044,
+        "eligible_security_count": 3,
+        "prediction_date": "2019-11-29",
+        "selected_gross_excess_return": -0.3177301786123018,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+            "ticker": "HIG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.3049098992718584,
+        "selection_lift_over_eligible_equal_weight": -0.195285960651128,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 1.0
+      },
+      {
+        "benchmark_return": -0.028723154895906624,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.1751801502804201,
+        "eligible_equal_weight_security_return": -0.20390330517632674,
+        "eligible_security_count": 3,
+        "prediction_date": "2019-12-31",
+        "selected_gross_excess_return": -0.34675905062062046,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+            "ticker": "HIG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.37548220551652706,
+        "selection_lift_over_eligible_equal_weight": -0.17157890034020032,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.025157951929456884,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.24365156000649602,
+        "eligible_equal_weight_security_return": -0.21849360807703913,
+        "eligible_security_count": 3,
+        "prediction_date": "2020-01-31",
+        "selected_gross_excess_return": -0.3162772947538486,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+            "ticker": "HIG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.29111934282439167,
+        "selection_lift_over_eligible_equal_weight": -0.07262573474735254,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.1462522389041861,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.2574275341103318,
+        "eligible_equal_weight_security_return": -0.1111752952061457,
+        "eligible_security_count": 4,
+        "prediction_date": "2020-02-28",
+        "selected_gross_excess_return": -0.3581812506549336,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "10f695c7-b271-5cb1-918c-287bd992791e",
+            "ticker": "HIG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.21192901175074752,
+        "selection_lift_over_eligible_equal_weight": -0.10075371654460182,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.37206923866708097,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.24831790479730165,
+        "eligible_equal_weight_security_return": 0.12375133386977932,
+        "eligible_security_count": 4,
+        "prediction_date": "2020-03-31",
+        "selected_gross_excess_return": -0.18846293259257285,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.18360630607450812,
+        "selection_lift_over_eligible_equal_weight": 0.05985497220472881,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 1.0
+      },
+      {
+        "benchmark_return": 0.17678536491230581,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.14414786831027301,
+        "eligible_equal_weight_security_return": 0.03263749660203281,
+        "eligible_security_count": 3,
+        "prediction_date": "2020-04-30",
+        "selected_gross_excess_return": -0.17872772048826974,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.001942355575963906,
+        "selection_lift_over_eligible_equal_weight": -0.034579852177996716,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.20032506993929286,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.3066503384037236,
+        "eligible_equal_weight_security_return": -0.10632526846443074,
+        "eligible_security_count": 1,
+        "prediction_date": "2020-05-29",
+        "selected_gross_excess_return": -0.3066503384037236,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.10632526846443074,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.2079580597004782,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.36914501802938043,
+        "eligible_equal_weight_security_return": -0.1611869583289022,
+        "eligible_security_count": 1,
+        "prediction_date": "2020-06-30",
+        "selected_gross_excess_return": -0.36914501802938043,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.1611869583289022,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.17015401173297484,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.240285518763209,
+        "eligible_equal_weight_security_return": -0.07013150703023413,
+        "eligible_security_count": 1,
+        "prediction_date": "2020-07-31",
+        "selected_gross_excess_return": -0.240285518763209,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.07013150703023413,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.07726730797602716,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.25774918728245716,
+        "eligible_equal_weight_security_return": -0.18048187930643,
+        "eligible_security_count": 1,
+        "prediction_date": "2020-08-31",
+        "selected_gross_excess_return": -0.25774918728245716,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.18048187930643,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.2148053466925245,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.19847482299332692,
+        "eligible_equal_weight_security_return": 0.016330523699197585,
+        "eligible_security_count": 1,
+        "prediction_date": "2020-09-30",
+        "selected_gross_excess_return": -0.19847482299332692,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.016330523699197585,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.26862240784889707,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.19251952810402226,
+        "eligible_equal_weight_security_return": 0.07610287974487484,
+        "eligible_security_count": 1,
+        "prediction_date": "2020-10-30",
+        "selected_gross_excess_return": -0.19251952810402226,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.07610287974487484,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.15278398506130478,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.024144535535623454,
+        "eligible_equal_weight_security_return": 0.12863944952568132,
+        "eligible_security_count": 1,
+        "prediction_date": "2020-11-30",
+        "selected_gross_excess_return": -0.024144535535623454,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.12863944952568132,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.18167695101129072,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.08631821364287241,
+        "eligible_equal_weight_security_return": 0.2679951646541631,
+        "eligible_security_count": 1,
+        "prediction_date": "2020-12-31",
+        "selected_gross_excess_return": 0.08631821364287241,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.2679951646541631,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.17077700963657866,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.04508078447038185,
+        "eligible_equal_weight_security_return": 0.21585779410696052,
+        "eligible_security_count": 1,
+        "prediction_date": "2021-01-29",
+        "selected_gross_excess_return": 0.04508078447038185,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.21585779410696052,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.16336846597728713,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.1379277453521967,
+        "eligible_equal_weight_security_return": 0.3012962113294838,
+        "eligible_security_count": 2,
+        "prediction_date": "2021-02-26",
+        "selected_gross_excess_return": 0.1853623105002338,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+            "ticker": "AMT",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.34873077647752093,
+        "selection_lift_over_eligible_equal_weight": 0.04743456514803709,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.07824588330588088,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.07733331060306577,
+        "eligible_equal_weight_security_return": 0.15557919390894664,
+        "eligible_security_count": 2,
+        "prediction_date": "2021-03-31",
+        "selected_gross_excess_return": 0.11106439019424047,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.18931027350012133,
+        "selection_lift_over_eligible_equal_weight": 0.0337310795911747,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 1.0
+      },
+      {
+        "benchmark_return": 0.10536506409917816,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.015768586203761814,
+        "eligible_equal_weight_security_return": 0.12113365030293997,
+        "eligible_security_count": 1,
+        "prediction_date": "2021-04-30",
+        "selected_gross_excess_return": 0.015768586203761814,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.12113365030293997,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.11432501093002098,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.02888279895393362,
+        "eligible_equal_weight_security_return": 0.08544221197608737,
+        "eligible_security_count": 1,
+        "prediction_date": "2021-05-28",
+        "selected_gross_excess_return": -0.02888279895393362,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.08544221197608737,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.11376391205087366,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.06034507355448407,
+        "eligible_equal_weight_security_return": 0.17410898560535773,
+        "eligible_security_count": 1,
+        "prediction_date": "2021-06-30",
+        "selected_gross_excess_return": 0.06034507355448407,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.17410898560535773,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.035144604607503606,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.09560130202419323,
+        "eligible_equal_weight_security_return": 0.13074590663169683,
+        "eligible_security_count": 1,
+        "prediction_date": "2021-07-30",
+        "selected_gross_excess_return": 0.09560130202419323,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.13074590663169683,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": -0.02905625926623304,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.026444404419658084,
+        "eligible_equal_weight_security_return": -0.0026118548465749567,
+        "eligible_security_count": 1,
+        "prediction_date": "2021-08-31",
+        "selected_gross_excess_return": 0.026444404419658084,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.0026118548465749567,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": 0.049939121708869126,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.006061321106524168,
+        "eligible_equal_weight_security_return": 0.0560004428153933,
+        "eligible_security_count": 1,
+        "prediction_date": "2021-09-30",
+        "selected_gross_excess_return": 0.006061321106524168,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.0560004428153933,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": -0.0888986048771117,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.06843017291903852,
+        "eligible_equal_weight_security_return": -0.020468431958073182,
+        "eligible_security_count": 1,
+        "prediction_date": "2021-10-29",
+        "selected_gross_excess_return": 0.06843017291903852,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.020468431958073182,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": -0.06734786205673496,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.0674798622709393,
+        "eligible_equal_weight_security_return": 0.0001320002142043437,
+        "eligible_security_count": 1,
+        "prediction_date": "2021-11-30",
+        "selected_gross_excess_return": 0.0674798622709393,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": 0.0001320002142043437,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": -0.1918012495989294,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.005638982319360683,
+        "eligible_equal_weight_security_return": -0.1974402319182901,
+        "eligible_security_count": 1,
+        "prediction_date": "2021-12-31",
+        "selected_gross_excess_return": -0.005638982319360683,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.1974402319182901,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": -0.07823073396489638,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.027346578920831262,
+        "eligible_equal_weight_security_return": -0.10557731288572765,
+        "eligible_security_count": 1,
+        "prediction_date": "2022-01-31",
+        "selected_gross_excess_return": -0.027346578920831262,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.10557731288572765,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": -0.06703736585000325,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": 0.03929112450201193,
+        "eligible_equal_weight_security_return": -0.027746241347991328,
+        "eligible_security_count": 1,
+        "prediction_date": "2022-02-28",
+        "selected_gross_excess_return": 0.03929112450201193,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.027746241347991328,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": -0.1837088623444182,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.043989447322439805,
+        "eligible_equal_weight_security_return": -0.22769830966685797,
+        "eligible_security_count": 1,
+        "prediction_date": "2022-03-31",
+        "selected_gross_excess_return": -0.043989447322439805,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.22769830966685797,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      },
+      {
+        "benchmark_return": -0.060315185916041285,
+        "bottom_holdings": [],
+        "eligible_equal_weight_excess_return": -0.01853836017359175,
+        "eligible_equal_weight_security_return": -0.07885354608963303,
+        "eligible_security_count": 1,
+        "prediction_date": "2022-04-29",
+        "selected_gross_excess_return": -0.01853836017359175,
+        "selected_holdings": [
+          {
+            "sector": "Financials",
+            "security_id": "6dd728da-7625-5bc8-97f3-5a9acfce2537",
+            "ticker": "REG",
+            "weight": 1.0
+          }
+        ],
+        "selected_security_return": -0.07885354608963303,
+        "selection_lift_over_eligible_equal_weight": 0.0,
+        "top_minus_bottom_excess_return": null,
+        "turnover": 0.0
+      }
+    ],
+    "root_cause_assessment": {
+      "benchmark_match": {
+        "assessment": "UNRESOLVED_SECTOR_MISMATCH",
+        "eligible_equal_weight_excess_vs_spy": -0.05946403552776131,
+        "reason": "The eligible cohort is entirely Financials-labelled while SPY is broad-market. A sector-neutral benchmark was not frozen."
+      },
+      "cohort_construction": {
+        "assessment": "DOMINANT_STRUCTURAL_LIMITATION",
+        "single_holding_selected_every_period": true,
+        "single_sector_selected_every_period": true,
+        "singleton_periods": 34
+      },
+      "conclusion": "Negative net excess is already present before costs. Costs add only a small drag; extreme cohort and benchmark concentration prevent a clean weak-signal versus benchmark-mismatch attribution.",
+      "cost_drag": {
+        "assessment": "MINOR_NOT_PRIMARY",
+        "cost_drag_25_bps": 0.0003488372093023312,
+        "gross_excess_return": -0.06370512597624566,
+        "net_excess_return_25_bps": -0.06405396318554799
+      },
+      "liquidity": {
+        "assessment": "NOT_AN_OBSERVED_BOTTLENECK_AT_SCREENED_LEVELS",
+        "capacity_established": false,
+        "minimum_median_daily_dollar_volume_20d": 41907027.51
+      },
+      "model_selection": {
+        "assessment": "NEGATIVE_INCREMENTAL_VALUE",
+        "multi_name_month_selection_lift": -0.020262987698314104,
+        "selected_minus_eligible_equal_weight_excess": -0.004241090448484348
+      },
+      "primary_measured_driver": "NEGATIVE_GROSS_EXCESS_BEFORE_COSTS",
+      "weak_signal": {
+        "assessment": "NOT_IDENTIFIABLE_SEPARATELY_FROM_COHORT_ARTIFACT",
+        "reason": "Only nine tiny months have calculable Rank IC, while the selected basket is negative and less effective than eligible equal weight."
+      }
+    },
+    "schema_version": "sprint9-investability-diagnostic-v1",
+    "scope": {
+      "eligible_securities_per_period": {
+        "maximum": 4,
+        "mean": 1.3953488372093024,
+        "minimum": 1,
+        "multi_name_periods": 9,
+        "singleton_periods": 34
+      },
+      "evaluated_stock_months": 60,
+      "primary_horizon": "126d",
+      "rebalance_periods": 43,
+      "sectors_represented": [
+        "Financials"
+      ],
+      "selected_holdings_per_period": {
+        "maximum": 1,
+        "mean": 1.0,
+        "minimum": 1
+      },
+      "unique_eligible_securities": 5
+    },
+    "top_minus_bottom": {
+      "evaluable": false,
+      "mean_spread": null,
+      "periods_with_both_top_and_bottom": 0,
+      "periods_with_bottom_bucket": 0,
+      "reason": "No monthly cohort contains five eligible securities, so quintile 1 is never populated."
+    },
+    "transaction_costs": {
+      "10_bps": {
+        "cost_bps": 10,
+        "evaluated_periods": 43,
+        "mean_cost_drag": 0.00013953488372093022,
+        "mean_gross_excess_return": -0.06370512597624566,
+        "mean_net_excess_return": -0.0638446608599666,
+        "method": "gross_excess_minus_selection_turnover_times_one_way_cost",
+        "net_benchmark_hit_rate": 0.3953488372093023
+      },
+      "25_bps": {
+        "cost_bps": 25,
+        "evaluated_periods": 43,
+        "mean_cost_drag": 0.0003488372093023256,
+        "mean_gross_excess_return": -0.06370512597624566,
+        "mean_net_excess_return": -0.06405396318554799,
+        "method": "gross_excess_minus_selection_turnover_times_one_way_cost",
+        "net_benchmark_hit_rate": 0.3953488372093023
+      },
+      "50_bps": {
+        "cost_bps": 50,
+        "evaluated_periods": 43,
+        "mean_cost_drag": 0.0006976744186046512,
+        "mean_gross_excess_return": -0.06370512597624566,
+        "mean_net_excess_return": -0.06440280039485032,
+        "method": "gross_excess_minus_selection_turnover_times_one_way_cost",
+        "net_benchmark_hit_rate": 0.3953488372093023
+      }
+    },
+    "turnover": {
+      "includes_initial_entry": true,
+      "mean": 0.13953488372093023,
+      "median": 0.0,
+      "method": "one_minus_overlap_divided_by_max_portfolio_size",
+      "nonzero_periods": 6,
+      "periods": [
+        {
+          "holdings": [
+            "HIG"
+          ],
+          "prediction_date": "2018-10-31",
+          "turnover": 1.0
+        },
+        {
+          "holdings": [
+            "HIG"
+          ],
+          "prediction_date": "2018-11-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "HIG"
+          ],
+          "prediction_date": "2018-12-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "HIG"
+          ],
+          "prediction_date": "2019-01-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "VNO"
+          ],
+          "prediction_date": "2019-02-28",
+          "turnover": 1.0
+        },
+        {
+          "holdings": [
+            "VNO"
+          ],
+          "prediction_date": "2019-03-29",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "VNO"
+          ],
+          "prediction_date": "2019-04-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "VNO"
+          ],
+          "prediction_date": "2019-05-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "VNO"
+          ],
+          "prediction_date": "2019-06-28",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "VNO"
+          ],
+          "prediction_date": "2019-07-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "VNO"
+          ],
+          "prediction_date": "2019-08-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "VNO"
+          ],
+          "prediction_date": "2019-09-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2019-10-31",
+          "turnover": 1.0
+        },
+        {
+          "holdings": [
+            "HIG"
+          ],
+          "prediction_date": "2019-11-29",
+          "turnover": 1.0
+        },
+        {
+          "holdings": [
+            "HIG"
+          ],
+          "prediction_date": "2019-12-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "HIG"
+          ],
+          "prediction_date": "2020-01-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "HIG"
+          ],
+          "prediction_date": "2020-02-28",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2020-03-31",
+          "turnover": 1.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2020-04-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2020-05-29",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2020-06-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2020-07-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2020-08-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2020-09-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2020-10-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2020-11-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2020-12-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2021-01-29",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "AMT"
+          ],
+          "prediction_date": "2021-02-26",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2021-03-31",
+          "turnover": 1.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2021-04-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2021-05-28",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2021-06-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2021-07-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2021-08-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2021-09-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2021-10-29",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2021-11-30",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2021-12-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2022-01-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2022-02-28",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2022-03-31",
+          "turnover": 0.0
+        },
+        {
+          "holdings": [
+            "REG"
+          ],
+          "prediction_date": "2022-04-29",
+          "turnover": 0.0
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-07-10T16:57:05Z",
+  "json_output": "reports/backtests/sprint9-investability-diagnostic-v1.json",
+  "report_id": "sprint9-investability-diagnostic-v1",
+  "schema_version": "sprint9_investability_diagnostic_v1",
+  "source_artifacts": [
+    {
+      "path": "reports/comparisons/price-vs-multifactor-v1.json",
+      "sha256": "2963e3d618df41f4ef55b8c86e63ba505c56a117c8dba7ba2f4d757ffd25b80a"
+    },
+    {
+      "path": "reports/backtests/pit_multifactor_baseline_v1.json",
+      "sha256": "5e1cca6e568599ee1f3badcc6bf051edc1155b15bfb0b408b17051c2b5f60612"
+    },
+    {
+      "path": "reports/data-audits/sprint9-cohort-funnel-v1.json",
+      "sha256": "1e5b3b1e001d77ceeded4fbedfcc9387bd8af6f27e89792616b53b257f329d1d"
+    },
+    {
+      "path": "reports/research/sprint9-factor-diagnostics-v1.json",
+      "sha256": "c84a1eca3d9ab938bdb3de796a40a9d264dfd9cb319198b3ffef6263feb2935d"
+    },
+    {
+      "path": "docs/research/multifactor-baseline-v1.md",
+      "sha256": "3a650dcf5d1837bd1a922b8b80b21210f63838e657b713b836eb30b37918f7c5"
+    }
+  ],
+  "warehouse": {
+    "file_sha256_omitted": true,
+    "path": "data/raw/free-point-in-time/sprint8-prelock-v9/research.db",
+    "reason": "Large derived warehouse is bound by deterministic outcome, portfolio, and liquidity fingerprints."
+  }
+}

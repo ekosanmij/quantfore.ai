@@ -1,0 +1,378 @@
+{
+  "lock_version": "multifactor-v2-hypothesis-lock-v1",
+  "locked_at": "2026-07-10T17:11:55Z",
+  "status": "DESIGN_LOCK_PRE_IMPLEMENTATION",
+  "claims_eligible": false,
+  "executable_for_shadow_predictions": false,
+  "executable_for_outcome_evaluation": false,
+  "contract": {
+    "version": "multifactor-v2-hypothesis-contract-v1",
+    "path": "experiments/multifactor-v2-hypothesis-contract.md",
+    "sha256": "ebc1945e2740f55b577b474b8049a9dd1161f00f54026bfd5529d66a497b6a28"
+  },
+  "model": {
+    "version": "multifactor-v2-branch-aware-equal-weight-v1",
+    "classification_version": "sec-sic-financial-subtype-v2",
+    "hypotheses": [
+      "H1",
+      "H2",
+      "H3"
+    ],
+    "factor_families": [
+      "value",
+      "quality",
+      "momentum",
+      "growth",
+      "risk"
+    ],
+    "family_weights": {
+      "value": 0.2,
+      "quality": 0.2,
+      "momentum": 0.2,
+      "growth": 0.2,
+      "risk": 0.2
+    },
+    "missing_family_weight_renormalization": false,
+    "all_five_families_required": true,
+    "minimum_component_coverage": 0.8,
+    "minimum_required_components_per_family": 0.6,
+    "minimum_branch_cross_section": 20,
+    "cross_branch_fallback": false
+  },
+  "universe": {
+    "universe_id": "sp500-pit-v1",
+    "membership": "historical_monthly_point_in_time",
+    "benchmark": "SPY",
+    "benchmark_excluded_from_rankings": true,
+    "point_in_time_membership_required": true,
+    "survivorship_free_required": true
+  },
+  "evaluation_protocol": {
+    "frequency": "monthly",
+    "formation_time": "last_trading_day_close",
+    "execution_lag_trading_days": 1,
+    "primary_horizon": "126d",
+    "secondary_horizons": [
+      "21d",
+      "63d",
+      "252d"
+    ],
+    "primary_rank_ic": "branch_neutral_spearman",
+    "hac_lag_months": 5,
+    "historical_exposed_diagnostic_window": {
+      "start": "2017-01-01",
+      "end": "2025-06-30",
+      "claims_eligible": false,
+      "allowed_use": "engineering_and_sensitivity_diagnostics_only"
+    },
+    "forward_shadow_window": {
+      "start": "2026-07-31",
+      "end": "2028-06-30",
+      "scheduled_monthly_cohorts": 24,
+      "claims_eligible_before_full_maturity": false,
+      "primary_evaluation_condition": "ALL_24_126D_OUTCOMES_MATURE"
+    },
+    "aggregate_shadow_results_blinded_until_primary_evaluation": true,
+    "prediction_artifact_must_precede_outcome_availability": true
+  },
+  "portfolio_protocol": {
+    "construction": "six_equal_notional_overlapping_126d_sleeves",
+    "selection": "top_quintile_within_branch_then_pooled",
+    "weighting": "equal_weight",
+    "rebalance": "monthly",
+    "one_way_cost_scenarios_bps": [
+      0,
+      10,
+      25,
+      50
+    ],
+    "primary_one_way_cost_bps": 25,
+    "stress_one_way_cost_bps": 50,
+    "benchmarks": [
+      "SPY_total_return",
+      "eligible_universe_equal_weight"
+    ]
+  },
+  "allowed_change_categories": {
+    "features": "branch_specific_economic_substitutions_only_with_predeclared_direction_and_formula",
+    "weights": "family_weights_fixed; within_family_component_weights_may_be_locked_before_execution",
+    "eligibility": "point_in_time_common_equity_liquidity_and_minimum_family_coverage_rules",
+    "sector_treatment": "financial_subtype_branching_and_branch_local_normalization",
+    "missingness": "explicit_not_applicable_states_and_predeclared_component_coverage_rules"
+  },
+  "prohibited_changes": [
+    "outcome_driven_feature_selection",
+    "outcome_driven_weight_selection",
+    "family_weight_renormalization",
+    "cross_branch_imputation_or_normalization_fallback",
+    "retroactive_sprint8_baseline_mutation",
+    "forward_window_date_changes_after_prediction_start",
+    "threshold_changes_after_prediction_start",
+    "benchmark_changes_after_prediction_start",
+    "unblinding_aggregate_forward_results_before_primary_evaluation"
+  ],
+  "engineering_gates": {
+    "E1": {
+      "metric": "demonstrated_lookahead_revision_membership_classification_or_outcome_leakage_count",
+      "operator": "equals",
+      "threshold": 0
+    },
+    "E2": {
+      "metric": "two_clean_rebuilds_match_all_locked_artifacts",
+      "operator": "equals",
+      "threshold": true
+    },
+    "E3": {
+      "metric": "expected_security_months_with_final_disposition_and_stable_reason_code_fraction",
+      "operator": "equals",
+      "threshold": 1.0
+    },
+    "E4": {
+      "metric": "expected_members_with_known_point_in_time_branch_or_subtype_fraction_every_month",
+      "operator": "gte",
+      "threshold": 0.98
+    },
+    "E5": {
+      "metric": "final_score_coverage_fraction_of_expected_nonbenchmark_members_every_month",
+      "operator": "gte",
+      "threshold": 0.9
+    },
+    "E6": {
+      "metric": "final_score_coverage_fraction_inside_every_active_branch_every_month",
+      "operator": "gte",
+      "threshold": 0.8
+    },
+    "E7": {
+      "conditions": [
+        {
+          "metric": "eligible_names_per_active_branch_every_month",
+          "operator": "gte",
+          "threshold": 20
+        },
+        {
+          "metric": "represented_active_branches_every_month",
+          "operator": "gte",
+          "threshold": 5
+        },
+        {
+          "metric": "represented_gics_sectors_every_month",
+          "operator": "gte",
+          "threshold": 5
+        }
+      ]
+    },
+    "E8": {
+      "metric": "cross_branch_normalization_or_industrial_universe_fallback_count",
+      "operator": "equals",
+      "threshold": 0
+    },
+    "E9": {
+      "metric": "all_predictions_immutable_and_timestamped_before_any_horizon_outcome_availability",
+      "operator": "equals",
+      "threshold": true
+    },
+    "E10": {
+      "conditions": [
+        {
+          "metric": "selected_holdings_with_complete_trailing_20_session_liquidity_record_fraction",
+          "operator": "equals",
+          "threshold": 1.0
+        },
+        {
+          "metric": "modeled_order_fraction_of_trailing_20_session_median_dollar_volume",
+          "operator": "lte",
+          "threshold": 0.01
+        }
+      ]
+    }
+  },
+  "promotion_gates": {
+    "M1": {
+      "conditions": [
+        {
+          "metric": "scheduled_forward_cohorts",
+          "operator": "equals",
+          "threshold": 24
+        },
+        {
+          "metric": "calculable_monthly_branch_neutral_rank_ic_values",
+          "operator": "gte",
+          "threshold": 24
+        },
+        {
+          "metric": "evaluated_stock_months",
+          "operator": "gte",
+          "threshold": 10000
+        }
+      ]
+    },
+    "M2": {
+      "metric": "mean_126d_branch_neutral_rank_ic",
+      "operator": "gte",
+      "threshold": 0.03
+    },
+    "M3": {
+      "metric": "mean_126d_branch_neutral_rank_ic_hac_tstat",
+      "operator": "gte",
+      "threshold": 2.0
+    },
+    "M4": {
+      "metric": "mean_126d_rank_ic_delta_vs_price_only",
+      "operator": "gte",
+      "threshold": 0.01
+    },
+    "M5": {
+      "conditions": [
+        {
+          "metric": "equal_weight_within_branch_top_minus_bottom_after_25bps",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "metric": "equal_weight_within_branch_top_minus_bottom_after_50bps",
+          "operator": "gte",
+          "threshold": 0.0
+        }
+      ]
+    },
+    "M6": {
+      "conditions": [
+        {
+          "metric": "long_only_six_sleeve_excess_return_vs_spy_after_25bps",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "metric": "long_only_six_sleeve_excess_return_vs_eligible_equal_weight_after_25bps",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "metric": "benchmark_hit_rate",
+          "operator": "gt",
+          "threshold": 0.5
+        }
+      ]
+    },
+    "M7": {
+      "metric": "annual_mean_rank_ic_for_each_forward_calendar_year_with_at_least_six_cohorts",
+      "operator": "gt",
+      "threshold": 0.0
+    },
+    "M8": {
+      "metric": "maximum_single_branch_sector_or_year_share_of_positive_monthly_net_top_minus_bottom_spreads",
+      "operator": "lte",
+      "threshold": 0.5
+    },
+    "M9": {
+      "conditions": [
+        {
+          "metric": "selected_basket_name_count_every_rebalance",
+          "operator": "gte",
+          "threshold": 20
+        },
+        {
+          "metric": "maximum_single_name_weight_every_rebalance",
+          "operator": "lte",
+          "threshold": 0.05
+        },
+        {
+          "metric": "maximum_sector_weight_every_rebalance",
+          "operator": "lte",
+          "threshold": 0.35
+        }
+      ]
+    },
+    "M10": {
+      "conditions": [
+        {
+          "metric": "six_sleeve_downside_capture",
+          "operator": "lt",
+          "threshold": 1.0
+        },
+        {
+          "metric": "max_drawdown_shortfall_vs_eligible_equal_weight_percentage_points",
+          "operator": "lte",
+          "threshold": 5.0
+        }
+      ]
+    },
+    "M11": {
+      "conditions": [
+        {
+          "metric": "final_scored_rows_with_all_five_families_available_fraction",
+          "operator": "gte",
+          "threshold": 0.9
+        },
+        {
+          "metric": "family_ablation_used_as_promotion_substitute",
+          "operator": "equals",
+          "threshold": false
+        }
+      ]
+    }
+  },
+  "anti_overfitting_controls": [
+    "one_primary_model_specification",
+    "one_primary_horizon",
+    "fixed_family_weights",
+    "no_outcome_based_feature_or_weight_selection",
+    "all_failed_or_abandoned_variants_logged",
+    "aggregate_forward_results_blinded_until_full_primary_maturity",
+    "no_threshold_window_benchmark_or_cost_changes_after_prediction_start",
+    "secondary_horizons_reported_as_secondary_not_substituted_for_primary",
+    "multiplicity_disclosed_for_every_non_primary_analysis",
+    "prediction_artifacts_hash_locked_before_outcomes_are_available"
+  ],
+  "evidence_inputs": [
+    {
+      "path": "docs/research/multifactor-baseline-v1.md",
+      "sha256": "3a650dcf5d1837bd1a922b8b80b21210f63838e657b713b836eb30b37918f7c5"
+    },
+    {
+      "path": "experiments/multifactor-holdout-lock-v1.json",
+      "sha256": "3857baa255562a89862a39919b550004b8860d733e4990a361cd81473d23878f"
+    },
+    {
+      "path": "docs/compliance/claims-policy.md",
+      "sha256": "db7fff2525ca6a92eef7b835deb3bad6696f0defa393fe32bb563435d94341c1"
+    },
+    {
+      "path": "reports/research/sprint9-evidence-readout-v1.json",
+      "sha256": "2098eab4e91325988a4901948c28bf476804b8eb59bf0e39f5e5bf1c8199e6ec"
+    },
+    {
+      "path": "reports/data-audits/sprint9-cohort-funnel-v1.json",
+      "sha256": "1e5b3b1e001d77ceeded4fbedfcc9387bd8af6f27e89792616b53b257f329d1d"
+    },
+    {
+      "path": "reports/research/sprint9-factor-diagnostics-v1.json",
+      "sha256": "c84a1eca3d9ab938bdb3de796a40a9d264dfd9cb319198b3ffef6263feb2935d"
+    },
+    {
+      "path": "reports/backtests/sprint9-investability-diagnostic-v1.json",
+      "sha256": "fcb6af611b1e4b3f625591660658b23f99bd48406b53400f2342181023764edc"
+    },
+    {
+      "path": "docs/research/sector-specific-factor-treatment-v1.json",
+      "sha256": "c0b7f2ecec1798bb50009b5e82f356794a06eb979ba1b734c0ee44f576ca237d"
+    }
+  ],
+  "implementation_placeholders": {
+    "implementation_code_commit": null,
+    "formula_ledger_sha256": null,
+    "classification_ledger_sha256": null,
+    "source_manifest_sha256": null,
+    "prediction_schedule_sha256": null,
+    "evaluation_code_sha256": null,
+    "report_schema_sha256": null,
+    "portfolio_notional_usd": null
+  },
+  "activation_requirements": {
+    "executable_lock_required": true,
+    "all_implementation_placeholders_must_be_non_null": true,
+    "all_engineering_gates_must_pass": true,
+    "activation_must_precede_first_shadow_prediction": true,
+    "design_lock_must_remain_immutable": true
+  }
+}
