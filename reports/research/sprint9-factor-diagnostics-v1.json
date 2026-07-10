@@ -1,0 +1,1430 @@
+{
+  "claims_eligible": false,
+  "code_revision": "77dceb3-dirty-82e6c9129d78",
+  "decision": "NOT_A_BROADLY_VALIDATED_FIVE_FAMILY_SIGNAL",
+  "diagnostic": {
+    "claims_eligible": false,
+    "component_missingness_all_security_months": [
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.8520158102766798,
+        "family": "growth",
+        "feature_name": "eps_growth",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 7043,
+        "not_applicable_or_source_missing_rate": 0.1391897233201581,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 43112,
+          "SOURCE_MISSING": 7043,
+          "VALID": 445
+        },
+        "security_months": 50600,
+        "valid": 445,
+        "valid_rate": 0.008794466403162055,
+        "valid_rate_among_applicable": 0.008794466403162055
+      },
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.6782213438735177,
+        "family": "growth",
+        "feature_name": "fcf_growth",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 9816,
+        "not_applicable_or_source_missing_rate": 0.19399209486166008,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 34318,
+          "NOT_APPLICABLE": 8586,
+          "SECTOR_UNKNOWN": 6466,
+          "SOURCE_MISSING": 1230
+        },
+        "security_months": 50600,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": 0.0
+      },
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.6356521739130435,
+        "family": "growth",
+        "feature_name": "margin_change",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 11947,
+        "not_applicable_or_source_missing_rate": 0.23610671936758892,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 32164,
+          "NOT_APPLICABLE": 8586,
+          "SECTOR_UNKNOWN": 6466,
+          "SOURCE_MISSING": 3361,
+          "VALID": 23
+        },
+        "security_months": 50600,
+        "valid": 23,
+        "valid_rate": 0.00045454545454545455,
+        "valid_rate_among_applicable": 0.0005474365687627934
+      },
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.8293478260869566,
+        "family": "growth",
+        "feature_name": "revenue_growth",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 8377,
+        "not_applicable_or_source_missing_rate": 0.16555335968379448,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 41965,
+          "SOURCE_MISSING": 8377,
+          "VALID": 258
+        },
+        "security_months": 50600,
+        "valid": 258,
+        "valid_rate": 0.005098814229249012,
+        "valid_rate_among_applicable": 0.005098814229249012
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 0.8796640316205534,
+        "family": "momentum",
+        "feature_name": "momentum_12_1",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 6089,
+          "VALID": 44511
+        },
+        "security_months": 50600,
+        "valid": 44511,
+        "valid_rate": 0.8796640316205534,
+        "valid_rate_among_applicable": 0.8796640316205534
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 0.9400790513833992,
+        "family": "momentum",
+        "feature_name": "momentum_6_1",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 3032,
+          "VALID": 47568
+        },
+        "security_months": 50600,
+        "valid": 47568,
+        "valid_rate": 0.9400790513833992,
+        "valid_rate_among_applicable": 0.9400790513833992
+      },
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.6782213438735177,
+        "family": "quality",
+        "feature_name": "fcf_conversion",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 9816,
+        "not_applicable_or_source_missing_rate": 0.19399209486166008,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 34318,
+          "NOT_APPLICABLE": 8586,
+          "SECTOR_UNKNOWN": 6466,
+          "SOURCE_MISSING": 1230
+        },
+        "security_months": 50600,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": 0.0
+      },
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.3145454545454546,
+        "family": "quality",
+        "feature_name": "gross_profitability",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 23367,
+        "not_applicable_or_source_missing_rate": 0.46179841897233204,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 15916,
+          "NOT_APPLICABLE": 8586,
+          "SECTOR_UNKNOWN": 6466,
+          "SOURCE_MISSING": 14781,
+          "VALID": 4851
+        },
+        "security_months": 50600,
+        "valid": 4851,
+        "valid_rate": 0.0958695652173913,
+        "valid_rate_among_applicable": 0.11546151282905698
+      },
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.7010079051383399,
+        "family": "quality",
+        "feature_name": "inverse_accruals",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 8663,
+        "not_applicable_or_source_missing_rate": 0.17120553359683793,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 35471,
+          "NOT_APPLICABLE": 8586,
+          "SECTOR_UNKNOWN": 6466,
+          "SOURCE_MISSING": 77
+        },
+        "security_months": 50600,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": 0.0
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 0.6033596837944664,
+        "family": "quality",
+        "feature_name": "inverse_leverage",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 13465,
+        "not_applicable_or_source_missing_rate": 0.26610671936758895,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 139,
+          "NOT_APPLICABLE": 8586,
+          "SECTOR_UNKNOWN": 6466,
+          "SOURCE_MISSING": 4879,
+          "VALID": 30530
+        },
+        "security_months": 50600,
+        "valid": 30530,
+        "valid_rate": 0.6033596837944664,
+        "valid_rate_among_applicable": 0.7266625410577426
+      },
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.6337747035573122,
+        "family": "quality",
+        "feature_name": "roic",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 11976,
+        "not_applicable_or_source_missing_rate": 0.2366798418972332,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 32069,
+          "INVALID_DENOMINATOR": 51,
+          "NOT_APPLICABLE": 8586,
+          "SECTOR_UNKNOWN": 6466,
+          "SOURCE_MISSING": 3390,
+          "VALID": 38
+        },
+        "security_months": 50600,
+        "valid": 38,
+        "valid_rate": 0.0007509881422924901,
+        "valid_rate_among_applicable": 0.0009044604179559195
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 0.8895849802371542,
+        "family": "risk",
+        "feature_name": "beta_252d",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 5587,
+          "VALID": 45013
+        },
+        "security_months": 50600,
+        "valid": 45013,
+        "valid_rate": 0.8895849802371542,
+        "valid_rate_among_applicable": 0.8895849802371542
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 0.9400790513833992,
+        "family": "risk",
+        "feature_name": "downside_volatility_126d",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 3032,
+          "VALID": 47568
+        },
+        "security_months": 50600,
+        "valid": 47568,
+        "valid_rate": 0.9400790513833992,
+        "valid_rate_among_applicable": 0.9400790513833992
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 0.8796837944664032,
+        "family": "risk",
+        "feature_name": "maximum_drawdown_252d",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 6088,
+          "VALID": 44512
+        },
+        "security_months": 50600,
+        "valid": 44512,
+        "valid_rate": 0.8796837944664032,
+        "valid_rate_among_applicable": 0.8796837944664032
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 0.9400790513833992,
+        "family": "risk",
+        "feature_name": "volatility_126d",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 3032,
+          "VALID": 47568
+        },
+        "security_months": 50600,
+        "valid": 47568,
+        "valid_rate": 0.9400790513833992,
+        "valid_rate_among_applicable": 0.9400790513833992
+      },
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.8004150197628459,
+        "family": "value",
+        "feature_name": "earnings_yield",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 6494,
+        "not_applicable_or_source_missing_rate": 0.1283399209486166,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 40501,
+          "SOURCE_MISSING": 6494,
+          "VALID": 3605
+        },
+        "security_months": 50600,
+        "valid": 3605,
+        "valid_rate": 0.07124505928853755,
+        "valid_rate_among_applicable": 0.07124505928853755
+      },
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.5986561264822134,
+        "family": "value",
+        "feature_name": "ebit_ev",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 12084,
+        "not_applicable_or_source_missing_rate": 0.23881422924901186,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 30292,
+          "NOT_APPLICABLE": 8586,
+          "SECTOR_UNKNOWN": 6466,
+          "SOURCE_MISSING": 3498,
+          "VALID": 1758
+        },
+        "security_months": 50600,
+        "valid": 1758,
+        "valid_rate": 0.03474308300395257,
+        "valid_rate_among_applicable": 0.04184319512543438
+      },
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.6782213438735177,
+        "family": "value",
+        "feature_name": "fcf_yield",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 9816,
+        "not_applicable_or_source_missing_rate": 0.19399209486166008,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 34318,
+          "NOT_APPLICABLE": 8586,
+          "SECTOR_UNKNOWN": 6466,
+          "SOURCE_MISSING": 1230
+        },
+        "security_months": 50600,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": 0.0
+      },
+      {
+        "dominant_state": "INSUFFICIENT_HISTORY",
+        "dominant_state_rate": 0.7117588932806325,
+        "family": "value",
+        "feature_name": "sales_yield",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 9473,
+        "not_applicable_or_source_missing_rate": 0.18721343873517787,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 36015,
+          "SOURCE_MISSING": 9473,
+          "VALID": 5112
+        },
+        "security_months": 50600,
+        "valid": 5112,
+        "valid_rate": 0.10102766798418972,
+        "valid_rate_among_applicable": 0.10102766798418972
+      }
+    ],
+    "component_missingness_evaluated_rows": [
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 0.7,
+        "family": "growth",
+        "feature_name": "eps_growth",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 18,
+          "VALID": 42
+        },
+        "security_months": 60,
+        "valid": 42,
+        "valid_rate": 0.7,
+        "valid_rate_among_applicable": 0.7
+      },
+      {
+        "dominant_state": "NOT_APPLICABLE",
+        "dominant_state_rate": 1.0,
+        "family": "growth",
+        "feature_name": "fcf_growth",
+        "mostly_not_applicable_or_source_missing": true,
+        "not_applicable_or_source_missing": 60,
+        "not_applicable_or_source_missing_rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        },
+        "security_months": 60,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": null
+      },
+      {
+        "dominant_state": "NOT_APPLICABLE",
+        "dominant_state_rate": 1.0,
+        "family": "growth",
+        "feature_name": "margin_change",
+        "mostly_not_applicable_or_source_missing": true,
+        "not_applicable_or_source_missing": 60,
+        "not_applicable_or_source_missing_rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        },
+        "security_months": 60,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": null
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 0.6833333333333333,
+        "family": "growth",
+        "feature_name": "revenue_growth",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 19,
+          "VALID": 41
+        },
+        "security_months": 60,
+        "valid": 41,
+        "valid_rate": 0.6833333333333333,
+        "valid_rate_among_applicable": 0.6833333333333333
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 1.0,
+        "family": "momentum",
+        "feature_name": "momentum_12_1",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "VALID": 60
+        },
+        "security_months": 60,
+        "valid": 60,
+        "valid_rate": 1.0,
+        "valid_rate_among_applicable": 1.0
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 1.0,
+        "family": "momentum",
+        "feature_name": "momentum_6_1",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "VALID": 60
+        },
+        "security_months": 60,
+        "valid": 60,
+        "valid_rate": 1.0,
+        "valid_rate_among_applicable": 1.0
+      },
+      {
+        "dominant_state": "NOT_APPLICABLE",
+        "dominant_state_rate": 1.0,
+        "family": "quality",
+        "feature_name": "fcf_conversion",
+        "mostly_not_applicable_or_source_missing": true,
+        "not_applicable_or_source_missing": 60,
+        "not_applicable_or_source_missing_rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        },
+        "security_months": 60,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": null
+      },
+      {
+        "dominant_state": "NOT_APPLICABLE",
+        "dominant_state_rate": 1.0,
+        "family": "quality",
+        "feature_name": "gross_profitability",
+        "mostly_not_applicable_or_source_missing": true,
+        "not_applicable_or_source_missing": 60,
+        "not_applicable_or_source_missing_rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        },
+        "security_months": 60,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": null
+      },
+      {
+        "dominant_state": "NOT_APPLICABLE",
+        "dominant_state_rate": 1.0,
+        "family": "quality",
+        "feature_name": "inverse_accruals",
+        "mostly_not_applicable_or_source_missing": true,
+        "not_applicable_or_source_missing": 60,
+        "not_applicable_or_source_missing_rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        },
+        "security_months": 60,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": null
+      },
+      {
+        "dominant_state": "NOT_APPLICABLE",
+        "dominant_state_rate": 1.0,
+        "family": "quality",
+        "feature_name": "inverse_leverage",
+        "mostly_not_applicable_or_source_missing": true,
+        "not_applicable_or_source_missing": 60,
+        "not_applicable_or_source_missing_rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        },
+        "security_months": 60,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": null
+      },
+      {
+        "dominant_state": "NOT_APPLICABLE",
+        "dominant_state_rate": 1.0,
+        "family": "quality",
+        "feature_name": "roic",
+        "mostly_not_applicable_or_source_missing": true,
+        "not_applicable_or_source_missing": 60,
+        "not_applicable_or_source_missing_rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        },
+        "security_months": 60,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": null
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 1.0,
+        "family": "risk",
+        "feature_name": "beta_252d",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "VALID": 60
+        },
+        "security_months": 60,
+        "valid": 60,
+        "valid_rate": 1.0,
+        "valid_rate_among_applicable": 1.0
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 1.0,
+        "family": "risk",
+        "feature_name": "downside_volatility_126d",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "VALID": 60
+        },
+        "security_months": 60,
+        "valid": 60,
+        "valid_rate": 1.0,
+        "valid_rate_among_applicable": 1.0
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 1.0,
+        "family": "risk",
+        "feature_name": "maximum_drawdown_252d",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "VALID": 60
+        },
+        "security_months": 60,
+        "valid": 60,
+        "valid_rate": 1.0,
+        "valid_rate_among_applicable": 1.0
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 1.0,
+        "family": "risk",
+        "feature_name": "volatility_126d",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "VALID": 60
+        },
+        "security_months": 60,
+        "valid": 60,
+        "valid_rate": 1.0,
+        "valid_rate_among_applicable": 1.0
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 0.75,
+        "family": "value",
+        "feature_name": "earnings_yield",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 0,
+        "not_applicable_or_source_missing_rate": 0.0,
+        "reason_counts": {
+          "INSUFFICIENT_HISTORY": 15,
+          "VALID": 45
+        },
+        "security_months": 60,
+        "valid": 45,
+        "valid_rate": 0.75,
+        "valid_rate_among_applicable": 0.75
+      },
+      {
+        "dominant_state": "NOT_APPLICABLE",
+        "dominant_state_rate": 1.0,
+        "family": "value",
+        "feature_name": "ebit_ev",
+        "mostly_not_applicable_or_source_missing": true,
+        "not_applicable_or_source_missing": 60,
+        "not_applicable_or_source_missing_rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        },
+        "security_months": 60,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": null
+      },
+      {
+        "dominant_state": "NOT_APPLICABLE",
+        "dominant_state_rate": 1.0,
+        "family": "value",
+        "feature_name": "fcf_yield",
+        "mostly_not_applicable_or_source_missing": true,
+        "not_applicable_or_source_missing": 60,
+        "not_applicable_or_source_missing_rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        },
+        "security_months": 60,
+        "valid": 0,
+        "valid_rate": 0.0,
+        "valid_rate_among_applicable": null
+      },
+      {
+        "dominant_state": "VALID",
+        "dominant_state_rate": 0.85,
+        "family": "value",
+        "feature_name": "sales_yield",
+        "mostly_not_applicable_or_source_missing": false,
+        "not_applicable_or_source_missing": 9,
+        "not_applicable_or_source_missing_rate": 0.15,
+        "reason_counts": {
+          "SOURCE_MISSING": 9,
+          "VALID": 51
+        },
+        "security_months": 60,
+        "valid": 51,
+        "valid_rate": 0.85,
+        "valid_rate_among_applicable": 0.85
+      }
+    ],
+    "components_mostly_not_applicable_or_source_missing_in_evaluated_rows": [
+      {
+        "family": "growth",
+        "feature_name": "fcf_growth",
+        "rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        }
+      },
+      {
+        "family": "growth",
+        "feature_name": "margin_change",
+        "rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        }
+      },
+      {
+        "family": "quality",
+        "feature_name": "fcf_conversion",
+        "rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        }
+      },
+      {
+        "family": "quality",
+        "feature_name": "gross_profitability",
+        "rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        }
+      },
+      {
+        "family": "quality",
+        "feature_name": "inverse_accruals",
+        "rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        }
+      },
+      {
+        "family": "quality",
+        "feature_name": "inverse_leverage",
+        "rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        }
+      },
+      {
+        "family": "quality",
+        "feature_name": "roic",
+        "rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        }
+      },
+      {
+        "family": "value",
+        "feature_name": "ebit_ev",
+        "rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        }
+      },
+      {
+        "family": "value",
+        "feature_name": "fcf_yield",
+        "rate": 1.0,
+        "reason_counts": {
+          "NOT_APPLICABLE": 60
+        }
+      }
+    ],
+    "decision": "NOT_A_BROADLY_VALIDATED_FIVE_FAMILY_SIGNAL",
+    "dominance_assessment": {
+      "consistent_single_family_dominance": false,
+      "decision": "NO_ROBUST_SINGLE_FAMILY_DOMINANCE_ESTABLISHED",
+      "fundamentals_group_mean_rank_ic": 0.033333333333333326,
+      "largest_absolute_score_contribution_family": "growth",
+      "largest_rank_ic_loss_when_removed_family": "growth",
+      "price_risk_group_mean_rank_ic": 0.48888888888888893,
+      "price_risk_group_rank_ic_exceeds_fundamentals": true,
+      "reason": "The standalone, ablation, and absolute-contribution diagnostics select different leaders, and all performance evidence is confined to nine calculable tiny cross-sections.",
+      "strongest_standalone_rank_ic_family": "momentum"
+    },
+    "evaluated_weight_patterns": [
+      {
+        "security_months": 60,
+        "weights": {
+          "growth": "0.25",
+          "momentum": "0.25",
+          "quality": "0",
+          "risk": "0.25",
+          "value": "0.25"
+        }
+      }
+    ],
+    "family_assessments": [
+      {
+        "evaluated_rows_with_family": 60,
+        "evidence_is_sufficient_to_call_useful": false,
+        "family": "value",
+        "rank_ic_loss_when_removed": -0.022222222222222254,
+        "standalone_mean_rank_ic": 0.0,
+        "state": "SPARSE_AND_NOT_SUPPORTED_BY_ABLATION",
+        "universe_family_availability_rate": 0.07229249011857708
+      },
+      {
+        "evaluated_rows_with_family": 0,
+        "evidence_is_sufficient_to_call_useful": false,
+        "family": "quality",
+        "rank_ic_loss_when_removed": 0.0,
+        "standalone_mean_rank_ic": null,
+        "state": "BROKEN_OR_EFFECTIVELY_ABSENT",
+        "universe_family_availability_rate": 0.0002964426877470356
+      },
+      {
+        "evaluated_rows_with_family": 60,
+        "evidence_is_sufficient_to_call_useful": false,
+        "family": "growth",
+        "rank_ic_loss_when_removed": 0.35555555555555557,
+        "standalone_mean_rank_ic": 0.37777777777777777,
+        "state": "SEVERELY_SPARSE_WITH_NARROW_POSITIVE_BEHAVIOR",
+        "universe_family_availability_rate": 0.004881422924901186
+      },
+      {
+        "evaluated_rows_with_family": 60,
+        "evidence_is_sufficient_to_call_useful": false,
+        "family": "momentum",
+        "rank_ic_loss_when_removed": 0.25555555555555554,
+        "standalone_mean_rank_ic": 0.5777777777777778,
+        "state": "BROADLY_AVAILABLE_WITH_NARROW_POSITIVE_BEHAVIOR",
+        "universe_family_availability_rate": 0.9400790513833992
+      },
+      {
+        "evaluated_rows_with_family": 60,
+        "evidence_is_sufficient_to_call_useful": false,
+        "family": "risk",
+        "rank_ic_loss_when_removed": 0.3111111111111111,
+        "standalone_mean_rank_ic": 0.34444444444444444,
+        "state": "BROADLY_AVAILABLE_WITH_NARROW_POSITIVE_BEHAVIOR",
+        "universe_family_availability_rate": 0.9400790513833992
+      }
+    ],
+    "family_missingness_all_security_months": [
+      {
+        "component_reason_counts": {
+          "INSUFFICIENT_HISTORY": 141126,
+          "NOT_APPLICABLE": 17172,
+          "SECTOR_UNKNOWN": 12932,
+          "SOURCE_MISSING": 20695,
+          "VALID": 10475
+        },
+        "component_rows": 202400,
+        "family": "value",
+        "family_availability_rate": 0.07229249011857708,
+        "family_available_security_months": 3658,
+        "feature_count": 4,
+        "valid_component_rate": 0.05175395256916996,
+        "valid_component_rows": 10475
+      },
+      {
+        "component_reason_counts": {
+          "INSUFFICIENT_HISTORY": 117913,
+          "INVALID_DENOMINATOR": 51,
+          "NOT_APPLICABLE": 42930,
+          "SECTOR_UNKNOWN": 32330,
+          "SOURCE_MISSING": 24357,
+          "VALID": 35419
+        },
+        "component_rows": 253000,
+        "family": "quality",
+        "family_availability_rate": 0.0002964426877470356,
+        "family_available_security_months": 15,
+        "feature_count": 5,
+        "valid_component_rate": 0.13999604743083005,
+        "valid_component_rows": 35419
+      },
+      {
+        "component_reason_counts": {
+          "INSUFFICIENT_HISTORY": 151559,
+          "NOT_APPLICABLE": 17172,
+          "SECTOR_UNKNOWN": 12932,
+          "SOURCE_MISSING": 20011,
+          "VALID": 726
+        },
+        "component_rows": 202400,
+        "family": "growth",
+        "family_availability_rate": 0.004881422924901186,
+        "family_available_security_months": 247,
+        "feature_count": 4,
+        "valid_component_rate": 0.0035869565217391303,
+        "valid_component_rows": 726
+      },
+      {
+        "component_reason_counts": {
+          "INSUFFICIENT_HISTORY": 9121,
+          "VALID": 92079
+        },
+        "component_rows": 101200,
+        "family": "momentum",
+        "family_availability_rate": 0.9400790513833992,
+        "family_available_security_months": 47568,
+        "feature_count": 2,
+        "valid_component_rate": 0.9098715415019762,
+        "valid_component_rows": 92079
+      },
+      {
+        "component_reason_counts": {
+          "INSUFFICIENT_HISTORY": 17739,
+          "VALID": 184661
+        },
+        "component_rows": 202400,
+        "family": "risk",
+        "family_availability_rate": 0.9400790513833992,
+        "family_available_security_months": 47568,
+        "feature_count": 4,
+        "valid_component_rate": 0.9123567193675889,
+        "valid_component_rows": 184661
+      }
+    ],
+    "family_missingness_evaluated_rows": [
+      {
+        "component_reason_counts": {
+          "INSUFFICIENT_HISTORY": 15,
+          "NOT_APPLICABLE": 120,
+          "SOURCE_MISSING": 9,
+          "VALID": 96
+        },
+        "component_rows": 240,
+        "family": "value",
+        "family_availability_rate": 1.0,
+        "family_available_security_months": 60,
+        "feature_count": 4,
+        "valid_component_rate": 0.4,
+        "valid_component_rows": 96
+      },
+      {
+        "component_reason_counts": {
+          "NOT_APPLICABLE": 300
+        },
+        "component_rows": 300,
+        "family": "quality",
+        "family_availability_rate": 0.0,
+        "family_available_security_months": 0,
+        "feature_count": 5,
+        "valid_component_rate": 0.0,
+        "valid_component_rows": 0
+      },
+      {
+        "component_reason_counts": {
+          "INSUFFICIENT_HISTORY": 37,
+          "NOT_APPLICABLE": 120,
+          "VALID": 83
+        },
+        "component_rows": 240,
+        "family": "growth",
+        "family_availability_rate": 1.0,
+        "family_available_security_months": 60,
+        "feature_count": 4,
+        "valid_component_rate": 0.3458333333333333,
+        "valid_component_rows": 83
+      },
+      {
+        "component_reason_counts": {
+          "VALID": 120
+        },
+        "component_rows": 120,
+        "family": "momentum",
+        "family_availability_rate": 1.0,
+        "family_available_security_months": 60,
+        "feature_count": 2,
+        "valid_component_rate": 1.0,
+        "valid_component_rows": 120
+      },
+      {
+        "component_reason_counts": {
+          "VALID": 240
+        },
+        "component_rows": 240,
+        "family": "risk",
+        "family_availability_rate": 1.0,
+        "family_available_security_months": 60,
+        "feature_count": 4,
+        "valid_component_rate": 1.0,
+        "valid_component_rows": 240
+      }
+    ],
+    "methodology": {
+      "ablation_scope": "Published frozen family ablations remove one family, renormalize equal weights, retain at least three families, and do not retune.",
+      "family_availability_rule": "A family is available when at least half of its applicable components are valid, matching the frozen scorer.",
+      "missingness_scope": "All normalized component rows for all Sprint 8 security-months; VALID means directed_value is present.",
+      "mostly_threshold": "More than 50% of component rows are NOT_APPLICABLE or SOURCE_MISSING.",
+      "performance_scope": "Standalone families and grouped signals use the exact 60 eligible rows and reconstructed 126-session outcomes."
+    },
+    "performance": {
+      "grouped_signals": {
+        "fundamentals_value_quality_growth": {
+          "calculable_rank_ic_months": 9,
+          "evaluable": true,
+          "mean_rank_ic": 0.033333333333333326,
+          "median_rank_ic": 0.5,
+          "non_overlapping_rank_ic_periods": 2,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "observations": 60,
+          "positive_rank_ic_month_rate": 0.5555555555555556,
+          "prediction_months": 43,
+          "reason": null,
+          "top_bucket_gross_excess_return": -0.07334823481061138,
+          "top_bucket_net_excess_return_25_bps": -0.07375521155479742,
+          "top_minus_bottom_spread": null,
+          "unique_securities": 5
+        },
+        "price_risk_momentum_risk": {
+          "calculable_rank_ic_months": 9,
+          "evaluable": true,
+          "mean_rank_ic": 0.48888888888888893,
+          "median_rank_ic": 0.5,
+          "non_overlapping_rank_ic_periods": 2,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "observations": 60,
+          "positive_rank_ic_month_rate": 0.8888888888888888,
+          "prediction_months": 43,
+          "reason": null,
+          "top_bucket_gross_excess_return": -0.059283858703938035,
+          "top_bucket_net_excess_return_25_bps": -0.05963269591324035,
+          "top_minus_bottom_spread": null,
+          "unique_securities": 5
+        }
+      },
+      "published_family_ablations": [
+        {
+          "ablated_mean_rank_ic": 0.7111111111111111,
+          "eligible_observations": 60,
+          "excluded_observations": 0,
+          "family": "value",
+          "family_present_in_evaluated_rows": 60,
+          "full_mean_rank_ic": 0.6888888888888889,
+          "interpretation": "NARROW_NEGATIVE_MARGINAL_CONTRIBUTION",
+          "non_overlapping_rank_ic_periods": 2,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "rank_ic_loss_when_removed": -0.022222222222222254,
+          "retuned": false,
+          "top_bucket_net_excess_return_25_bps": -0.06405396441860466
+        },
+        {
+          "ablated_mean_rank_ic": 0.6888888888888889,
+          "eligible_observations": 60,
+          "excluded_observations": 0,
+          "family": "quality",
+          "family_present_in_evaluated_rows": 0,
+          "full_mean_rank_ic": 0.6888888888888889,
+          "interpretation": "NO_EFFECT_FAMILY_ABSENT",
+          "non_overlapping_rank_ic_periods": 2,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "rank_ic_loss_when_removed": 0.0,
+          "retuned": false,
+          "top_bucket_net_excess_return_25_bps": -0.06405396441860466
+        },
+        {
+          "ablated_mean_rank_ic": 0.3333333333333333,
+          "eligible_observations": 60,
+          "excluded_observations": 0,
+          "family": "growth",
+          "family_present_in_evaluated_rows": 60,
+          "full_mean_rank_ic": 0.6888888888888889,
+          "interpretation": "NARROW_POSITIVE_MARGINAL_CONTRIBUTION",
+          "non_overlapping_rank_ic_periods": 2,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "rank_ic_loss_when_removed": 0.35555555555555557,
+          "retuned": false,
+          "top_bucket_net_excess_return_25_bps": -0.06796363651162791
+        },
+        {
+          "ablated_mean_rank_ic": 0.43333333333333335,
+          "eligible_observations": 60,
+          "excluded_observations": 0,
+          "family": "momentum",
+          "family_present_in_evaluated_rows": 60,
+          "full_mean_rank_ic": 0.6888888888888889,
+          "interpretation": "NARROW_POSITIVE_MARGINAL_CONTRIBUTION",
+          "non_overlapping_rank_ic_periods": 2,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "rank_ic_loss_when_removed": 0.25555555555555554,
+          "retuned": false,
+          "top_bucket_net_excess_return_25_bps": -0.058795125348837206
+        },
+        {
+          "ablated_mean_rank_ic": 0.37777777777777777,
+          "eligible_observations": 60,
+          "excluded_observations": 0,
+          "family": "risk",
+          "family_present_in_evaluated_rows": 60,
+          "full_mean_rank_ic": 0.6888888888888889,
+          "interpretation": "NARROW_POSITIVE_MARGINAL_CONTRIBUTION",
+          "non_overlapping_rank_ic_periods": 2,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "rank_ic_loss_when_removed": 0.3111111111111111,
+          "retuned": false,
+          "top_bucket_net_excess_return_25_bps": -0.06774198860465117
+        }
+      ],
+      "published_full_model": {
+        "mean_rank_ic": 0.6888888888888889,
+        "median_rank_ic": 0.5,
+        "non_overlapping_rank_ic_periods": 2,
+        "non_overlapping_rank_ic_t_statistic": null,
+        "observations": 60,
+        "top_bucket_gross_excess_return": -0.06370512720930233,
+        "top_bucket_net_excess_return_25_bps": -0.06405396441860466,
+        "top_minus_bottom_spread": null
+      },
+      "recomputed_full_model": {
+        "calculable_rank_ic_months": 9,
+        "evaluable": true,
+        "mean_rank_ic": 0.6888888888888889,
+        "median_rank_ic": 0.5,
+        "non_overlapping_rank_ic_periods": 2,
+        "non_overlapping_rank_ic_t_statistic": null,
+        "observations": 60,
+        "positive_rank_ic_month_rate": 1.0,
+        "prediction_months": 43,
+        "reason": null,
+        "top_bucket_gross_excess_return": -0.06370512597624566,
+        "top_bucket_net_excess_return_25_bps": -0.06405396318554799,
+        "top_minus_bottom_spread": null,
+        "unique_securities": 5
+      },
+      "sprint7_price_only_mean_rank_ic": 0.5222222222222223,
+      "standalone_families": {
+        "growth": {
+          "calculable_rank_ic_months": 9,
+          "evaluable": true,
+          "mean_rank_ic": 0.37777777777777777,
+          "median_rank_ic": 0.5,
+          "non_overlapping_rank_ic_periods": 2,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "observations": 60,
+          "positive_rank_ic_month_rate": 0.8888888888888888,
+          "prediction_months": 43,
+          "reason": null,
+          "top_bucket_gross_excess_return": -0.06739315073311164,
+          "top_bucket_net_excess_return_25_bps": -0.06774198794241397,
+          "top_minus_bottom_spread": null,
+          "unique_securities": 5
+        },
+        "momentum": {
+          "calculable_rank_ic_months": 9,
+          "evaluable": true,
+          "mean_rank_ic": 0.5777777777777778,
+          "median_rank_ic": 1.0,
+          "non_overlapping_rank_ic_periods": 2,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "observations": 60,
+          "positive_rank_ic_month_rate": 0.8888888888888888,
+          "prediction_months": 43,
+          "reason": null,
+          "top_bucket_gross_excess_return": -0.03692743336036253,
+          "top_bucket_net_excess_return_25_bps": -0.03727627056966485,
+          "top_minus_bottom_spread": null,
+          "unique_securities": 5
+        },
+        "quality": {
+          "calculable_rank_ic_months": 0,
+          "evaluable": false,
+          "mean_rank_ic": null,
+          "median_rank_ic": null,
+          "non_overlapping_rank_ic_periods": 0,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "observations": 0,
+          "positive_rank_ic_month_rate": null,
+          "prediction_months": 0,
+          "reason": "NO_AVAILABLE_SCORES_IN_EVALUATED_COHORT",
+          "top_bucket_gross_excess_return": null,
+          "top_bucket_net_excess_return_25_bps": null,
+          "top_minus_bottom_spread": null
+        },
+        "risk": {
+          "calculable_rank_ic_months": 9,
+          "evaluable": true,
+          "mean_rank_ic": 0.34444444444444444,
+          "median_rank_ic": 0.6,
+          "non_overlapping_rank_ic_periods": 2,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "observations": 60,
+          "positive_rank_ic_month_rate": 0.6666666666666666,
+          "prediction_months": 43,
+          "reason": null,
+          "top_bucket_gross_excess_return": -0.05151008161069539,
+          "top_bucket_net_excess_return_25_bps": -0.05197519788976515,
+          "top_minus_bottom_spread": null,
+          "unique_securities": 5
+        },
+        "value": {
+          "calculable_rank_ic_months": 9,
+          "evaluable": true,
+          "mean_rank_ic": 0.0,
+          "median_rank_ic": 0.5,
+          "non_overlapping_rank_ic_periods": 2,
+          "non_overlapping_rank_ic_t_statistic": null,
+          "observations": 60,
+          "positive_rank_ic_month_rate": 0.5555555555555556,
+          "prediction_months": 43,
+          "reason": null,
+          "top_bucket_gross_excess_return": -0.07700402657070843,
+          "top_bucket_net_excess_return_25_bps": -0.07741100331489448,
+          "top_minus_bottom_spread": null,
+          "unique_securities": 5
+        }
+      }
+    },
+    "practice_assessment": {
+      "all_evaluated_rows_have_exactly_four_available_families": true,
+      "broad_multifactor_validation_established": false,
+      "five_family_model_in_practice": false,
+      "quality_present_in_any_evaluated_score": false,
+      "reason": "Every evaluated score is a four-family value/growth/momentum/risk composite, quality is absent, and performance is measurable in only nine two-to-four-security cross-sections from five Financials-labelled names.",
+      "useful_family_established": false
+    },
+    "schema_version": "sprint9-factor-diagnostics-v1",
+    "scope": {
+      "calculable_rank_ic_months": 9,
+      "eligible_evaluated_sectors": [
+        "Financials"
+      ],
+      "eligible_evaluated_security_months": 60,
+      "eligible_evaluated_unique_securities": 5,
+      "prediction_months": 102,
+      "primary_horizon": "126d",
+      "security_months": 50600
+    },
+    "score_contribution_attribution": {
+      "by_component": [
+        {
+          "absolute_contribution_share": 0.16256329640535028,
+          "family": "growth",
+          "feature_name": "eps_growth",
+          "mean_absolute_contribution": 0.19520456385591337,
+          "mean_contribution": 0.1436719716012846,
+          "valid_contributions": 42
+        },
+        {
+          "absolute_contribution_share": 0.0,
+          "family": "growth",
+          "feature_name": "fcf_growth",
+          "mean_absolute_contribution": null,
+          "mean_contribution": null,
+          "valid_contributions": 0
+        },
+        {
+          "absolute_contribution_share": 0.0,
+          "family": "growth",
+          "feature_name": "margin_change",
+          "mean_absolute_contribution": null,
+          "mean_contribution": null,
+          "valid_contributions": 0
+        },
+        {
+          "absolute_contribution_share": 0.13778317238722904,
+          "family": "growth",
+          "feature_name": "revenue_growth",
+          "mean_absolute_contribution": 0.16948414766478656,
+          "mean_contribution": -0.12496694734495001,
+          "valid_contributions": 41
+        },
+        {
+          "absolute_contribution_share": 0.12365242356059611,
+          "family": "momentum",
+          "feature_name": "momentum_12_1",
+          "mean_absolute_contribution": 0.10393651310736396,
+          "mean_contribution": 0.030273914057021296,
+          "valid_contributions": 60
+        },
+        {
+          "absolute_contribution_share": 0.11556077119035603,
+          "family": "momentum",
+          "feature_name": "momentum_6_1",
+          "mean_absolute_contribution": 0.09713504405061273,
+          "mean_contribution": -0.014798274264275511,
+          "valid_contributions": 60
+        },
+        {
+          "absolute_contribution_share": 0.0,
+          "family": "quality",
+          "feature_name": "fcf_conversion",
+          "mean_absolute_contribution": null,
+          "mean_contribution": null,
+          "valid_contributions": 0
+        },
+        {
+          "absolute_contribution_share": 0.0,
+          "family": "quality",
+          "feature_name": "gross_profitability",
+          "mean_absolute_contribution": null,
+          "mean_contribution": null,
+          "valid_contributions": 0
+        },
+        {
+          "absolute_contribution_share": 0.0,
+          "family": "quality",
+          "feature_name": "inverse_accruals",
+          "mean_absolute_contribution": null,
+          "mean_contribution": null,
+          "valid_contributions": 0
+        },
+        {
+          "absolute_contribution_share": 0.0,
+          "family": "quality",
+          "feature_name": "inverse_leverage",
+          "mean_absolute_contribution": null,
+          "mean_contribution": null,
+          "valid_contributions": 0
+        },
+        {
+          "absolute_contribution_share": 0.0,
+          "family": "quality",
+          "feature_name": "roic",
+          "mean_absolute_contribution": null,
+          "mean_contribution": null,
+          "valid_contributions": 0
+        },
+        {
+          "absolute_contribution_share": 0.04943686304048242,
+          "family": "risk",
+          "feature_name": "beta_252d",
+          "mean_absolute_contribution": 0.041554342530747294,
+          "mean_contribution": 0.031844287324374734,
+          "valid_contributions": 60
+        },
+        {
+          "absolute_contribution_share": 0.0486848694964735,
+          "family": "risk",
+          "feature_name": "downside_volatility_126d",
+          "mean_absolute_contribution": 0.04092225150824312,
+          "mean_contribution": 0.03359187683581692,
+          "valid_contributions": 60
+        },
+        {
+          "absolute_contribution_share": 0.05950331045578079,
+          "family": "risk",
+          "feature_name": "maximum_drawdown_252d",
+          "mean_absolute_contribution": 0.05001573304455329,
+          "mean_contribution": 0.020458597655617337,
+          "valid_contributions": 60
+        },
+        {
+          "absolute_contribution_share": 0.05867437401748401,
+          "family": "risk",
+          "feature_name": "volatility_126d",
+          "mean_absolute_contribution": 0.04931896738074094,
+          "mean_contribution": 0.032208210705676726,
+          "valid_contributions": 60
+        },
+        {
+          "absolute_contribution_share": 0.13095801263293472,
+          "family": "value",
+          "feature_name": "earnings_yield",
+          "mean_absolute_contribution": 0.14676967157452814,
+          "mean_contribution": -0.05701675481797428,
+          "valid_contributions": 45
+        },
+        {
+          "absolute_contribution_share": 0.0,
+          "family": "value",
+          "feature_name": "ebit_ev",
+          "mean_absolute_contribution": null,
+          "mean_contribution": null,
+          "valid_contributions": 0
+        },
+        {
+          "absolute_contribution_share": 0.0,
+          "family": "value",
+          "feature_name": "fcf_yield",
+          "mean_absolute_contribution": null,
+          "mean_contribution": null,
+          "valid_contributions": 0
+        },
+        {
+          "absolute_contribution_share": 0.11318290681331307,
+          "family": "value",
+          "feature_name": "sales_yield",
+          "mean_absolute_contribution": 0.11192508369346395,
+          "mean_contribution": -0.11192508369346395,
+          "valid_contributions": 51
+        }
+      ],
+      "by_family": [
+        {
+          "absolute_contribution_share": 0.24414091944624777,
+          "family": "value",
+          "valid_contributions": 96
+        },
+        {
+          "absolute_contribution_share": 0.0,
+          "family": "quality",
+          "valid_contributions": 0
+        },
+        {
+          "absolute_contribution_share": 0.3003464687925793,
+          "family": "growth",
+          "valid_contributions": 83
+        },
+        {
+          "absolute_contribution_share": 0.23921319475095215,
+          "family": "momentum",
+          "valid_contributions": 120
+        },
+        {
+          "absolute_contribution_share": 0.21629941701022073,
+          "family": "risk",
+          "valid_contributions": 240
+        }
+      ],
+      "method": "share_of_sum_of_absolute_component_contributions"
+    },
+    "warehouse_lineage": {
+      "component_aggregate_sha256": "e169b609bda11a14c2e39ae430099646eff8b72803b5d90fa67b3fb3c88d41f2",
+      "normalized_component_rows": 961400,
+      "outcome_reproduction": {
+        "benchmark_security_id": "66d63fe3-d840-5d2d-9bb3-4cc9f9f42fcf",
+        "maximum_absolute_published_period_return_difference": 2.2760821825863758e-08,
+        "method": "Recalculate the first 126 aligned trading-session intervals after each prediction from adjusted closes in the authoritative warehouse.",
+        "observations": 60,
+        "outcome_ledger_sha256": "929a3b1d28788681396677b82197d790c9eba573bc614f7ebbb9b2335af0410d",
+        "published_period_returns_reproduced": true,
+        "published_periods": 43,
+        "reproduction_tolerance": 1e-07
+      },
+      "score_family_ledger_sha256": "de9b26e22b4a812ec01cd9bb8d422dbd87498e45633121371b4ee6b96ea7bcdb",
+      "score_rows": 50600
+    }
+  },
+  "generated_at": "2026-07-10T12:17:01Z",
+  "json_output": "reports/research/sprint9-factor-diagnostics-v1.json",
+  "report_id": "sprint9-factor-diagnostics-v1",
+  "schema_version": "sprint9_factor_diagnostics_v1",
+  "source_artifacts": [
+    {
+      "path": "reports/comparisons/price-vs-multifactor-v1.json",
+      "sha256": "2963e3d618df41f4ef55b8c86e63ba505c56a117c8dba7ba2f4d757ffd25b80a"
+    },
+    {
+      "path": "reports/backtests/pit_multifactor_baseline_v1.json",
+      "sha256": "5e1cca6e568599ee1f3badcc6bf051edc1155b15bfb0b408b17051c2b5f60612"
+    },
+    {
+      "path": "reports/data-audits/sprint9-cohort-funnel-v1.json",
+      "sha256": "1e5b3b1e001d77ceeded4fbedfcc9387bd8af6f27e89792616b53b257f329d1d"
+    },
+    {
+      "path": "docs/research/multifactor-baseline-v1.md",
+      "sha256": "3a650dcf5d1837bd1a922b8b80b21210f63838e657b713b836eb30b37918f7c5"
+    }
+  ],
+  "warehouse": {
+    "file_sha256_omitted": true,
+    "path": "data/raw/free-point-in-time/sprint8-prelock-v9/research.db",
+    "reason": "Large derived warehouse is bound by deterministic score, component, and reconstructed-outcome fingerprints."
+  }
+}

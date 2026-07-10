@@ -1,0 +1,170 @@
+{
+  "claims_eligible": false,
+  "contract_version": "multifactor-baseline-v1",
+  "evidence_cut": "2026-07-10",
+  "engineering_gates": [
+    {
+      "gate_id": "E1",
+      "status": "pass",
+      "summary": "No hard finding demonstrates look-ahead or revision leakage, and point-in-time availability/revision hashes reproduce across both rebuilds."
+    },
+    {
+      "gate_id": "E2",
+      "status": "pass",
+      "summary": "Both clean rebuilds matched all ten closure invariants."
+    },
+    {
+      "gate_id": "E3",
+      "status": "fail",
+      "summary": "Final-score coverage is 60 of 21,330 expected stock-months; no evaluated month reaches 90 percent."
+    },
+    {
+      "gate_id": "E4",
+      "status": "not_evaluable",
+      "summary": "Evaluated components have stable reason codes, but expected members excluded before an eligible score are not enumerated in the Sprint 8 summary evidence."
+    },
+    {
+      "gate_id": "E5",
+      "status": "pass",
+      "summary": "The evaluation follows the lock timestamp and embeds the exact holdout-lock SHA-256."
+    }
+  ],
+  "engineering_readout": {
+    "closure_decision": "pass",
+    "closure_invariants_matched": 10,
+    "closure_invariants_total": 10,
+    "final_score_coverage": {
+      "aggregate_ratio": 0.0028129395218002813,
+      "aggregate_percent": 0.2812939521800281,
+      "eligible_score_rows": 60,
+      "expected_stock_months": 21330,
+      "maximum_monthly_ratio": 0.008048289738430584,
+      "mean_monthly_ratio": 0.0028117206417225746,
+      "minimum_monthly_ratio": 0.002008032128514056,
+      "months_at_or_above_90_percent": 0,
+      "months_evaluated": 43
+    },
+    "fundamental_audit": {
+      "decision": "review",
+      "hard_failure_count": 0,
+      "reconciliation_gate_enforced": false,
+      "reconciliation_issuer_period_count": 0,
+      "reconciliation_minimum_issuer_periods": 30,
+      "review_finding_count": 156
+    },
+    "promotion_verdict": "fail",
+    "reproducibility_verdict": "pass"
+  },
+  "generated_at": "2026-07-10T11:34:01Z",
+  "holdout": {
+    "end": "2025-06-30",
+    "represented_months": 4,
+    "represented_observations": 4,
+    "represented_rank_ic_months": 0,
+    "start": "2022-01-01"
+  },
+  "model_gates": [
+    {
+      "gate_id": "M1",
+      "status": "not_evaluable",
+      "summary": "The reported mean Rank IC is mixed-period and comes entirely from pre-holdout months; holdout Rank IC is null."
+    },
+    {
+      "gate_id": "M2",
+      "status": "not_evaluable",
+      "summary": "The bottom quintile is empty, so the net top-minus-bottom spread is null."
+    },
+    {
+      "gate_id": "M3",
+      "status": "not_evaluable",
+      "summary": "No holdout year has a calculable annual Rank IC and 2023 through 2025 are absent."
+    },
+    {
+      "gate_id": "M4",
+      "status": "not_evaluable",
+      "summary": "Monthly top-minus-bottom spreads are unavailable."
+    },
+    {
+      "gate_id": "M5",
+      "status": "not_evaluable",
+      "summary": "Sector top-minus-bottom spreads are unavailable and all observations are Financials."
+    },
+    {
+      "gate_id": "M6",
+      "status": "fail",
+      "summary": "Not all engineering gates pass."
+    }
+  ],
+  "model_performance": {
+    "benchmark_hit_rate_after_25_bps": 0.3953488372093023,
+    "calculable_rank_ic_months": 9,
+    "evaluated_months": 43,
+    "evaluated_observations": 60,
+    "gross_top_quintile_excess_return": -0.06370512720930233,
+    "mean_rank_ic": 0.6888888888888889,
+    "mean_top_turnover": 0.13953488372093023,
+    "median_rank_ic": 0.5,
+    "net_top_excess_after_25_bps": -0.06405396441860466,
+    "non_overlapping_rank_ic_periods": 2,
+    "non_overlapping_rank_ic_t_statistic": null,
+    "price_only_mean_rank_ic": 0.5222222222222223,
+    "price_only_net_top_excess_after_25_bps": -0.051043830465116284,
+    "quintile_observation_counts": {
+      "1": 0,
+      "2": 6,
+      "3": 5,
+      "4": 6,
+      "5": 43
+    },
+    "rank_ic_delta_vs_price_only": 0.16666666666666663,
+    "sector_observation_counts": {
+      "Financials": 60
+    },
+    "top_minus_bottom_spread": null
+  },
+  "overall_decision": {
+    "claims": "ineligible",
+    "engineering_promotion_readiness": "fail",
+    "engineering_reproducibility": "pass",
+    "investability": "not_established",
+    "model_efficacy": "not_established",
+    "model_promotion": "fail",
+    "summary": "Sprint 8 is an engineering reproducibility success, not a complete engineering-gate success and not a model-performance success."
+  },
+  "report_id": "sprint9-evidence-readout-v1",
+  "schema_version": "sprint9_evidence_readout_v1",
+  "source_artifacts": [
+    {
+      "path": "docs/research/multifactor-baseline-v1.md",
+      "sha256": "3a650dcf5d1837bd1a922b8b80b21210f63838e657b713b836eb30b37918f7c5"
+    },
+    {
+      "path": "experiments/multifactor-holdout-lock-v1.json",
+      "sha256": "3857baa255562a89862a39919b550004b8860d733e4990a361cd81473d23878f"
+    },
+    {
+      "path": "reports/reproducibility/sprint8-closure-v1.json",
+      "sha256": "edce8123922a5157dc979ae9db34834a69fbe31b8a0aa1baf8ae132088fc064c"
+    },
+    {
+      "path": "reports/backtests/pit_multifactor_baseline_v1.json",
+      "sha256": "5e1cca6e568599ee1f3badcc6bf051edc1155b15bfb0b408b17051c2b5f60612"
+    },
+    {
+      "path": "reports/comparisons/price-vs-multifactor-v1.json",
+      "sha256": "2963e3d618df41f4ef55b8c86e63ba505c56a117c8dba7ba2f4d757ffd25b80a"
+    },
+    {
+      "path": "reports/backtests/pit_baseline_v0_1.json",
+      "sha256": "cb98d3b0ec01df61375b10f05ad0759d5bc0d8f0afb83624e8274b8fd5dfb013"
+    },
+    {
+      "path": "reports/data-audits/pit-fundamentals-v1.json",
+      "sha256": "97a99d0ea830abf26aa50d2dd86f093f2d7ce6ac194d1194bbd4e62337eebbc9"
+    },
+    {
+      "path": "docs/compliance/claims-policy.md",
+      "sha256": "db7fff2525ca6a92eef7b835deb3bad6696f0defa393fe32bb563435d94341c1"
+    }
+  ]
+}
