@@ -1,0 +1,636 @@
+{
+  "claims_eligible": false,
+  "classification_contract": {
+    "append_only_corrections": true,
+    "broad_financial_range_routing_allowed": false,
+    "classification_precedence": [
+      "POINT_IN_TIME_EXPLICIT_REGULATED_OR_REIT_SUBTYPE",
+      "POINT_IN_TIME_EXACT_SIC_RULE",
+      "POINT_IN_TIME_BROAD_SECTOR_LABEL"
+    ],
+    "conflict_behavior": "NO_ELIGIBLE_SCORE",
+    "current_defect": {
+      "description": "SEC SIC 6798 is Real Estate Investment Trusts, but SEC_SIC_TO_GICS_V1 routes all 6700-6799 issuers to Financials. The feature mask separately looks for GICS-style industry 601010 even though the stored industry field contains SIC strings.",
+      "financials_range_rule": "6000-6499 or 6700-6799",
+      "reit_mask_expected_industry": "601010_OR_TEXT_CONTAINING_REIT",
+      "stored_reit_industry": "6798"
+    },
+    "exact_sic_routing": [
+      {
+        "branch": "REIT_SUBTYPE_UNRESOLVED",
+        "eligible": false,
+        "requires_explicit_subtype_to_continue": true,
+        "sic_codes": [
+          "6798"
+        ]
+      },
+      {
+        "branch": "BANK",
+        "eligible": false,
+        "range": "6020-6099",
+        "requires_branch_feature_set": true
+      },
+      {
+        "branch": "BROKER_DEALER",
+        "eligible": false,
+        "sic_codes": [
+          "6200",
+          "6211"
+        ],
+        "requires_branch_feature_set": true
+      },
+      {
+        "branch": "ASSET_MANAGER",
+        "eligible": false,
+        "sic_codes": [
+          "6282"
+        ],
+        "requires_branch_feature_set": true
+      },
+      {
+        "branch": "INSURER_LIFE_HEALTH",
+        "eligible": false,
+        "sic_codes": [
+          "6311",
+          "6321",
+          "6324"
+        ],
+        "requires_branch_feature_set": true
+      },
+      {
+        "branch": "INSURER_P_AND_C",
+        "eligible": false,
+        "sic_codes": [
+          "6331",
+          "6351",
+          "6361"
+        ],
+        "requires_branch_feature_set": true
+      },
+      {
+        "branch": "OTHER_FINANCIAL_UNRESOLVED",
+        "eligible": false,
+        "sic_codes": [
+          "6199",
+          "6399",
+          "6411",
+          "6792",
+          "6799"
+        ],
+        "requires_explicit_subtype_to_continue": true
+      }
+    ],
+    "required_lineage_fields": [
+      "classification_id",
+      "classification_version",
+      "classification_system",
+      "sector",
+      "industry",
+      "sector_branch",
+      "subtype",
+      "effective_from",
+      "effective_to",
+      "model_available_at",
+      "source_snapshot_id",
+      "source_hash"
+    ],
+    "reit_precedence_rule": "Resolve REIT status before any broad Financials rule. SIC 6798 alone establishes REIT status but does not distinguish equity from mortgage REIT; unresolved REIT subtype is excluded.",
+    "unknown_subtype_behavior": "Price-derived diagnostics may be stored with RESEARCH_ONLY_NOT_ELIGIBILITY, but no final multi-factor score or prediction may be emitted."
+  },
+  "contract_id": "sector-specific-factor-treatment-v1",
+  "current_feature_set": [
+    "fcf_yield",
+    "earnings_yield",
+    "ebit_ev",
+    "sales_yield",
+    "roic",
+    "gross_profitability",
+    "fcf_conversion",
+    "inverse_accruals",
+    "inverse_leverage",
+    "revenue_growth",
+    "eps_growth",
+    "fcf_growth",
+    "margin_change",
+    "momentum_6_1",
+    "momentum_12_1",
+    "volatility_126d",
+    "beta_252d",
+    "downside_volatility_126d",
+    "maximum_drawdown_252d"
+  ],
+  "decision": {
+    "allow_financials_in_generic_industrial_model": false,
+    "allow_reits_in_generic_financials_model": false,
+    "financials_need_own_model_branch": true,
+    "model_structure": "SEPARATE_SUBTYPE_BRANCHES_NOT_ONE_MONOLITHIC_FINANCIALS_BRANCH",
+    "retroactively_change_sprint8": false,
+    "status": "DESIGN_LOCKED_NOT_IMPLEMENTED",
+    "summary": "Exclude Financials and REITs from the generic industrial score until point-in-time subtype classification and branch-specific feature sets pass coverage and evaluation gates."
+  },
+  "evidence": {
+    "current_financial_mask_component_count": 9,
+    "current_reit_mask_component_count": 5,
+    "eligible_observations": 60,
+    "eligible_observations_financials_label": 60,
+    "eligible_observations_insurer_sic_6331": 9,
+    "eligible_observations_reit_sic_6798": 51,
+    "financials_stock_months": 8586,
+    "financials_unique_securities": 101,
+    "quality_available_evaluated_observations": 0,
+    "reit_sic_6798_stock_months": 2920,
+    "reit_sic_6798_unique_securities": 32,
+    "warehouse_financial_sic_ledger_sha256": "9830e462167af6932233b2e602cfb574fceb5d17c372aabf1a2de9df819ea594"
+  },
+  "evidence_inputs": [
+    {
+      "path": "packages/research/quantfore_research/features/multifactor.py",
+      "sha256": "df187c8a51a4a6cb48a47a9f06a6cb408192b6eac26b9ee19192e568abd9cd6e"
+    },
+    {
+      "path": "pipelines/build_sec_point_in_time_fundamental_bundle.py",
+      "sha256": "64d7854673417270211145e104d658ebaca2998a4a03fd77d0f6aed58f909e31"
+    },
+    {
+      "path": "docs/research/multifactor-baseline-v1.md",
+      "sha256": "3a650dcf5d1837bd1a922b8b80b21210f63838e657b713b836eb30b37918f7c5"
+    },
+    {
+      "path": "reports/data-audits/sprint9-cohort-funnel-v1.json",
+      "sha256": "1e5b3b1e001d77ceeded4fbedfcc9387bd8af6f27e89792616b53b257f329d1d"
+    },
+    {
+      "path": "reports/research/sprint9-factor-diagnostics-v1.json",
+      "sha256": "c84a1eca3d9ab938bdb3de796a40a9d264dfd9cb319198b3ffef6263feb2935d"
+    },
+    {
+      "path": "reports/backtests/sprint9-investability-diagnostic-v1.json",
+      "sha256": "fcb6af611b1e4b3f625591660658b23f99bd48406b53400f2342181023764edc"
+    }
+  ],
+  "existing_feature_treatment": {
+    "ASSET_MANAGER": {
+      "APPLICABLE_UNIVERSAL": [
+        "momentum_6_1",
+        "momentum_12_1",
+        "volatility_126d",
+        "beta_252d",
+        "downside_volatility_126d",
+        "maximum_drawdown_252d"
+      ],
+      "APPLICABLE_WITHIN_BRANCH": [
+        "earnings_yield",
+        "eps_growth"
+      ],
+      "NOT_APPLICABLE_STRUCTURAL": [
+        "fcf_yield",
+        "ebit_ev",
+        "sales_yield",
+        "roic",
+        "gross_profitability",
+        "fcf_conversion",
+        "inverse_accruals",
+        "inverse_leverage",
+        "fcf_growth",
+        "margin_change"
+      ],
+      "REPLACE_WITH_BRANCH_FEATURE": [
+        "revenue_growth"
+      ]
+    },
+    "BANK": {
+      "APPLICABLE_UNIVERSAL": [
+        "momentum_6_1",
+        "momentum_12_1",
+        "volatility_126d",
+        "beta_252d",
+        "downside_volatility_126d",
+        "maximum_drawdown_252d"
+      ],
+      "APPLICABLE_WITHIN_BRANCH": [
+        "earnings_yield",
+        "eps_growth"
+      ],
+      "NOT_APPLICABLE_STRUCTURAL": [
+        "fcf_yield",
+        "ebit_ev",
+        "sales_yield",
+        "roic",
+        "gross_profitability",
+        "fcf_conversion",
+        "inverse_accruals",
+        "inverse_leverage",
+        "fcf_growth",
+        "margin_change"
+      ],
+      "REPLACE_WITH_BRANCH_FEATURE": [
+        "revenue_growth"
+      ]
+    },
+    "BROKER_DEALER": {
+      "APPLICABLE_UNIVERSAL": [
+        "momentum_6_1",
+        "momentum_12_1",
+        "volatility_126d",
+        "beta_252d",
+        "downside_volatility_126d",
+        "maximum_drawdown_252d"
+      ],
+      "APPLICABLE_WITHIN_BRANCH": [
+        "earnings_yield",
+        "eps_growth"
+      ],
+      "NOT_APPLICABLE_STRUCTURAL": [
+        "fcf_yield",
+        "ebit_ev",
+        "sales_yield",
+        "roic",
+        "gross_profitability",
+        "fcf_conversion",
+        "inverse_accruals",
+        "inverse_leverage",
+        "fcf_growth",
+        "margin_change"
+      ],
+      "REPLACE_WITH_BRANCH_FEATURE": [
+        "revenue_growth"
+      ]
+    },
+    "EQUITY_REIT": {
+      "APPLICABLE_UNIVERSAL": [
+        "momentum_6_1",
+        "momentum_12_1",
+        "volatility_126d",
+        "beta_252d",
+        "downside_volatility_126d",
+        "maximum_drawdown_252d"
+      ],
+      "APPLICABLE_WITHIN_BRANCH": [],
+      "NOT_APPLICABLE_STRUCTURAL": [],
+      "REPLACE_WITH_BRANCH_FEATURE": [
+        "fcf_yield",
+        "earnings_yield",
+        "ebit_ev",
+        "sales_yield",
+        "roic",
+        "gross_profitability",
+        "fcf_conversion",
+        "inverse_accruals",
+        "inverse_leverage",
+        "revenue_growth",
+        "eps_growth",
+        "fcf_growth",
+        "margin_change"
+      ]
+    },
+    "INDUSTRIAL_GENERAL": {
+      "APPLICABLE_UNIVERSAL": [
+        "momentum_6_1",
+        "momentum_12_1",
+        "volatility_126d",
+        "beta_252d",
+        "downside_volatility_126d",
+        "maximum_drawdown_252d"
+      ],
+      "APPLICABLE_WITHIN_BRANCH": [
+        "fcf_yield",
+        "earnings_yield",
+        "ebit_ev",
+        "sales_yield",
+        "roic",
+        "gross_profitability",
+        "fcf_conversion",
+        "inverse_accruals",
+        "inverse_leverage",
+        "revenue_growth",
+        "eps_growth",
+        "fcf_growth",
+        "margin_change"
+      ],
+      "NOT_APPLICABLE_STRUCTURAL": [],
+      "REPLACE_WITH_BRANCH_FEATURE": []
+    },
+    "INSURER_LIFE_HEALTH": {
+      "APPLICABLE_UNIVERSAL": [
+        "momentum_6_1",
+        "momentum_12_1",
+        "volatility_126d",
+        "beta_252d",
+        "downside_volatility_126d",
+        "maximum_drawdown_252d"
+      ],
+      "APPLICABLE_WITHIN_BRANCH": [
+        "earnings_yield",
+        "eps_growth"
+      ],
+      "NOT_APPLICABLE_STRUCTURAL": [
+        "fcf_yield",
+        "ebit_ev",
+        "sales_yield",
+        "roic",
+        "gross_profitability",
+        "fcf_conversion",
+        "inverse_accruals",
+        "inverse_leverage",
+        "fcf_growth",
+        "margin_change"
+      ],
+      "REPLACE_WITH_BRANCH_FEATURE": [
+        "revenue_growth"
+      ]
+    },
+    "INSURER_P_AND_C": {
+      "APPLICABLE_UNIVERSAL": [
+        "momentum_6_1",
+        "momentum_12_1",
+        "volatility_126d",
+        "beta_252d",
+        "downside_volatility_126d",
+        "maximum_drawdown_252d"
+      ],
+      "APPLICABLE_WITHIN_BRANCH": [
+        "earnings_yield",
+        "eps_growth"
+      ],
+      "NOT_APPLICABLE_STRUCTURAL": [
+        "fcf_yield",
+        "ebit_ev",
+        "sales_yield",
+        "roic",
+        "gross_profitability",
+        "fcf_conversion",
+        "inverse_accruals",
+        "inverse_leverage",
+        "fcf_growth",
+        "margin_change"
+      ],
+      "REPLACE_WITH_BRANCH_FEATURE": [
+        "revenue_growth"
+      ]
+    },
+    "MORTGAGE_REIT": {
+      "APPLICABLE_UNIVERSAL": [
+        "momentum_6_1",
+        "momentum_12_1",
+        "volatility_126d",
+        "beta_252d",
+        "downside_volatility_126d",
+        "maximum_drawdown_252d"
+      ],
+      "APPLICABLE_WITHIN_BRANCH": [],
+      "NOT_APPLICABLE_STRUCTURAL": [],
+      "REPLACE_WITH_BRANCH_FEATURE": [
+        "fcf_yield",
+        "earnings_yield",
+        "ebit_ev",
+        "sales_yield",
+        "roic",
+        "gross_profitability",
+        "fcf_conversion",
+        "inverse_accruals",
+        "inverse_leverage",
+        "revenue_growth",
+        "eps_growth",
+        "fcf_growth",
+        "margin_change"
+      ]
+    },
+    "OTHER_FINANCIAL_UNRESOLVED": {
+      "APPLICABLE_UNIVERSAL": [],
+      "APPLICABLE_WITHIN_BRANCH": [],
+      "EXCLUDE_PENDING_SUBTYPE": [
+        "fcf_yield",
+        "earnings_yield",
+        "ebit_ev",
+        "sales_yield",
+        "roic",
+        "gross_profitability",
+        "fcf_conversion",
+        "inverse_accruals",
+        "inverse_leverage",
+        "revenue_growth",
+        "eps_growth",
+        "fcf_growth",
+        "margin_change"
+      ],
+      "NOT_APPLICABLE_STRUCTURAL": [],
+      "REPLACE_WITH_BRANCH_FEATURE": [],
+      "RESEARCH_ONLY_NOT_ELIGIBILITY": [
+        "momentum_6_1",
+        "momentum_12_1",
+        "volatility_126d",
+        "beta_252d",
+        "downside_volatility_126d",
+        "maximum_drawdown_252d"
+      ]
+    }
+  },
+  "implementation_boundary": {
+    "current_sprint8_evidence_immutable": true,
+    "implementation_authorized_by_this_contract": false,
+    "next_actions": [
+      "Create a new append-only classification version with explicit sector_branch and subtype.",
+      "Route SIC 6798 to unresolved REIT before any broad Financials rule.",
+      "Acquire and audit point-in-time branch-specific inputs.",
+      "Define Model V2 weights and thresholds in the separate Sprint 9.5 hypothesis lock.",
+      "Rebuild features and rerun Sprint 9.2, 9.3, and 9.4 diagnostics under a new experiment identifier."
+    ],
+    "no_casual_tuning": true
+  },
+  "proposed_branch_features": {
+    "ASSET_MANAGER": {
+      "growth": [
+        "regulatory_aum_growth",
+        "net_flow_rate",
+        "fee_revenue_growth",
+        "eps_growth"
+      ],
+      "quality": [
+        "net_flow_rate",
+        "operating_margin",
+        "return_on_equity",
+        "compensation_ratio_inverse"
+      ],
+      "value": [
+        "earnings_yield",
+        "price_to_book_inverse",
+        "fee_related_earnings_yield"
+      ]
+    },
+    "BANK": {
+      "growth": [
+        "loan_growth",
+        "deposit_growth",
+        "tangible_book_value_per_share_growth",
+        "eps_growth"
+      ],
+      "quality": [
+        "return_on_assets",
+        "return_on_equity",
+        "net_interest_margin",
+        "efficiency_ratio_inverse",
+        "common_equity_tier1_ratio",
+        "nonperforming_loans_ratio_inverse",
+        "net_charge_off_ratio_inverse"
+      ],
+      "value": [
+        "earnings_yield",
+        "price_to_tangible_book_inverse"
+      ]
+    },
+    "BROKER_DEALER": {
+      "growth": [
+        "net_revenue_growth",
+        "client_asset_growth",
+        "eps_growth"
+      ],
+      "quality": [
+        "return_on_equity",
+        "compensation_ratio_inverse",
+        "net_capital_ratio",
+        "revenue_volatility_inverse"
+      ],
+      "value": [
+        "earnings_yield",
+        "price_to_tangible_book_inverse"
+      ]
+    },
+    "EQUITY_REIT": {
+      "growth": [
+        "same_store_noi_growth",
+        "ffo_per_share_growth",
+        "affo_per_share_growth"
+      ],
+      "quality": [
+        "occupancy_rate",
+        "interest_coverage",
+        "net_debt_to_ebitdare_inverse",
+        "affo_payout_headroom",
+        "fixed_rate_debt_share"
+      ],
+      "value": [
+        "ffo_yield",
+        "affo_yield",
+        "nav_discount",
+        "dividend_yield"
+      ]
+    },
+    "INSURER_LIFE_HEALTH": {
+      "growth": [
+        "premium_growth",
+        "book_value_per_share_growth",
+        "eps_growth"
+      ],
+      "quality": [
+        "return_on_equity",
+        "risk_based_capital_ratio",
+        "investment_yield",
+        "reserve_adequacy"
+      ],
+      "value": [
+        "earnings_yield",
+        "price_to_book_inverse"
+      ]
+    },
+    "INSURER_P_AND_C": {
+      "growth": [
+        "net_premiums_written_growth",
+        "book_value_per_share_growth",
+        "eps_growth"
+      ],
+      "quality": [
+        "combined_ratio_inverse",
+        "loss_ratio_inverse",
+        "favorable_reserve_development",
+        "return_on_equity",
+        "risk_based_capital_ratio"
+      ],
+      "value": [
+        "earnings_yield",
+        "price_to_book_inverse"
+      ]
+    },
+    "MORTGAGE_REIT": {
+      "growth": [
+        "book_value_per_share_growth",
+        "net_interest_income_growth"
+      ],
+      "quality": [
+        "net_interest_spread",
+        "economic_leverage_inverse",
+        "liquidity_ratio",
+        "credit_loss_allowance_coverage",
+        "duration_gap_inverse"
+      ],
+      "value": [
+        "price_to_book_inverse",
+        "earnings_yield",
+        "dividend_yield"
+      ]
+    }
+  },
+  "reason_codes": [
+    "CLASSIFICATION_CONFLICT",
+    "CLASSIFICATION_SOURCE_UNAVAILABLE",
+    "FINANCIAL_SUBTYPE_UNKNOWN",
+    "REIT_SUBTYPE_UNKNOWN",
+    "FEATURE_STRUCTURALLY_NOT_APPLICABLE",
+    "BRANCH_FEATURE_NOT_DEFINED",
+    "BRANCH_REQUIRED_FEATURE_MISSING",
+    "BRANCH_NORMALIZATION_COHORT_TOO_SMALL",
+    "SECTOR_BRANCH_EXCLUDED",
+    "RESEARCH_ONLY_NOT_ELIGIBILITY"
+  ],
+  "scoring_contract": {
+    "branch_specific_weights_required": true,
+    "cross_branch_accounting_normalization_allowed": false,
+    "generic_financial_mask_denominator_shrinkage_allowed": false,
+    "market_only_final_score_allowed": false,
+    "minimum_cross_section_per_branch": 20,
+    "minimum_required_accounting_families": 2,
+    "normalization_fallback_to_industrial_universe_allowed": false,
+    "provisional_mandatory_families": [
+      "value",
+      "quality",
+      "momentum",
+      "risk"
+    ],
+    "threshold_status": "PROVISIONAL_UNTIL_SPRINT9_5_HYPOTHESIS_LOCK",
+    "universal_market_families": [
+      "momentum",
+      "risk"
+    ]
+  },
+  "source_references": [
+    {
+      "authority": "U.S. Securities and Exchange Commission",
+      "supports": "SIC 6798 is Real Estate Investment Trusts.",
+      "url": "https://www.sec.gov/search-filings/standard-industrial-classification-sic-code-list"
+    },
+    {
+      "authority": "S&P Dow Jones Indices",
+      "supports": "GICS Real Estate includes equity REITs and is distinct from Financials.",
+      "url": "https://www.spglobal.com/spdji/en/landing/topic/gics/"
+    },
+    {
+      "authority": "Nareit",
+      "supports": "FFO is a supplemental REIT operating-performance measure designed to address real-estate depreciation limitations.",
+      "url": "https://www.reit.com/glossary/funds-operation-ffo"
+    },
+    {
+      "authority": "Federal Deposit Insurance Corporation",
+      "supports": "Bank analysis uses earnings, net interest margin, loan/deposit activity, asset quality, capital and liquidity measures.",
+      "url": "https://www.fdic.gov/analysis/quarterly-banking-profile/"
+    },
+    {
+      "authority": "National Association of Insurance Commissioners",
+      "supports": "The combined ratio is the sum of loss and expense ratios and indicates insurer profitability.",
+      "url": "https://content.naic.org/glossary-insurance-terms"
+    },
+    {
+      "authority": "U.S. Securities and Exchange Commission",
+      "supports": "Form ADV reports regulatory assets under management for investment advisers.",
+      "url": "https://www.sec.gov/about/forms/formadv-part1a.pdf"
+    }
+  ]
+}
