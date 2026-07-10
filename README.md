@@ -21,7 +21,7 @@ The research programme is organised around a consequential question:
 
 ## Research Programme Status
 
-Status as of July 4, 2026: **Sprint 7 is closed; Sprint 8 is in progress.**
+Status as of July 10, 2026: **Sprints 7 and 8 are closed.**
 `claims_eligible=false` remains in force, so the repository does not support
 public performance or alpha claims.
 
@@ -38,9 +38,16 @@ public performance or alpha claims.
 - The SEC-primary fundamentals bundle contains 764,865 filing-bound facts and
   697 dated classification records. The mature evaluation cutoff is centrally
   fixed at `2025-06-30`.
-- Sprint 8 now has database-derived report verification and rebuild-program
-  SHA-256 binding. Its remaining gates are the fresh-database fundamentals
-  audit, holdout lock, and two matching closure rebuilds.
+- Sprint 8 passed its reproducibility gate on July 10, 2026: two clean
+  fresh-database rebuilds agreed exactly on all ten closure invariants
+  (fundamental facts, availability/revisions, 961,400 feature values, monthly
+  eligible cohorts, 41,264 predictions, 41,012 outcomes, backtest metrics, and
+  canonical reports), with closure SHA-256
+  `edce8123922a5157dc979ae9db34834a69fbe31b8a0aa1baf8ae132088fc064c` at
+  commit `54d07aad318362bfa55d9bbdcdbc19cc707c9e3b`. Evidence lives in
+  `reports/reproducibility/sprint8-closure-v1.{json,md}`. The full two-rebuild
+  closure completes in about 48 minutes; run it wake-locked (`caffeinate
+  -dims`) on machines that sleep when idle.
 - Raw Tiingo, SEC, OpenFIGI, membership, identifier, and licence evidence stays
   under Git-ignored `data/raw/`; Tiingo data is not redistributed.
 
@@ -357,18 +364,13 @@ experiments/     Versioned experiment contracts and holdout locks.
 
 ## Current Build Priorities
 
-The point-in-time research substrate and Sprint 7 price baseline are complete.
-The immediate objective is to close Sprint 8's SEC-primary multifactor baseline
-under the same reproducibility standard; application-layer work remains
-deliberately downstream of that gate.
+The point-in-time research substrate, Sprint 7 price baseline, and Sprint 8
+SEC-primary multifactor baseline are complete and closed under the two-rebuild
+reproducibility standard; application-layer work remains deliberately
+downstream of that gate.
 
 Current priorities:
 
-- Execute the SEC-primary fundamentals audit against a fresh database.
-- Freeze the Sprint 8 holdout contract and bind it to exact source and run
-  lineage.
-- Produce two independent Sprint 8 rebuilds whose canonical audits, ledgers,
-  evaluations, and comparisons agree exactly before publishing closure.
 - Preserve `claims_eligible=false` until the independent performance,
   licensing, governance, and compliance conditions are satisfied.
 - Develop filing and transcript extraction for guidance, KPIs, risks,
@@ -412,12 +414,12 @@ The implemented system comprises the Python research package, SQLAlchemy
 warehouse, immutable source-snapshot lineage, historical S&P 500 universe
 reconstruction, point-in-time equity and SEC-fundamentals ingestion,
 feature/scoring/prediction ledgers, realised-outcome evaluation, leakage guards,
-reproducibility validation, and Git-tracked Sprint 7 closure evidence. A
-synthetic end-to-end fixture provides rapid local verification; the closed
-Sprint 7 evidence is derived from the amended real-market dataset licensed for
-personal/internal research described above.
+reproducibility validation, and Git-tracked Sprint 7 and Sprint 8 closure
+evidence. A synthetic end-to-end fixture provides rapid local verification; the
+closed Sprint 7 and Sprint 8 evidence is derived from the amended real-market
+dataset licensed for personal/internal research described above.
 
 Runtime APIs, production orchestration, trained machine-learning rankers,
 commercially licensed claims-grade datasets, and end-user applications remain
-prospective. Sprint 8 is open. No real-market performance or alpha claim is
-currently authorized.
+prospective. Sprints 7 and 8 are closed. No real-market performance or alpha
+claim is currently authorized.

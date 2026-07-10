@@ -1,0 +1,1759 @@
+{
+  "audit": {
+    "availability_revision_hash": "35cf370c936ce59f7c2a0ab9019cd1357daf643a41bcc36bcdbad440666f6066",
+    "counts": {
+      "facts": 764865,
+      "securities": 532,
+      "source_snapshots": 1
+    },
+    "fact_hash": "0632039d1598c4857fb2d03a7caf21f8851bed2d5ededc5a9d96d0bb4c71fc39",
+    "findings": [
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "52a31b24-7e17-5f30-9e9f-5bc2803247ce",
+          "6e453824-a949-596d-b630-464752fce2c5"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "07058f91-abc2-55b5-8e0e-874e2648b539",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "cd39e24b-5d95-5519-811e-d5c2ef5ff7a6",
+          "c0602123-12df-5f53-afa0-a73761f88928"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "07058f91-abc2-55b5-8e0e-874e2648b539",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "98fe8511-efa0-59fd-9a8e-b818aa0054a2",
+          "6b691899-ef07-5afd-a2e8-bf5b56ba38bd"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "16bba584-ecd9-50bb-bcc3-386aa977d2a2",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "9192b106-effb-5d77-95a1-4deee038a66e",
+          "84bc0a36-a3f7-57af-8644-cf3c6fac68f5"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "a65f24c3-edb8-5fef-b617-2bb93e20ad70",
+          "ac082b6d-ddb3-55c0-a048-1bade7ff4b32"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "afe320f5-a1d9-594b-b2bf-bab1f5eb986c",
+          "f2dbafc7-d1d4-50e1-a95d-0ae5d1641927"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "cb42c398-b6d3-546b-af85-e1f275502b31",
+          "9e6f0272-c4f4-51d3-a236-8c755f664461"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "cc6b31d9-77b7-5e0e-803e-c199e80d14fe",
+          "e684124a-e5c0-5bf3-98a3-c49ebb7a2fd0"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "cf3f8b85-b8eb-577c-bc41-331a2af94f71",
+          "a3438659-1b7c-53c6-9b55-aadf7393467b"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d0fc662f-5cfa-5fb9-95aa-4e4add0846de",
+          "a7bf9b41-330d-5164-a765-7240bb917753"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d1f1d018-0518-5460-b918-82f730748b35",
+          "96160ab8-1a46-5de8-a7ab-50bfb9ae6dc5"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d3934341-7cb0-5ea5-9eed-48731c474466",
+          "313ccb87-11ab-5235-963d-cc1a3dc6ad51"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "e0760c9b-a118-56f6-9e6a-8c54374d2422",
+          "e2dd101e-f53f-554c-8e1a-352656ee335c"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "e2aeb22e-b6d7-565e-979d-dbb967e979c1",
+          "e4bb2247-e03e-5b4c-bf25-7d7c4e01da87"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "e8eac83a-8d62-51f4-be73-8e988e077caf",
+          "5ade8e58-bb5e-5b5c-90a9-fbe39eabf4b1"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "edf8ad48-4ddf-5001-9d68-bbcdc0b11b46",
+          "f861a1dd-ac94-5723-91d1-1b1750f4ca54"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1760c477-3eb8-5135-9966-019e6b324199",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "c0a6a8a6-7bf1-5a34-bbf2-3dbf4a793bf0",
+          "fe58f13f-818d-587f-8e1e-5e8e0e8a9f6a"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "18aedbf5-b8bf-517d-abca-accfab7eef0a",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "fa00c3f9-6fc5-5e8f-82b8-c03edcf9ae29",
+          "7c04a2d8-b5b1-5270-ac6d-292ff755a4b5"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "19f63142-704c-5da1-b570-528014793c20",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d7e927b2-481f-5ef1-a292-ed2e78cd062a",
+          "1651a850-0eae-5ab0-81a0-f028b8385c3f"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "1cf567db-0d3f-58f0-b475-fbf4ff9a2b20",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "495636c5-f2a0-5c14-80c9-433559d2b720",
+          "277ed74d-1b77-53dc-a6e5-0a0fb86f5b10"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "280fc180-65a1-5469-8766-f62155a56470",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "67c16a3f-efde-51a9-b915-4fb44cc24354",
+          "811a6cb0-3e48-5e7c-ac18-cd8723afa36d"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "280fc180-65a1-5469-8766-f62155a56470",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "7cc5d692-9f08-51d6-8b33-f6b8ae1058de",
+          "59c7858b-9ea8-502b-9ae9-d5c3e597906e"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "280fc180-65a1-5469-8766-f62155a56470",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "cb1ff94d-5016-5387-b803-f07086668e31",
+          "0a47f3f7-8cad-507f-af84-2d374e466b36"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "280fc180-65a1-5469-8766-f62155a56470",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d1fe23e2-2a45-5f1b-aafe-dd45f40ad578",
+          "3286939e-d3cd-589a-9ca2-59efe65ac3cc"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "280fc180-65a1-5469-8766-f62155a56470",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "64245d62-67c5-5695-a42f-1483968a3e0a",
+          "581d86e1-7ee7-5bee-a98e-d5882f147a66"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "6bb6511c-7a32-51d1-98b6-383e2bab079d",
+          "fc54bb9a-e50b-5eef-9ef7-bc7a246f96cf"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "78c0e309-1ff9-5141-b85d-d0e5886c21f1",
+          "30694d4e-c0cc-5284-9ee9-4e13fc2e3943"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "b1eae673-0bbc-5295-b667-d323ebe78e19",
+          "c4f9220d-cde2-5b95-a4f5-ad969aac49f9"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "b46ad012-f040-531a-8142-8fa15e5a3cb2",
+          "e8bb4b7f-a26b-5e9c-a312-2715ded14a6e"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "b895850a-93c8-56b4-8318-77424a4ae8d0",
+          "87c29530-df3e-5af3-af93-17e40fd47698"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "bbc8712e-172c-596d-acff-1e8b707ed4a9",
+          "d2af2dd5-f4c9-547e-adb4-481817a7d9ba"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "c0015b7e-352e-537e-afc7-f042e0d5eefa",
+          "c78b17f2-cf04-5c69-b644-1d2d18666d9f"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "c549ab52-8eab-5c59-912f-9595bf21df7d",
+          "cc6d7cea-afdf-5c5c-a6ec-f52b64e5d185"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "c9a7f012-0f3e-58bc-b677-7692cbd0fef4",
+          "f4ae1430-767b-5515-bba3-c697d6a13332"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "debc149c-1a45-5367-bcf3-13ec4817679f",
+          "d3173cfc-a260-5b50-b038-2f2e00aac1ed"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "e86e1746-4f7b-576f-9efe-e027499c4a4c",
+          "f4c90a80-40c7-5cec-886a-1a73ae04e7e1"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "f1a30a23-42cb-56f3-b56b-bd548f6085d5",
+          "affe11e5-d522-58f3-80c6-f7ccd8ef9110"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4724ebc5-fada-5fa1-b63b-a189dea06ff9",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "ecee49ee-91ce-5b66-ac29-e486a44032cc",
+          "fb942ab8-df8a-55fa-a723-f4b0f1b9b603"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "4831e218-b0de-5366-9d7b-aead0f13d330",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "13a1566c-1034-5323-87cb-c81b77ddbca9",
+          "0e1855e1-0a58-5de0-a405-5294079da881"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "520c7499-8c94-57d7-b8ad-27c9e2ebb690",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "17bbf989-8658-5fe4-be2f-b0e770e69cab",
+          "25e55008-884f-53c3-aecb-5391ac275947"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "520c7499-8c94-57d7-b8ad-27c9e2ebb690",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "37783459-08c7-55cb-98ec-6e6ba3403253",
+          "0fb7c938-b454-5c6c-beb7-2d80df66156f"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "520c7499-8c94-57d7-b8ad-27c9e2ebb690",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "8e3e7c57-452c-50ad-992f-296b50c9646f",
+          "05e2e7f5-2da9-57c0-8dbe-c8f1790127d3"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "520c7499-8c94-57d7-b8ad-27c9e2ebb690",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "9c84f48e-123d-508e-ad3a-3ae9ebc2d2d9",
+          "00d5706b-cca8-53d5-be49-a8ba02cda6de"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "520c7499-8c94-57d7-b8ad-27c9e2ebb690",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "b7410cb9-fc37-597f-b8c3-2747a953b5fb",
+          "12c836fb-61a7-5c7d-bc49-7619df81df9b"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "520c7499-8c94-57d7-b8ad-27c9e2ebb690",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "c7d6f0b2-4b64-5065-9035-56050d25f7c1",
+          "48c893f0-0211-5502-a34f-74808f3576f0"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "520c7499-8c94-57d7-b8ad-27c9e2ebb690",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "e0df803f-5c7d-5e5c-849b-5a930ecfda75",
+          "68389363-aba2-518e-bdb6-163ffefebbc6"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "520c7499-8c94-57d7-b8ad-27c9e2ebb690",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "4ed58930-40a2-5af3-b6ef-f57d158cbdad",
+          "fe16bc94-837b-5866-83ec-623699065766"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "5ee5ef96-c211-5302-899f-5cdcaf1203d0",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "59bcbf0a-7370-5419-b1f3-c5156b5d1884",
+          "a0e4d600-9864-5a54-829a-1abf2abcffb7"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "5ee5ef96-c211-5302-899f-5cdcaf1203d0",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "5d07fb5a-b27e-528c-a797-35dbf3605c85",
+          "f89569a0-aa78-58e8-9547-b3f218c52510"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "5ee5ef96-c211-5302-899f-5cdcaf1203d0",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "739ef1d7-8721-5b9c-8a17-77718b7cdaa6",
+          "d1d22a1e-85ec-536a-a23d-ffb5d643f46e"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "5ee5ef96-c211-5302-899f-5cdcaf1203d0",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "8e38eb10-4d24-545d-9067-2478c042579e",
+          "c4703c13-ca7c-559e-9b72-b7bfc48621c3"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "5ee5ef96-c211-5302-899f-5cdcaf1203d0",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "914dc993-ee96-5519-be4d-986c42ac5a63",
+          "6fff7a23-5e92-5d5a-92d6-a04d0d58ef29"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "5ee5ef96-c211-5302-899f-5cdcaf1203d0",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "a8cbdeca-1633-5106-9b12-03c28d952920",
+          "b1f705db-2af3-5064-a9fd-d5e447472e1d"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "5ee5ef96-c211-5302-899f-5cdcaf1203d0",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "b748af6a-6712-57c1-95d4-e93df7c4493c",
+          "bf20bbdc-b5fa-5ce3-8a43-7abea757678c"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "5ee5ef96-c211-5302-899f-5cdcaf1203d0",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "c1655f97-d66f-5d10-af8d-c0379a9bfdf0",
+          "a41931b9-457b-5957-8700-a1bcc7e04e63"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "5ee5ef96-c211-5302-899f-5cdcaf1203d0",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "e65571d8-e8a8-5b94-bc20-3cb58688042d",
+          "ab95e7b8-639f-526e-b0a5-3981be283534"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "5ee5ef96-c211-5302-899f-5cdcaf1203d0",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "eff4c1f2-f69d-5fbf-aa13-88dd63e170da",
+          "2960b708-efab-5da1-ac01-1e37f0ce1550"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "5ee5ef96-c211-5302-899f-5cdcaf1203d0",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d27f5c9d-4b48-51b8-b00d-d6d944d20580",
+          "dbe5b2fb-0fb9-5be8-950b-48babe0730a4"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "60a33335-e0d5-57b4-b9dd-b8b9c4e5a4b2",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "f12bb154-e5c5-578a-ba7e-aa7e122adc00",
+          "b22d1565-a8f3-5c43-a1b1-952b64a295db"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "60a33335-e0d5-57b4-b9dd-b8b9c4e5a4b2",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "1d540e7c-8c87-57ff-a8d8-09979443e9dd",
+          "2276ad32-fce7-5770-8eac-1f98b505a3a3"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "6b6b53f6-2e7c-5502-b448-caf8c37a32a8",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "375fcbe2-2ce2-5cf6-87e7-c0abb1f0ef63",
+          "29dd2ef8-9d7c-52f8-911f-b5b3d27975a1"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "6b6b53f6-2e7c-5502-b448-caf8c37a32a8",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "92f91448-8f65-5878-acfe-26640c0afd7f",
+          "db146bc6-39bc-56ec-b196-cc0a17a37a1c"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "6b6b53f6-2e7c-5502-b448-caf8c37a32a8",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "9663e6c9-05fa-586a-abca-f72d1ea73177",
+          "b15d4d45-7ea1-50af-b4e4-8a38102dbdc1"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "6b6b53f6-2e7c-5502-b448-caf8c37a32a8",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "c7c455c5-e865-5b19-aaad-7eca14e01269",
+          "4cbba745-aaa0-5355-b18b-08728b478b10"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "6b6b53f6-2e7c-5502-b448-caf8c37a32a8",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "632497db-d5ac-5621-abfe-2083b09eaf8c",
+          "29b9f7cd-0a3f-5bda-a5b5-6286b3467e7a"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "700545e5-ba6e-5811-95b1-2d4fd386f061",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "086a906d-dd7f-53b5-af67-b54ddeef9d65",
+          "221f4d9b-99e0-500b-a823-0a0c79c421de"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "1c696e86-7ce6-5891-b417-9a28d8ecbb98",
+          "7963e8a0-7cf6-59a3-bb1f-a00659ecaf18"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "535c6c9c-8dbc-546c-a6ea-08ca38c08f4d",
+          "41c81f7c-823e-57c4-ab76-ba7e3d9499e9"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "6d66fec9-dbf0-5840-b6bd-b5f896a3d822",
+          "b149c8fa-3b21-59ef-ba5b-0ca26a280b09"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "9307f671-f5ea-5bfd-836c-db0718693303",
+          "de886a79-f565-5503-8c04-847ada37d805"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "a2e6a0d8-f46a-58fe-ac06-c780368549b3",
+          "822f02dd-fddf-5281-8f94-af7dabbe7fda"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "a33b5e84-2d8e-52b3-812f-836282dddd9c",
+          "69b3da62-0ad7-5cd8-b85e-166ab02c4c9e"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d17f1bc4-7822-5919-92f4-e532db333a49",
+          "84eee9eb-f652-588b-8aac-cca878afcff0"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d3980486-84e1-58fd-a930-578dc3d26d11",
+          "6f094577-c2ec-5543-ab39-a00da33ad6c4"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d90c7c95-c01d-5fb5-9570-49e701627e2e",
+          "ef452c50-4394-583b-9261-daaf412df92c"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "e269ccc8-8075-51f7-8554-869a3f6e50f5",
+          "f4f07355-6345-5fee-bce0-c5bbfe9c0d3a"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "e4b5de18-9d50-5283-946e-7c956ef0be64",
+          "b2904bd7-d691-5f2e-aefd-e0f334401ce6"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "edb17d3c-0f0a-54f5-97dc-79045a4855b7",
+          "672457c9-7d19-5610-b72b-19582cb64581"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "81211add-8d11-5aee-889c-502f031d3495",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "eb37751b-c971-5a58-8cca-b7c88dda8c1c",
+          "b8461a35-5cc9-52bf-8af1-e41dc969af3d"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "9889f785-1cb9-5400-9c29-1c1dc078b156",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "ad9629d5-9fe4-57d5-84cf-2added6a35f1",
+          "cb101a1e-3e38-57d2-a1bc-2d6b93f72fff"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "a3f13107-5ee1-5222-a909-e8e07304950f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "f591546f-114b-59d7-862a-782e8363f7c0",
+          "4e364714-0f32-5bc5-8525-23557d687f93"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "a7fc460f-9e77-578e-bdd0-3bd9d6932911",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "dd33c65b-4d9b-538b-8a72-de0ff9d60d25",
+          "92075acf-733e-58ed-83e3-15f59b0eb448"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "afdcb15a-cb37-53b4-b98b-65ea99f7fdcb",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "acff5c3e-ae3f-5bfd-9e5b-a2ea67dd9977",
+          "235749e5-50c3-5388-bc4c-0b36cd09e570"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "b5b7bdca-50b5-5618-acb4-ff750c5a7d95",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "bd769fe2-e06f-54b2-b7de-c5b7c3702ada",
+          "153eec73-7c0c-5ed8-879a-65a5275a1bb2"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "13b42be7-b07a-51ad-9425-82195bfcd214",
+          "ee96d899-b652-5d5c-a317-8ff1303feee1"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "c978c000-2cba-5ff1-bbbb-5581dea3ee2a",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "169d785e-9a2a-5efe-b508-389727df931d",
+          "e1938c10-0aea-537b-bcad-25d3aeddc7a4"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "c978c000-2cba-5ff1-bbbb-5581dea3ee2a",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "9c765461-0b1a-571d-9f64-307f132a9aaa",
+          "783900ac-a85a-5729-8fc7-0b0999006ada"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "c978c000-2cba-5ff1-bbbb-5581dea3ee2a",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "a4606aa2-17a7-55c3-ad92-06a0fdf431ca",
+          "b3e8bb33-3f84-56a8-86ff-f9901c0ff4be"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "c978c000-2cba-5ff1-bbbb-5581dea3ee2a",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "c548e4cc-312e-5ad4-bf24-98b6ff2bc4fa",
+          "240373a0-db02-5120-a1ab-27e09140abef"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "c978c000-2cba-5ff1-bbbb-5581dea3ee2a",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d432bdce-5495-54c1-b3ef-2499032d46c8",
+          "297cb099-38e6-57ce-acc7-8dd4c8813166"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "c978c000-2cba-5ff1-bbbb-5581dea3ee2a",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "5b9ca85d-b095-5935-98b0-c6c24d9ee425",
+          "121c15a9-8cd9-5ffd-a21f-32625ada9bdd"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "5bc319fa-355d-5fcb-a082-8c1700dd315f",
+          "85899860-1de4-5109-b997-c8a905df3ba2"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "6c6faa51-7542-5348-ac04-02c928f9e691",
+          "8c67b71c-d40c-5559-8cc5-040f3b2a6503"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "9e1f66ff-1e98-5029-9239-a88db0ed6700",
+          "8e8f7386-f1c6-5409-947d-bbf0a9592ca9"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "a508ce22-b6cd-5c4f-a548-bb1006dc4c47",
+          "0746931d-3623-5df4-bd56-18614318d842"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "ae257d39-9e57-5d50-baff-38d6836b5c82",
+          "d7e7fe5c-9d82-501c-a3c7-817544f6baf6"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "bda53d6e-a123-5c23-99ad-ca74650a075a",
+          "63e65555-3a12-5f89-80c5-a357f2a7a084"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "cab9fed4-8201-5c72-8283-80e23acfab08",
+          "d704b71d-d23b-5a64-9732-0cc8def23c09"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "cbd90ffa-ca35-516c-abac-609e35805342",
+          "2b515c84-55b5-5693-bf91-02a6f4c8ccf4"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "cbe0cb72-fb5d-5d66-9a66-8284964797cd",
+          "9c0bc70b-a022-519a-a16e-13e6080509b2"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d0a26254-d9ff-55a4-8256-ae20b9b021f1",
+          "5e6e4289-7cc7-51af-b5d7-453ee3c7e734"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d23c513d-f557-5c1e-a471-02452b4a6c3d",
+          "a5e97b8f-f148-5492-a467-9a041379652c"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d4dd4866-71a8-5e5f-a391-b991725a1c3d",
+          "08a79b20-ab67-513a-b691-8e1d91cd0117"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "d9d51d60-3b3f-5c5f-9e1a-59d3ac668694",
+          "52e612e9-0d5c-5a99-bb31-e30a37636906"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "dacb8746-8b52-5e7c-8915-a3435b1a1cdf",
+          "415db82b-bdcd-5e95-9a87-e8cd78a37158"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "e2ef0173-3c7e-5f42-b42b-4fc62a90bb43",
+          "d7120467-3df3-59bd-8766-9ca4f7abb5d7"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "eb16ad8a-0bb5-525f-9a34-4bc456c223e9",
+          "928f6d30-05fd-52ec-9e9f-8ca60036d2d8"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "eb1c30b8-7cac-51dc-99a8-4536a81eeaac",
+          "c19bac96-78b2-5055-86dc-c8c95ca86d94"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "ebc03f6e-5a5d-531f-b239-cb5f8c46efae",
+          "f79f3d25-6aa0-5ad1-aee9-5d3d8672f1cd"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "ec08a061-1595-56b5-be21-c2f38cd62d03",
+          "a43dd846-86d7-5768-9421-ebd642642e66"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "edbf831d-65d4-51df-9355-27402a301504",
+          "6d47ba63-b037-5f9a-936e-e0c2efed034f"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "f0282ba7-55c2-53b7-adc1-cfe5252fae58",
+          "99ded0b8-03ad-5343-aa59-a25cdeb308e0"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "f21287fb-72d0-5ea0-b8c0-890c8e76b084",
+          "b9c0802c-0e93-567a-9529-5fcc41bbd2b8"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "f95ee928-40d1-529d-aa22-b06fda229eec",
+          "291de0e5-2eaa-54e9-bbbc-fc02c16ee6bb"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "fa4d2cf9-72bd-5559-b9eb-6d3f190d2331",
+          "061a0799-7bec-500d-91d6-0f73d32e0f60"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "fb697b5a-f14a-5bc4-91fe-3cf8b030f37d",
+          "6fc3c84b-446b-54d0-a7a8-9ac8c1f0b0d6"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "fea457c9-8abb-55b6-b467-4314a43b241b",
+          "8df77317-72a0-51e7-89b0-821496692a05"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "ff0dfb80-3557-546b-a582-0814fa7aa09b",
+          "96979ada-854b-537f-9a0c-69008faa0a07"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ede6a34a-301b-5914-bce1-1076605b180f",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "6a2c7e02-ba82-547d-92f0-8c1ef001cdf2",
+          "899ccb48-6bb3-5b06-9d64-8af24dee960e"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "ee876372-1443-5ec8-b138-47dc624090b8",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "c4e9fa35-0c4f-58b0-aca0-a6d47075de5a",
+          "f5fc48ae-5828-5c8f-a2f7-a0ced15444cb"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "f08ab580-0ba8-5cff-8f3f-a418be7748f3",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "83a09dee-7914-54bf-a83e-1f0a78cf927d",
+          "b4bee3bb-6ccc-5d2a-aa8a-79872e02214f"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "faec4eb3-9cef-5e5a-90b7-a4160ec27b17",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "a6562f2a-0059-55c9-b880-eb7a57d5b66c",
+          "af917cfa-12eb-5739-bc30-6561c5f6849f"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "faec4eb3-9cef-5e5a-90b7-a4160ec27b17",
+        "severity": "review"
+      },
+      {
+        "code": "EXTREME_RATIO",
+        "context": {},
+        "fundamental_ids": [
+          "bf9af3bc-3224-521f-894f-7c305a5cf116",
+          "56cc40dc-ca07-573a-92db-f422c9f769f3"
+        ],
+        "message": "absolute net margin exceeds 500%",
+        "security_id": "faec4eb3-9cef-5e5a-90b7-a4160ec27b17",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "c47142c7-546d-5dd9-8d91-cd78f3a375e2"
+        ],
+        "message": "total assets is zero",
+        "security_id": "07f69b3e-7775-53af-ad61-da64786dc8a6",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "f580956b-62c7-5748-a0d8-1d5b101865de"
+        ],
+        "message": "total assets is zero",
+        "security_id": "07f69b3e-7775-53af-ad61-da64786dc8a6",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "a97fc8d9-4899-5346-b134-83323b05371c"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "14f31618-3348-5484-8363-608d6c49ce1e",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "b439c044-6d47-53b1-87d5-3427eaf2659c"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "14f31618-3348-5484-8363-608d6c49ce1e",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "d87519fa-720f-5c19-bb2f-0c1b31552607"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "14f31618-3348-5484-8363-608d6c49ce1e",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "d91e7396-aab5-5bfd-9d96-bda5805be696"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "14f31618-3348-5484-8363-608d6c49ce1e",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "0564d01e-19d3-502e-98da-95e611c45e5d"
+        ],
+        "message": "total assets is zero",
+        "security_id": "24fc1dd6-6dde-5f2f-98c7-b308c981cb75",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "ebdd6e4c-fc6f-5ab6-af49-21d2f5954a89"
+        ],
+        "message": "total assets is zero",
+        "security_id": "24fc1dd6-6dde-5f2f-98c7-b308c981cb75",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "379bbd35-33fe-54f2-b2c8-51909a2e0663"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "5b59eac7-f906-5fa2-80e0-69684ecca1b0",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "38f04f9f-237b-5cab-87af-12556f2ba225"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "5b59eac7-f906-5fa2-80e0-69684ecca1b0",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "7a50d648-509f-55eb-a0bd-8427675c8597"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "5b59eac7-f906-5fa2-80e0-69684ecca1b0",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "7fd23b5c-3f28-590e-8c9e-431a4912b325"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "5b59eac7-f906-5fa2-80e0-69684ecca1b0",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "83f3fc9c-113b-5190-b6ea-5fc21f5cb2ab"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "5b59eac7-f906-5fa2-80e0-69684ecca1b0",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "9ab2a778-02a9-5fb8-b7f8-0d90717f28d9"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "5b59eac7-f906-5fa2-80e0-69684ecca1b0",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "bf489464-b7d3-5d69-aab3-e2aecbdb12ec"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "5b59eac7-f906-5fa2-80e0-69684ecca1b0",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "d0de2e0c-64d3-54ee-9a24-745f53aa44af"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "5b59eac7-f906-5fa2-80e0-69684ecca1b0",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "e9ff8dc1-a0f8-59d0-94b7-920661089aa5"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "5b59eac7-f906-5fa2-80e0-69684ecca1b0",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "ff79352d-e9e7-5f95-8ada-9011d63c6986"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "5b59eac7-f906-5fa2-80e0-69684ecca1b0",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "10005692-1c88-5e4a-804e-1fe522c2bb38"
+        ],
+        "message": "total assets is zero",
+        "security_id": "5ed0e911-2e4e-5251-97e5-57544b3542fe",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "914a6928-0915-5fff-861c-581f1c262417"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "b9b98589-3692-54b3-bcd0-2c08e4a1adec",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "9a44d663-8583-5f2c-b7ec-cf47fd4f1f80"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "e6f87e80-d24e-51a2-87cc-239a9fd3e7f5",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "d03916db-ce7f-5ae5-be71-dc117de10f69"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "e6f87e80-d24e-51a2-87cc-239a9fd3e7f5",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "05e3aea5-871f-56b0-bb77-a6435bfdcbf6"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "e991d4f1-1d35-5c21-b970-fbf5ff0c3ada",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "15184865-6d67-5182-9cd1-1bc330fa7d94"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "e991d4f1-1d35-5c21-b970-fbf5ff0c3ada",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "1de57e33-6ac2-5c70-bcd0-0b068df53633"
+        ],
+        "message": "total assets is zero",
+        "security_id": "e991d4f1-1d35-5c21-b970-fbf5ff0c3ada",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "5778440a-b28d-5ee0-a074-2dc810381872"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "e991d4f1-1d35-5c21-b970-fbf5ff0c3ada",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "5e0ebad3-33d1-5ebf-b9d3-ba3170d76459"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "e991d4f1-1d35-5c21-b970-fbf5ff0c3ada",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "cc3b1d21-6f65-57f7-913d-185a72e0275a"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "e991d4f1-1d35-5c21-b970-fbf5ff0c3ada",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "cd08f0c4-8785-5c69-8c7d-6ce1cf633f55"
+        ],
+        "message": "total assets is zero",
+        "security_id": "e991d4f1-1d35-5c21-b970-fbf5ff0c3ada",
+        "severity": "review"
+      },
+      {
+        "code": "INVALID_DENOMINATOR",
+        "context": {},
+        "fundamental_ids": [
+          "ff87a056-ce90-5838-b509-7647ae647a8a"
+        ],
+        "message": "revenue is zero for a ratio-bearing period",
+        "security_id": "e991d4f1-1d35-5c21-b970-fbf5ff0c3ada",
+        "severity": "review"
+      },
+      {
+        "code": "UNIT_CONFLICT",
+        "context": {
+          "identity": [
+            "02585f28-663a-58d7-9080-70286dd28419",
+            "2022-03-31",
+            "QUARTERLY",
+            "diluted_eps"
+          ],
+          "units": [
+            "AUD/shares",
+            "USD/shares"
+          ]
+        },
+        "fundamental_ids": [],
+        "message": "one standardized concept has multiple units",
+        "security_id": "02585f28-663a-58d7-9080-70286dd28419",
+        "severity": "review"
+      },
+      {
+        "code": "UNIT_CONFLICT",
+        "context": {
+          "identity": [
+            "98458337-4ef1-58a7-891a-47446786659f",
+            "2012-06-30",
+            "QUARTERLY",
+            "diluted_eps"
+          ],
+          "units": [
+            "BillionsCubicFeet",
+            "USD/shares"
+          ]
+        },
+        "fundamental_ids": [],
+        "message": "one standardized concept has multiple units",
+        "security_id": "98458337-4ef1-58a7-891a-47446786659f",
+        "severity": "review"
+      },
+      {
+        "code": "UNIT_CONFLICT",
+        "context": {
+          "identity": [
+            "cd9f65e6-13db-5e7c-ab4e-536c36106d0a",
+            "2012-12-31",
+            "ANNUAL",
+            "revenue"
+          ],
+          "units": [
+            "AFN",
+            "USD"
+          ]
+        },
+        "fundamental_ids": [],
+        "message": "one standardized concept has multiple units",
+        "security_id": "cd9f65e6-13db-5e7c-ab4e-536c36106d0a",
+        "severity": "review"
+      }
+    ],
+    "hard_failure_count": 0,
+    "reconciliation": {
+      "evidence_mode": "sec_primary_source_integrity",
+      "gate_enforced": false,
+      "issuer_period_count": 0,
+      "minimum_issuer_periods": 30,
+      "required_sectors": [
+        "Communication Services",
+        "Consumer Discretionary",
+        "Consumer Staples",
+        "Energy",
+        "Financials",
+        "Health Care",
+        "Industrials",
+        "Information Technology",
+        "Materials",
+        "Real Estate",
+        "Utilities"
+      ],
+      "sample_count": 0,
+      "sectors": []
+    },
+    "review_finding_count": 156,
+    "source_snapshot_ids": [
+      "8f6da2af-2b48-5968-9ce5-483614671d9c"
+    ],
+    "status": "review"
+  },
+  "audit_id": "pit-fundamentals-v1",
+  "claims_eligible": false,
+  "code_revision": "54d07aa",
+  "dataset_kind": "proof_candidate_point_in_time",
+  "decision": "review",
+  "generated_at": "2026-07-10T09:56:46Z",
+  "source_snapshot_hashes": {
+    "8f6da2af-2b48-5968-9ce5-483614671d9c": "c17787cd7b294b7f9ffcaabf9e17a0e7783328d99e9626bbd767da4be5f637b2"
+  }
+}

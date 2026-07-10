@@ -1,4 +1,11 @@
-"""Run and compare two clean Sprint 8 rebuilds from one frozen bundle."""
+"""Run and compare two clean Sprint 8 rebuilds from one frozen bundle.
+
+The full closure takes roughly 48 minutes of continuous CPU. On machines that
+system-sleep when idle, launch it wake-locked and detached, e.g.::
+
+    nohup caffeinate -dims env PYTHONPATH=... python \
+        pipelines/close_multifactor_sprint.py ... > closure.log 2>&1 &
+"""
 
 from __future__ import annotations
 

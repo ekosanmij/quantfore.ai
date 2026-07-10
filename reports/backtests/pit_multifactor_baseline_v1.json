@@ -1,0 +1,3652 @@
+{
+  "claims_eligible": false,
+  "code_revision": "54d07aa",
+  "evaluation": {
+    "evaluation_version": "pit-multifactor-evaluation-v1",
+    "family_score_correlations": {
+      "growth": {
+        "growth": 1.0,
+        "momentum": 0.4319165797194114,
+        "quality": null,
+        "risk": -0.2633186176847116,
+        "value": 0.12904720033246164
+      },
+      "momentum": {
+        "growth": 0.4319165797194114,
+        "momentum": 1.0,
+        "quality": null,
+        "risk": 0.18736660998727547,
+        "value": -0.0008921387610105446
+      },
+      "quality": {
+        "growth": null,
+        "momentum": null,
+        "quality": null,
+        "risk": null,
+        "value": null
+      },
+      "risk": {
+        "growth": -0.2633186176847116,
+        "momentum": 0.18736660998727547,
+        "quality": null,
+        "risk": 1.0,
+        "value": -0.05877218270756027
+      },
+      "value": {
+        "growth": 0.12904720033246164,
+        "momentum": -0.0008921387610105446,
+        "quality": null,
+        "risk": -0.05877218270756027,
+        "value": 1.0
+      }
+    },
+    "horizons": {
+      "126d": {
+        "coverage": 1.0,
+        "delisted_security_contribution": {
+          "contribution_to_all_observation_mean": 0.0,
+          "mean_excess_return": null,
+          "observation_count": 0,
+          "overall_mean_minus_excluding_delisted_mean": 0.0,
+          "security_count": 0,
+          "sum_excess_return": 0.0
+        },
+        "drawdown_and_downside_capture": {
+          "all_observations": {
+            "mean_max_drawdown": -0.23656076533333334,
+            "median_max_drawdown": -0.17898909000000002,
+            "worst_max_drawdown": -0.57004401
+          },
+          "top_quintile": {
+            "down_market_periods": 11,
+            "downside_capture_percentage": 134.6230897323633,
+            "mean_benchmark_return_in_down_markets": -0.09102115818181819,
+            "mean_max_drawdown": -0.19903113023255817,
+            "mean_security_return_in_down_markets": -0.12253549545454545,
+            "median_max_drawdown": -0.15875503,
+            "worst_max_drawdown": -0.57004401
+          }
+        },
+        "eligible_observations": 60,
+        "evaluated_observations": 60,
+        "mean_rank_ic": 0.6888888888888889,
+        "median_rank_ic": 0.5,
+        "non_overlap_stride_months": 6,
+        "non_overlapping_rank_ic": {
+          "method": "monthly Rank IC sampled at the outcome-horizon stride",
+          "periods": 2,
+          "stride_months": 6,
+          "t_statistic": null
+        },
+        "non_overlapping_rank_ic_periods": 2,
+        "non_overlapping_rank_ic_t_statistic": null,
+        "quintile_observation_counts": {
+          "1": 0,
+          "2": 6,
+          "3": 5,
+          "4": 6,
+          "5": 43
+        },
+        "quintile_returns": {
+          "1": null,
+          "2": -0.40375192500000007,
+          "3": -0.10359429,
+          "4": 0.06299747333333333,
+          "5": -0.06370512720930233
+        },
+        "quintile_returns_monotonic": null,
+        "sector_stability": {
+          "Financials": {
+            "evaluated": 60,
+            "mean_excess_return": -0.08836364383333334,
+            "mean_rank_ic": 0.6888888888888889,
+            "median_rank_ic": 0.5,
+            "observations": 60,
+            "top_minus_bottom_spread": null
+          }
+        },
+        "top_minus_bottom_spread": null,
+        "transaction_costs": {
+          "10_bps": {
+            "average_net_excess_return": -0.06384466209302327,
+            "benchmark_hit_rate": 0.3953488372093023,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          },
+          "25_bps": {
+            "average_net_excess_return": -0.06405396441860466,
+            "benchmark_hit_rate": 0.3953488372093023,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          },
+          "50_bps": {
+            "average_net_excess_return": -0.06440280162790697,
+            "benchmark_hit_rate": 0.3953488372093023,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          }
+        },
+        "turnover": {
+          "mean": 0.13953488372093023,
+          "median": 0.0,
+          "method": "one_minus_overlap_divided_by_max_portfolio_size",
+          "periods": [
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-10-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-02-28",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-03-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-05-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-06-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-07-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-08-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2019-10-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-11-29",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2020-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2020-02-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-03-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-05-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-06-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-07-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-08-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-10-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2021-01-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2021-02-26",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-03-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-05-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-06-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-07-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-08-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-10-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-02-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-03-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-04-29",
+              "turnover": 0.0
+            }
+          ]
+        },
+        "turnover_and_one_way_costs": {
+          "cost_sensitivity": {
+            "10_bps": {
+              "mean_net_top_excess": -0.06398419697674419,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 10,
+              "positive_net_spread_period_percentage": null
+            },
+            "25_bps": {
+              "mean_net_top_excess": -0.06440280162790697,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 25,
+              "positive_net_spread_period_percentage": null
+            },
+            "50_bps": {
+              "mean_net_top_excess": -0.06510047604651163,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 50,
+              "positive_net_spread_period_percentage": null
+            }
+          },
+          "method": "one-way entry and exit costs applied to top and bottom turnover",
+          "periods": [
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.09301368,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-10-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.24119143,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.12656727,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.14330302,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.13279054,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-02-28",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.08736448,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-03-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.08772203,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.16614108,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-05-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.02214081,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-06-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.00275644,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-07-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.1261936,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-08-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.28542524,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.17939439,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-10-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.31773019,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-11-29",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.34675905,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.31627729,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.35818125,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-02-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.18846293,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-03-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.17872772,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.30665033,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-05-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.36914502,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-06-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.24028551,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-07-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.25774919,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-08-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.19847482,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.19251952,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-10-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.02414454,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.08631821,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.04508079,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-01-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.18536231,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-02-26",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.11106439,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-03-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.01576858,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.02888281,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-05-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.06034506,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-06-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.09560131,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-07-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.0264444,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-08-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.00606131,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.06843017,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-10-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.06747985,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.00563898,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.02734658,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.03929113,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-02-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.04398945,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-03-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.01853837,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-04-29",
+              "top_turnover": 0.0
+            }
+          ]
+        },
+        "year_stability": {
+          "2018": {
+            "evaluated": 3,
+            "mean_excess_return": 0.15359079333333334,
+            "mean_rank_ic": null,
+            "median_rank_ic": null,
+            "observations": 3,
+            "top_minus_bottom_spread": null
+          },
+          "2019": {
+            "evaluated": 17,
+            "mean_excess_return": -0.10612875470588236,
+            "mean_rank_ic": 0.6666666666666666,
+            "median_rank_ic": 0.5,
+            "observations": 17,
+            "top_minus_bottom_spread": null
+          },
+          "2020": {
+            "evaluated": 22,
+            "mean_excess_return": -0.21313775954545455,
+            "mean_rank_ic": 0.55,
+            "median_rank_ic": 0.5,
+            "observations": 22,
+            "top_minus_bottom_spread": null
+          },
+          "2021": {
+            "evaluated": 14,
+            "mean_excess_return": 0.05580084285714286,
+            "mean_rank_ic": 1.0,
+            "median_rank_ic": 1.0,
+            "observations": 14,
+            "top_minus_bottom_spread": null
+          },
+          "2022": {
+            "evaluated": 4,
+            "mean_excess_return": -0.0126458175,
+            "mean_rank_ic": null,
+            "median_rank_ic": null,
+            "observations": 4,
+            "top_minus_bottom_spread": null
+          }
+        }
+      },
+      "21d": {
+        "coverage": 1.0,
+        "delisted_security_contribution": {
+          "contribution_to_all_observation_mean": 0.0,
+          "mean_excess_return": null,
+          "observation_count": 0,
+          "overall_mean_minus_excluding_delisted_mean": 0.0,
+          "security_count": 0,
+          "sum_excess_return": 0.0
+        },
+        "drawdown_and_downside_capture": {
+          "all_observations": {
+            "mean_max_drawdown": -0.09258012566666667,
+            "median_max_drawdown": -0.063784385,
+            "worst_max_drawdown": -0.51298701
+          },
+          "top_quintile": {
+            "down_market_periods": 15,
+            "downside_capture_percentage": 111.34784959644477,
+            "mean_benchmark_return_in_down_markets": -0.043963748000000004,
+            "mean_max_drawdown": -0.0720384653488372,
+            "mean_security_return_in_down_markets": -0.048952688,
+            "median_max_drawdown": -0.05742399,
+            "worst_max_drawdown": -0.51298701
+          }
+        },
+        "eligible_observations": 60,
+        "evaluated_observations": 60,
+        "mean_rank_ic": 0.1111111111111111,
+        "median_rank_ic": 0.2,
+        "non_overlap_stride_months": 6,
+        "non_overlapping_rank_ic": {
+          "method": "monthly Rank IC sampled at the outcome-horizon stride",
+          "periods": 9,
+          "stride_months": 1,
+          "t_statistic": 0.473248524280301
+        },
+        "non_overlapping_rank_ic_periods": 2,
+        "non_overlapping_rank_ic_t_statistic": null,
+        "quintile_observation_counts": {
+          "1": 0,
+          "2": 6,
+          "3": 5,
+          "4": 6,
+          "5": 43
+        },
+        "quintile_returns": {
+          "1": null,
+          "2": -0.05071302,
+          "3": -0.025430478,
+          "4": 0.037894323333333334,
+          "5": -0.01310946
+        },
+        "quintile_returns_monotonic": null,
+        "sector_stability": {
+          "Financials": {
+            "evaluated": 60,
+            "mean_excess_return": -0.012796189166666666,
+            "mean_rank_ic": 0.1111111111111111,
+            "median_rank_ic": 0.2,
+            "observations": 60,
+            "top_minus_bottom_spread": null
+          }
+        },
+        "top_minus_bottom_spread": null,
+        "transaction_costs": {
+          "10_bps": {
+            "average_net_excess_return": -0.01324899488372093,
+            "benchmark_hit_rate": 0.4418604651162791,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          },
+          "25_bps": {
+            "average_net_excess_return": -0.013458297209302325,
+            "benchmark_hit_rate": 0.4418604651162791,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          },
+          "50_bps": {
+            "average_net_excess_return": -0.013807134418604651,
+            "benchmark_hit_rate": 0.4418604651162791,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          }
+        },
+        "turnover": {
+          "mean": 0.13953488372093023,
+          "median": 0.0,
+          "method": "one_minus_overlap_divided_by_max_portfolio_size",
+          "periods": [
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-10-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-02-28",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-03-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-05-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-06-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-07-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-08-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2019-10-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-11-29",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2020-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2020-02-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-03-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-05-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-06-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-07-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-08-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-10-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2021-01-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2021-02-26",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-03-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-05-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-06-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-07-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-08-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-10-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-02-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-03-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-04-29",
+              "turnover": 0.0
+            }
+          ]
+        },
+        "turnover_and_one_way_costs": {
+          "cost_sensitivity": {
+            "10_bps": {
+              "mean_net_top_excess": -0.01338852976744186,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 10,
+              "positive_net_spread_period_percentage": null
+            },
+            "25_bps": {
+              "mean_net_top_excess": -0.013807134418604651,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 25,
+              "positive_net_spread_period_percentage": null
+            },
+            "50_bps": {
+              "mean_net_top_excess": -0.014504808837209303,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 50,
+              "positive_net_spread_period_percentage": null
+            }
+          },
+          "method": "one-way entry and exit costs applied to top and bottom turnover",
+          "periods": [
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.05922424,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-10-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.09964287,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.00344831,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.01354879,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.01193944,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-02-28",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.00185279,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-03-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.02370795,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.1067911,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-05-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.00442946,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-06-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.02991332,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-07-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.02978123,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-08-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.02576726,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.03113684,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-10-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.05569242,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-11-29",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.01098097,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.06318627,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.17561869,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-02-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.01239431,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-03-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.03606071,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.03131735,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-05-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.06659863,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-06-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.10573998,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-07-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.02119204,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-08-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.02046732,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.13046986,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-10-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.06879144,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.02246485,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.15243719,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-01-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.0928264,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-02-26",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.065429,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-03-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.04997558,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.04914146,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-05-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.02049138,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-06-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.03079777,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-07-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.04866432,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-08-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.02996844,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.01627893,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-10-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.04862436,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.01373837,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.01843952,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.05689504,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-02-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.03557627,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-03-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.01522461,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-04-29",
+              "top_turnover": 0.0
+            }
+          ]
+        },
+        "year_stability": {
+          "2018": {
+            "evaluated": 3,
+            "mean_excess_return": 0.014622313333333333,
+            "mean_rank_ic": null,
+            "median_rank_ic": null,
+            "observations": 3,
+            "top_minus_bottom_spread": null
+          },
+          "2019": {
+            "evaluated": 17,
+            "mean_excess_return": -0.004670849411764706,
+            "mean_rank_ic": -0.6666666666666666,
+            "median_rank_ic": -0.5,
+            "observations": 17,
+            "top_minus_bottom_spread": null
+          },
+          "2020": {
+            "evaluated": 22,
+            "mean_excess_return": -0.04158015318181818,
+            "mean_rank_ic": 0.25,
+            "median_rank_ic": 0.35,
+            "observations": 22,
+            "top_minus_bottom_spread": null
+          },
+          "2021": {
+            "evaluated": 14,
+            "mean_excess_return": 0.006662365714285715,
+            "mean_rank_ic": 1.0,
+            "median_rank_ic": 1.0,
+            "observations": 14,
+            "top_minus_bottom_spread": null
+          },
+          "2022": {
+            "evaluated": 4,
+            "mean_excess_return": 0.0223141,
+            "mean_rank_ic": null,
+            "median_rank_ic": null,
+            "observations": 4,
+            "top_minus_bottom_spread": null
+          }
+        }
+      },
+      "252d": {
+        "coverage": 1.0,
+        "delisted_security_contribution": {
+          "contribution_to_all_observation_mean": 0.0,
+          "mean_excess_return": null,
+          "observation_count": 0,
+          "overall_mean_minus_excluding_delisted_mean": 0.0,
+          "security_count": 0,
+          "sum_excess_return": 0.0
+        },
+        "drawdown_and_downside_capture": {
+          "all_observations": {
+            "mean_max_drawdown": -0.31819030416666666,
+            "median_max_drawdown": -0.26084071,
+            "worst_max_drawdown": -0.57004401
+          },
+          "top_quintile": {
+            "down_market_periods": 12,
+            "downside_capture_percentage": 90.64016541731948,
+            "mean_benchmark_return_in_down_markets": -0.09296043916666667,
+            "mean_max_drawdown": -0.3071727453488372,
+            "mean_security_return_in_down_markets": -0.08425949583333332,
+            "median_max_drawdown": -0.26016814,
+            "worst_max_drawdown": -0.57004401
+          }
+        },
+        "eligible_observations": 60,
+        "evaluated_observations": 60,
+        "mean_rank_ic": 0.24444444444444446,
+        "median_rank_ic": 0.5,
+        "non_overlap_stride_months": 6,
+        "non_overlapping_rank_ic": {
+          "method": "monthly Rank IC sampled at the outcome-horizon stride",
+          "periods": 1,
+          "stride_months": 12,
+          "t_statistic": null
+        },
+        "non_overlapping_rank_ic_periods": 2,
+        "non_overlapping_rank_ic_t_statistic": null,
+        "quintile_observation_counts": {
+          "1": 0,
+          "2": 6,
+          "3": 5,
+          "4": 6,
+          "5": 43
+        },
+        "quintile_returns": {
+          "1": null,
+          "2": -0.44141018000000004,
+          "3": -0.150373022,
+          "4": -0.018568829999999995,
+          "5": -0.14816608813953488
+        },
+        "quintile_returns_monotonic": null,
+        "sector_stability": {
+          "Financials": {
+            "evaluated": 60,
+            "mean_excess_return": -0.16471468266666667,
+            "mean_rank_ic": 0.24444444444444446,
+            "median_rank_ic": 0.5,
+            "observations": 60,
+            "top_minus_bottom_spread": null
+          }
+        },
+        "top_minus_bottom_spread": null,
+        "transaction_costs": {
+          "10_bps": {
+            "average_net_excess_return": -0.1483056230232558,
+            "benchmark_hit_rate": 0.3953488372093023,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          },
+          "25_bps": {
+            "average_net_excess_return": -0.1485149253488372,
+            "benchmark_hit_rate": 0.3953488372093023,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          },
+          "50_bps": {
+            "average_net_excess_return": -0.14886376255813952,
+            "benchmark_hit_rate": 0.37209302325581395,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          }
+        },
+        "turnover": {
+          "mean": 0.13953488372093023,
+          "median": 0.0,
+          "method": "one_minus_overlap_divided_by_max_portfolio_size",
+          "periods": [
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-10-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-02-28",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-03-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-05-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-06-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-07-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-08-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2019-10-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-11-29",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2020-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2020-02-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-03-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-05-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-06-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-07-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-08-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-10-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2021-01-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2021-02-26",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-03-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-05-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-06-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-07-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-08-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-10-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-02-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-03-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-04-29",
+              "turnover": 0.0
+            }
+          ]
+        },
+        "turnover_and_one_way_costs": {
+          "cost_sensitivity": {
+            "10_bps": {
+              "mean_net_top_excess": -0.14844515790697674,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 10,
+              "positive_net_spread_period_percentage": null
+            },
+            "25_bps": {
+              "mean_net_top_excess": -0.14886376255813955,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 25,
+              "positive_net_spread_period_percentage": null
+            },
+            "50_bps": {
+              "mean_net_top_excess": -0.14956143697674418,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 50,
+              "positive_net_spread_period_percentage": null
+            }
+          },
+          "method": "one-way entry and exit costs applied to top and bottom turnover",
+          "periods": [
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.13987931,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-10-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.28243616,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.11142319,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.08421418,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.23180844,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-02-28",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.34654814,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-03-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.33702585,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.50523117,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-05-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.42205736,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-06-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.54346619,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-07-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.61639582,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-08-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.58236749,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.00297786,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-10-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.43556557,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-11-29",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.34446111,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.35516299,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.2727452,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-02-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.47182719,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-03-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.40351703,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.39795978,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-05-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.36768655,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-06-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.23116369,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-07-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.07489469,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-08-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.18329436,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.18355996,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-10-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.1279269,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.01709548,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.12320673,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-01-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.05359811,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-02-26",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.14098234,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-03-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.08415162,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.06857817,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-05-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.06952638,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-06-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.05878611,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-07-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.02683372,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-08-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.04150508,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.05488508,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-10-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.0769441,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.05555484,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.04668044,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.06831105,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-02-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.03363537,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-03-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.07379105,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-04-29",
+              "top_turnover": 0.0
+            }
+          ]
+        },
+        "year_stability": {
+          "2018": {
+            "evaluated": 3,
+            "mean_excess_return": 0.1779128866666667,
+            "mean_rank_ic": null,
+            "median_rank_ic": null,
+            "observations": 3,
+            "top_minus_bottom_spread": null
+          },
+          "2019": {
+            "evaluated": 17,
+            "mean_excess_return": -0.36198446529411765,
+            "mean_rank_ic": 0.6666666666666666,
+            "median_rank_ic": 0.5,
+            "observations": 17,
+            "top_minus_bottom_spread": null
+          },
+          "2020": {
+            "evaluated": 22,
+            "mean_excess_return": -0.21423514727272727,
+            "mean_rank_ic": 0.05,
+            "median_rank_ic": 0.1,
+            "observations": 22,
+            "top_minus_bottom_spread": null
+          },
+          "2021": {
+            "evaluated": 14,
+            "mean_excess_return": 0.03162317571428572,
+            "mean_rank_ic": 0.0,
+            "median_rank_ic": 0.0,
+            "observations": 14,
+            "top_minus_bottom_spread": null
+          },
+          "2022": {
+            "evaluated": 4,
+            "mean_excess_return": 0.0018912675,
+            "mean_rank_ic": null,
+            "median_rank_ic": null,
+            "observations": 4,
+            "top_minus_bottom_spread": null
+          }
+        }
+      },
+      "63d": {
+        "coverage": 1.0,
+        "delisted_security_contribution": {
+          "contribution_to_all_observation_mean": 0.0,
+          "mean_excess_return": null,
+          "observation_count": 0,
+          "overall_mean_minus_excluding_delisted_mean": 0.0,
+          "security_count": 0,
+          "sum_excess_return": 0.0
+        },
+        "drawdown_and_downside_capture": {
+          "all_observations": {
+            "mean_max_drawdown": -0.16964185166666665,
+            "median_max_drawdown": -0.12276655,
+            "worst_max_drawdown": -0.56842869
+          },
+          "top_quintile": {
+            "down_market_periods": 13,
+            "downside_capture_percentage": 184.15076121004682,
+            "mean_benchmark_return_in_down_markets": -0.05635314076923077,
+            "mean_max_drawdown": -0.1349694430232558,
+            "mean_security_return_in_down_markets": -0.1037747376923077,
+            "median_max_drawdown": -0.10365648,
+            "worst_max_drawdown": -0.56842869
+          }
+        },
+        "eligible_observations": 60,
+        "evaluated_observations": 60,
+        "mean_rank_ic": 0.2,
+        "median_rank_ic": 0.4,
+        "non_overlap_stride_months": 6,
+        "non_overlapping_rank_ic": {
+          "method": "monthly Rank IC sampled at the outcome-horizon stride",
+          "periods": 3,
+          "stride_months": 3,
+          "t_statistic": null
+        },
+        "non_overlapping_rank_ic_periods": 2,
+        "non_overlapping_rank_ic_t_statistic": null,
+        "quintile_observation_counts": {
+          "1": 0,
+          "2": 6,
+          "3": 5,
+          "4": 6,
+          "5": 43
+        },
+        "quintile_returns": {
+          "1": null,
+          "2": -0.22952050333333332,
+          "3": -0.027681361999999998,
+          "4": 0.08877062666666667,
+          "5": -0.041339633255813954
+        },
+        "quintile_returns_monotonic": null,
+        "sector_stability": {
+          "Financials": {
+            "evaluated": 60,
+            "mean_excess_return": -0.046008505,
+            "mean_rank_ic": 0.2,
+            "median_rank_ic": 0.4,
+            "observations": 60,
+            "top_minus_bottom_spread": null
+          }
+        },
+        "top_minus_bottom_spread": null,
+        "transaction_costs": {
+          "10_bps": {
+            "average_net_excess_return": -0.04147916813953488,
+            "benchmark_hit_rate": 0.4418604651162791,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          },
+          "25_bps": {
+            "average_net_excess_return": -0.04168847046511628,
+            "benchmark_hit_rate": 0.4418604651162791,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          },
+          "50_bps": {
+            "average_net_excess_return": -0.0420373076744186,
+            "benchmark_hit_rate": 0.4418604651162791,
+            "evaluated_periods": 43,
+            "method": "gross_top_quintile_excess_minus_turnover_times_cost"
+          }
+        },
+        "turnover": {
+          "mean": 0.13953488372093023,
+          "median": 0.0,
+          "method": "one_minus_overlap_divided_by_max_portfolio_size",
+          "periods": [
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-10-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2018-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-02-28",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-03-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-05-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-06-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-07-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-08-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "a7fc460f-9e77-578e-bdd0-3bd9d6932911"
+              ],
+              "prediction_date": "2019-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2019-10-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-11-29",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2019-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2020-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "10f695c7-b271-5cb1-918c-287bd992791e"
+              ],
+              "prediction_date": "2020-02-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-03-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-05-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-06-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-07-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-08-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-10-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2020-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2021-01-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "c67ad4d4-e7d9-5a65-ac57-37ac435b90fa"
+              ],
+              "prediction_date": "2021-02-26",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-03-31",
+              "turnover": 1.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-04-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-05-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-06-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-07-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-08-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-09-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-10-29",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-11-30",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2021-12-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-01-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-02-28",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-03-31",
+              "turnover": 0.0
+            },
+            {
+              "holdings": [
+                "6dd728da-7625-5bc8-97f3-5a9acfce2537"
+              ],
+              "prediction_date": "2022-04-29",
+              "turnover": 0.0
+            }
+          ]
+        },
+        "turnover_and_one_way_costs": {
+          "cost_sensitivity": {
+            "10_bps": {
+              "mean_net_top_excess": -0.041618703023255814,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 10,
+              "positive_net_spread_period_percentage": null
+            },
+            "25_bps": {
+              "mean_net_top_excess": -0.04203730767441861,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 25,
+              "positive_net_spread_period_percentage": null
+            },
+            "50_bps": {
+              "mean_net_top_excess": -0.042734982093023254,
+              "mean_net_top_minus_bottom": null,
+              "one_way_bps": 50,
+              "positive_net_spread_period_percentage": null
+            }
+          },
+          "method": "one-way entry and exit costs applied to top and bottom turnover",
+          "periods": [
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.0579486,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-10-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.11396103,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.00217435,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2018-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.03450352,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.01480461,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-02-28",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.08039378,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-03-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.08508303,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.15295164,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-05-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.00656343,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-06-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.02492148,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-07-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.03105229,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-08-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.00093914,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.02650798,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-10-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.12598606,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-11-29",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.23052473,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2019-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.28797754,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.25666949,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-02-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.02621555,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-03-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.0388856,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.20411242,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-05-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.16767126,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-06-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.09788198,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-07-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.08693222,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-08-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.1819763,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.1609173,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-10-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.17574774,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.00436278,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2020-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.03817036,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-01-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.11943459,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-02-26",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.0569715,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-03-31",
+              "top_turnover": 1.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.03067379,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-04-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.04412554,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-05-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.04764867,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-06-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.04716116,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-07-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.00378621,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-08-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.00057795,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-09-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.02570831,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-10-29",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.02267571,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-11-30",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.01788751,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2021-12-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.04411633,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-01-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.09859475,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-02-28",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": 0.0026565,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-03-31",
+              "top_turnover": 0.0
+            },
+            {
+              "bottom_turnover": 0.0,
+              "gross_top_excess": -0.04805676,
+              "gross_top_minus_bottom": null,
+              "prediction_date": "2022-04-29",
+              "top_turnover": 0.0
+            }
+          ]
+        },
+        "year_stability": {
+          "2018": {
+            "evaluated": 3,
+            "mean_excess_return": 0.05802799333333333,
+            "mean_rank_ic": null,
+            "median_rank_ic": null,
+            "observations": 3,
+            "top_minus_bottom_spread": null
+          },
+          "2019": {
+            "evaluated": 17,
+            "mean_excess_return": -0.03753893882352941,
+            "mean_rank_ic": 0.3333333333333333,
+            "median_rank_ic": 0.5,
+            "observations": 17,
+            "top_minus_bottom_spread": null
+          },
+          "2020": {
+            "evaluated": 22,
+            "mean_excess_return": -0.12469626454545456,
+            "mean_rank_ic": 0.2,
+            "median_rank_ic": 0.4,
+            "observations": 22,
+            "top_minus_bottom_spread": null
+          },
+          "2021": {
+            "evaluated": 14,
+            "mean_excess_return": 0.02496962,
+            "mean_rank_ic": 0.0,
+            "median_rank_ic": 0.0,
+            "observations": 14,
+            "top_minus_bottom_spread": null
+          },
+          "2022": {
+            "evaluated": 4,
+            "mean_excess_return": 0.024327705,
+            "mean_rank_ic": null,
+            "median_rank_ic": null,
+            "observations": 4,
+            "top_minus_bottom_spread": null
+          }
+        }
+      }
+    },
+    "missingness_and_coverage_bias": {
+      "eligible_score_rows": 60,
+      "evaluated_by_coverage_band": {
+        "70_to_90_percent": 60,
+        "at_least_90_percent": 180
+      },
+      "mean_component_coverage": 0.8983333333333333,
+      "missing_reason_counts": {
+        "INSUFFICIENT_HISTORY": 148,
+        "NOT_APPLICABLE": 240,
+        "SOURCE_MISSING": 36
+      },
+      "score_rows": 60
+    },
+    "primary_horizon": "126d"
+  },
+  "generated_at": "2026-07-10T09:56:46Z",
+  "holdout_lock_sha256": "3857baa255562a89862a39919b550004b8860d733e4990a361cd81473d23878f",
+  "report_id": "pit_multifactor_baseline_v1",
+  "warehouse_lineage": {
+    "normalization_run_ids": [
+      "multifactor-normalization-v1_sp500-pit-v1_2018-10-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2018-11-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2018-12-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-01-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-02-28",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-03-29",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-04-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-05-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-06-28",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-07-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-08-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-09-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-10-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-11-29",
+      "multifactor-normalization-v1_sp500-pit-v1_2019-12-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-01-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-02-28",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-03-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-04-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-05-29",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-06-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-07-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-08-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-09-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-10-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-11-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2020-12-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-01-29",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-02-26",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-03-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-04-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-05-28",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-06-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-07-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-08-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-09-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-10-29",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-11-30",
+      "multifactor-normalization-v1_sp500-pit-v1_2021-12-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2022-01-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2022-02-28",
+      "multifactor-normalization-v1_sp500-pit-v1_2022-03-31",
+      "multifactor-normalization-v1_sp500-pit-v1_2022-04-29"
+    ],
+    "observation_count": 240,
+    "outcome_ids": [
+      "002b3b24-992d-51cf-99b4-ba372d542247",
+      "01fb1256-d06a-5c86-b691-c1ad774b9675",
+      "05052ca2-7d0c-51f4-abc1-3d07e78aac98",
+      "076ee755-88b2-575d-9f7d-48ada35cd887",
+      "08a7334d-56fa-5314-a9d4-5b15a17f4d71",
+      "0976d7a3-961c-5b2e-a0e0-4c6111e29555",
+      "09dace41-3b54-50ef-a162-365555321954",
+      "0a17f4dc-b4a2-5ebb-8232-ccdbcf36e8f1",
+      "0a7e091a-01a4-56c6-beb6-c0aacc452839",
+      "0b10d844-e49e-5f1c-9b46-1f1c52427fb6",
+      "0b78922d-0139-5510-9f77-6646cd7c590c",
+      "0e05fad6-fabc-5251-a12f-f76b08536274",
+      "0e56dfb2-97af-5541-b5d5-b8cad9ff997e",
+      "0ee05b0a-7cf0-5317-890f-102cc3b70b4e",
+      "0fc6444b-8c14-5ba8-8ff0-44dfd52f2a79",
+      "132e9d91-ee59-519b-bf0f-9f83dcdd43a7",
+      "14b89f2d-fe7d-5f1b-9150-a33865f7bedf",
+      "1695e5d7-fc40-5723-85e9-a93012f67e53",
+      "16d21be4-b732-543c-bf8d-f69e8261a5a4",
+      "173e87f5-85a2-516b-aca3-b0ba2340cbf7",
+      "18f0ad77-be91-5daa-a4d2-d4fec45d6b5f",
+      "191a4024-3a5f-5876-b33e-e5ca6a2ca184",
+      "1950daff-66ed-569c-9b81-cae6f582b78c",
+      "1a09aadc-297d-5f0f-805b-3ba96443cfda",
+      "1bc8dfcd-e528-53fd-ac79-50dbc01bdfbf",
+      "1be5d24c-fae0-51ca-905a-4b2f88374d20",
+      "1bfc65c1-1a4b-55a5-a6a3-bec990c547f2",
+      "1f1b26c0-a2d9-5532-bcc0-f111124bbbf6",
+      "1f506330-e5e1-55ae-a8b1-5c564146084a",
+      "20bf1282-9bf0-5f78-a21f-e5d33e98b477",
+      "21593a0b-7469-5ad3-8665-40db57bd219b",
+      "22902c1d-12c2-5316-9071-384b8c484a7f",
+      "23638aca-539f-5529-83de-af2198412b60",
+      "23835a1f-45d7-5f71-8ded-64b4cbdff85b",
+      "24777f57-e0a7-5bb6-883a-b0734dd39add",
+      "263fcf3b-a14a-50d9-8e51-2af152c9536b",
+      "282a874b-66a3-578a-961f-ceb64b224022",
+      "28cc03b6-8e29-52ca-9b3a-d8e9316d2288",
+      "290dc6d0-6a38-5e61-93ee-2aed40709403",
+      "29206f6a-c623-59b5-bf4b-21dab79ed10e",
+      "2a5236d9-2fa0-59a4-99b3-e1b64156b190",
+      "2b3ba467-d79c-57a8-af13-366547302026",
+      "2c37ea70-b809-5525-8712-b92aba192567",
+      "2c87c555-c6b2-5d54-b216-d47b3e0985b4",
+      "2e04db3b-0b51-5bca-b1c9-6a81abadec66",
+      "2e951d35-84b7-5e32-8cbf-79169fe8bc12",
+      "2f722b4f-33bb-537d-978b-21c832c0e212",
+      "30970718-4cc1-5f37-b0d2-df54d5a5815e",
+      "3138419d-7550-53f9-a1d7-3215eeeaa813",
+      "32dfd262-bd57-500a-83f1-4426e194d4c0",
+      "3388487c-fcfe-51bf-82b9-9057f52e5ec7",
+      "33cf8d0f-b186-50ac-88c0-2578d3498da2",
+      "3598ab22-65d3-597b-bf14-51ea619870ec",
+      "35a4a6ba-8bc5-5d4a-ad48-d2276b0d3546",
+      "3675fa88-6430-5a2d-808b-b6a1b2a7eb5a",
+      "36e70d20-799c-500f-904a-82ea57d64969",
+      "3769a2db-84e5-5cf6-a168-287740c26b6a",
+      "391da375-bb56-54c1-ab1d-17866c950317",
+      "3cafba0f-8719-5eaf-a92e-c78cc59d1268",
+      "3efd7ec3-c42f-5911-be63-2ad56cd437e3",
+      "3f153683-84c3-538c-b3ee-bddb9cc37346",
+      "3f309dc0-2df1-51aa-bd1a-cadbf742fe79",
+      "3f3d01cb-24a6-5442-b895-b92bc7971ab8",
+      "4044b46c-7581-5437-b660-9b2234109ede",
+      "4102a847-a787-5db5-931b-cb06b9dc6894",
+      "41e753e3-55f5-59cd-94da-b644cf85bcc0",
+      "41f25f28-b79f-5bba-9bcf-553c4557200c",
+      "435a28ef-4bc6-5b40-9b34-27c61c3d3744",
+      "459158ec-d5f2-558f-976e-2cefb4066b70",
+      "45ca3d4f-a43d-5d01-8da3-a5e611a2a4db",
+      "4656f0e9-4a0c-58bc-a825-f8b7e5f0cdb2",
+      "4907fb74-a84f-5d7f-a28c-a6a3193d9b6b",
+      "495d03db-d483-598a-8cc3-48ec1f1dde6f",
+      "4a714123-cff5-56e1-b148-e0cfa8caae11",
+      "4a73d863-2640-56bd-a216-cd5f8f7ebf8a",
+      "4b19d9dd-a6d9-5a9c-9089-55e117b17c07",
+      "4c3e7b24-021b-57b9-912d-572a194a5f02",
+      "4ea94014-18d8-5e03-a0da-f1e47d22d73d",
+      "4fc2d0ca-9482-53c9-9331-396dc0545558",
+      "507641db-5940-52e7-851f-a50b8929fb48",
+      "50f25438-d8f5-50bb-9473-ce3e15f0cde0",
+      "52e65896-00e1-51da-88ef-f4792a6aee22",
+      "533b39e2-d4ec-5ebb-862e-5ff27e529f13",
+      "59a1468b-3554-50f1-ba26-697341676691",
+      "5c5fc8b5-f8f7-5a13-969b-a126b910f657",
+      "5fea3216-b184-5829-a373-a9ccb049a5f7",
+      "634fcbcf-d7a3-5832-bf59-41586b36db90",
+      "6427f4e2-017e-55e0-935c-22c42a2540fb",
+      "64f0cc21-19f7-58d0-aa89-b16aff4dc923",
+      "6536c34f-1637-561f-b8d9-03c59ebdbedf",
+      "65adedeb-b796-56fe-82c7-05ae8852c1c9",
+      "665dd804-7e5e-5fe0-8982-91e0bc26501c",
+      "66e470fb-24fc-50be-ba03-bfac491e9e60",
+      "67b2865b-0446-53a9-a2ff-e93569636d0c",
+      "67f2a383-4d6b-5c36-a1ae-48576602781a",
+      "690d43cb-f169-557a-b2c4-90be8432710c",
+      "69a48bcd-258b-5929-a0dc-75d1cbed3435",
+      "6a04f50c-8c22-5d68-8ba7-4a10227ca3ed",
+      "6b5f9b32-221a-575c-9276-4aa9b3174d6e",
+      "6d148282-680e-56d0-a51c-312ad9ef936e",
+      "6f46731f-e5ad-5e25-ba4c-a726717421ae",
+      "6f787074-768a-5e2f-a799-e9f9c54c1dd6",
+      "70fbab01-4a76-58d5-ad61-60d1493550bf",
+      "710c9510-d06e-5b33-a44c-063e678baaec",
+      "72bac1a5-d529-55ee-be22-f025ec4adaa5",
+      "735daddb-ae80-5a47-bd3d-ed12f069f931",
+      "77ce9063-630e-52f7-975e-6e66e93f52bc",
+      "7829b16e-eb42-5243-9528-8e1826b9729d",
+      "7972b241-a37b-5b57-b32e-42262c025eff",
+      "7d216673-9e6d-57cc-8538-a79718562289",
+      "7f8c13f3-ede9-5a11-b3b5-0cc429de3d47",
+      "806e34a6-08f7-5949-bac8-856ce8dbb78b",
+      "817b0261-d8dc-5b83-a3b0-cf510ef91d0e",
+      "81cd6cd4-649f-5c03-84a3-b45b57924ae8",
+      "83b39dbe-e111-5917-87d5-a07ad1f7c089",
+      "83d1c727-4817-50ee-9907-46a37d12a5ad",
+      "83d7ae6f-a481-5b6a-bd18-01ea904fcc91",
+      "84e0b4c6-3f5f-5536-8b59-a3e3dbc95b36",
+      "85ecb28b-035f-53ec-b5ef-088c27583d00",
+      "877b6b9e-2976-525d-af66-2a7ea185f8e0",
+      "87b2f910-560c-5fa0-b24a-b785fefe0610",
+      "8b3f203b-0a2a-5319-be79-40cd8d9a70bf",
+      "8df5da8f-1f19-5a71-97b9-b1091b8a9582",
+      "8e50ed34-e890-5148-8502-76616c40d1d1",
+      "8e7f9884-cf82-5b64-a091-c309d4af9326",
+      "90e62a10-2528-5358-a02e-621f75feb655",
+      "917cb051-6e30-5b9d-915b-86387aa23ceb",
+      "9307e78b-b362-5243-9c1f-c648db0320a8",
+      "93bc29cc-7410-5cad-8413-68dc00fe3abf",
+      "949f5148-6289-559d-8bf1-64bca00326b0",
+      "9673e6e6-ba30-59e7-85e8-a2e00fca3868",
+      "969d09e3-24a6-50fc-9544-d9c3a14d6537",
+      "970bc1b6-6232-594c-8833-8fbbdac33739",
+      "98579743-aaae-5ffe-8315-a1a7589809fe",
+      "9a19faac-ccce-5fbe-ae51-8919062d3cb9",
+      "9a835e5f-96b9-5b4e-9ad3-f141c95a4a45",
+      "9e17e816-ec9d-5ee7-a9a5-bc5473b493c4",
+      "9f814071-689a-53a9-ad71-fd684057ac7f",
+      "9f8e720c-7a0e-5275-82ae-378e4e5e3832",
+      "9f98d653-52ab-57f9-b562-ea96ce1c6bf3",
+      "a1a8eaad-9842-5401-a30f-2e1eefb25ac5",
+      "a26df5aa-432c-57a3-a046-00b3b55c415e",
+      "a31a96dc-e120-5be6-b4ca-abd66df6ace3",
+      "a375b771-abf6-582e-ad9f-92f5e0e80ece",
+      "a3b3b3f7-9840-5aa0-934d-07e3a5d4467b",
+      "a4beee61-0fed-5d6d-80ff-ab5d5ac3b776",
+      "a554d4a0-aee3-5929-a1c9-cdcb821ee8e7",
+      "a75c37b2-9f19-5793-97ac-7eff8b84e5f5",
+      "a866431f-28ac-5713-8e18-15cd8bccb1a2",
+      "aa734aa1-6d19-5c97-ba72-45815dfa7125",
+      "aa7945df-d6d9-584c-9703-2cd2d0f9a59c",
+      "ac60b327-a95b-5d9c-b1aa-2d79d9d4dbba",
+      "ad32e69f-b987-5790-83f6-76797845b540",
+      "adfacd9f-e099-52b9-82f7-e07d36bcd74a",
+      "ae2dc7f0-45b4-5298-add8-2d624f4875bd",
+      "ae67217a-9abc-55af-b72d-c11cc33e26b0",
+      "aec3a720-8a59-5d04-8930-4cba81587355",
+      "af2d7443-46a7-5a6b-942c-40de2a16d820",
+      "afd71c4a-abad-549c-9a54-a709d06a9f9e",
+      "b00e2da3-ce8b-5c16-80d0-be46e98fc47a",
+      "b19fec99-65ab-5fc5-9291-cf632c9d9588",
+      "b2da21e9-6c0a-55b9-a273-7a0250551fe1",
+      "b581cd82-dce7-56dc-8d87-0911dc26b6ef",
+      "b599a242-6e00-57d1-9379-a08900eaf173",
+      "b608899f-5ae4-550c-b843-154acb4966d2",
+      "b664a1e0-95d7-51a1-aa05-c5b4f9d005c5",
+      "b80716fe-8d88-53cd-94e2-3c28ac30605a",
+      "bcea3e5d-4f50-5fb8-a751-c20eb6e0b2fa",
+      "bd2827cc-0917-5ea1-bd25-786937ba0484",
+      "bece1814-0b5a-5b32-98c8-b96be97863c6",
+      "c1053848-fb1b-55de-9a65-fad407a69212",
+      "c1c3fa5e-0204-5426-acfd-930f61216d35",
+      "c29bdc33-f58c-5d40-9718-0d92acb7f199",
+      "c2cdbb28-817a-5a2f-9989-51d8350e89ae",
+      "c2fa6f5e-ce2e-5504-bc7d-fa36295e3b7e",
+      "c492e7ca-7e8a-5002-a9b3-e067c71cfeb0",
+      "c61fd051-dd5a-5310-af14-eba6622773d6",
+      "c6cf5126-3504-5b7a-b05d-c23705848a9b",
+      "c7005da9-cbca-5fde-b6e7-2eea3f596be4",
+      "c7d79831-ca34-5ff0-bda7-4cb4e4003044",
+      "c82c9634-516d-517f-b0d7-b5e37a87124d",
+      "c8dc31a0-780e-52b3-8d91-4b299c13bb7d",
+      "c9676dce-6521-5ca8-8f62-ba95a3fcea67",
+      "c97798ff-e299-5777-a142-ffd9e9fefc86",
+      "c9d4f9aa-239d-51b9-a8a6-3ddce4779aea",
+      "ca2f773e-6c8e-5033-89bd-913a08602814",
+      "cba6eeee-e068-5929-a4b5-c249fa0e27a2",
+      "cedb9724-95f1-5f4d-8684-e977b61b8f5c",
+      "d0245754-18a8-5ec6-8413-899da73480d6",
+      "d0657387-a6ac-5c62-92c9-45d2c6fc4bad",
+      "d2054ffa-1476-5105-988a-65ce760dbad9",
+      "d4ffeaad-ec4a-5d6e-a18b-a02dde303813",
+      "d508f663-5edf-5a46-a888-19539bc6e984",
+      "d51fefca-9229-57fe-aba0-2f9ebde3b5e5",
+      "d525e392-ebb5-59b0-81a9-88c5d12b8f57",
+      "d5a8dc97-18c9-5509-b838-db1470569579",
+      "d78f98f7-51ad-5834-bc95-22b7f8d384dc",
+      "d80fdf9f-fc83-55d1-b1b2-89a4fde70cdc",
+      "d9330f9f-b610-5ea4-a80b-39ad67e561dc",
+      "d983f4d3-6768-528c-969c-4cb6fee195c6",
+      "daa2d76d-daf2-5e20-a4e9-439755736fa4",
+      "daa8787b-2557-51f8-a09f-39cab7873de4",
+      "db4d416c-cae1-59ef-a3f0-ff644215f321",
+      "dd729a02-81e4-5b03-abf4-ecf92d91e10e",
+      "dd76de14-429e-5651-988b-b269462d9081",
+      "dd7c1814-0ca8-5dc3-bdc0-a1637133bf7f",
+      "de0ec607-1902-5d37-a8c5-62b66faca59e",
+      "de8e8016-282e-5c16-b058-33ef769eacdd",
+      "e2658d7b-2154-5368-b3e5-acbdd83f11dc",
+      "e4334b4a-d113-52d9-a217-02dc53f999c3",
+      "e5370b14-8188-5192-a815-55dab8719715",
+      "e645fdcd-76d2-55bf-a4fd-62ef2a2f321f",
+      "e72ab442-ee90-5627-92f6-61e5fcb75e32",
+      "e73eb26f-f049-579b-8a80-7249a7ff1077",
+      "e799a6f2-4517-5a77-8047-3c08d9792001",
+      "e8a26261-656d-50c2-a5f4-92d047a27494",
+      "e9d4fed7-681a-5171-9073-a14b7284bc47",
+      "eaf5bd52-07bd-5e3f-bbf0-a2b8ebaf71ef",
+      "eafa1cc7-b931-5eae-8efb-758e645ee369",
+      "eba2f7df-7192-5cf2-b88a-7c0e4909c812",
+      "ed693726-a8aa-58b2-ac53-27081ea37444",
+      "eda73297-6636-50ce-98d2-387911be7a45",
+      "ee70f390-d698-5d3d-860a-874271ebc0af",
+      "ef2ee951-c662-5c7e-9b19-1db1a0af49f4",
+      "f179aea9-7dcd-5221-aa18-fb08b5a4edb2",
+      "f2d4787c-7c33-5b11-85b5-63c07d4a6e19",
+      "f41a2f8c-65fa-59b1-b059-be0d22d034ef",
+      "f6112135-a9a0-5dee-8354-54dc2584357a",
+      "f7673505-d88b-55af-a0b1-c3d06d051919",
+      "f838df0e-24d1-50e9-abad-b9e7cf558443",
+      "f8c591e4-aecf-5319-9bb8-50d8a8391116",
+      "f9b0e1e6-6d3a-5121-b267-2dae5b553034",
+      "fa458038-ad3f-5be8-bac3-8305bd2dcf22",
+      "fa7fe0d0-cf20-5f02-94c3-9e607679befc",
+      "fb884e26-146c-50b6-a933-55e83afa87f4",
+      "fc50c1c6-ceec-5981-8782-15e5dcfd8ac7",
+      "fca8bcbe-d601-536d-b7bc-800139a5baf1",
+      "fd2c43b7-9003-5763-b36c-085044ba3ad6",
+      "fd90869e-3acd-53a2-b526-5ca97a28d5c5",
+      "fe7dba0d-b50c-5825-80b0-194a747bce0e"
+    ],
+    "prediction_ids": [
+      "00a0641a-75b3-58b0-9ff4-85224ec618ec",
+      "01341dd3-5dc0-5796-b7b3-ad662a89e8c7",
+      "01e6d9ec-0851-561c-a709-40b1055acdc3",
+      "04e5cf48-212c-574a-9325-de6323323608",
+      "05ab4abc-832d-5a34-a7bc-3428bf96d256",
+      "05ad98c2-26bc-54e9-82e7-bb92238339b6",
+      "06dcbaec-b056-57e9-8ad7-e5dbac65946a",
+      "097272ad-1b36-5f02-965a-fbafc6c59629",
+      "0b2e7e77-9f52-518a-ac0d-bbad6b3d45f9",
+      "0b6c72cc-7247-5f8c-8b3d-ebbb19dbf19d",
+      "0fa199d4-d897-5983-9ce4-2f475c24e250",
+      "1049d228-5f8a-51e7-8d31-cae3d72ca1e4",
+      "10d73b66-4603-556a-8902-b754ed46013b",
+      "14043729-4246-55be-be32-30b3452ccb79",
+      "148ea531-5009-5b5f-a514-9482c8e301a5",
+      "1497dee1-aecd-588b-8126-081c63aae654",
+      "1557c9f3-9e59-5a52-99b5-c722745cc8e9",
+      "15c6a7b1-a9ee-56eb-86cc-d53ddd1980a0",
+      "1613a917-c8aa-5ae8-ae7d-47b07966057c",
+      "1623d91c-84c7-5fcc-ab29-73a9c0694f7b",
+      "1b091c6e-ca9d-5c98-b915-84c5d2a9cc40",
+      "1b7d5be0-14a0-59bb-8ded-71429349baa9",
+      "1e7aa260-4faa-540c-88c5-1fe2cb0431dd",
+      "1f167466-7a51-519a-93fb-3efb253eb3c4",
+      "21a96fd7-6d6a-5687-8d70-9d0bbdbca3f1",
+      "2203d8e5-84fb-5615-a2a0-d0f45ea48ad8",
+      "233b8e1b-d6a6-536d-aedc-93029c3a3334",
+      "235b032b-a630-5780-9a12-744675b209bd",
+      "25805a25-9838-5808-8dd9-3d5794a99e7d",
+      "27f806a7-bb54-5a20-bef8-cad333e89414",
+      "2961e4fb-e2d9-5991-bfe7-d83d2953c339",
+      "29f56c2d-4316-50d7-93fd-2c46a243f715",
+      "29f82b9e-a142-59d0-bba6-39c96cf75ba1",
+      "2aa07ea1-551f-587d-82d6-cdb33ef823cc",
+      "2caef413-0f92-57f1-91c8-40086553cd86",
+      "2d76ca20-a7f3-5b50-8a55-ce06a41f69b3",
+      "319e3b1e-a580-52e7-bad9-de6dc158b955",
+      "320dd830-611f-5815-86f3-77a3ad333363",
+      "3363b09a-f3d6-5c80-b358-61e048611b6e",
+      "340568d4-6497-56fc-9c30-0d3f40eefb56",
+      "35bd4f51-0a52-5d11-81fe-837475c035c8",
+      "36201975-efe6-5c0a-bd47-eeca92dc002f",
+      "365c6529-02aa-5bf0-82e9-76c3847caed3",
+      "37d46640-d479-5eeb-a9e8-cf8fabda7eaa",
+      "3937353c-3d23-5b35-885e-0c2e949eb35a",
+      "3c31929a-afea-5f72-adb6-f3dd98d67374",
+      "3f5f93e6-f79d-593f-856b-741598d18e40",
+      "409d906c-d492-5648-b5e2-b3c222bea7d0",
+      "40bb8809-6ac6-596d-b4a8-12294846c19d",
+      "41296923-39ab-576b-9abe-efb52ed7796b",
+      "41546442-04f4-5e01-9f5b-23e8f80fe509",
+      "4275a480-968e-5e6c-b114-fbe6b4d22b68",
+      "43527d05-0cc6-52f9-bc31-e8b8b758ba23",
+      "442f4922-0f3c-5551-96ea-d70c3aeb72e4",
+      "446eceee-a02f-5067-adf9-7d2203a94996",
+      "450a57b4-ae56-564c-a137-ced0ccb914e3",
+      "45636c59-8e43-55ae-bda7-cf45fad9bc08",
+      "46123ff3-bc11-546e-846c-e4701e2d2ddd",
+      "46301ff1-fa78-5ad3-8f84-335382363705",
+      "46b751dd-2ad8-5a3b-bc67-d31dd9dca606",
+      "47be0d7d-1027-5368-8b8d-fd87350fb3e4",
+      "484a8af8-c70a-5aad-ae8d-f7576ee2eb55",
+      "4a0c01a5-1295-556a-90f2-34941de26956",
+      "4a1dc625-7652-5865-8025-2fa6f3be6de1",
+      "4a356e87-4d30-5abe-82e7-59bfbed59d0a",
+      "4b903ea5-a5e4-5176-adb5-9e69ef2456bd",
+      "4e9466ab-5f0a-5eb3-b29f-b38bb57a7ddb",
+      "4f0de9f3-91d4-5b65-8241-4e8931347320",
+      "51f7ac36-77e4-524b-9609-658040e6dd72",
+      "52708005-cbed-54e8-843f-ba437775eb3d",
+      "527122a6-b0f4-5b36-9072-fde99fa94684",
+      "533fa868-f35a-5288-82ef-63a70cbb256d",
+      "53864187-eba0-56a4-984a-86045855a848",
+      "541e6f86-5510-5ce5-8b98-6d1058914bc4",
+      "55a3aabd-82a6-5ccb-b556-06d699b13750",
+      "588d38f7-e10b-5d4a-90ab-fd1e9eeb00d8",
+      "58a78626-d7d2-5ee2-845b-3e7810c2b1c5",
+      "58d9ee72-7347-52a8-b773-d2cf0a4e4622",
+      "5a5a5f74-cefe-515a-9fea-2b6d9520c926",
+      "5ac4e026-5b0f-5723-80b7-68a9a2f50782",
+      "5b184beb-6085-5927-bf41-6549136e2759",
+      "5b33e975-e5bb-5446-b34b-ff43a253f45b",
+      "5b97e1d8-0a99-5057-93d4-400e9750be4a",
+      "5c0839d1-ebe3-5612-95bd-354d47ceb189",
+      "5c267d37-e404-54fd-b409-ce93a3a1abb9",
+      "5fced02f-3522-544b-bfe1-f6adf6204e24",
+      "622c00b1-b4e7-5909-aeff-3dbf623e165c",
+      "640341a2-2eb6-582d-8b6b-d91dd36814df",
+      "64e21ed5-b172-5e94-9247-bb3e1a2f4bea",
+      "6508fbb8-a2fc-5572-acc0-69d9299fd11b",
+      "6572f6fa-a4ca-5b6b-913b-f9742a735d57",
+      "697d10fd-f0b3-531f-83c9-2a8d9ef0252d",
+      "70d6b218-5dc9-528b-bafb-3bad51068f3e",
+      "70ea16b1-35bb-5b1e-b067-2feb55a1553a",
+      "75526064-f849-5df3-ab9f-7874fb18ef3e",
+      "764c2ba8-f17c-52bc-aa97-27a51fe03ffe",
+      "76f0b21b-a185-56e4-8d5f-1bda17814c64",
+      "7724421b-13c6-576c-8724-fa84504ee018",
+      "77aeb811-ce11-5a1a-8de4-3826a539b9f9",
+      "77d41e8e-6e99-5883-a8fd-397a2ddd0f65",
+      "77f94e88-476f-57fe-aaf9-fb47a227f2b9",
+      "7b97cffd-3d01-5a7a-b878-208b2b872d99",
+      "7bd85bc0-c525-5e24-8ed2-95bb19e8b543",
+      "7c3c1f88-13d5-550e-a4b6-c16a67e571ec",
+      "7da72324-0704-5b8f-889d-16c2bbd0592e",
+      "7faed1e7-0bde-5fed-89d7-30784bd7eaaa",
+      "80188ce3-aabd-5f42-b603-810878d44e5c",
+      "804a1ae2-9792-505a-8616-34b5617b4a1e",
+      "832e8af0-e22b-5d9f-93a9-85aa14279c4b",
+      "83838c34-b362-54c2-af85-903e8273c837",
+      "87bde8a4-5e39-57d4-817c-aab52262764f",
+      "889b17a7-6696-502d-b764-17fd47a51dd0",
+      "8a06f060-cb24-525f-8480-ac40b0b9da6e",
+      "8a6abb48-9480-5b16-b6be-a8bcc9d470d3",
+      "8afe3ee4-1b00-5349-af56-413dba30bfa3",
+      "8b036cd7-7dce-568e-b177-f84f0249b8d4",
+      "8ba2cdfd-e29b-53d5-8c40-d6ed10df79e5",
+      "8c2f21ac-d071-5962-b763-29ff1824855a",
+      "8cf3d8ec-687f-52d8-bbe4-afebfc154d21",
+      "8d968499-2c92-57c4-83b4-876bf2809c8d",
+      "8e6a48e9-5f6c-567d-818c-e897c8d0751d",
+      "8f450cc6-7d74-50e0-aa30-7125292bb8fc",
+      "9080fe28-5922-5f4e-b503-1dc9ef7c1f9a",
+      "91ea8d4b-9737-58da-9117-4edf406e9e95",
+      "92298074-f94a-534e-8473-985e18fcde7e",
+      "93c28a27-366a-5dee-9311-cc92603b11fa",
+      "94ae2be8-7d2b-51dc-a165-b23ec31e8fdb",
+      "959792d4-455c-5126-856c-4d3ec9472363",
+      "97aa8670-5d4e-5eb2-bcd3-409d2d77aafe",
+      "990e8a33-9857-595c-8e9e-7beea71e012b",
+      "9c93d47e-0bcc-5388-b3a2-aab9bbca9a74",
+      "9cd16ed2-a729-51c5-95dd-522e21df5a4f",
+      "9dd72506-32bd-598c-a6bc-aab6bc151a7a",
+      "9e24d3fb-7f73-5710-90e0-980a1f4ec2b2",
+      "9e7920d7-f14a-5383-805c-f6583434cfc4",
+      "9feeb7a7-912e-5f2d-a209-48d96377a76b",
+      "a047a945-931c-54c4-9d09-d10dd152291b",
+      "a26ce767-f828-5bab-add5-0150403c460a",
+      "a2761d49-9a33-58e2-a3fb-3c8cc8e5e5b8",
+      "a2801706-9e96-53b3-a930-5673be1e2ede",
+      "a2a18e7f-e3e0-547b-8219-fcca249489bf",
+      "a533cafc-0dea-59c9-ad29-4e98ace81853",
+      "a5ad11cf-7243-5268-9ef0-656b5da70a09",
+      "a693d2a9-e8f8-58e0-b1ab-d932ef9e931a",
+      "a6f357e0-00d1-50c8-be1d-e943b5f9699c",
+      "a803807d-639c-54b6-9972-a311aeda01fa",
+      "a8141998-fe68-5697-9394-3b1ef27a3983",
+      "a8ad1e1c-e1dd-537f-aaa8-e22f42b6899e",
+      "a9826eec-de0a-5ce9-8f08-9a18e9d4121d",
+      "a9b6c20a-bbe8-52d7-ad13-5cd431da15ed",
+      "ace66270-5eb2-5bde-adba-ac60ee1aa6de",
+      "ad1ce34a-d937-55d1-83f8-137fb0ccaab7",
+      "ad4380a0-07a4-520a-bf0e-93f98ed05196",
+      "ae27c9af-9019-57f7-a693-68c7ee5008bc",
+      "af36ce64-3f62-5230-9a4c-ffa4e9a30042",
+      "af7cfd52-9131-5a1c-ae49-f46840f42184",
+      "b0eb3ed1-ebfb-5d24-974b-ea7d787453ee",
+      "b11a0658-c8e0-5d76-997a-ce1ff4de6407",
+      "b194b381-aa5e-5622-8ac5-b749d9852c77",
+      "b44b714a-2305-5951-a6f1-d66acd4b4dcb",
+      "b4a05426-5931-57de-beae-dc9b22c64b85",
+      "b4ca14b6-8a23-58fa-9254-5b575d80d860",
+      "b659fe9a-7779-5f3c-b3f1-71299ae2aca3",
+      "b6e75469-1cf8-5ed8-8ff5-9cbdece247b0",
+      "b93c3e04-70c5-5a9e-b621-b475c348cbb8",
+      "b9a6b40f-666f-5f65-b369-bdbdc038d108",
+      "ba933c68-8fda-5c86-8c42-80731098516e",
+      "bb8c326d-fb92-5ef2-bd6b-38e034d3fe51",
+      "bbb37192-4eef-50dc-a6a9-4a0bc70d9c18",
+      "bbe14cfc-f25b-5a9b-b7a1-687ba849b820",
+      "bc56764b-aaa3-582d-8eaf-d5e47c69955e",
+      "be1dc4a2-a337-5979-bb6a-1a3a1c3cf3b9",
+      "be5584aa-4788-587a-9945-74e87a1c039d",
+      "bf93c485-9cab-5226-9325-8741d24a7ef0",
+      "c14c22a4-2b9c-5771-95fa-84cf768df10b",
+      "c299aac7-c294-5195-aa3c-740531dd7104",
+      "c39198f6-60ae-5964-8b8c-788c8a4b5198",
+      "c457fd7f-560c-59e6-85be-a96f2cfbd152",
+      "c46a84b8-c1ef-5507-82ee-f34f0072d001",
+      "c6343b85-4ccb-566e-b1b4-f8aa5c2805bd",
+      "c6ba6634-adc9-5aad-a472-948eaee415d7",
+      "c740b6fc-fdbb-59d6-b3ae-f55be3508ce8",
+      "c769fe20-2ba7-5bc4-b8f0-192844673e9b",
+      "c775fca1-edd0-5f24-b876-45a88cc5e86c",
+      "cce041f1-9f7a-5272-98e9-2cc5768126a0",
+      "cf492a55-acbe-5898-8450-1fda52f08f60",
+      "cfaef63b-945f-5cd9-89f3-da0632572ce1",
+      "cfbd6bb2-ad6e-5926-a39b-ba6ce207be9f",
+      "cfd65b5e-f37d-5b81-b04f-fb13e9527a3d",
+      "d03ded47-bfea-5b7f-961e-2aa8bb6042e7",
+      "d03ec8b1-0ef1-52a9-b571-1afbdb1ba447",
+      "d0efd6c0-6390-5d33-b5c5-e7438d6d19cc",
+      "d20f9745-80bc-5f4d-adbd-9d4dc7a38ef9",
+      "d33af035-05c3-5a16-b0d4-f5f60cae63cf",
+      "d5a2ce80-5340-58fa-b197-21a3b7825407",
+      "d6e39189-a2e0-5425-b0ff-6d1f2832d15c",
+      "d7259e5f-f429-517b-8302-354e24006ab1",
+      "d8e7ab4e-5bd3-543d-80e6-e4c3aa935c6c",
+      "da114e90-05a1-5e33-9a06-a636178e9c1b",
+      "daf4e27e-07ca-5690-93e8-0b4312fbae56",
+      "dc3bcd77-f16e-51e8-8679-e8776f3c0b9d",
+      "dc55cecc-29cd-56b9-88ba-68c9478a9cd7",
+      "dcc18d94-93e8-568c-afa6-36377f8939e3",
+      "dcf941e9-e267-58a0-8f10-031f18812cc9",
+      "de3ec926-efea-5b0f-ba77-d5a2179a3755",
+      "de8bf296-7840-5391-9ffa-4ee1525d0158",
+      "df6ff71d-fd71-5330-ae52-c4a3129e9060",
+      "e1c6811f-6a41-54e1-bac6-a3b6dadf813e",
+      "e20ec22d-8a8b-512e-9233-c5ff262383c0",
+      "e2a07f93-9b8c-5118-be35-12ab3049fb5a",
+      "e349deaa-eadb-59c2-90be-95d458558c6d",
+      "e36d10db-d7ba-5425-a588-7d855e4058e5",
+      "e539075f-c0f3-5d1f-ac22-5f511734263a",
+      "e55093ec-1976-5e57-8ec8-062d40e9e8ea",
+      "e61425af-621d-5cad-bc20-c5c10187fa00",
+      "e629a0f3-ab7e-556d-88a9-f6a86b698d17",
+      "e8f569bf-ceac-5cf4-941c-babd3bea3b50",
+      "e9c6657f-d7d3-527e-8e73-98647ce0cb84",
+      "e9edad9d-0415-5510-a681-a736d0b22f4d",
+      "efa8ca27-99e2-5987-95ce-8b463c268aad",
+      "f0c5cb61-082b-5b0f-af6e-236333144f58",
+      "f0d2d776-ec97-5679-834a-349b0aca4bc8",
+      "f22a4ff2-e223-554d-8fd4-69deb4ded835",
+      "f2440ba7-68a7-55a7-b94a-ab8f69fce03e",
+      "f35e2525-8cda-552d-a808-723568e94eda",
+      "f44ac4a7-4752-5b40-a8e3-ffeeabae9e4a",
+      "f4fbfc23-f7d0-5670-93d0-5469fd9ded06",
+      "f53a978b-8fdb-5ace-ab22-c22bdc391199",
+      "f54035d1-c5ec-5228-9e2f-f3d9b744601b",
+      "f5e729c4-6125-5110-a0b9-adb076c3863c",
+      "f7bceb87-416e-51f0-8aa9-e4e586da1f35",
+      "f9c1a0f5-97fa-5240-afe7-854e4e594027",
+      "fa29c7ee-6288-5354-9ab8-c6b4aaee9433",
+      "fb425e26-64cd-54c2-bf13-b7cc9634c72d",
+      "fc369bc9-df3e-552d-8ef5-75ca9b5969f0",
+      "fceada7b-507d-5062-bfad-acf6bee39ec7",
+      "fd8420b3-6ce2-52b3-9148-f7558bc1801f",
+      "ff124375-a73b-5a58-a8fa-6026c4ae816d",
+      "ffb2b13d-a421-5515-8d95-13ae084ae908",
+      "ffda770f-2eeb-59a6-aa1f-1f41c5812adf"
+    ],
+    "score_ledger_sha256": "595126d3b38f8bbc1c63cc9bb336eede18f49409644d68153687b538d66ffda3",
+    "source": "verified_research_warehouse",
+    "source_snapshot_hashes": [
+      "5c9b9e7d49d1bebf1293bfb073f706a608411e11e28f88a2e883bfca61f20a31",
+      "c17787cd7b294b7f9ffcaabf9e17a0e7783328d99e9626bbd767da4be5f637b2",
+      "c910b8e1feb8dc5e48651cb9e3347abc4fa70302344fadf18530f8bc09c35d52",
+      "f14ff409c38e498f80ebfb716df76e8c778f289c103e65d476f655c61135cf41"
+    ]
+  }
+}

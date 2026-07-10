@@ -1,0 +1,85 @@
+{
+  "bundle_manifest_sha256": "0a1aef3b2527672ff3febb2702479fe86ddebd51f393ae5eede26007f805985f",
+  "canonical_evidence": {
+    "fundamental_audit": "97a99d0ea830abf26aa50d2dd86f093f2d7ce6ac194d1194bbd4e62337eebbc9",
+    "multifactor_backtest": "5e1cca6e568599ee1f3badcc6bf051edc1155b15bfb0b408b17051c2b5f60612",
+    "price_vs_multifactor": "2963e3d618df41f4ef55b8c86e63ba505c56a117c8dba7ba2f4d757ffd25b80a"
+  },
+  "claims_eligible": false,
+  "clean_worktree_verified": true,
+  "closure_decision": "pass",
+  "configuration": {
+    "database_kind": "fresh_temporary_sqlite",
+    "rebuild_count": 2,
+    "source_bundle_reused": true
+  },
+  "definition_of_done": "Two fresh databases rebuilt from the same frozen raw bundle produce identical point-in-time fundamentals, availability/revisions, features, eligible monthly cohorts, predictions, outcomes, metrics, and reports.",
+  "generated_at": "2026-07-10T09:56:46Z",
+  "git_commit": "54d07aad318362bfa55d9bbdcdbc19cc707c9e3b",
+  "rebuild_program_sha256": "6492980ddf7ae9d968e9ef17853c6cea85942462caa04cc93a4e9201df6fb760",
+  "reproducibility": {
+    "all_matched": true,
+    "checks": {
+      "availability_revision_hash": {
+        "first": "35cf370c936ce59f7c2a0ab9019cd1357daf643a41bcc36bcdbad440666f6066",
+        "matched": true,
+        "second": "35cf370c936ce59f7c2a0ab9019cd1357daf643a41bcc36bcdbad440666f6066"
+      },
+      "backtest_metrics_hash": {
+        "first": "ac0aa35a5a56dfc2398e8cfec4787819c9d3fc1bbb061b06c16eff18b32f6759",
+        "matched": true,
+        "second": "ac0aa35a5a56dfc2398e8cfec4787819c9d3fc1bbb061b06c16eff18b32f6759"
+      },
+      "canonical_report_hashes": {
+        "first": {
+          "fundamental_audit": "97a99d0ea830abf26aa50d2dd86f093f2d7ce6ac194d1194bbd4e62337eebbc9",
+          "multifactor_backtest": "5e1cca6e568599ee1f3badcc6bf051edc1155b15bfb0b408b17051c2b5f60612",
+          "price_vs_multifactor": "2963e3d618df41f4ef55b8c86e63ba505c56a117c8dba7ba2f4d757ffd25b80a"
+        },
+        "matched": true,
+        "second": {
+          "fundamental_audit": "97a99d0ea830abf26aa50d2dd86f093f2d7ce6ac194d1194bbd4e62337eebbc9",
+          "multifactor_backtest": "5e1cca6e568599ee1f3badcc6bf051edc1155b15bfb0b408b17051c2b5f60612",
+          "price_vs_multifactor": "2963e3d618df41f4ef55b8c86e63ba505c56a117c8dba7ba2f4d757ffd25b80a"
+        }
+      },
+      "feature_count": {
+        "first": 961400,
+        "matched": true,
+        "second": 961400
+      },
+      "feature_value_hash": {
+        "first": "06175f6b57642f006018cf8229e556948f89bb5e99a2c175da3035b82336ccbc",
+        "matched": true,
+        "second": "06175f6b57642f006018cf8229e556948f89bb5e99a2c175da3035b82336ccbc"
+      },
+      "fundamental_fact_hash": {
+        "first": "0632039d1598c4857fb2d03a7caf21f8851bed2d5ededc5a9d96d0bb4c71fc39",
+        "matched": true,
+        "second": "0632039d1598c4857fb2d03a7caf21f8851bed2d5ededc5a9d96d0bb4c71fc39"
+      },
+      "monthly_eligible_universe_hash": {
+        "first": "6f4c111326ccba93291b585fe851d839efd8e6f9974243a03a61b9dba5ed85bb",
+        "matched": true,
+        "second": "6f4c111326ccba93291b585fe851d839efd8e6f9974243a03a61b9dba5ed85bb"
+      },
+      "outcome_count": {
+        "first": 41012,
+        "matched": true,
+        "second": 41012
+      },
+      "prediction_count": {
+        "first": 41264,
+        "matched": true,
+        "second": 41264
+      },
+      "prediction_outcome_hash": {
+        "first": "fbf13fa3353db823c952fba4661af4bdec0fc0ef3cfb6a0955acd0d3a8dc4a62",
+        "matched": true,
+        "second": "fbf13fa3353db823c952fba4661af4bdec0fc0ef3cfb6a0955acd0d3a8dc4a62"
+      }
+    }
+  },
+  "schema_version": "sprint8_reproducibility_closure_v1",
+  "sprint7_closure_sha256": "1c47cd73ecbf0a16d1055463ded3d953f690301d1c24adef451886e25f7a4f9d"
+}

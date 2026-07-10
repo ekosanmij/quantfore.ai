@@ -1,10 +1,10 @@
 # Sprint 7 and Sprint 8 Free-Data Progress v1
 
-Status: **SPRINT 7 CLOSED; SPRINT 8 IN PROGRESS**
+Status: **SPRINTS 7 AND 8 CLOSED**
 
 This document records the zero-cost, personal/internal-research data work
-completed as of July 3, 2026. Sprint 7 has passing two-rebuild closure evidence.
-Sprint 8 remains in progress. `claims_eligible=false` remains in force.
+completed as of July 10, 2026. Sprint 7 and Sprint 8 both have passing
+two-rebuild closure evidence. `claims_eligible=false` remains in force.
 
 ## Accepted scope
 
@@ -157,15 +157,18 @@ The Git-tracked readiness report is
 
 ## Remaining work and hard blockers
 
-1. Run the fresh-database audit of the normalized SEC-primary fundamentals and
-   dated classifications.
-2. Generate the holdout lock and real reports, run two clean rebuilds, and
-   publish closure only if every hard gate passes.
+None. Sprint 8 closed on July 10, 2026: the fresh-database SEC-primary
+fundamentals audit passed, the holdout lock was re-derived and committed alone
+at commit `54d07aad318362bfa55d9bbdcdbc19cc707c9e3b`, and two clean rebuilds
+agreed exactly on all ten closure invariants (closure SHA-256
+`edce8123922a5157dc979ae9db34834a69fbe31b8a0aa1baf8ae132088fc064c`; evidence
+in `reports/reproducibility/sprint8-closure-v1.{json,md}`). The full
+two-rebuild closure now completes in about 48 minutes; run it wake-locked
+(`caffeinate -dims`) on machines that sleep when idle.
 
 The earlier provisional equity manifest was rejected after adapter validation
 exposed recycled-symbol contamination. The corrected 2017 contract passed two
-independent rebuilds, with exact canonical report and audit hashes. Sprint 8
-still requires its separate holdout lock and reproducibility gate.
+independent rebuilds, with exact canonical report and audit hashes.
 
 ## Reproduction commands
 
