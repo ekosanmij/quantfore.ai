@@ -1,0 +1,123 @@
+{
+  "blocked_pre_shadow_lock": {
+    "activation_decision": "DO_NOT_START_SHADOW",
+    "executable_for_shadow_predictions": false,
+    "path": "experiments/model-v2-pre-shadow-lock-v1.json",
+    "sha256": "9476b8e5213f11f8a6a04a5e98fa8e0f7245ed093d0609960ba33c9a9132be91",
+    "status": "BLOCKED_COVERAGE_GATES_FAILED"
+  },
+  "claims_boundary": "A passing rehearsal proves only ledger mechanics. The failed Sprint 10.5 readiness decision and blocked 10.6 lock still prohibit real shadow prediction creation and any backfill.",
+  "claims_eligible": false,
+  "controls": {
+    "append_only_update_rejected": {
+      "evidence": {
+        "error": "shadow ledger artifacts are append-only"
+      },
+      "passed": true
+    },
+    "blocked_real_lock_rejected": {
+      "evidence": {
+        "blocked_lock_status": "BLOCKED_COVERAGE_GATES_FAILED",
+        "error": "shadow predictions require status=EXECUTABLE_LOCKED"
+      },
+      "passed": true
+    },
+    "complete_cohort_reconciliation": {
+      "evidence": {
+        "excluded": 1,
+        "expected": 2,
+        "scored": 1,
+        "stored_records": 2
+      },
+      "passed": true
+    },
+    "future_outcomes_empty": {
+      "evidence": {
+        "model_outcome_rows": 0,
+        "shadow_outcome_rows": 0
+      },
+      "passed": true
+    },
+    "identical_rerun_is_noop": {
+      "evidence": {
+        "first_hash": "bdfc620058a7093efa897f0bdd14e06cbcb3f62daa026c6bab2c52c21a554f06",
+        "second_created": false,
+        "second_hash": "bdfc620058a7093efa897f0bdd14e06cbcb3f62daa026c6bab2c52c21a554f06"
+      },
+      "passed": true
+    },
+    "immutable_batch_sealed": {
+      "evidence": {
+        "batch_count": 1,
+        "batch_hash": "bdfc620058a7093efa897f0bdd14e06cbcb3f62daa026c6bab2c52c21a554f06",
+        "first_created": true
+      },
+      "passed": true
+    },
+    "product_labels_withheld": {
+      "evidence": {
+        "null_product_labels": 2,
+        "policy": "WITHHELD_RESEARCH_ONLY",
+        "record_count": 2
+      },
+      "passed": true
+    },
+    "unsafe_overwrite_rejected": {
+      "evidence": {
+        "error": "shadow batch already exists with different sealed inputs"
+      },
+      "passed": true
+    }
+  },
+  "counts": {
+    "batches": 1,
+    "excluded": 1,
+    "model_outcomes": 0,
+    "product_labels": 0,
+    "records": 2,
+    "scored": 1,
+    "shadow_outcomes": 0
+  },
+  "decision": "PASS_SYNTHETIC_REHEARSAL_ONLY",
+  "fixture": {
+    "path": "experiments/model-v2-shadow-ledger-rehearsal-fixture-v1.json",
+    "payload_sha256": "e91de0360d60a594a52f3699268ddd5931fb27b7d965fb8bf2fc4d8ac1027256",
+    "sha256": "4bec598aaa1e63e8e437a1cd48dbfe39773c0296e97bf164a52bf256e15e7da0"
+  },
+  "fixture_only": true,
+  "generated_at": "2026-07-14T15:13:23Z",
+  "implementation": {
+    "base_commit": "983c6395c0f5688093874aab586518d4dfdddefb",
+    "source_bindings": [
+      {
+        "path": "packages/research/quantfore_research/shadow/ledger.py",
+        "sha256": "90c9b8e7a9b81de4db9652417317038708c5ebc3f42287de706f2f4f23def5cf"
+      },
+      {
+        "path": "packages/research/quantfore_research/shadow/rehearsal.py",
+        "sha256": "9d0104d57146806e12518e80570b6effd8b29f1c97b580040fb5220f39378c32"
+      },
+      {
+        "path": "pipelines/create_shadow_predictions.py",
+        "sha256": "513468a3ae94b55a68088248c7b3f86a82c59e23eea276f3e780a3a29db048df"
+      },
+      {
+        "path": "pipelines/rehearse_model_v2_shadow_ledger.py",
+        "sha256": "d276ca3699f7ef4ecb87a998f4e97620619dc47903789e1468d6a224bbb07e03"
+      },
+      {
+        "path": "packages/research/tests/test_model_v2_shadow_rehearsal.py",
+        "sha256": "f9ab72666c5a8fbbe3e1492798a256155eb0b6eeadd631d842226df82afe84d7"
+      },
+      {
+        "path": "packages/research/tests/test_shadow_prediction_ledger.py",
+        "sha256": "84e1a20f94a75b2265f8dd00dc964f73a62240d5cccb9836b0dd7de16099b7cf"
+      }
+    ],
+    "synthetic_executable_lock_sha256": "dae83940d50fe84735578e2e5adeb22d584a0f1b3b030ab1ccafa72aaf575939"
+  },
+  "outcomes_accessed": false,
+  "real_shadow_authorized": false,
+  "schema_version": "model-v2-shadow-ledger-rehearsal-v1",
+  "scope": "Synthetic fixture data exercising production shadow-ledger mechanics; no real security cohort or forward outcome is created."
+}

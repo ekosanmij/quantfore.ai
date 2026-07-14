@@ -1,0 +1,102 @@
+{
+  "activation_conditions": {
+    "decision_recorded_before_prediction_timestamp": true,
+    "executable_lock_status": false,
+    "readiness_gates_pass": false,
+    "shadow_prediction_authorized": false,
+    "synthetic_rehearsal_passed": true
+  },
+  "anti_backfill_controls": {
+    "backfill_allowed": false,
+    "missed_batch": false,
+    "required_action_if_target_passes": "retain MISSED_NOT_BACKFILLED and select any later cohort prospectively before its prediction timestamp",
+    "target_date_may_move_silently": false
+  },
+  "batch_hash": null,
+  "batch_id": null,
+  "batch_status": "NOT_CREATED_BLOCKED_PRE_TARGET",
+  "claims_boundary": "This is a fail-closed operational decision, not a prediction, model performance claim, recommendation, or product output.",
+  "claims_eligible": false,
+  "decision": "NO_GO_COVERAGE_GATES_FAILED",
+  "decision_record_sha256": "93f157b36452d7957a04b0f84e72071dc62cc93d412394ae3605505081d09b7e",
+  "evaluated_at": "2026-07-14T15:20:03Z",
+  "evidence": {
+    "design_lock": {
+      "path": "experiments/multifactor-v2-hypothesis-lock-v1.json",
+      "sha256": "4d2de5cd47d985b8531ac1bbe60d86fe2fd8cfc5c2284e37c7ea3fac8d13d42c"
+    },
+    "pre_shadow_lock": {
+      "path": "experiments/model-v2-pre-shadow-lock-v1.json",
+      "sha256": "9476b8e5213f11f8a6a04a5e98fa8e0f7245ed093d0609960ba33c9a9132be91"
+    },
+    "readiness_report": {
+      "path": "reports/data-audits/model-v2-coverage-readiness-v1.json",
+      "sha256": "f3aef090c57ce5fc793bbe887ebfc2d01bb53f4215ea5a3bacf256be535b1cd3"
+    },
+    "synthetic_rehearsal_report": {
+      "path": "reports/reproducibility/model-v2-shadow-ledger-rehearsal-v1.json",
+      "sha256": "09031379aec3a06eabee0e46b0711423d0a947cc2f5d37b9482e161126ee09f3"
+    }
+  },
+  "evidence_decisions": {
+    "pre_shadow_lock_activation": "DO_NOT_START_SHADOW",
+    "pre_shadow_lock_status": "BLOCKED_COVERAGE_GATES_FAILED",
+    "readiness": "FAIL_NOT_READY_FOR_EXECUTABLE_LOCK",
+    "synthetic_rehearsal": "PASS_SYNTHETIC_REHEARSAL_ONLY"
+  },
+  "failed_activation_conditions": [
+    "executable_lock_status",
+    "readiness_gates_pass",
+    "shadow_prediction_authorized"
+  ],
+  "failed_coverage_criteria": [
+    "active_branch_coverage_every_month",
+    "eligible_names_per_active_branch_every_month",
+    "final_score_coverage_every_month",
+    "represented_active_branches_every_month",
+    "represented_sectors_every_month"
+  ],
+  "implementation": {
+    "repository_base_commit": "983c6395c0f5688093874aab586518d4dfdddefb",
+    "source_bindings": [
+      {
+        "path": "pipelines/decide_model_v2_first_shadow_batch.py",
+        "sha256": "42d30d2edf0d192653b8424c43660a852c1d4d003a998579e7869a5022c460c6"
+      },
+      {
+        "path": "pipelines/create_shadow_predictions.py",
+        "sha256": "513468a3ae94b55a68088248c7b3f86a82c59e23eea276f3e780a3a29db048df"
+      },
+      {
+        "path": "packages/research/quantfore_research/shadow/ledger.py",
+        "sha256": "90c9b8e7a9b81de4db9652417317038708c5ebc3f42287de706f2f4f23def5cf"
+      },
+      {
+        "path": "packages/research/tests/test_model_v2_first_shadow_decision.py",
+        "sha256": "9f728d3b482b141cc3533ff9e9e4b217062c78750b9696d08a11345bd3baa1f4"
+      }
+    ]
+  },
+  "next_action": "Expand point-in-time accounting and branch coverage, rerun Sprint 10.5 outcome-blind, and create a new executable lock only after every gate passes. Do not create or backfill the 2026-07-31 batch from this blocked state.",
+  "real_shadow_authorized": false,
+  "real_shadow_batch_created": false,
+  "schema_version": "model-v2-first-shadow-batch-decision-v1",
+  "target": {
+    "prediction_date": "2026-07-31",
+    "prediction_timestamp": "2026-07-31T20:00:00Z",
+    "recorded_before_prediction_timestamp": true,
+    "schedule_position": 1,
+    "schedule_size": 24,
+    "target_changed": false
+  },
+  "write_audit": {
+    "database_writes": 0,
+    "outcome_records_created": 0,
+    "outcomes_accessed": false,
+    "prediction_records_created": 0,
+    "product_labels_emitted": 0,
+    "real_prediction_inputs_accessed": false,
+    "return_metrics_accessed": false,
+    "shadow_cli_invoked": false
+  }
+}
