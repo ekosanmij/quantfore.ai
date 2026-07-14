@@ -1,0 +1,98 @@
+{
+  "batch": {
+    "batch_hash": "bdfc620058a7093efa897f0bdd14e06cbcb3f62daa026c6bab2c52c21a554f06",
+    "batch_id": "shadow-batch-524a35c8-d8dd-5f06-8d88-60460b31c8e6",
+    "claims_eligible": false,
+    "excluded_count": 1,
+    "expected_member_count": 2,
+    "model_version": "multifactor-v2-branch-aware-equal-weight-v1",
+    "prediction_date": "2026-07-31",
+    "prediction_timestamp": "2026-07-31T21:00:00Z",
+    "product_label_policy": "WITHHELD_RESEARCH_ONLY",
+    "recorded_at": "2026-08-01T12:00:00Z",
+    "scored_count": 1,
+    "universe_id": "test-shadow-universe"
+  },
+  "fixture_only": true,
+  "fixture_payload_sha256": "e91de0360d60a594a52f3699268ddd5931fb27b7d965fb8bf2fc4d8ac1027256",
+  "fixture_version": "model-v2-shadow-ledger-rehearsal-fixture-v1",
+  "outcomes": [],
+  "real_shadow_authorized": false,
+  "records": [
+    {
+      "classification_branch": "BANK",
+      "disposition": "EXCLUDED",
+      "driver_count": 0,
+      "exclusions": [
+        {
+          "feature_name": "growth_component",
+          "reason": "SOURCE_MISSING",
+          "scope": "component",
+          "status": "MISSING"
+        },
+        {
+          "feature_name": "quality_component",
+          "reason": "SOURCE_MISSING",
+          "scope": "component",
+          "status": "MISSING"
+        },
+        {
+          "feature_name": "risk_component",
+          "reason": "SOURCE_MISSING",
+          "scope": "component",
+          "status": "MISSING"
+        },
+        {
+          "actual": 2,
+          "reason": "INSUFFICIENT_FAMILY_COVERAGE",
+          "required": 5,
+          "scope": "eligibility"
+        },
+        {
+          "actual": "0.4",
+          "reason": "INSUFFICIENT_COMPONENT_COVERAGE",
+          "required": "0.8",
+          "scope": "eligibility"
+        }
+      ],
+      "outcome_fields": {
+        "model_outcome_id": null,
+        "shadow_outcome_id": null
+      },
+      "prediction_ids": {},
+      "product_label": null,
+      "product_label_status": "WITHHELD_RESEARCH_ONLY",
+      "record_hash": "45f2f984ef0fb9b142ce9c42a4b529069f6929ca3836b785569fcb3ba211a643",
+      "research_label": null,
+      "research_score": null,
+      "security_id": "security-excluded",
+      "shadow_prediction_id": "shadow-record-af03ca58-f45a-59d6-8ca1-7e18368b914e",
+      "ticker": "BBB"
+    },
+    {
+      "classification_branch": "INDUSTRIAL_GENERAL",
+      "disposition": "SCORED",
+      "driver_count": 5,
+      "exclusions": [],
+      "outcome_fields": {
+        "model_outcome_id": null,
+        "shadow_outcome_id": null
+      },
+      "prediction_ids": {
+        "126d": "prediction-scored-126d",
+        "21d": "prediction-scored-21d",
+        "252d": "prediction-scored-252d",
+        "63d": "prediction-scored-63d"
+      },
+      "product_label": null,
+      "product_label_status": "WITHHELD_RESEARCH_ONLY",
+      "record_hash": "ca93230bc95b6e8149bedf2a9fd241a592f8a8db5438cd754a2fab689535b03f",
+      "research_label": "research_top_quintile",
+      "research_score": "75.000000",
+      "security_id": "security-scored",
+      "shadow_prediction_id": "shadow-record-b5bdb747-c56f-52da-8435-c1a3df22ad16",
+      "ticker": "AAA"
+    }
+  ],
+  "synthetic_data_only": true
+}
