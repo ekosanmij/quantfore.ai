@@ -1,0 +1,147 @@
+{
+  "audit_result": {
+    "candidate_input": {
+      "exists": false,
+      "path": "data/raw/model-v3/us-listed-common-equity-pit-v1/manifest.json",
+      "qualification": "NO_QUALIFYING_MODEL_V3_MANIFEST"
+    },
+    "criteria": {
+      "F0": {
+        "metric": "outcome_return_rank_ic_spread_or_portfolio_access_count",
+        "observed": 0,
+        "operator": "equals",
+        "passed": true,
+        "status": "PASS_NO_PROHIBITED_INPUT_ACCESSED",
+        "threshold": 0
+      },
+      "F1": {
+        "metric": "expected_names_per_structurally_active_branch_every_month",
+        "observed": null,
+        "operator": "gte",
+        "passed": false,
+        "status": "NOT_EVALUABLE_INPUT_MISSING",
+        "threshold": 25
+      },
+      "F2": {
+        "metric": "floor_expected_names_times_minimum_branch_coverage",
+        "observed": null,
+        "operator": "gte",
+        "passed": false,
+        "status": "NOT_EVALUABLE_INPUT_MISSING",
+        "threshold": 20
+      },
+      "F3": {
+        "metric": "represented_structurally_active_branches_every_month",
+        "observed": null,
+        "operator": "gte",
+        "passed": false,
+        "status": "NOT_EVALUABLE_INPUT_MISSING",
+        "threshold": 5
+      },
+      "F4": {
+        "metric": "represented_gics_sectors_every_month",
+        "observed": null,
+        "operator": "gte",
+        "passed": false,
+        "status": "NOT_EVALUABLE_INPUT_MISSING",
+        "threshold": 5
+      },
+      "F5": {
+        "metric": "expected_security_months_with_exactly_one_structural_disposition_fraction",
+        "observed": null,
+        "operator": "equals",
+        "passed": false,
+        "status": "NOT_EVALUABLE_INPUT_MISSING",
+        "threshold": 1.0
+      },
+      "F6": {
+        "metric": "known_point_in_time_branch_or_subtype_fraction_every_month",
+        "observed": null,
+        "operator": "gte",
+        "passed": false,
+        "status": "NOT_EVALUABLE_INPUT_MISSING",
+        "threshold": 0.98
+      },
+      "F7": {
+        "metric": "two_clean_structural_rebuilds_match_exactly",
+        "observed": null,
+        "operator": "equals",
+        "passed": false,
+        "status": "NOT_EVALUABLE_INPUT_MISSING",
+        "threshold": true
+      }
+    },
+    "decision": "FAIL_LINEAGE_OR_REPRODUCIBILITY",
+    "evaluated_months": 0,
+    "expected_months": 102,
+    "failed_criteria": [
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5",
+      "F6",
+      "F7"
+    ],
+    "status": "BLOCKED_MISSING_EXPANDED_UNIVERSE_INPUT"
+  },
+  "authorization": {
+    "accounting_or_price_acquisition_authorized": false,
+    "executable_lock_authorized": false,
+    "feature_or_score_rebuild_authorized": false,
+    "july_2026_backfill_allowed": false,
+    "outcome_evaluation_authorized": false,
+    "shadow_prediction_authorized": false,
+    "structural_evidence_acquisition_requires_separate_authorization": true,
+    "structural_evidence_source_selection_allowed": true
+  },
+  "bindings": {
+    "data_remediation_plan": {
+      "path": "experiments/model-v3-data-coverage-remediation-plan-v1.json",
+      "sha256": "f4de07a7648ba8c4382661d48da71168f817e86dc8ea51dfaadb2d1b0cc0023c"
+    },
+    "design_lock": {
+      "path": "experiments/multifactor-v3-expanded-universe-design-lock-v1.json",
+      "sha256": "209d5dadba48f26a3902a9fa575feb46106d5ee92c0484aa9a9a2db02a7b6f5b"
+    },
+    "feasibility_audit_json": {
+      "path": "reports/data-audits/model-v3-expanded-universe-feasibility-v1.json",
+      "sha256": "8490369baa4f26fe9751f4b01ad84ccc5cfeb4c5a36b4e894c129f1112ae539b"
+    },
+    "feasibility_audit_markdown": {
+      "path": "reports/data-audits/model-v3-expanded-universe-feasibility-v1.md",
+      "sha256": "1fb9539655d0a566bef1bcd23f1c9f26394176421b2de81f97d1c65fcc6a7ec0"
+    },
+    "feasibility_contract": {
+      "path": "docs/research/model-v3-expanded-universe-feasibility-v1.md",
+      "sha256": "7607674b343f2e7797d3ca71a09548acafcdfc7e470facc6ffc5334b60f20623"
+    }
+  },
+  "claims_eligible": false,
+  "decided_at": "2026-07-14T16:05:00Z",
+  "decision": "NO_GO_MISSING_EXPANDED_UNIVERSE_EVIDENCE",
+  "next_required_action": {
+    "action": "select and separately authorize a source for historical full-exchange listing, identity, domicile, security type, primary exchange, delisting, branch, and sector evidence; then build two identical ledgers and rerun the same audit",
+    "id": "W0_EXPANDED_UNIVERSE_DENOMINATOR",
+    "required_artifact": "data/raw/model-v3/us-listed-common-equity-pit-v1/manifest.json",
+    "required_decision_to_continue": "PASS_STRUCTURALLY_FEASIBLE",
+    "return_or_outcome_access_allowed": false,
+    "threshold_changes_allowed": false
+  },
+  "outcomes_accessed": false,
+  "reason": "QUALIFYING_POINT_IN_TIME_UNIVERSE_LEDGER_NOT_PRESENT",
+  "remediation_state": {
+    "all_downstream_work_packages_blocked": true,
+    "status": "BLOCKED_STRUCTURAL_FEASIBILITY_INPUT_MISSING"
+  },
+  "schema_version": "model-v3-structural-feasibility-gate-decision-v1",
+  "status": "CLOSED_NO_GO_BEFORE_REBUILD",
+  "structural_rule": {
+    "denominator_may_shrink_for_missing_data": false,
+    "minimum_active_branch_coverage": 0.8,
+    "minimum_eligible_names_per_active_branch": 20,
+    "minimum_expected_names_formula": "ceil(20 / 0.80)",
+    "minimum_expected_names_per_populated_branch": 25,
+    "populated_branches_may_be_deactivated": false
+  }
+}

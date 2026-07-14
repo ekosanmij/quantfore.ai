@@ -43,6 +43,8 @@ DEFAULT_MARKDOWN = Path(
     "reports/reproducibility/model-v2-shadow-ledger-rehearsal-v1.md"
 )
 BLOCKED_LOCK = Path("experiments/model-v2-pre-shadow-lock-v1.json")
+RECORDED_REPOSITORY_BASE_COMMIT = "983c6395c0f5688093874aab586518d4dfdddefb"
+RECORDED_IMPLEMENTATION_COMMIT = "1962b926839f105a5e04cf5231b44f45c998c562"
 SOURCE_PATHS = (
     Path("packages/research/quantfore_research/shadow/ledger.py"),
     Path("packages/research/quantfore_research/shadow/rehearsal.py"),
@@ -72,23 +74,48 @@ def _load_json(path: Path) -> Mapping[str, Any]:
     return value
 
 
-def _git_head(root: Path) -> str:
+def _assert_recorded_commit(root: Path, commit: str) -> None:
     try:
-        return subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], cwd=root, text=True
-        ).strip()
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", commit, "HEAD"],
+            cwd=root,
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
     except (FileNotFoundError, subprocess.CalledProcessError) as exc:
-        raise RuntimeError("unable to resolve the rehearsal base commit") from exc
+        raise RuntimeError("recorded rehearsal commit is not an ancestor") from exc
+
+
+def _recorded_base_commit(root: Path) -> str:
+    _assert_recorded_commit(root, RECORDED_REPOSITORY_BASE_COMMIT)
+    _assert_recorded_commit(root, RECORDED_IMPLEMENTATION_COMMIT)
+    return RECORDED_REPOSITORY_BASE_COMMIT
 
 
 def _source_bindings(root: Path) -> list[dict[str, str]]:
+    _assert_recorded_commit(root, RECORDED_IMPLEMENTATION_COMMIT)
     bindings = []
     for relative in SOURCE_PATHS:
-        absolute = root / relative
-        if not absolute.is_file():
-            raise ValueError(f"rehearsal source is missing: {relative}")
+        try:
+            source_bytes = subprocess.check_output(
+                [
+                    "git",
+                    "show",
+                    f"{RECORDED_IMPLEMENTATION_COMMIT}:{relative.as_posix()}",
+                ],
+                cwd=root,
+                stderr=subprocess.PIPE,
+            )
+        except (FileNotFoundError, subprocess.CalledProcessError) as exc:
+            raise RuntimeError(
+                f"recorded rehearsal source is missing: {relative}"
+            ) from exc
         bindings.append(
-            {"path": relative.as_posix(), "sha256": _sha256_file(absolute)}
+            {
+                "path": relative.as_posix(),
+                "sha256": hashlib.sha256(source_bytes).hexdigest(),
+            }
         )
     return bindings
 
@@ -329,7 +356,7 @@ def run_rehearsal(
             ),
         },
         "implementation": {
-            "base_commit": _git_head(root),
+            "base_commit": _recorded_base_commit(root),
             "source_bindings": _source_bindings(root),
             "synthetic_executable_lock_sha256": seeded.executable_lock_hash,
         },

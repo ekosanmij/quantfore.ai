@@ -1,0 +1,746 @@
+{
+  "claims_boundary": "This freeze preserves a failed engineering result. It does not authorize shadow predictions, performance claims, threshold changes, or retroactive batch creation.",
+  "claims_eligible": false,
+  "closure_chain": {
+    "first_batch_decision": "NO_GO_COVERAGE_GATES_FAILED",
+    "pre_shadow_lock_executable": false,
+    "pre_shadow_lock_status": "BLOCKED_COVERAGE_GATES_FAILED",
+    "readiness_decision": "FAIL_NOT_READY_FOR_EXECUTABLE_LOCK",
+    "real_shadow_batch_created": false,
+    "rehearsal_decision": "PASS_SYNTHETIC_REHEARSAL_ONLY",
+    "rehearsal_real_shadow_authorized": false
+  },
+  "evidence_bindings": [
+    {
+      "name": "accounting_coverage_json",
+      "path": "reports/data-audits/model-v2-accounting-coverage-v1.json",
+      "sha256": "b3eced8c5a16c6d1060d89b1047c3b730c4f6f8ec731319481c22cb3895b79a0"
+    },
+    {
+      "name": "accounting_coverage_markdown",
+      "path": "reports/data-audits/model-v2-accounting-coverage-v1.md",
+      "sha256": "b6bbd0d6fae72e0ea7d57e6c7739495a3182060076d6187632d2fdebb3055534"
+    },
+    {
+      "name": "branch_feature_input_manifest",
+      "path": "experiments/model-v2-branch-feature-inputs-v1.manifest.json",
+      "sha256": "360c45cb13a28202c5516afbd7727896f0649f779a305ce545ca7ad71117c516"
+    },
+    {
+      "name": "branch_score_manifest",
+      "path": "experiments/model-v2-branch-aware-scores-v1.manifest.json",
+      "sha256": "8af77ab57f7dbac9037c0f918bf71e6ea0c75f66ca4607b65a42ae15b8cd5171"
+    },
+    {
+      "name": "classification_ledger",
+      "path": "experiments/model-v2-point-in-time-subtype-classification-v1.jsonl.gz",
+      "sha256": "0c0cf68d359727498f8f512aeb9f9cac6360e2f802bd5f0958448b6d8cd8d898"
+    },
+    {
+      "name": "design_contract",
+      "path": "experiments/multifactor-v2-hypothesis-contract.md",
+      "sha256": "ebc1945e2740f55b577b474b8049a9dd1161f00f54026bfd5529d66a497b6a28"
+    },
+    {
+      "name": "design_lock",
+      "path": "experiments/multifactor-v2-hypothesis-lock-v1.json",
+      "sha256": "4d2de5cd47d985b8531ac1bbe60d86fe2fd8cfc5c2284e37c7ea3fac8d13d42c"
+    },
+    {
+      "name": "first_shadow_decision_json",
+      "path": "reports/reproducibility/model-v2-first-shadow-batch-decision-v1.json",
+      "sha256": "19f2542b53f63e1d517296d46d7bec09b7fe2a523770eb0e95cbbbbb028a855a"
+    },
+    {
+      "name": "first_shadow_decision_markdown",
+      "path": "reports/reproducibility/model-v2-first-shadow-batch-decision-v1.md",
+      "sha256": "b7d89f8aaa9429a818833f05bc3785b753edc1d3b859a0f15df28d7176767272"
+    },
+    {
+      "name": "implementation_contract",
+      "path": "docs/research/model-v2-branch-aware-implementation-v1.md",
+      "sha256": "bef9af9b75b86325c7cb74a8e443b03757d726631a298af05c9bedaab3a8460f"
+    },
+    {
+      "name": "point_in_time_classification_contract",
+      "path": "docs/research/point-in-time-subtype-classification-v1.md",
+      "sha256": "2f8e9c7f7e39521d4390c96f9fe91f3fadfe6432f135ab2968465ca07d0b4e7b"
+    },
+    {
+      "name": "pre_shadow_lock",
+      "path": "experiments/model-v2-pre-shadow-lock-v1.json",
+      "sha256": "9476b8e5213f11f8a6a04a5e98fa8e0f7245ed093d0609960ba33c9a9132be91"
+    },
+    {
+      "name": "pre_shadow_readiness_markdown",
+      "path": "reports/reproducibility/model-v2-pre-shadow-readiness-v1.md",
+      "sha256": "78262ed3b9f462692a47676eea22d99a19442c7a02fe02906ccde85f8cac2e7f"
+    },
+    {
+      "name": "readiness_report",
+      "path": "reports/data-audits/model-v2-coverage-readiness-v1.json",
+      "sha256": "f3aef090c57ce5fc793bbe887ebfc2d01bb53f4215ea5a3bacf256be535b1cd3"
+    },
+    {
+      "name": "shadow_ledger_contract",
+      "path": "docs/research/shadow-ledger-v1.md",
+      "sha256": "55b0831437c8b918fd4c3f526c21a6fd7551a9ed2d7680d2f086617741e77e55"
+    },
+    {
+      "name": "shadow_rehearsal_fixture",
+      "path": "experiments/model-v2-shadow-ledger-rehearsal-fixture-v1.json",
+      "sha256": "4bec598aaa1e63e8e437a1cd48dbfe39773c0296e97bf164a52bf256e15e7da0"
+    },
+    {
+      "name": "shadow_rehearsal_json",
+      "path": "reports/reproducibility/model-v2-shadow-ledger-rehearsal-v1.json",
+      "sha256": "09031379aec3a06eabee0e46b0711423d0a947cc2f5d37b9482e161126ee09f3"
+    },
+    {
+      "name": "shadow_rehearsal_markdown",
+      "path": "reports/reproducibility/model-v2-shadow-ledger-rehearsal-v1.md",
+      "sha256": "eedf872bb4758c41f176611065af90df8d28a53ac6f4cf2d764c105bef4eee6c"
+    },
+    {
+      "name": "subtype_coverage_json",
+      "path": "reports/data-audits/model-v2-subtype-classification-coverage-v1.json",
+      "sha256": "2ea57b35da47c049b06e10e7196e7719199afb1dec5055263da5a9f90000e0fc"
+    }
+  ],
+  "frozen_at": "2026-07-14T15:31:25Z",
+  "frozen_baseline_commit": "e18303e686f1946f83a5451e868a12cd1aa45375",
+  "locked_design_contract": {
+    "payload": {
+      "allowed_change_categories": {
+        "eligibility": "point_in_time_common_equity_liquidity_and_minimum_family_coverage_rules",
+        "features": "branch_specific_economic_substitutions_only_with_predeclared_direction_and_formula",
+        "missingness": "explicit_not_applicable_states_and_predeclared_component_coverage_rules",
+        "sector_treatment": "financial_subtype_branching_and_branch_local_normalization",
+        "weights": "family_weights_fixed; within_family_component_weights_may_be_locked_before_execution"
+      },
+      "engineering_gates": {
+        "E1": {
+          "metric": "demonstrated_lookahead_revision_membership_classification_or_outcome_leakage_count",
+          "operator": "equals",
+          "threshold": 0
+        },
+        "E10": {
+          "conditions": [
+            {
+              "metric": "selected_holdings_with_complete_trailing_20_session_liquidity_record_fraction",
+              "operator": "equals",
+              "threshold": 1.0
+            },
+            {
+              "metric": "modeled_order_fraction_of_trailing_20_session_median_dollar_volume",
+              "operator": "lte",
+              "threshold": 0.01
+            }
+          ]
+        },
+        "E2": {
+          "metric": "two_clean_rebuilds_match_all_locked_artifacts",
+          "operator": "equals",
+          "threshold": true
+        },
+        "E3": {
+          "metric": "expected_security_months_with_final_disposition_and_stable_reason_code_fraction",
+          "operator": "equals",
+          "threshold": 1.0
+        },
+        "E4": {
+          "metric": "expected_members_with_known_point_in_time_branch_or_subtype_fraction_every_month",
+          "operator": "gte",
+          "threshold": 0.98
+        },
+        "E5": {
+          "metric": "final_score_coverage_fraction_of_expected_nonbenchmark_members_every_month",
+          "operator": "gte",
+          "threshold": 0.9
+        },
+        "E6": {
+          "metric": "final_score_coverage_fraction_inside_every_active_branch_every_month",
+          "operator": "gte",
+          "threshold": 0.8
+        },
+        "E7": {
+          "conditions": [
+            {
+              "metric": "eligible_names_per_active_branch_every_month",
+              "operator": "gte",
+              "threshold": 20
+            },
+            {
+              "metric": "represented_active_branches_every_month",
+              "operator": "gte",
+              "threshold": 5
+            },
+            {
+              "metric": "represented_gics_sectors_every_month",
+              "operator": "gte",
+              "threshold": 5
+            }
+          ]
+        },
+        "E8": {
+          "metric": "cross_branch_normalization_or_industrial_universe_fallback_count",
+          "operator": "equals",
+          "threshold": 0
+        },
+        "E9": {
+          "metric": "all_predictions_immutable_and_timestamped_before_any_horizon_outcome_availability",
+          "operator": "equals",
+          "threshold": true
+        }
+      },
+      "evaluation_protocol": {
+        "aggregate_shadow_results_blinded_until_primary_evaluation": true,
+        "execution_lag_trading_days": 1,
+        "formation_time": "last_trading_day_close",
+        "forward_shadow_window": {
+          "claims_eligible_before_full_maturity": false,
+          "end": "2028-06-30",
+          "primary_evaluation_condition": "ALL_24_126D_OUTCOMES_MATURE",
+          "scheduled_monthly_cohorts": 24,
+          "start": "2026-07-31"
+        },
+        "frequency": "monthly",
+        "hac_lag_months": 5,
+        "historical_exposed_diagnostic_window": {
+          "allowed_use": "engineering_and_sensitivity_diagnostics_only",
+          "claims_eligible": false,
+          "end": "2025-06-30",
+          "start": "2017-01-01"
+        },
+        "prediction_artifact_must_precede_outcome_availability": true,
+        "primary_horizon": "126d",
+        "primary_rank_ic": "branch_neutral_spearman",
+        "secondary_horizons": [
+          "21d",
+          "63d",
+          "252d"
+        ]
+      },
+      "model": {
+        "all_five_families_required": true,
+        "classification_version": "sec-sic-financial-subtype-v2",
+        "cross_branch_fallback": false,
+        "factor_families": [
+          "value",
+          "quality",
+          "momentum",
+          "growth",
+          "risk"
+        ],
+        "family_weights": {
+          "growth": 0.2,
+          "momentum": 0.2,
+          "quality": 0.2,
+          "risk": 0.2,
+          "value": 0.2
+        },
+        "hypotheses": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "minimum_branch_cross_section": 20,
+        "minimum_component_coverage": 0.8,
+        "minimum_required_components_per_family": 0.6,
+        "missing_family_weight_renormalization": false,
+        "version": "multifactor-v2-branch-aware-equal-weight-v1"
+      },
+      "portfolio_protocol": {
+        "benchmarks": [
+          "SPY_total_return",
+          "eligible_universe_equal_weight"
+        ],
+        "construction": "six_equal_notional_overlapping_126d_sleeves",
+        "one_way_cost_scenarios_bps": [
+          0,
+          10,
+          25,
+          50
+        ],
+        "primary_one_way_cost_bps": 25,
+        "rebalance": "monthly",
+        "selection": "top_quintile_within_branch_then_pooled",
+        "stress_one_way_cost_bps": 50,
+        "weighting": "equal_weight"
+      },
+      "prohibited_changes": [
+        "outcome_driven_feature_selection",
+        "outcome_driven_weight_selection",
+        "family_weight_renormalization",
+        "cross_branch_imputation_or_normalization_fallback",
+        "retroactive_sprint8_baseline_mutation",
+        "forward_window_date_changes_after_prediction_start",
+        "threshold_changes_after_prediction_start",
+        "benchmark_changes_after_prediction_start",
+        "unblinding_aggregate_forward_results_before_primary_evaluation"
+      ],
+      "promotion_gates": {
+        "M1": {
+          "conditions": [
+            {
+              "metric": "scheduled_forward_cohorts",
+              "operator": "equals",
+              "threshold": 24
+            },
+            {
+              "metric": "calculable_monthly_branch_neutral_rank_ic_values",
+              "operator": "gte",
+              "threshold": 24
+            },
+            {
+              "metric": "evaluated_stock_months",
+              "operator": "gte",
+              "threshold": 10000
+            }
+          ]
+        },
+        "M10": {
+          "conditions": [
+            {
+              "metric": "six_sleeve_downside_capture",
+              "operator": "lt",
+              "threshold": 1.0
+            },
+            {
+              "metric": "max_drawdown_shortfall_vs_eligible_equal_weight_percentage_points",
+              "operator": "lte",
+              "threshold": 5.0
+            }
+          ]
+        },
+        "M11": {
+          "conditions": [
+            {
+              "metric": "final_scored_rows_with_all_five_families_available_fraction",
+              "operator": "gte",
+              "threshold": 0.9
+            },
+            {
+              "metric": "family_ablation_used_as_promotion_substitute",
+              "operator": "equals",
+              "threshold": false
+            }
+          ]
+        },
+        "M2": {
+          "metric": "mean_126d_branch_neutral_rank_ic",
+          "operator": "gte",
+          "threshold": 0.03
+        },
+        "M3": {
+          "metric": "mean_126d_branch_neutral_rank_ic_hac_tstat",
+          "operator": "gte",
+          "threshold": 2.0
+        },
+        "M4": {
+          "metric": "mean_126d_rank_ic_delta_vs_price_only",
+          "operator": "gte",
+          "threshold": 0.01
+        },
+        "M5": {
+          "conditions": [
+            {
+              "metric": "equal_weight_within_branch_top_minus_bottom_after_25bps",
+              "operator": "gt",
+              "threshold": 0.0
+            },
+            {
+              "metric": "equal_weight_within_branch_top_minus_bottom_after_50bps",
+              "operator": "gte",
+              "threshold": 0.0
+            }
+          ]
+        },
+        "M6": {
+          "conditions": [
+            {
+              "metric": "long_only_six_sleeve_excess_return_vs_spy_after_25bps",
+              "operator": "gt",
+              "threshold": 0.0
+            },
+            {
+              "metric": "long_only_six_sleeve_excess_return_vs_eligible_equal_weight_after_25bps",
+              "operator": "gt",
+              "threshold": 0.0
+            },
+            {
+              "metric": "benchmark_hit_rate",
+              "operator": "gt",
+              "threshold": 0.5
+            }
+          ]
+        },
+        "M7": {
+          "metric": "annual_mean_rank_ic_for_each_forward_calendar_year_with_at_least_six_cohorts",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        "M8": {
+          "metric": "maximum_single_branch_sector_or_year_share_of_positive_monthly_net_top_minus_bottom_spreads",
+          "operator": "lte",
+          "threshold": 0.5
+        },
+        "M9": {
+          "conditions": [
+            {
+              "metric": "selected_basket_name_count_every_rebalance",
+              "operator": "gte",
+              "threshold": 20
+            },
+            {
+              "metric": "maximum_single_name_weight_every_rebalance",
+              "operator": "lte",
+              "threshold": 0.05
+            },
+            {
+              "metric": "maximum_sector_weight_every_rebalance",
+              "operator": "lte",
+              "threshold": 0.35
+            }
+          ]
+        }
+      },
+      "universe": {
+        "benchmark": "SPY",
+        "benchmark_excluded_from_rankings": true,
+        "membership": "historical_monthly_point_in_time",
+        "point_in_time_membership_required": true,
+        "survivorship_free_required": true,
+        "universe_id": "sp500-pit-v1"
+      }
+    },
+    "sha256": "7fbf4d334eed5b91f341452f91a96524305fac95245c22456fc7cb0127a2bdd7"
+  },
+  "mutation_policy": {
+    "correction_policy": "append a versioned amendment that binds the original artifact; never overwrite frozen evidence",
+    "failed_decision_may_be_relabelled": false,
+    "frozen_paths_may_change": false,
+    "locks_may_be_rewritten": false,
+    "thresholds_may_change_in_place": false
+  },
+  "next_version_policy": {
+    "july_2026_backfill_allowed": false,
+    "new_design_lock_required": true,
+    "new_model_version_required": true,
+    "new_universe_or_normalization_design_must_be_predeclared": true,
+    "outcome_blind_feasibility_required_before_rebuild": true
+  },
+  "observed_failure": {
+    "payload": {
+      "aggregate_final_score_coverage": 0.323102766798419,
+      "criteria": {
+        "active_branch_coverage_every_month": {
+          "evaluated_branch_months": 714,
+          "failed_branch_months": 714,
+          "passed": false,
+          "threshold": 0.8
+        },
+        "cross_branch_fallback_count": {
+          "observed": 0,
+          "passed": true,
+          "threshold": 0
+        },
+        "eligible_names_per_active_branch_every_month": {
+          "evaluated_branch_months": 714,
+          "failed_branch_months": 624,
+          "passed": false,
+          "threshold": 20
+        },
+        "every_expected_row_has_stable_disposition": {
+          "observed": 1.0,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "final_score_coverage_every_month": {
+          "failed_months": [
+            "2017-01-31",
+            "2017-02-28",
+            "2017-03-31",
+            "2017-04-28",
+            "2017-05-31",
+            "2017-06-30",
+            "2017-07-31",
+            "2017-08-31",
+            "2017-09-29",
+            "2017-10-31",
+            "2017-11-30",
+            "2017-12-29",
+            "2018-01-31",
+            "2018-02-28",
+            "2018-03-29",
+            "2018-04-30",
+            "2018-05-31",
+            "2018-06-29",
+            "2018-07-31",
+            "2018-08-31",
+            "2018-09-28",
+            "2018-10-31",
+            "2018-11-30",
+            "2018-12-31",
+            "2019-01-31",
+            "2019-02-28",
+            "2019-03-29",
+            "2019-04-30",
+            "2019-05-31",
+            "2019-06-28",
+            "2019-07-31",
+            "2019-08-30",
+            "2019-09-30",
+            "2019-10-31",
+            "2019-11-29",
+            "2019-12-31",
+            "2020-01-31",
+            "2020-02-28",
+            "2020-03-31",
+            "2020-04-30",
+            "2020-05-29",
+            "2020-06-30",
+            "2020-07-31",
+            "2020-08-31",
+            "2020-09-30",
+            "2020-10-30",
+            "2020-11-30",
+            "2020-12-31",
+            "2021-01-29",
+            "2021-02-26",
+            "2021-03-31",
+            "2021-04-30",
+            "2021-05-28",
+            "2021-06-30",
+            "2021-07-30",
+            "2021-08-31",
+            "2021-09-30",
+            "2021-10-29",
+            "2021-11-30",
+            "2021-12-31",
+            "2022-01-31",
+            "2022-02-28",
+            "2022-03-31",
+            "2022-04-29",
+            "2022-05-31",
+            "2022-06-30",
+            "2022-07-29",
+            "2022-08-31",
+            "2022-09-30",
+            "2022-10-31",
+            "2022-11-30",
+            "2022-12-30",
+            "2023-01-31",
+            "2023-02-28",
+            "2023-03-31",
+            "2023-04-28",
+            "2023-05-31",
+            "2023-06-30",
+            "2023-07-31",
+            "2023-08-31",
+            "2023-09-29",
+            "2023-10-31",
+            "2023-11-30",
+            "2023-12-29",
+            "2024-01-31",
+            "2024-02-29",
+            "2024-03-28",
+            "2024-04-30",
+            "2024-05-31",
+            "2024-06-28",
+            "2024-07-31",
+            "2024-08-30",
+            "2024-09-30",
+            "2024-10-31",
+            "2024-11-29",
+            "2024-12-31",
+            "2025-01-31",
+            "2025-02-28",
+            "2025-03-31",
+            "2025-04-30",
+            "2025-05-30",
+            "2025-06-30"
+          ],
+          "minimum_observed": 0.0,
+          "passed": false,
+          "threshold": 0.9
+        },
+        "known_branch_or_subtype_every_month": {
+          "failed_months": [],
+          "minimum_observed": 0.9816700610997964,
+          "passed": true,
+          "threshold": 0.98
+        },
+        "represented_active_branches_every_month": {
+          "failed_months": [
+            "2017-01-31",
+            "2017-02-28",
+            "2017-03-31",
+            "2017-04-28",
+            "2017-05-31",
+            "2017-06-30",
+            "2017-07-31",
+            "2017-08-31",
+            "2017-09-29",
+            "2017-10-31",
+            "2017-11-30",
+            "2017-12-29",
+            "2018-01-31",
+            "2018-02-28",
+            "2018-03-29",
+            "2018-04-30",
+            "2018-05-31",
+            "2018-06-29",
+            "2018-07-31",
+            "2018-08-31",
+            "2018-09-28",
+            "2018-10-31",
+            "2018-11-30",
+            "2018-12-31",
+            "2019-01-31",
+            "2019-02-28",
+            "2019-03-29",
+            "2019-04-30",
+            "2019-05-31",
+            "2019-06-28",
+            "2019-07-31",
+            "2019-08-30",
+            "2019-09-30",
+            "2019-10-31",
+            "2019-11-29",
+            "2019-12-31",
+            "2020-01-31",
+            "2020-02-28",
+            "2020-03-31",
+            "2020-04-30",
+            "2020-05-29",
+            "2020-06-30",
+            "2020-07-31",
+            "2020-08-31",
+            "2020-09-30",
+            "2020-10-30",
+            "2020-11-30",
+            "2020-12-31",
+            "2021-01-29",
+            "2021-02-26",
+            "2021-03-31",
+            "2021-04-30",
+            "2021-05-28",
+            "2021-06-30",
+            "2021-07-30",
+            "2021-08-31",
+            "2021-09-30",
+            "2021-10-29",
+            "2021-11-30",
+            "2021-12-31",
+            "2022-01-31",
+            "2022-02-28",
+            "2022-03-31",
+            "2022-04-29",
+            "2022-05-31",
+            "2022-06-30",
+            "2022-07-29",
+            "2022-08-31",
+            "2022-09-30",
+            "2022-10-31",
+            "2022-11-30",
+            "2022-12-30",
+            "2023-01-31",
+            "2023-02-28",
+            "2023-03-31",
+            "2023-04-28",
+            "2023-05-31",
+            "2023-06-30",
+            "2023-07-31",
+            "2023-08-31",
+            "2023-09-29",
+            "2023-10-31",
+            "2023-11-30",
+            "2023-12-29",
+            "2024-01-31",
+            "2024-02-29",
+            "2024-03-28",
+            "2024-04-30",
+            "2024-05-31",
+            "2024-06-28",
+            "2024-07-31",
+            "2024-08-30",
+            "2024-09-30",
+            "2024-10-31",
+            "2024-11-29",
+            "2024-12-31",
+            "2025-01-31",
+            "2025-02-28",
+            "2025-03-31",
+            "2025-04-30",
+            "2025-05-30",
+            "2025-06-30"
+          ],
+          "minimum_observed": 0,
+          "passed": false,
+          "threshold": 5
+        },
+        "represented_sectors_every_month": {
+          "failed_months": [
+            "2017-01-31",
+            "2017-02-28",
+            "2017-03-31",
+            "2017-04-28",
+            "2017-05-31",
+            "2017-06-30",
+            "2017-07-31",
+            "2017-08-31",
+            "2017-09-29",
+            "2017-10-31",
+            "2017-11-30",
+            "2017-12-29"
+          ],
+          "minimum_observed": 0,
+          "passed": false,
+          "threshold": 5
+        },
+        "return_metrics_used": {
+          "observed": false,
+          "passed": true,
+          "threshold": false
+        },
+        "two_clean_rebuilds_match_exactly": {
+          "passed": true,
+          "threshold": true
+        }
+      },
+      "decision": "FAIL_NOT_READY_FOR_EXECUTABLE_LOCK",
+      "failed_criteria": [
+        "active_branch_coverage_every_month",
+        "eligible_names_per_active_branch_every_month",
+        "final_score_coverage_every_month",
+        "represented_active_branches_every_month",
+        "represented_sectors_every_month"
+      ],
+      "reconciliation": {
+        "duplicate_dispositions": 0,
+        "excluded_stock_months": 34251,
+        "exclusion_reason_counts": {
+          "ALL_FIVE_FAMILIES_REQUIRED": 28544,
+          "BRANCH_NORMALIZATION_COHORT_TOO_SMALL": 12296,
+          "BRANCH_REQUIRED_FEATURE_MISSING": 29748,
+          "CLASSIFICATION_CONFLICT": 6,
+          "CLASSIFICATION_SOURCE_UNAVAILABLE": 342,
+          "COMPONENT_COVERAGE_BELOW_MINIMUM": 30348,
+          "FAMILY_COVERAGE_BELOW_MINIMUM": 28544,
+          "REIT_SUBTYPE_UNKNOWN": 35,
+          "SECTOR_BRANCH_EXCLUDED": 1930
+        },
+        "expected_stock_months": 50600,
+        "final_disposition_fraction": 1.0,
+        "missing_dispositions": 0,
+        "score_rows_missing_any_family": 0,
+        "scored_stock_months": 16349
+      }
+    },
+    "sha256": "e24a5f5bae8a1287f03c9c80330a83a4c3f82257194abe78180c367581d6ce52"
+  },
+  "schema_version": "model-v2-failure-evidence-freeze-v1",
+  "shadow_authorized": false,
+  "status": "FROZEN_FAILED_NOT_SHADOW_READY"
+}

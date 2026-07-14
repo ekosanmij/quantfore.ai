@@ -1,0 +1,273 @@
+{
+  "authorization_boundary": {
+    "july_2026_backfill_allowed": false,
+    "next_authorization_after_w0": "versioned_data_acquisition_authorization",
+    "score_rebuild_requires_separate_readiness_authorization": true,
+    "shadow_schedule_must_be_prospective": true
+  },
+  "bindings": {
+    "contract": {
+      "path": "docs/research/model-v3-data-coverage-remediation-v1.md",
+      "sha256": "497ef73da9f8c9f313f5af565dafcd7999e782a244e187a7b260b1f2365b4958"
+    },
+    "design_lock": {
+      "path": "experiments/multifactor-v3-expanded-universe-design-lock-v1.json",
+      "sha256": "209d5dadba48f26a3902a9fa575feb46106d5ee92c0484aa9a9a2db02a7b6f5b"
+    },
+    "feasibility_audit": {
+      "path": "reports/data-audits/model-v3-expanded-universe-feasibility-v1.json",
+      "sha256": "8490369baa4f26fe9751f4b01ad84ccc5cfeb4c5a36b4e894c129f1112ae539b"
+    },
+    "v2_accounting_coverage": {
+      "path": "reports/data-audits/model-v2-accounting-coverage-v1.json",
+      "sha256": "b3eced8c5a16c6d1060d89b1047c3b730c4f6f8ec731319481c22cb3895b79a0"
+    },
+    "v2_fundamental_manifest": {
+      "path": "data/raw/free-point-in-time/sec-fundamentals-bundle-v2/manifest.json",
+      "sha256": "1170f8cec36962d69c34e889e52d6355fb0729bff2c55a1bcc2c284d98bd8833"
+    },
+    "v2_price_batches": [
+      {
+        "path": "data/raw/free-point-in-time/tiingo-prices-v1/batch-001/batch-registry.json",
+        "sha256": "ed47ec459e05e90802ef5396fc82e1f3b19dfe2cf64d4859c762b76e77f3cfe3"
+      },
+      {
+        "path": "data/raw/free-point-in-time/tiingo-prices-v1/batch-002/batch-registry.json",
+        "sha256": "6d25377ef35d33ae038f8b1827486e79ccd57580540b33e4fd48b912460cc767"
+      }
+    ],
+    "v2_readiness": {
+      "path": "reports/data-audits/model-v2-coverage-readiness-v1.json",
+      "sha256": "f3aef090c57ce5fc793bbe887ebfc2d01bb53f4215ea5a3bacf256be535b1cd3"
+    }
+  },
+  "blocking_gate": {
+    "accounting_or_price_acquisition_before_pass_allowed": false,
+    "observed_decision": "FAIL_LINEAGE_OR_REPRODUCIBILITY",
+    "passed": false,
+    "required_decision": "PASS_STRUCTURALLY_FEASIBLE",
+    "work_package": "W0_EXPANDED_UNIVERSE_DENOMINATOR"
+  },
+  "claims_eligible": false,
+  "executable_for_data_acquisition": false,
+  "executable_for_score_rebuild": false,
+  "generated_at": "2026-07-14T15:55:00Z",
+  "ordered_work_packages": [
+    {
+      "acceptance": "PASS_STRUCTURALLY_FEASIBLE",
+      "id": "W0",
+      "name": "expanded_universe_denominator",
+      "status": "BLOCKING_INPUT_MISSING"
+    },
+    {
+      "acceptance": {
+        "final_disposition_fraction": 1.0,
+        "minimum_known_branch_fraction_every_month": 0.98
+      },
+      "id": "W1",
+      "name": "identity_and_classification_completion",
+      "status": "BLOCKED_BY_W0"
+    },
+    {
+      "acceptance": {
+        "delisted_history_preserved": true,
+        "expected_member_denominator_reduction_allowed": false,
+        "minimum_pre_boundary_sessions": 252
+      },
+      "id": "W2",
+      "name": "price_and_corporate_action_history",
+      "status": "BLOCKED_BY_W0"
+    },
+    {
+      "acceptance": {
+        "all_missing_evidence_has_stable_reason": true,
+        "outcome_driven_tag_selection_allowed": false,
+        "point_in_time_accession_lineage_required": true
+      },
+      "id": "W3",
+      "name": "filing_and_sec_concept_evidence",
+      "status": "BLOCKED_BY_W0"
+    },
+    {
+      "id": "W4",
+      "name": "industrial_quality_repair",
+      "priority_components": [
+        "gross_profitability",
+        "roic",
+        "fcf_conversion"
+      ],
+      "priority_family": "quality",
+      "status": "BLOCKED_BY_W0"
+    },
+    {
+      "id": "W5",
+      "name": "specialist_branch_repair",
+      "required_concepts": [
+        "loans_and_leases_net",
+        "customer_deposits",
+        "credit_loss_provision",
+        "net_interest_income",
+        "premiums_earned_net",
+        "policyholder_benefits_claims_net",
+        "net_investment_income",
+        "real_estate_investment_property_net",
+        "investment_real_estate_sale_gain_loss",
+        "cash_from_operations",
+        "capital_expenditure",
+        "diluted_shares"
+      ],
+      "status": "BLOCKED_BY_W0"
+    },
+    {
+      "acceptance": {
+        "fallback_or_outcome_access_count": 0,
+        "identical_clean_rebuilds": 2,
+        "minimum_active_branch_score_coverage_every_month": 0.8,
+        "minimum_eligible_names_per_active_branch_every_month": 20,
+        "minimum_overall_score_coverage_every_month": 0.9,
+        "minimum_represented_branches_every_month": 5,
+        "minimum_represented_sectors_every_month": 5
+      },
+      "id": "W6",
+      "name": "readiness_and_reproducibility",
+      "status": "BLOCKED_BY_W0"
+    }
+  ],
+  "outcomes_accessed": false,
+  "schema_version": "model-v3-data-coverage-remediation-plan-v1",
+  "status": "BLOCKED_STRUCTURAL_FEASIBILITY_INPUT_MISSING",
+  "stop_conditions": [
+    "structural_feasibility_not_passed",
+    "historical_membership_or_identity_not_proven",
+    "populated_branch_below_25_expected_names",
+    "rebuild_mismatch",
+    "outcome_or_post_boundary_access",
+    "availability_driven_denominator_reduction"
+  ],
+  "v2_prioritization_baseline": {
+    "aggregate_final_score_coverage": 0.323102766798419,
+    "baseline_scope_warning": "V2 S&P 500 evidence prioritizes work but cannot prove Model V3 expanded-universe coverage",
+    "complete_family_readiness": {
+      "growth": 0.4062845849802372,
+      "quality": 0.18511857707509882,
+      "value": 0.3740909090909091
+    },
+    "component_readiness": [
+      {
+        "component": "gross_profitability",
+        "family": "quality",
+        "ready_rate": 0.3248221343873518,
+        "source_missing": 28912,
+        "stale_filing": 4816
+      },
+      {
+        "component": "roic",
+        "family": "quality",
+        "ready_rate": 0.5349604743083004,
+        "source_missing": 17865,
+        "stale_filing": 4047
+      },
+      {
+        "component": "ebit_ev",
+        "family": "value",
+        "ready_rate": 0.5738339920948616,
+        "source_missing": 16915,
+        "stale_filing": 3840
+      },
+      {
+        "component": "fcf_growth",
+        "family": "growth",
+        "ready_rate": 0.5826679841897233,
+        "source_missing": 17062,
+        "stale_filing": 1387
+      },
+      {
+        "component": "fcf_conversion",
+        "family": "quality",
+        "ready_rate": 0.5836363636363636,
+        "source_missing": 17062,
+        "stale_filing": 1489
+      },
+      {
+        "component": "fcf_yield",
+        "family": "value",
+        "ready_rate": 0.5837351778656127,
+        "source_missing": 17062,
+        "stale_filing": 1489
+      },
+      {
+        "component": "margin_change",
+        "family": "growth",
+        "ready_rate": 0.6013636363636363,
+        "source_missing": 15435,
+        "stale_filing": 2690
+      },
+      {
+        "component": "inverse_leverage",
+        "family": "quality",
+        "ready_rate": 0.7668181818181818,
+        "source_missing": 9506,
+        "stale_filing": 2217
+      },
+      {
+        "component": "revenue_growth",
+        "family": "growth",
+        "ready_rate": 0.7669762845849802,
+        "source_missing": 8223,
+        "stale_filing": 1693
+      },
+      {
+        "component": "sales_yield",
+        "family": "value",
+        "ready_rate": 0.7711067193675889,
+        "source_missing": 8223,
+        "stale_filing": 1796
+      },
+      {
+        "component": "eps_growth",
+        "family": "growth",
+        "ready_rate": 0.8059090909090909,
+        "source_missing": 7035,
+        "stale_filing": 1001
+      },
+      {
+        "component": "inverse_accruals",
+        "family": "quality",
+        "ready_rate": 0.8593675889328063,
+        "source_missing": 6507,
+        "stale_filing": 66
+      },
+      {
+        "component": "earnings_yield",
+        "family": "value",
+        "ready_rate": 0.8636956521739131,
+        "source_missing": 6472,
+        "stale_filing": 38
+      }
+    ],
+    "excluded_security_months": 34251,
+    "existing_price_request_start": "2013-01-01",
+    "expected_security_months": 50600,
+    "scored_security_months": 16349,
+    "sec_normalization_gaps": {
+      "denominator_security_without_v2_identity": 25,
+      "discrete_quarter_unresolved": 236,
+      "instant_quarter_unresolved": 120,
+      "missing_company_source": 106,
+      "missing_filing_evidence": 246986,
+      "orphan_amendment_identity": 310,
+      "unsupported_unit": 198
+    },
+    "specialist_concept_fact_counts": {
+      "credit_loss_provision": 7084,
+      "customer_deposits": 2513,
+      "investment_real_estate_sale_gain_loss": 1435,
+      "loans_and_leases_net": 2174,
+      "net_interest_income": 11754,
+      "net_investment_income": 7728,
+      "policyholder_benefits_claims_net": 3263,
+      "premiums_earned_net": 3885,
+      "real_estate_investment_property_net": 2439
+    }
+  }
+}
