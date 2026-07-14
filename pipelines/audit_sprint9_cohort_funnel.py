@@ -16,10 +16,15 @@ from sqlalchemy.orm import sessionmaker
 
 try:
     import _bootstrap  # noqa: F401
-    from _common import get_code_revision, repository_relative_path
+    from _common import (
+        DEFAULT_RAW_DIR,
+        get_code_revision,
+        repository_relative_path,
+    )
 except ModuleNotFoundError:
     from pipelines import _bootstrap  # type: ignore  # noqa: F401
     from pipelines._common import (  # type: ignore
+        DEFAULT_RAW_DIR,
         get_code_revision,
         repository_relative_path,
     )
@@ -30,8 +35,8 @@ from quantfore_research.validation.cohort_funnel import (
 )
 
 
-DEFAULT_DATABASE = Path(
-    "data/raw/free-point-in-time/sprint8-prelock-v9/research.db"
+DEFAULT_DATABASE = (
+    DEFAULT_RAW_DIR / "free-point-in-time/sprint8-prelock-v9/research.db"
 )
 DEFAULT_BACKTEST = Path("reports/backtests/pit_multifactor_baseline_v1.json")
 DEFAULT_COMPARISON = Path("reports/comparisons/price-vs-multifactor-v1.json")
@@ -39,11 +44,11 @@ DEFAULT_CLOSURE = Path("reports/reproducibility/sprint8-closure-v1.json")
 DEFAULT_HOLDOUT_LOCK = Path("experiments/multifactor-holdout-lock-v1.json")
 DEFAULT_CONTRACT = Path("docs/research/multifactor-baseline-v1.md")
 DEFAULT_FUNDAMENTAL_AUDIT = Path("reports/data-audits/pit-fundamentals-v1.json")
-DEFAULT_EQUITY_MANIFEST = Path(
-    "data/raw/free-point-in-time/composite-equity-bundle-v1/manifest.json"
+DEFAULT_EQUITY_MANIFEST = (
+    DEFAULT_RAW_DIR / "free-point-in-time/composite-equity-bundle-v1/manifest.json"
 )
-DEFAULT_FUNDAMENTAL_MANIFEST = Path(
-    "data/raw/free-point-in-time/sec-fundamentals-bundle-v1/manifest.json"
+DEFAULT_FUNDAMENTAL_MANIFEST = (
+    DEFAULT_RAW_DIR / "free-point-in-time/sec-fundamentals-bundle-v1/manifest.json"
 )
 DEFAULT_JSON_OUTPUT = Path("reports/data-audits/sprint9-cohort-funnel-v1.json")
 DEFAULT_MARKDOWN_OUTPUT = Path("reports/data-audits/sprint9-cohort-funnel-v1.md")

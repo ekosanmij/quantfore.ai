@@ -50,3 +50,7 @@ htmlcov/
 
 # Database-specific backtest lineage (canonical metrics reports are versioned)
 reports/backtests/*.lineage.json
+
+# Reproducible Model V2 ledgers exceed GitHub's per-file limit; manifests are versioned
+experiments/model-v2-branch-feature-inputs-v1.jsonl.gz
+experiments/model-v2-branch-aware-scores-v1.jsonl.gz

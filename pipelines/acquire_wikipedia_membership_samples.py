@@ -23,7 +23,12 @@ from quantfore_research.ingest.free_point_in_time import (
     parse_membership_history,
     tiingo_ticker,
 )
-from pipelines.reconcile_free_point_in_time_lineage import SEC_IDENTITY_OVERRIDES
+try:
+    from reconcile_free_point_in_time_lineage import SEC_IDENTITY_OVERRIDES
+except ModuleNotFoundError:
+    from pipelines.reconcile_free_point_in_time_lineage import (  # type: ignore
+        SEC_IDENTITY_OVERRIDES,
+    )
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -90,11 +95,12 @@ def acquire_samples(
     *,
     primary_body: bytes,
     output_root: Path,
+    samples: Sequence[tuple[date, int]] = SAMPLES,
     opener: Callable[..., object] = urllib.request.urlopen,
 ) -> dict[str, Any]:
     primary = parse_membership_history(primary_body, label="primary membership")
     rows = []
-    for as_of_date, revision_id in SAMPLES:
+    for as_of_date, revision_id in samples:
         query = urllib.parse.urlencode(
             {
                 "action": "parse",
@@ -156,11 +162,39 @@ def acquire_samples(
     return registry
 
 
+def _sample(value: str) -> tuple[date, int]:
+    try:
+        as_of_text, revision_text = value.split("=", 1)
+        as_of_date = date.fromisoformat(as_of_text)
+        revision_id = int(revision_text)
+    except (TypeError, ValueError) as exc:
+        raise argparse.ArgumentTypeError(
+            "sample must use AS_OF_DATE=REVISION_ID"
+        ) from exc
+    if revision_id <= 0:
+        raise argparse.ArgumentTypeError("Wikipedia revision ID must be positive")
+    return as_of_date, revision_id
+
+
 def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--primary", type=Path, default=DEFAULT_PRIMARY)
     parser.add_argument("--expected-primary-hash", required=True)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
+    parser.add_argument(
+        "--sample",
+        action="append",
+        type=_sample,
+        help="Override default samples; repeat AS_OF_DATE=REVISION_ID as needed.",
+    )
+    parser.add_argument(
+        "--allow-identity-differences",
+        action="store_true",
+        help=(
+            "Return success when dated constituent identities differ. This is only "
+            "appropriate when the raw revision is used for non-membership evidence."
+        ),
+    )
     return parser.parse_args(argv)
 
 
@@ -170,7 +204,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         primary_body = args.primary.read_bytes()
         if _sha256(primary_body) != args.expected_primary_hash.lower():
             raise ValueError("primary membership SHA-256 does not match")
-        registry = acquire_samples(primary_body=primary_body, output_root=args.output_root)
+        registry = acquire_samples(
+            primary_body=primary_body,
+            output_root=args.output_root,
+            samples=args.sample or SAMPLES,
+        )
     except (KeyError, OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"Wikipedia membership acquisition failed: {exc}", file=sys.stderr)
         return 2
@@ -178,7 +216,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         f"samples={registry['sample_count']} "
         f"exact={str(registry['all_identity_exact_match']).lower()}"
     )
-    return 0 if registry["all_identity_exact_match"] else 1
+    if registry["all_identity_exact_match"] or args.allow_identity_differences:
+        return 0
+    return 1
 
 
 if __name__ == "__main__":

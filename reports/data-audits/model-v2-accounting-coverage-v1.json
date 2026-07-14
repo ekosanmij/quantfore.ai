@@ -1,0 +1,565 @@
+{
+  "bundle": {
+    "formula_lineage_sha256": "28e4d5c1351fc98dedd80d17c19aa0f0c7ae59c6ddad702360485c98d09929c2",
+    "fundamentals_sha256": "d168e2ad3ee971fc2fe96dd70c94fae7b837fef466c301a566e74c652d1b9ce0",
+    "manifest_sha256": "1170f8cec36962d69c34e889e52d6355fb0729bff2c55a1bcc2c284d98bd8833",
+    "normalization_counts": {
+      "concept_fact_count::capital_expenditure": 52535,
+      "concept_fact_count::cash_and_equivalents": 70191,
+      "concept_fact_count::cash_from_operations": 75017,
+      "concept_fact_count::credit_loss_provision": 7084,
+      "concept_fact_count::customer_deposits": 2513,
+      "concept_fact_count::depreciation_and_amortization": 66993,
+      "concept_fact_count::diluted_eps": 89175,
+      "concept_fact_count::diluted_shares": 74474,
+      "concept_fact_count::ebit": 68835,
+      "concept_fact_count::gross_profit": 39109,
+      "concept_fact_count::income_tax_expense": 76708,
+      "concept_fact_count::interest_expense": 51862,
+      "concept_fact_count::investment_real_estate_sale_gain_loss": 1435,
+      "concept_fact_count::loans_and_leases_net": 2174,
+      "concept_fact_count::net_income_common": 101559,
+      "concept_fact_count::net_interest_income": 11754,
+      "concept_fact_count::net_investment_income": 7728,
+      "concept_fact_count::policyholder_benefits_claims_net": 3263,
+      "concept_fact_count::premiums_earned_net": 3885,
+      "concept_fact_count::pretax_income": 74842,
+      "concept_fact_count::real_estate_investment_property_net": 2439,
+      "concept_fact_count::revenue": 84394,
+      "concept_fact_count::shareholders_equity": 97859,
+      "concept_fact_count::total_assets": 55408,
+      "concept_fact_count::total_debt": 43157,
+      "denominator_security_without_v2_identity": 25,
+      "derived_fact_count": 213918,
+      "derived_q2_candidates": 130762,
+      "derived_q3_candidates": 130605,
+      "derived_q4_candidates": 189311,
+      "discrete_quarter_unresolved": 236,
+      "fact_count": 1164393,
+      "instant_quarter_unresolved": 120,
+      "lineage_row_count": 1164393,
+      "missing_company_source": 106,
+      "missing_filing_evidence": 246986,
+      "missing_q1_cumulative_input": 2061,
+      "missing_q2_cumulative_input": 2009,
+      "missing_q3_cumulative_input": 8284,
+      "normalized_issuer_derived_row_count": 213133,
+      "normalized_issuer_reported_row_count": 947132,
+      "orphan_amendment_identity": 310,
+      "reported_derived_collisions": 237448,
+      "reported_fact_count": 950475,
+      "same_accession_value_conflicts": 102092,
+      "source_observation_count": 1367500,
+      "unsupported_unit": 198
+    },
+    "path": "data/raw/free-point-in-time/sec-fundamentals-bundle-v2"
+  },
+  "claims_eligible": false,
+  "code_revision": "84810f7-dirty-4e5d0c86f7a9",
+  "component_comparison": {
+    "earnings_yield": {
+      "absolute_improvement": 0.700612648221344,
+      "model_v2_accounting_input_ready_rate": 0.8636956521739131,
+      "sprint9_accounting_input_ready_rate": 0.16308300395256917
+    },
+    "ebit_ev": {
+      "absolute_improvement": 0.5161067193675889,
+      "model_v2_accounting_input_ready_rate": 0.5738339920948616,
+      "sprint9_accounting_input_ready_rate": 0.057727272727272724
+    },
+    "eps_growth": {
+      "absolute_improvement": 0.6749604743083004,
+      "model_v2_accounting_input_ready_rate": 0.8059090909090909,
+      "sprint9_accounting_input_ready_rate": 0.13094861660079052
+    },
+    "fcf_conversion": {
+      "absolute_improvement": 0.5836363636363636,
+      "model_v2_accounting_input_ready_rate": 0.5836363636363636,
+      "sprint9_accounting_input_ready_rate": 0.0
+    },
+    "fcf_growth": {
+      "absolute_improvement": 0.5826679841897233,
+      "model_v2_accounting_input_ready_rate": 0.5826679841897233,
+      "sprint9_accounting_input_ready_rate": 0.0
+    },
+    "fcf_yield": {
+      "absolute_improvement": 0.5837351778656127,
+      "model_v2_accounting_input_ready_rate": 0.5837351778656127,
+      "sprint9_accounting_input_ready_rate": 0.0
+    },
+    "gross_profitability": {
+      "absolute_improvement": 0.2692687747035573,
+      "model_v2_accounting_input_ready_rate": 0.3248221343873518,
+      "sprint9_accounting_input_ready_rate": 0.05555335968379447
+    },
+    "inverse_accruals": {
+      "absolute_improvement": 0.8593675889328063,
+      "model_v2_accounting_input_ready_rate": 0.8593675889328063,
+      "sprint9_accounting_input_ready_rate": 0.0
+    },
+    "inverse_leverage": {
+      "absolute_improvement": 0.11982213438735179,
+      "model_v2_accounting_input_ready_rate": 0.7668181818181818,
+      "sprint9_accounting_input_ready_rate": 0.6469960474308301
+    },
+    "margin_change": {
+      "absolute_improvement": 0.539189723320158,
+      "model_v2_accounting_input_ready_rate": 0.6013636363636363,
+      "sprint9_accounting_input_ready_rate": 0.06217391304347826
+    },
+    "revenue_growth": {
+      "absolute_improvement": 0.6074901185770751,
+      "model_v2_accounting_input_ready_rate": 0.7669762845849802,
+      "sprint9_accounting_input_ready_rate": 0.15948616600790513
+    },
+    "roic": {
+      "absolute_improvement": 0.5310869565217391,
+      "model_v2_accounting_input_ready_rate": 0.5349604743083004,
+      "sprint9_accounting_input_ready_rate": 0.003873517786561265
+    },
+    "sales_yield": {
+      "absolute_improvement": 0.6074703557312253,
+      "model_v2_accounting_input_ready_rate": 0.7711067193675889,
+      "sprint9_accounting_input_ready_rate": 0.16363636363636364
+    }
+  },
+  "coverage": {
+    "model_v2_bundle_v2": {
+      "all_accounting_components_ready_by_family": {
+        "growth": {
+          "rate": 0.4062845849802372,
+          "stock_months": 20558
+        },
+        "quality": {
+          "rate": 0.18511857707509882,
+          "stock_months": 9367
+        },
+        "value": {
+          "rate": 0.3740909090909091,
+          "stock_months": 18929
+        }
+      },
+      "component_opportunities": 657800,
+      "components": [
+        {
+          "component": "earnings_yield",
+          "family": "value",
+          "ready": 43703,
+          "ready_rate": 0.8636956521739131,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 387,
+            "READY": 43703,
+            "SOURCE_MISSING": 6472,
+            "STALE_FILING": 38
+          }
+        },
+        {
+          "component": "ebit_ev",
+          "family": "value",
+          "ready": 29036,
+          "ready_rate": 0.5738339920948616,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 809,
+            "READY": 29036,
+            "SOURCE_MISSING": 16915,
+            "STALE_FILING": 3840
+          }
+        },
+        {
+          "component": "eps_growth",
+          "family": "growth",
+          "ready": 40779,
+          "ready_rate": 0.8059090909090909,
+          "reason_counts": {
+            "INSUFFICIENT_PRIOR_TTM_HISTORY": 1654,
+            "INSUFFICIENT_QUARTERLY_HISTORY": 131,
+            "READY": 40779,
+            "SOURCE_MISSING": 7035,
+            "STALE_FILING": 1001
+          }
+        },
+        {
+          "component": "fcf_conversion",
+          "family": "quality",
+          "ready": 29532,
+          "ready_rate": 0.5836363636363636,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 2517,
+            "READY": 29532,
+            "SOURCE_MISSING": 17062,
+            "STALE_FILING": 1489
+          }
+        },
+        {
+          "component": "fcf_growth",
+          "family": "growth",
+          "ready": 29483,
+          "ready_rate": 0.5826679841897233,
+          "reason_counts": {
+            "INSUFFICIENT_PRIOR_TTM_HISTORY": 1295,
+            "INSUFFICIENT_QUARTERLY_HISTORY": 1373,
+            "READY": 29483,
+            "SOURCE_MISSING": 17062,
+            "STALE_FILING": 1387
+          }
+        },
+        {
+          "component": "fcf_yield",
+          "family": "value",
+          "ready": 29537,
+          "ready_rate": 0.5837351778656127,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 2512,
+            "READY": 29537,
+            "SOURCE_MISSING": 17062,
+            "STALE_FILING": 1489
+          }
+        },
+        {
+          "component": "gross_profitability",
+          "family": "quality",
+          "ready": 16436,
+          "ready_rate": 0.3248221343873518,
+          "reason_counts": {
+            "INSUFFICIENT_BALANCE_SHEET_HISTORY": 2,
+            "INSUFFICIENT_QUARTERLY_HISTORY": 434,
+            "READY": 16436,
+            "SOURCE_MISSING": 28912,
+            "STALE_FILING": 4816
+          }
+        },
+        {
+          "component": "inverse_accruals",
+          "family": "quality",
+          "ready": 43484,
+          "ready_rate": 0.8593675889328063,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 543,
+            "READY": 43484,
+            "SOURCE_MISSING": 6507,
+            "STALE_FILING": 66
+          }
+        },
+        {
+          "component": "inverse_leverage",
+          "family": "quality",
+          "ready": 38801,
+          "ready_rate": 0.7668181818181818,
+          "reason_counts": {
+            "INSUFFICIENT_BALANCE_SHEET_HISTORY": 76,
+            "READY": 38801,
+            "SOURCE_MISSING": 9506,
+            "STALE_FILING": 2217
+          }
+        },
+        {
+          "component": "margin_change",
+          "family": "growth",
+          "ready": 30429,
+          "ready_rate": 0.6013636363636363,
+          "reason_counts": {
+            "INSUFFICIENT_PRIOR_TTM_HISTORY": 1713,
+            "INSUFFICIENT_QUARTERLY_HISTORY": 333,
+            "READY": 30429,
+            "SOURCE_MISSING": 15435,
+            "STALE_FILING": 2690
+          }
+        },
+        {
+          "component": "revenue_growth",
+          "family": "growth",
+          "ready": 38809,
+          "ready_rate": 0.7669762845849802,
+          "reason_counts": {
+            "INSUFFICIENT_PRIOR_TTM_HISTORY": 1454,
+            "INSUFFICIENT_QUARTERLY_HISTORY": 421,
+            "READY": 38809,
+            "SOURCE_MISSING": 8223,
+            "STALE_FILING": 1693
+          }
+        },
+        {
+          "component": "roic",
+          "family": "quality",
+          "ready": 27069,
+          "ready_rate": 0.5349604743083004,
+          "reason_counts": {
+            "INSUFFICIENT_BALANCE_SHEET_HISTORY": 152,
+            "INSUFFICIENT_QUARTERLY_HISTORY": 1467,
+            "READY": 27069,
+            "SOURCE_MISSING": 17865,
+            "STALE_FILING": 4047
+          }
+        },
+        {
+          "component": "sales_yield",
+          "family": "value",
+          "ready": 39018,
+          "ready_rate": 0.7711067193675889,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 1563,
+            "READY": 39018,
+            "SOURCE_MISSING": 8223,
+            "STALE_FILING": 1796
+          }
+        }
+      ],
+      "ready_component_opportunities": 436116,
+      "ready_component_rate": 0.6629917908178777,
+      "stock_months": 50600
+    },
+    "sprint9_bundle_v1": {
+      "all_accounting_components_ready_by_family": {
+        "growth": {
+          "rate": 0.0,
+          "stock_months": 0
+        },
+        "quality": {
+          "rate": 0.0,
+          "stock_months": 0
+        },
+        "value": {
+          "rate": 0.0,
+          "stock_months": 0
+        }
+      },
+      "component_opportunities": 657800,
+      "components": [
+        {
+          "component": "earnings_yield",
+          "family": "value",
+          "ready": 8252,
+          "ready_rate": 0.16308300395256917,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 34919,
+            "READY": 8252,
+            "SOURCE_MISSING": 6472,
+            "STALE_FILING": 957
+          }
+        },
+        {
+          "component": "ebit_ev",
+          "family": "value",
+          "ready": 2921,
+          "ready_rate": 0.057727272727272724,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 27286,
+            "READY": 2921,
+            "SOURCE_MISSING": 19309,
+            "STALE_FILING": 1084
+          }
+        },
+        {
+          "component": "eps_growth",
+          "family": "growth",
+          "ready": 6626,
+          "ready_rate": 0.13094861660079052,
+          "reason_counts": {
+            "INSUFFICIENT_PRIOR_TTM_HISTORY": 35245,
+            "INSUFFICIENT_QUARTERLY_HISTORY": 159,
+            "READY": 6626,
+            "SOURCE_MISSING": 7035,
+            "STALE_FILING": 1535
+          }
+        },
+        {
+          "component": "fcf_conversion",
+          "family": "quality",
+          "ready": 0,
+          "ready_rate": 0.0,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 31860,
+            "SOURCE_MISSING": 18740
+          }
+        },
+        {
+          "component": "fcf_growth",
+          "family": "growth",
+          "ready": 0,
+          "ready_rate": 0.0,
+          "reason_counts": {
+            "INSUFFICIENT_PRIOR_TTM_HISTORY": 27481,
+            "INSUFFICIENT_QUARTERLY_HISTORY": 4379,
+            "SOURCE_MISSING": 18740
+          }
+        },
+        {
+          "component": "fcf_yield",
+          "family": "value",
+          "ready": 0,
+          "ready_rate": 0.0,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 31860,
+            "SOURCE_MISSING": 18740
+          }
+        },
+        {
+          "component": "gross_profitability",
+          "family": "quality",
+          "ready": 2811,
+          "ready_rate": 0.05555335968379447,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 13441,
+            "READY": 2811,
+            "SOURCE_MISSING": 28912,
+            "STALE_FILING": 5436
+          }
+        },
+        {
+          "component": "inverse_accruals",
+          "family": "quality",
+          "ready": 0,
+          "ready_rate": 0.0,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 43013,
+            "SOURCE_MISSING": 7587
+          }
+        },
+        {
+          "component": "inverse_leverage",
+          "family": "quality",
+          "ready": 32738,
+          "ready_rate": 0.6469960474308301,
+          "reason_counts": {
+            "INSUFFICIENT_BALANCE_SHEET_HISTORY": 58,
+            "READY": 32738,
+            "SOURCE_MISSING": 12651,
+            "STALE_FILING": 5153
+          }
+        },
+        {
+          "component": "margin_change",
+          "family": "growth",
+          "ready": 3146,
+          "ready_rate": 0.06217391304347826,
+          "reason_counts": {
+            "INSUFFICIENT_PRIOR_TTM_HISTORY": 31026,
+            "INSUFFICIENT_QUARTERLY_HISTORY": 349,
+            "READY": 3146,
+            "SOURCE_MISSING": 15435,
+            "STALE_FILING": 644
+          }
+        },
+        {
+          "component": "revenue_growth",
+          "family": "growth",
+          "ready": 8070,
+          "ready_rate": 0.15948616600790513,
+          "reason_counts": {
+            "INSUFFICIENT_PRIOR_TTM_HISTORY": 32112,
+            "INSUFFICIENT_QUARTERLY_HISTORY": 441,
+            "READY": 8070,
+            "SOURCE_MISSING": 8223,
+            "STALE_FILING": 1754
+          }
+        },
+        {
+          "component": "roic",
+          "family": "quality",
+          "ready": 196,
+          "ready_rate": 0.003873517786561265,
+          "reason_counts": {
+            "INSUFFICIENT_BALANCE_SHEET_HISTORY": 6,
+            "INSUFFICIENT_QUARTERLY_HISTORY": 22271,
+            "READY": 196,
+            "SOURCE_MISSING": 28041,
+            "STALE_FILING": 86
+          }
+        },
+        {
+          "component": "sales_yield",
+          "family": "value",
+          "ready": 8280,
+          "ready_rate": 0.16363636363636364,
+          "reason_counts": {
+            "INSUFFICIENT_QUARTERLY_HISTORY": 32168,
+            "READY": 8280,
+            "SOURCE_MISSING": 8223,
+            "STALE_FILING": 1929
+          }
+        }
+      ],
+      "ready_component_opportunities": 73040,
+      "ready_component_rate": 0.11103678929765887,
+      "stock_months": 50600
+    }
+  },
+  "decision": "PASS",
+  "generated_at": "2026-07-14T14:00:00Z",
+  "material_improvement": {
+    "absolute_improvement": 0.5519550015202188,
+    "minimum_absolute_improvement": 0.1,
+    "passes": true
+  },
+  "outcome_blinding": {
+    "denominator_columns_read": [
+      "security_id",
+      "asof_date"
+    ],
+    "return_or_outcome_columns_read": [],
+    "score_value_columns_read": [],
+    "selection_basis": "accounting validity and point-in-time coverage"
+  },
+  "schema_version": "model-v2-accounting-coverage-v1",
+  "source_bindings": {
+    "equity_manifest_sha256": "8b39fe268b3414495f7a2f95fe00e7b76f4afc1f33cec961ef095f4495a90a6e",
+    "filing_evidence_registry_sha256": "cf61c9a2af535d5a9380616cf98b61f18a78fb63c96b121f5d630db67fb12f68",
+    "filing_plan_sha256": "a7398f620c21a66510c66065252bdbed92094a50b1ae9a6c06167c9478882a63",
+    "fiscal_buffer_start": "2012-01-01",
+    "formula_version": "sec-discrete-quarter-normalization-v2",
+    "normalization_counts": {
+      "concept_fact_count::capital_expenditure": 52535,
+      "concept_fact_count::cash_and_equivalents": 70191,
+      "concept_fact_count::cash_from_operations": 75017,
+      "concept_fact_count::credit_loss_provision": 7084,
+      "concept_fact_count::customer_deposits": 2513,
+      "concept_fact_count::depreciation_and_amortization": 66993,
+      "concept_fact_count::diluted_eps": 89175,
+      "concept_fact_count::diluted_shares": 74474,
+      "concept_fact_count::ebit": 68835,
+      "concept_fact_count::gross_profit": 39109,
+      "concept_fact_count::income_tax_expense": 76708,
+      "concept_fact_count::interest_expense": 51862,
+      "concept_fact_count::investment_real_estate_sale_gain_loss": 1435,
+      "concept_fact_count::loans_and_leases_net": 2174,
+      "concept_fact_count::net_income_common": 101559,
+      "concept_fact_count::net_interest_income": 11754,
+      "concept_fact_count::net_investment_income": 7728,
+      "concept_fact_count::policyholder_benefits_claims_net": 3263,
+      "concept_fact_count::premiums_earned_net": 3885,
+      "concept_fact_count::pretax_income": 74842,
+      "concept_fact_count::real_estate_investment_property_net": 2439,
+      "concept_fact_count::revenue": 84394,
+      "concept_fact_count::shareholders_equity": 97859,
+      "concept_fact_count::total_assets": 55408,
+      "concept_fact_count::total_debt": 43157,
+      "denominator_security_without_v2_identity": 25,
+      "derived_fact_count": 213918,
+      "derived_q2_candidates": 130762,
+      "derived_q3_candidates": 130605,
+      "derived_q4_candidates": 189311,
+      "discrete_quarter_unresolved": 236,
+      "fact_count": 1164393,
+      "instant_quarter_unresolved": 120,
+      "lineage_row_count": 1164393,
+      "missing_company_source": 106,
+      "missing_filing_evidence": 246986,
+      "missing_q1_cumulative_input": 2061,
+      "missing_q2_cumulative_input": 2009,
+      "missing_q3_cumulative_input": 8284,
+      "normalized_issuer_derived_row_count": 213133,
+      "normalized_issuer_reported_row_count": 947132,
+      "orphan_amendment_identity": 310,
+      "reported_derived_collisions": 237448,
+      "reported_fact_count": 950475,
+      "same_accession_value_conflicts": 102092,
+      "source_observation_count": 1367500,
+      "unsupported_unit": 198
+    },
+    "outcome_columns_read": [],
+    "sec_source_registry_sha256": "f80206b5178b3029c83f8af49e3a06c19c93a8f29ae865bf6669ac059e7e314e",
+    "selection_basis": "accounting meaning, SEC availability, and missingness only",
+    "version": "model-v2-accounting-history-v1",
+    "window_end": "2025-06-30"
+  }
+}

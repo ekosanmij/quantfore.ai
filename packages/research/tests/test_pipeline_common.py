@@ -1,7 +1,12 @@
 import subprocess
 from pathlib import Path
 
-from pipelines._common import get_code_revision, repository_relative_path
+from pipelines._common import (
+    DATA_ROOT_ENV,
+    configured_data_root,
+    get_code_revision,
+    repository_relative_path,
+)
 
 
 def git(repo: Path, *args: str) -> None:
@@ -49,3 +54,17 @@ def test_repository_relative_path_removes_machine_prefix():
 
     assert rendered == "packages/research/tests/test_pipeline_common.py"
     assert not rendered.startswith("/")
+
+
+def test_configured_data_root_defaults_to_repository_data(tmp_path):
+    assert configured_data_root(
+        environment={}, repository_root=tmp_path
+    ) == tmp_path / "data"
+
+
+def test_configured_data_root_accepts_external_location(tmp_path):
+    external = tmp_path / "restored-quantfore-data"
+
+    assert configured_data_root(
+        environment={DATA_ROOT_ENV: str(external)}, repository_root=tmp_path
+    ) == external

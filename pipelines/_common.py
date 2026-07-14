@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import subprocess
 import time
 from datetime import date, datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Mapping, Optional
 from urllib.error import URLError
 from urllib.request import Request, urlopen
 
@@ -22,9 +23,31 @@ from quantfore_research.db import build_engine, create_schema, make_session_fact
 from quantfore_research.models import Security
 
 
-DEFAULT_RAW_DIR = Path("data/raw")
-DEFAULT_USER_AGENT = "QuantforeAIResearch/0.1"
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+DATA_ROOT_ENV = "QUANTFORE_DATA_ROOT"
+DEFAULT_USER_AGENT = "QuantforeAIResearch/0.1"
+
+
+def configured_data_root(
+    *,
+    environment: Optional[Mapping[str, str]] = None,
+    repository_root: Path = REPOSITORY_ROOT,
+) -> Path:
+    """Return the configured data root without embedding a machine-local path.
+
+    ``QUANTFORE_DATA_ROOT`` points at the directory containing ``raw/``.  When
+    unset, scripts retain the repository-local ``data/`` default.
+    """
+
+    values = os.environ if environment is None else environment
+    configured = values.get(DATA_ROOT_ENV, "").strip()
+    if configured:
+        return Path(configured).expanduser()
+    return repository_root / "data"
+
+
+DEFAULT_DATA_ROOT = configured_data_root()
+DEFAULT_RAW_DIR = DEFAULT_DATA_ROOT / "raw"
 
 
 def repository_relative_path(path: Path) -> str:
