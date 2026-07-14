@@ -1,0 +1,169 @@
+{
+  "backup_scope": {
+    "cloud_copy": "full encrypted immutable snapshot of data/raw",
+    "decision": "both_external_drive_and_versioned_cloud_object_storage",
+    "external_copy": "full encrypted mirror of data/raw"
+  },
+  "full_checksum_manifest": {
+    "file_count": 62011,
+    "path": "reports/data-audits/raw-data-sha256-v1.jsonl.gz",
+    "sha256": "818a4aadea17a317010223913feeaa1d72c0898166cee0b547c23f4efe1898ed",
+    "total_size_bytes": 67203994284
+  },
+  "generated_at": "2026-07-14T14:03:39Z",
+  "inventory_root": "data/raw",
+  "measurement": {
+    "allocated_bytes_source": "du -sk multiplied by 1024 on the local APFS volume",
+    "file_count_source": "regular files below each path",
+    "logical_bytes_source": "sum of regular-file st_size values"
+  },
+  "point_in_time_immediate_directories": [
+    "data/raw/free-point-in-time/composite-equity-bundle-v1",
+    "data/raw/free-point-in-time/license-evidence",
+    "data/raw/free-point-in-time/lineage-alias-prices-v1",
+    "data/raw/free-point-in-time/lineage-alias-prices-v2",
+    "data/raw/free-point-in-time/lineage-alias-prices-v3",
+    "data/raw/free-point-in-time/lineage-alias-prices-v4",
+    "data/raw/free-point-in-time/lineage-alias-prices-v5",
+    "data/raw/free-point-in-time/lineage-evidence-v1",
+    "data/raw/free-point-in-time/lineage-prices-v1",
+    "data/raw/free-point-in-time/openfigi-name-search-v3",
+    "data/raw/free-point-in-time/openfigi-v3",
+    "data/raw/free-point-in-time/sec",
+    "data/raw/free-point-in-time/sec-filing-evidence-v1",
+    "data/raw/free-point-in-time/sec-fundamentals-bundle-v1",
+    "data/raw/free-point-in-time/sec-fundamentals-bundle-v2",
+    "data/raw/free-point-in-time/sec-lineage-v1",
+    "data/raw/free-point-in-time/sec-pit-v1",
+    "data/raw/free-point-in-time/sprint8-prelock-v1",
+    "data/raw/free-point-in-time/sprint8-prelock-v2",
+    "data/raw/free-point-in-time/sprint8-prelock-v3",
+    "data/raw/free-point-in-time/sprint8-prelock-v4",
+    "data/raw/free-point-in-time/sprint8-prelock-v5",
+    "data/raw/free-point-in-time/sprint8-prelock-v6",
+    "data/raw/free-point-in-time/sprint8-prelock-v7",
+    "data/raw/free-point-in-time/sprint8-prelock-v8",
+    "data/raw/free-point-in-time/sprint8-prelock-v9",
+    "data/raw/free-point-in-time/tiingo-prices-v1",
+    "data/raw/free-point-in-time/wikidata-lineage-v1",
+    "data/raw/free-point-in-time/wikipedia-membership-samples-v1",
+    "data/raw/free-point-in-time/wikipedia-subtype-samples-v1"
+  ],
+  "point_in_time_integrity_anchors": [
+    {
+      "path": "data/raw/free-point-in-time/acquisition-plan-v1-27755aa00a59a111.json",
+      "sha256": "27755aa00a59a111745b2a7e4d517278328798751dfdaaf35f5b63ff19221075"
+    },
+    {
+      "path": "data/raw/free-point-in-time/resolved-identifiers-v1.json",
+      "sha256": "a047f00054e0ebc5f506a439fd3eea3fbaf9b35bbb7ac665f742cecc6fa06876"
+    },
+    {
+      "path": "data/raw/free-point-in-time/tiingo-prices-v1/batch-001/batch-registry.json",
+      "sha256": "ed47ec459e05e90802ef5396fc82e1f3b19dfe2cf64d4859c762b76e77f3cfe3"
+    },
+    {
+      "path": "data/raw/free-point-in-time/tiingo-prices-v1/batch-002/batch-registry.json",
+      "sha256": "6d25377ef35d33ae038f8b1827486e79ccd57580540b33e4fd48b912460cc767"
+    },
+    {
+      "path": "data/raw/free-point-in-time/reconciled-lineage-v1.json",
+      "sha256": "39f039174612010e24d6659276711271427dca10929e230ce612c6ca591e556d"
+    },
+    {
+      "path": "data/raw/free-point-in-time/price-exclusions-v1.json",
+      "sha256": "78da4b5509122b336597441d06df388c9fdec5ff9618a6785f291fcfe698fbba"
+    },
+    {
+      "path": "data/raw/free-point-in-time/delisting-evidence-v1.json",
+      "sha256": "547d2063d33af403731c39e0348b6b0d95e441866a588717bf948ce5389ec2f4"
+    },
+    {
+      "path": "data/raw/free-point-in-time/composite-equity-bundle-v1/manifest.json",
+      "sha256": "8b39fe268b3414495f7a2f95fe00e7b76f4afc1f33cec961ef095f4495a90a6e"
+    },
+    {
+      "path": "data/raw/free-point-in-time/wikipedia-membership-samples-v1/registry.json",
+      "sha256": "e5ee52e2ce8b01740632e5138b5bb10c89395e77ccdbde790df56ec84b627277"
+    },
+    {
+      "path": "data/raw/free-point-in-time/wikipedia-subtype-samples-v1/registry.json",
+      "sha256": "329f2d75b7ddee73ea4b6e376f6ca2306f9d2d4009137116ca704c1cdda26552"
+    },
+    {
+      "path": "data/raw/free-point-in-time/sec-pit-v1/registry.json",
+      "sha256": "f80206b5178b3029c83f8af49e3a06c19c93a8f29ae865bf6669ac059e7e314e"
+    },
+    {
+      "path": "data/raw/free-point-in-time/sec-filing-evidence-plan-v1.json",
+      "sha256": "a7398f620c21a66510c66065252bdbed92094a50b1ae9a6c06167c9478882a63"
+    },
+    {
+      "path": "data/raw/free-point-in-time/sec-filing-evidence-v1/registry.json",
+      "sha256": "cf61c9a2af535d5a9380616cf98b61f18a78fb63c96b121f5d630db67fb12f68"
+    },
+    {
+      "path": "data/raw/free-point-in-time/sec-fundamentals-bundle-v1/manifest.json",
+      "sha256": "0a1aef3b2527672ff3febb2702479fe86ddebd51f393ae5eede26007f805985f"
+    },
+    {
+      "path": "data/raw/free-point-in-time/sec-fundamentals-bundle-v2/manifest.json",
+      "sha256": "1170f8cec36962d69c34e889e52d6355fb0729bff2c55a1bcc2c284d98bd8833"
+    },
+    {
+      "path": "data/raw/free-point-in-time/license-evidence/personal-internal-use-v1.json",
+      "sha256": "6e1127c547e75a5aa6a015576584b2bf63c7337cd8d3e0a012a2ebc8f4ceb8ed"
+    }
+  ],
+  "schema_version": "raw_data_storage_inventory_v1",
+  "top_level_entries": [
+    {
+      "allocated_bytes": 67255918592,
+      "file_count": 61896,
+      "logical_bytes": 67098887219,
+      "path": "data/raw/free-point-in-time",
+      "rebuild_role": "canonical point-in-time source evidence, derived bundles, and Sprint 8/9 rebuild workspaces"
+    },
+    {
+      "allocated_bytes": 20541440,
+      "file_count": 105,
+      "logical_bytes": 20294169,
+      "path": "data/raw/prices",
+      "rebuild_role": "legacy market-price source snapshots"
+    },
+    {
+      "allocated_bytes": 28241920,
+      "file_count": 1,
+      "logical_bytes": 28241920,
+      "path": "data/raw/real_trial_v0.sqlite",
+      "rebuild_role": "legacy real-trial working database"
+    },
+    {
+      "allocated_bytes": 28241920,
+      "file_count": 1,
+      "logical_bytes": 28241920,
+      "path": "data/raw/real_trial_v0_69bbcc7.sqlite",
+      "rebuild_role": "legacy real-trial working database snapshot"
+    },
+    {
+      "allocated_bytes": 28241920,
+      "file_count": 1,
+      "logical_bytes": 28241920,
+      "path": "data/raw/real_trial_v0_8c2e391.sqlite",
+      "rebuild_role": "legacy real-trial working database snapshot"
+    },
+    {
+      "allocated_bytes": 94208,
+      "file_count": 7,
+      "logical_bytes": 87136,
+      "path": "data/raw/reconciliation",
+      "rebuild_role": "independent Yahoo reconciliation evidence"
+    }
+  ],
+  "totals": {
+    "allocated_bytes": 67361280000,
+    "allocated_gib": 62.74,
+    "file_count": 62011,
+    "logical_bytes": 67203994284
+  }
+}

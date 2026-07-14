@@ -1,0 +1,51 @@
+{
+  "accounting_selection_version": "model-v2-point-in-time-scalars-v1",
+  "claims_eligible": false,
+  "classification_version": "sec-sic-financial-subtype-v2",
+  "code_revision": "84810f7-dirty-3ee27f37de0f",
+  "implementation_sources": [
+    {
+      "path": "packages/research/quantfore_research/features/model_v2.py",
+      "sha256": "83b981cf4e1986a0d8073d0bff54cde8ce05a3f79fd572430556b69bf44b7be1"
+    },
+    {
+      "path": "packages/research/quantfore_research/features/model_v2_inputs.py",
+      "sha256": "0316437658813acf813095c167d66bf9c01b8da389efbdaa968999f8f4f4a9c2"
+    },
+    {
+      "path": "pipelines/build_model_v2_score_inputs.py",
+      "sha256": "d8a489c8232ae0763c3ce9164a084753c4ee10ba26bcb5decd8591478b31dff8"
+    }
+  ],
+  "inputs": {
+    "accounting_bundle_manifest": {
+      "path": "data/raw/free-point-in-time/sec-fundamentals-bundle-v2/manifest.json",
+      "sha256": "1170f8cec36962d69c34e889e52d6355fb0729bff2c55a1bcc2c284d98bd8833"
+    },
+    "accounting_facts": {
+      "path": "data/raw/free-point-in-time/sec-fundamentals-bundle-v2/fundamentals.json",
+      "sha256": "d168e2ad3ee971fc2fe96dd70c94fae7b837fef466c301a566e74c652d1b9ce0"
+    },
+    "classification_ledger": {
+      "path": "experiments/model-v2-point-in-time-subtype-classification-v1.jsonl.gz",
+      "sha256": "0c0cf68d359727498f8f512aeb9f9cac6360e2f802bd5f0958448b6d8cd8d898"
+    },
+    "warehouse": {
+      "opened_read_only": true,
+      "path": "data/raw/free-point-in-time/sprint8-prelock-v9/research.db",
+      "sha256": "f2112dcf8e0f8ebb4ea67489cf3b423f38dac6d493b62f32fa9f742d0af6b2e8",
+      "tables_read": [
+        "security_identifiers",
+        "features",
+        "prices"
+      ]
+    }
+  },
+  "outcomes_accessed": false,
+  "output": {
+    "path": "experiments/model-v2-branch-feature-inputs-v1.jsonl.gz",
+    "rows": 50600,
+    "sha256": "789520295fc4fbe76f61b798e12f016b12ed262783ffe748be7a2d548710fe4f"
+  },
+  "universal_feature_version": "multifactor-v1"
+}

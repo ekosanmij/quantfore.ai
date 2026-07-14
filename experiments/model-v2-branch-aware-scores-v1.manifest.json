@@ -1,0 +1,784 @@
+{
+  "all_five_families_required": true,
+  "branch_schema": {
+    "branches": {
+      "ASSET_MANAGER": [
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "TTM net_income_common / market_cap",
+          "name": "earnings_yield",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "shareholders_equity / market_cap",
+          "name": "price_to_book_inverse",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "TTM EBIT / TTM revenue",
+          "name": "operating_margin",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "TTM net_income_common / average shareholders_equity",
+          "name": "return_on_equity",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+          "name": "eps_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+          "name": "momentum_6_1",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+          "name": "momentum_12_1",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+          "name": "volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+          "name": "beta_252d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+          "name": "downside_volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "risk",
+          "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+          "name": "maximum_drawdown_252d",
+          "required": true
+        }
+      ],
+      "BANK": [
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "TTM net_income_common / market_cap",
+          "name": "earnings_yield",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "TTM net_income_common / average total_assets",
+          "name": "return_on_assets",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "TTM net_income_common / average shareholders_equity",
+          "name": "return_on_equity",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "(loans[t] - loans[t-1y]) / abs(loans[t-1y])",
+          "name": "loan_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "(deposits[t] - deposits[t-1y]) / abs(deposits[t-1y])",
+          "name": "deposit_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+          "name": "eps_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+          "name": "momentum_6_1",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+          "name": "momentum_12_1",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+          "name": "volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+          "name": "beta_252d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+          "name": "downside_volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "risk",
+          "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+          "name": "maximum_drawdown_252d",
+          "required": true
+        }
+      ],
+      "BROKER_DEALER": [
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "TTM net_income_common / market_cap",
+          "name": "earnings_yield",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "TTM net_income_common / average shareholders_equity",
+          "name": "return_on_equity",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "(current TTM revenue - prior TTM revenue) / abs(prior TTM revenue)",
+          "name": "net_revenue_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+          "name": "eps_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+          "name": "momentum_6_1",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+          "name": "momentum_12_1",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+          "name": "volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+          "name": "beta_252d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+          "name": "downside_volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "risk",
+          "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+          "name": "maximum_drawdown_252d",
+          "required": true
+        }
+      ],
+      "EQUITY_REIT": [
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "(TTM net income + TTM D&A - TTM real-estate sale gains) / market_cap",
+          "name": "ffo_yield",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "(TTM EBIT + TTM D&A - TTM real-estate sale gains) / abs(TTM interest expense)",
+          "name": "interest_coverage",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "growth in FFO / diluted_shares",
+          "name": "ffo_per_share_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+          "name": "momentum_6_1",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+          "name": "momentum_12_1",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+          "name": "volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+          "name": "beta_252d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+          "name": "downside_volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "risk",
+          "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+          "name": "maximum_drawdown_252d",
+          "required": true
+        }
+      ],
+      "INDUSTRIAL_GENERAL": [
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "(TTM CFO - TTM capex) / market_cap",
+          "name": "fcf_yield",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "TTM net_income_common / market_cap",
+          "name": "earnings_yield",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "TTM EBIT / (market_cap + debt - cash)",
+          "name": "ebit_ev",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "TTM revenue / (market_cap + debt - cash)",
+          "name": "sales_yield",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "TTM EBIT * (1 - effective_tax_rate) / average invested capital",
+          "name": "roic",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "TTM gross_profit / average total_assets",
+          "name": "gross_profitability",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "TTM FCF / abs(TTM net_income_common)",
+          "name": "fcf_conversion",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "-(TTM net_income_common - TTM CFO) / average total_assets",
+          "name": "inverse_accruals",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "-total_debt / average total_assets",
+          "name": "inverse_leverage",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "(current TTM revenue - prior TTM revenue) / abs(prior TTM revenue)",
+          "name": "revenue_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+          "name": "eps_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "(current TTM FCF - prior TTM FCF) / abs(prior TTM FCF)",
+          "name": "fcf_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "current TTM EBIT margin - prior TTM EBIT margin",
+          "name": "margin_change",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+          "name": "momentum_6_1",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+          "name": "momentum_12_1",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+          "name": "volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+          "name": "beta_252d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+          "name": "downside_volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "risk",
+          "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+          "name": "maximum_drawdown_252d",
+          "required": true
+        }
+      ],
+      "INSURER_LIFE_HEALTH": [
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "TTM net_income_common / market_cap",
+          "name": "earnings_yield",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "shareholders_equity / market_cap",
+          "name": "price_to_book_inverse",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "TTM net_income_common / average shareholders_equity",
+          "name": "return_on_equity",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "TTM net investment income / average total_assets",
+          "name": "investment_yield",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "growth in TTM net premiums earned",
+          "name": "premium_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "growth in shareholders_equity / diluted_shares",
+          "name": "book_value_per_share_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+          "name": "eps_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+          "name": "momentum_6_1",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+          "name": "momentum_12_1",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+          "name": "volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+          "name": "beta_252d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+          "name": "downside_volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "risk",
+          "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+          "name": "maximum_drawdown_252d",
+          "required": true
+        }
+      ],
+      "INSURER_P_AND_C": [
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "TTM net_income_common / market_cap",
+          "name": "earnings_yield",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "shareholders_equity / market_cap",
+          "name": "price_to_book_inverse",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "-TTM policyholder benefits and claims / TTM net premiums earned",
+          "name": "loss_ratio_inverse",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "TTM net_income_common / average shareholders_equity",
+          "name": "return_on_equity",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "growth in shareholders_equity / diluted_shares",
+          "name": "book_value_per_share_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+          "name": "eps_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+          "name": "momentum_6_1",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+          "name": "momentum_12_1",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+          "name": "volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+          "name": "beta_252d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+          "name": "downside_volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "risk",
+          "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+          "name": "maximum_drawdown_252d",
+          "required": true
+        }
+      ],
+      "MORTGAGE_REIT": [
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "shareholders_equity / market_cap",
+          "name": "price_to_book_inverse",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "value",
+          "formula": "TTM net_income_common / market_cap",
+          "name": "earnings_yield",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "-total_debt / shareholders_equity",
+          "name": "economic_leverage_inverse",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "quality",
+          "formula": "cash_and_equivalents / total_assets",
+          "name": "liquidity_ratio",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "growth in shareholders_equity / diluted_shares",
+          "name": "book_value_per_share_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "growth",
+          "formula": "growth in TTM net interest income",
+          "name": "net_interest_income_growth",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+          "name": "momentum_6_1",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "momentum",
+          "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+          "name": "momentum_12_1",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+          "name": "volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+          "name": "beta_252d",
+          "required": true
+        },
+        {
+          "direction": "LOWER",
+          "family": "risk",
+          "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+          "name": "downside_volatility_126d",
+          "required": true
+        },
+        {
+          "direction": "HIGHER",
+          "family": "risk",
+          "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+          "name": "maximum_drawdown_252d",
+          "required": true
+        }
+      ]
+    },
+    "feature_version": "multifactor-v2-branch-aware-v1",
+    "formula_version": "multifactor-v2-branch-formulas-v1"
+  },
+  "branch_schema_sha256": "e9dffef82107724149bd7fb6ddd64671ac0d39ca8c7753de915c65abf980a595",
+  "claims_eligible": false,
+  "code_revision": "84810f7-dirty-3f7d87cc8056",
+  "counts": {
+    "by_branch": {
+      "ASSET_MANAGER": 872,
+      "BANK": 1503,
+      "BROKER_DEALER": 498,
+      "EQUITY_REIT": 2996,
+      "INDUSTRIAL_GENERAL": 40673,
+      "INSURER_LIFE_HEALTH": 575,
+      "INSURER_P_AND_C": 1170,
+      "OTHER_FINANCIAL": 1930,
+      "UNKNOWN": 383
+    },
+    "cohorts": 102,
+    "cross_branch_fallback_count": 0,
+    "eligible_by_branch": {
+      "INDUSTRIAL_GENERAL": 16349
+    },
+    "eligible_rows": 16349,
+    "eligible_rows_missing_any_family": 0,
+    "excluded_rows": 34251,
+    "exclusion_reason_codes": {
+      "ALL_FIVE_FAMILIES_REQUIRED": 28544,
+      "BRANCH_NORMALIZATION_COHORT_TOO_SMALL": 12296,
+      "BRANCH_REQUIRED_FEATURE_MISSING": 29748,
+      "CLASSIFICATION_CONFLICT": 6,
+      "CLASSIFICATION_SOURCE_UNAVAILABLE": 342,
+      "COMPONENT_COVERAGE_BELOW_MINIMUM": 30348,
+      "FAMILY_COVERAGE_BELOW_MINIMUM": 28544,
+      "REIT_SUBTYPE_UNKNOWN": 35,
+      "SECTOR_BRANCH_EXCLUDED": 1930
+    },
+    "rows": 50600
+  },
+  "cross_branch_fallback": false,
+  "family_weight_renormalization": false,
+  "family_weights": {
+    "growth": "0.20",
+    "momentum": "0.20",
+    "quality": "0.20",
+    "risk": "0.20",
+    "value": "0.20"
+  },
+  "feature_version": "multifactor-v2-branch-aware-v1",
+  "formula_version": "multifactor-v2-branch-formulas-v1",
+  "implementation_sources": [
+    {
+      "path": "packages/research/quantfore_research/features/model_v2.py",
+      "sha256": "83b981cf4e1986a0d8073d0bff54cde8ce05a3f79fd572430556b69bf44b7be1"
+    },
+    {
+      "path": "packages/research/quantfore_research/scoring/model_v2.py",
+      "sha256": "d49b645ee98924c05143058d003e2a784a15b1f388947a100e3f6ecfd9c9beec"
+    },
+    {
+      "path": "pipelines/build_model_v2_scores.py",
+      "sha256": "50c3dc3e4e8bbc2d51c1068afb41ad1e78769cecf3f84db40c0bcd9c2e5e85df"
+    }
+  ],
+  "input": {
+    "path": "experiments/model-v2-branch-feature-inputs-v1.jsonl.gz",
+    "sha256": "789520295fc4fbe76f61b798e12f016b12ed262783ffe748be7a2d548710fe4f"
+  },
+  "minimum_branch_cross_section": 20,
+  "model_version": "multifactor-v2-branch-aware-equal-weight-v1",
+  "normalization_version": "multifactor-v2-branch-normalization-v1",
+  "outcomes_accessed": false,
+  "output": {
+    "path": "experiments/model-v2-branch-aware-scores-v1.jsonl.gz",
+    "sha256": "7ff1977762936ff7ee15fce8b354d05e64dab04134a09defbeff732de31d0ff0"
+  }
+}

@@ -15,10 +15,15 @@ from sqlalchemy.orm import sessionmaker
 
 try:
     import _bootstrap  # noqa: F401
-    from _common import get_code_revision, repository_relative_path
+    from _common import (
+        DEFAULT_RAW_DIR,
+        get_code_revision,
+        repository_relative_path,
+    )
 except ModuleNotFoundError:
     from pipelines import _bootstrap  # type: ignore  # noqa: F401
     from pipelines._common import (  # type: ignore
+        DEFAULT_RAW_DIR,
         get_code_revision,
         repository_relative_path,
     )
@@ -28,8 +33,8 @@ from quantfore_research.validation.investability import (
 )
 
 
-DEFAULT_DATABASE = Path(
-    "data/raw/free-point-in-time/sprint8-prelock-v9/research.db"
+DEFAULT_DATABASE = (
+    DEFAULT_RAW_DIR / "free-point-in-time/sprint8-prelock-v9/research.db"
 )
 DEFAULT_COMPARISON = Path("reports/comparisons/price-vs-multifactor-v1.json")
 DEFAULT_BACKTEST = Path("reports/backtests/pit_multifactor_baseline_v1.json")
