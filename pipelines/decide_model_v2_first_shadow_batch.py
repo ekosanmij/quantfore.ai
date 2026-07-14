@@ -38,6 +38,8 @@ DESIGN_LOCK = Path("experiments/multifactor-v2-hypothesis-lock-v1.json")
 TARGET_PREDICTION_TIMESTAMP = datetime(
     2026, 7, 31, 20, 0, tzinfo=timezone.utc
 )
+RECORDED_REPOSITORY_BASE_COMMIT = "983c6395c0f5688093874aab586518d4dfdddefb"
+RECORDED_IMPLEMENTATION_COMMIT = "1962b926839f105a5e04cf5231b44f45c998c562"
 SOURCE_PATHS = (
     Path("pipelines/decide_model_v2_first_shadow_batch.py"),
     Path("pipelines/create_shadow_predictions.py"),
@@ -78,13 +80,23 @@ def _binding(root: Path, relative: Path) -> dict[str, str]:
     return {"path": relative.as_posix(), "sha256": _sha256_file(absolute)}
 
 
-def _git_head(root: Path) -> str:
+def _assert_recorded_commit(root: Path, commit: str) -> None:
     try:
-        return subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], cwd=root, text=True
-        ).strip()
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", commit, "HEAD"],
+            cwd=root,
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
     except (FileNotFoundError, subprocess.CalledProcessError) as exc:
-        raise RuntimeError("unable to resolve the decision base commit") from exc
+        raise RuntimeError("recorded first-batch commit is not an ancestor") from exc
+
+
+def _recorded_base_commit(root: Path) -> str:
+    _assert_recorded_commit(root, RECORDED_REPOSITORY_BASE_COMMIT)
+    _assert_recorded_commit(root, RECORDED_IMPLEMENTATION_COMMIT)
+    return RECORDED_REPOSITORY_BASE_COMMIT
 
 
 def _timestamp_text(value: datetime) -> str:
@@ -94,7 +106,30 @@ def _timestamp_text(value: datetime) -> str:
 
 
 def _source_bindings(root: Path) -> list[dict[str, str]]:
-    return [_binding(root, path) for path in SOURCE_PATHS]
+    _assert_recorded_commit(root, RECORDED_IMPLEMENTATION_COMMIT)
+    bindings = []
+    for path in SOURCE_PATHS:
+        try:
+            source_bytes = subprocess.check_output(
+                [
+                    "git",
+                    "show",
+                    f"{RECORDED_IMPLEMENTATION_COMMIT}:{path.as_posix()}",
+                ],
+                cwd=root,
+                stderr=subprocess.PIPE,
+            )
+        except (FileNotFoundError, subprocess.CalledProcessError) as exc:
+            raise RuntimeError(
+                f"recorded first-batch source is missing: {path}"
+            ) from exc
+        bindings.append(
+            {
+                "path": path.as_posix(),
+                "sha256": hashlib.sha256(source_bytes).hexdigest(),
+            }
+        )
+    return bindings
 
 
 def _failed_criteria(readiness: Mapping[str, Any]) -> list[str]:
@@ -259,7 +294,7 @@ def build_decision(
             ),
         },
         "implementation": {
-            "repository_base_commit": _git_head(root),
+            "repository_base_commit": _recorded_base_commit(root),
             "source_bindings": _source_bindings(root),
         },
         "next_action": (

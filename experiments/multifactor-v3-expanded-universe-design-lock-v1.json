@@ -1,0 +1,453 @@
+{
+  "activation_requirements": {
+    "all_inherited_engineering_gates_must_pass": true,
+    "future_prediction_schedule_must_be_locked_prospectively": true,
+    "separate_data_readiness_lock_required": true,
+    "separate_executable_lock_required": true,
+    "structural_feasibility_must_pass_first": true,
+    "two_identical_full_rebuilds_required": true,
+    "zero_outcome_and_fallback_access_required": true
+  },
+  "claims_eligible": false,
+  "contract": {
+    "path": "experiments/multifactor-v3-expanded-universe-hypothesis-contract.md",
+    "sha256": "ac0ef0e85d507ae01d1614d1fee60b82620e4c77924495af87161db15918ca3d"
+  },
+  "decision": "PROCEED_TO_OUTCOME_BLIND_UNIVERSE_FEASIBILITY_ONLY",
+  "evaluation_protocol": {
+    "aggregate_shadow_results_blinded_until_primary_evaluation": true,
+    "execution_lag_trading_days": 1,
+    "formation_time": "last_trading_day_close",
+    "forward_shadow_window": {
+      "dates": [],
+      "july_2026_backfill_allowed": false,
+      "must_be_prospective_after_executable_lock_commit": true,
+      "scheduled_monthly_cohorts": 24,
+      "status": "PENDING_POST_FEASIBILITY_EXECUTABLE_LOCK"
+    },
+    "frequency": "monthly",
+    "hac_lag_months": 5,
+    "historical_exposed_diagnostic_window": {
+      "allowed_use": "engineering_and_sensitivity_diagnostics_only",
+      "claims_eligible": false,
+      "end": "2025-06-30",
+      "start": "2017-01-01"
+    },
+    "prediction_artifact_must_precede_outcome_availability": true,
+    "primary_horizon": "126d",
+    "primary_rank_ic": "branch_neutral_spearman",
+    "secondary_horizons": [
+      "21d",
+      "63d",
+      "252d"
+    ]
+  },
+  "executable_for_data_acquisition": false,
+  "executable_for_outcome_evaluation": false,
+  "executable_for_score_rebuild": false,
+  "executable_for_shadow_predictions": false,
+  "feasibility_contract": {
+    "path": "docs/research/model-v3-expanded-universe-feasibility-v1.md",
+    "sha256": "7607674b343f2e7797d3ca71a09548acafcdfc7e470facc6ffc5334b60f20623"
+  },
+  "inherited_engineering_gates": {
+    "E1": {
+      "metric": "demonstrated_lookahead_revision_membership_classification_or_outcome_leakage_count",
+      "operator": "equals",
+      "threshold": 0
+    },
+    "E10": {
+      "conditions": [
+        {
+          "metric": "selected_holdings_with_complete_trailing_20_session_liquidity_record_fraction",
+          "operator": "equals",
+          "threshold": 1.0
+        },
+        {
+          "metric": "modeled_order_fraction_of_trailing_20_session_median_dollar_volume",
+          "operator": "lte",
+          "threshold": 0.01
+        }
+      ]
+    },
+    "E2": {
+      "metric": "two_clean_rebuilds_match_all_locked_artifacts",
+      "operator": "equals",
+      "threshold": true
+    },
+    "E3": {
+      "metric": "expected_security_months_with_final_disposition_and_stable_reason_code_fraction",
+      "operator": "equals",
+      "threshold": 1.0
+    },
+    "E4": {
+      "metric": "expected_members_with_known_point_in_time_branch_or_subtype_fraction_every_month",
+      "operator": "gte",
+      "threshold": 0.98
+    },
+    "E5": {
+      "metric": "final_score_coverage_fraction_of_expected_nonbenchmark_members_every_month",
+      "operator": "gte",
+      "threshold": 0.9
+    },
+    "E6": {
+      "metric": "final_score_coverage_fraction_inside_every_active_branch_every_month",
+      "operator": "gte",
+      "threshold": 0.8
+    },
+    "E7": {
+      "conditions": [
+        {
+          "metric": "eligible_names_per_active_branch_every_month",
+          "operator": "gte",
+          "threshold": 20
+        },
+        {
+          "metric": "represented_active_branches_every_month",
+          "operator": "gte",
+          "threshold": 5
+        },
+        {
+          "metric": "represented_gics_sectors_every_month",
+          "operator": "gte",
+          "threshold": 5
+        }
+      ]
+    },
+    "E8": {
+      "metric": "cross_branch_normalization_or_industrial_universe_fallback_count",
+      "operator": "equals",
+      "threshold": 0
+    },
+    "E9": {
+      "metric": "all_predictions_immutable_and_timestamped_before_any_horizon_outcome_availability",
+      "operator": "equals",
+      "threshold": true
+    }
+  },
+  "inherited_promotion_gates": {
+    "M1": {
+      "conditions": [
+        {
+          "metric": "scheduled_forward_cohorts",
+          "operator": "equals",
+          "threshold": 24
+        },
+        {
+          "metric": "calculable_monthly_branch_neutral_rank_ic_values",
+          "operator": "gte",
+          "threshold": 24
+        },
+        {
+          "metric": "evaluated_stock_months",
+          "operator": "gte",
+          "threshold": 10000
+        }
+      ]
+    },
+    "M10": {
+      "conditions": [
+        {
+          "metric": "six_sleeve_downside_capture",
+          "operator": "lt",
+          "threshold": 1.0
+        },
+        {
+          "metric": "max_drawdown_shortfall_vs_eligible_equal_weight_percentage_points",
+          "operator": "lte",
+          "threshold": 5.0
+        }
+      ]
+    },
+    "M11": {
+      "conditions": [
+        {
+          "metric": "final_scored_rows_with_all_five_families_available_fraction",
+          "operator": "gte",
+          "threshold": 0.9
+        },
+        {
+          "metric": "family_ablation_used_as_promotion_substitute",
+          "operator": "equals",
+          "threshold": false
+        }
+      ]
+    },
+    "M2": {
+      "metric": "mean_126d_branch_neutral_rank_ic",
+      "operator": "gte",
+      "threshold": 0.03
+    },
+    "M3": {
+      "metric": "mean_126d_branch_neutral_rank_ic_hac_tstat",
+      "operator": "gte",
+      "threshold": 2.0
+    },
+    "M4": {
+      "metric": "mean_126d_rank_ic_delta_vs_price_only",
+      "operator": "gte",
+      "threshold": 0.01
+    },
+    "M5": {
+      "conditions": [
+        {
+          "metric": "equal_weight_within_branch_top_minus_bottom_after_25bps",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "metric": "equal_weight_within_branch_top_minus_bottom_after_50bps",
+          "operator": "gte",
+          "threshold": 0.0
+        }
+      ]
+    },
+    "M6": {
+      "conditions": [
+        {
+          "metric": "long_only_six_sleeve_excess_return_vs_spy_after_25bps",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "metric": "long_only_six_sleeve_excess_return_vs_eligible_equal_weight_after_25bps",
+          "operator": "gt",
+          "threshold": 0.0
+        },
+        {
+          "metric": "benchmark_hit_rate",
+          "operator": "gt",
+          "threshold": 0.5
+        }
+      ]
+    },
+    "M7": {
+      "metric": "annual_mean_rank_ic_for_each_forward_calendar_year_with_at_least_six_cohorts",
+      "operator": "gt",
+      "threshold": 0.0
+    },
+    "M8": {
+      "metric": "maximum_single_branch_sector_or_year_share_of_positive_monthly_net_top_minus_bottom_spreads",
+      "operator": "lte",
+      "threshold": 0.5
+    },
+    "M9": {
+      "conditions": [
+        {
+          "metric": "selected_basket_name_count_every_rebalance",
+          "operator": "gte",
+          "threshold": 20
+        },
+        {
+          "metric": "maximum_single_name_weight_every_rebalance",
+          "operator": "lte",
+          "threshold": 0.05
+        },
+        {
+          "metric": "maximum_sector_weight_every_rebalance",
+          "operator": "lte",
+          "threshold": 0.35
+        }
+      ]
+    }
+  },
+  "locked_at": "2026-07-14T15:39:32Z",
+  "model": {
+    "all_five_families_required": true,
+    "branches": [
+      "INDUSTRIAL_GENERAL",
+      "BANK",
+      "INSURER_P_AND_C",
+      "INSURER_LIFE_HEALTH",
+      "BROKER_DEALER",
+      "ASSET_MANAGER",
+      "EQUITY_REIT",
+      "MORTGAGE_REIT"
+    ],
+    "change_from_v2": "point_in_time_universe_expansion_only",
+    "cross_branch_fallback": false,
+    "factor_families": [
+      "value",
+      "quality",
+      "momentum",
+      "growth",
+      "risk"
+    ],
+    "family_weights": {
+      "growth": 0.2,
+      "momentum": 0.2,
+      "quality": 0.2,
+      "risk": 0.2,
+      "value": 0.2
+    },
+    "formula_inheritance": {
+      "branch_schema_sha256": "e9dffef82107724149bd7fb6ddd64671ac0d39ca8c7753de915c65abf980a595",
+      "feature_version": "multifactor-v2-branch-aware-v1",
+      "formula_version": "multifactor-v2-branch-formulas-v1",
+      "model_version": "multifactor-v2-branch-aware-equal-weight-v1",
+      "normalization_version": "multifactor-v2-branch-normalization-v1",
+      "outcome_driven_formula_changes_allowed": false,
+      "path": "experiments/model-v2-branch-aware-scores-v1.manifest.json",
+      "sha256": "8af77ab57f7dbac9037c0f918bf71e6ea0c75f66ca4607b65a42ae15b8cd5171"
+    },
+    "minimum_branch_cross_section": 20,
+    "minimum_component_coverage": 0.8,
+    "minimum_required_components_per_family": 0.6,
+    "missing_family_weight_renormalization": false,
+    "version": "multifactor-v3-expanded-universe-branch-aware-equal-weight-v1"
+  },
+  "parent_failure_freeze": {
+    "frozen_baseline_commit": "e18303e686f1946f83a5451e868a12cd1aa45375",
+    "path": "experiments/model-v2-failure-evidence-freeze-v1.json",
+    "schema_version": "model-v2-failure-evidence-freeze-v1",
+    "sha256": "d1093380d79f375c57631683bc21ddbf73abab4faa6edb35dbac9416b8a762dd",
+    "status": "FROZEN_FAILED_NOT_SHADOW_READY"
+  },
+  "portfolio_protocol": {
+    "benchmarks": [
+      "SPY_total_return",
+      "eligible_universe_equal_weight"
+    ],
+    "construction": "six_equal_notional_overlapping_126d_sleeves",
+    "one_way_cost_scenarios_bps": [
+      0,
+      10,
+      25,
+      50
+    ],
+    "primary_one_way_cost_bps": 25,
+    "rebalance": "monthly",
+    "selection": "top_quintile_within_branch_then_pooled",
+    "stress_one_way_cost_bps": 50,
+    "weighting": "equal_weight"
+  },
+  "prohibited_changes": [
+    "mutation_or_relabelling_of_frozen_model_v2_evidence",
+    "july_2026_shadow_backfill",
+    "outcome_access_before_new_prospective_shadow_evaluation",
+    "availability_or_outcome_driven_structural_denominator_reduction",
+    "small_branch_deactivation",
+    "minimum_expected_branch_size_below_25",
+    "minimum_eligible_branch_size_below_20",
+    "minimum_branch_score_coverage_below_0_80",
+    "minimum_overall_score_coverage_below_0_90",
+    "cross_branch_normalization_or_industrial_fallback",
+    "family_weight_renormalization",
+    "shadow_schedule_selection_before_all_pre_shadow_gates_pass"
+  ],
+  "schema_version": "multifactor-v3-expanded-universe-design-lock-v1",
+  "status": "DESIGN_LOCK_PRE_FEASIBILITY",
+  "structural_feasibility": {
+    "branch_activation_rule": "active_when_at_least_one_expected_member_is_assigned; small_or_data_incomplete_branches_may_not_be_deactivated",
+    "gates": {
+      "F0": {
+        "metric": "outcome_return_rank_ic_spread_or_portfolio_access_count",
+        "operator": "equals",
+        "threshold": 0
+      },
+      "F1": {
+        "metric": "expected_names_per_structurally_active_branch_every_month",
+        "operator": "gte",
+        "threshold": 25
+      },
+      "F2": {
+        "metric": "floor_expected_names_times_minimum_branch_coverage",
+        "operator": "gte",
+        "threshold": 20
+      },
+      "F3": {
+        "metric": "represented_structurally_active_branches_every_month",
+        "operator": "gte",
+        "threshold": 5
+      },
+      "F4": {
+        "metric": "represented_gics_sectors_every_month",
+        "operator": "gte",
+        "threshold": 5
+      },
+      "F5": {
+        "metric": "expected_security_months_with_exactly_one_structural_disposition_fraction",
+        "operator": "equals",
+        "threshold": 1.0
+      },
+      "F6": {
+        "metric": "known_point_in_time_branch_or_subtype_fraction_every_month",
+        "operator": "gte",
+        "threshold": 0.98
+      },
+      "F7": {
+        "metric": "two_clean_structural_rebuilds_match_exactly",
+        "operator": "equals",
+        "threshold": true
+      }
+    },
+    "minimum_branch_score_coverage": 0.8,
+    "minimum_eligible_names": 20,
+    "minimum_expected_names_formula": "ceil(20 / 0.80)",
+    "minimum_expected_names_per_active_branch": 25,
+    "pass_authorizes": "separately_locked_data_readiness_and_acquisition_only",
+    "pass_decision": "PASS_STRUCTURALLY_FEASIBLE",
+    "pass_does_not_authorize": [
+      "score_rebuild",
+      "outcome_access",
+      "shadow_prediction",
+      "performance_claims"
+    ],
+    "status": "NOT_RUN",
+    "window": {
+      "claims_eligible": false,
+      "end": "2025-06-30",
+      "expected_months": 102,
+      "frequency": "monthly_information_boundary",
+      "start": "2017-01-01"
+    }
+  },
+  "universe": {
+    "availability_timestamp_required": true,
+    "benchmark": "SPY",
+    "benchmark_excluded_from_rankings": true,
+    "delisted_history_preserved": true,
+    "excluded_instrument_types": [
+      "etf_or_other_fund",
+      "preferred_stock",
+      "debt",
+      "warrant",
+      "right",
+      "unit",
+      "depositary_receipt",
+      "otc_only_security",
+      "non_operating_shell",
+      "blank_check_company"
+    ],
+    "included_population": [
+      "us_domiciled_operating_company_common_stock",
+      "us_domiciled_equity_reit_common_stock",
+      "us_domiciled_mortgage_reit_common_stock"
+    ],
+    "membership": "historical_monthly_point_in_time",
+    "point_in_time_membership_required": true,
+    "primary_listing": "active_us_national_securities_exchange",
+    "prohibited_denominator_filters": [
+      "price_availability",
+      "filing_availability",
+      "feature_completeness",
+      "score_eligibility",
+      "liquidity",
+      "market_cap",
+      "survival",
+      "returns_or_outcomes"
+    ],
+    "revision_policy": "append_only",
+    "status": "SPECIFIED_NOT_ACQUIRED_OR_AUDITED",
+    "structural_denominator_fields": [
+      "membership",
+      "identity",
+      "security_type",
+      "domicile",
+      "primary_listing",
+      "branch_classification"
+    ],
+    "survivorship_free_required": true,
+    "universe_id": "us-listed-common-equity-pit-v1"
+  }
+}
