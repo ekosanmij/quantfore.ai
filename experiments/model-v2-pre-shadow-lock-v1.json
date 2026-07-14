@@ -1,0 +1,1098 @@
+{
+  "activation_decision": "DO_NOT_START_SHADOW",
+  "blocked_reasons": [
+    "READINESS_DECISION_FAIL_NOT_READY_FOR_EXECUTABLE_LOCK",
+    "FAILED_CRITERION:active_branch_coverage_every_month",
+    "FAILED_CRITERION:eligible_names_per_active_branch_every_month",
+    "FAILED_CRITERION:final_score_coverage_every_month",
+    "FAILED_CRITERION:represented_active_branches_every_month",
+    "FAILED_CRITERION:represented_sectors_every_month",
+    "PORTFOLIO_NOTIONAL_NOT_LOCKED"
+  ],
+  "claims_boundary": "This artifact freezes the failed implementation evidence and prevents shadow execution. It is not an executable lock, performance claim, recommendation, or authorization to backfill a prediction.",
+  "claims_eligible": false,
+  "classification_ledger": {
+    "path": "experiments/model-v2-point-in-time-subtype-classification-v1.jsonl.gz",
+    "sha256": "0c0cf68d359727498f8f512aeb9f9cac6360e2f802bd5f0958448b6d8cd8d898"
+  },
+  "costs": {
+    "activation_state": "BOUND_BUT_NOT_AUTHORIZED",
+    "protocol": {
+      "benchmarks": [
+        "SPY_total_return",
+        "eligible_universe_equal_weight"
+      ],
+      "construction": "six_equal_notional_overlapping_126d_sleeves",
+      "one_way_cost_scenarios_bps": [
+        0,
+        10,
+        25,
+        50
+      ],
+      "primary_one_way_cost_bps": 25,
+      "rebalance": "monthly",
+      "selection": "top_quintile_within_branch_then_pooled",
+      "stress_one_way_cost_bps": 50,
+      "weighting": "equal_weight"
+    },
+    "sha256": "d56a9efcaa61d89f68e88317abf64a45e80fbb9d8be4197313bf017df252fff4"
+  },
+  "design_lock": {
+    "path": "experiments/multifactor-v2-hypothesis-lock-v1.json",
+    "sha256": "4d2de5cd47d985b8531ac1bbe60d86fe2fd8cfc5c2284e37c7ea3fac8d13d42c"
+  },
+  "design_lock_sha256": "4d2de5cd47d985b8531ac1bbe60d86fe2fd8cfc5c2284e37c7ea3fac8d13d42c",
+  "executable_for_outcome_evaluation": false,
+  "executable_for_shadow_predictions": false,
+  "formula_ledger": {
+    "branch_schema": {
+      "branches": {
+        "ASSET_MANAGER": [
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "TTM net_income_common / market_cap",
+            "name": "earnings_yield",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "shareholders_equity / market_cap",
+            "name": "price_to_book_inverse",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "TTM EBIT / TTM revenue",
+            "name": "operating_margin",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "TTM net_income_common / average shareholders_equity",
+            "name": "return_on_equity",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+            "name": "eps_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+            "name": "momentum_6_1",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+            "name": "momentum_12_1",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+            "name": "volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+            "name": "beta_252d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+            "name": "downside_volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "risk",
+            "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+            "name": "maximum_drawdown_252d",
+            "required": true
+          }
+        ],
+        "BANK": [
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "TTM net_income_common / market_cap",
+            "name": "earnings_yield",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "TTM net_income_common / average total_assets",
+            "name": "return_on_assets",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "TTM net_income_common / average shareholders_equity",
+            "name": "return_on_equity",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "(loans[t] - loans[t-1y]) / abs(loans[t-1y])",
+            "name": "loan_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "(deposits[t] - deposits[t-1y]) / abs(deposits[t-1y])",
+            "name": "deposit_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+            "name": "eps_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+            "name": "momentum_6_1",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+            "name": "momentum_12_1",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+            "name": "volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+            "name": "beta_252d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+            "name": "downside_volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "risk",
+            "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+            "name": "maximum_drawdown_252d",
+            "required": true
+          }
+        ],
+        "BROKER_DEALER": [
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "TTM net_income_common / market_cap",
+            "name": "earnings_yield",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "TTM net_income_common / average shareholders_equity",
+            "name": "return_on_equity",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "(current TTM revenue - prior TTM revenue) / abs(prior TTM revenue)",
+            "name": "net_revenue_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+            "name": "eps_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+            "name": "momentum_6_1",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+            "name": "momentum_12_1",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+            "name": "volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+            "name": "beta_252d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+            "name": "downside_volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "risk",
+            "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+            "name": "maximum_drawdown_252d",
+            "required": true
+          }
+        ],
+        "EQUITY_REIT": [
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "(TTM net income + TTM D&A - TTM real-estate sale gains) / market_cap",
+            "name": "ffo_yield",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "(TTM EBIT + TTM D&A - TTM real-estate sale gains) / abs(TTM interest expense)",
+            "name": "interest_coverage",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "growth in FFO / diluted_shares",
+            "name": "ffo_per_share_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+            "name": "momentum_6_1",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+            "name": "momentum_12_1",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+            "name": "volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+            "name": "beta_252d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+            "name": "downside_volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "risk",
+            "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+            "name": "maximum_drawdown_252d",
+            "required": true
+          }
+        ],
+        "INDUSTRIAL_GENERAL": [
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "(TTM CFO - TTM capex) / market_cap",
+            "name": "fcf_yield",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "TTM net_income_common / market_cap",
+            "name": "earnings_yield",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "TTM EBIT / (market_cap + debt - cash)",
+            "name": "ebit_ev",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "TTM revenue / (market_cap + debt - cash)",
+            "name": "sales_yield",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "TTM EBIT * (1 - effective_tax_rate) / average invested capital",
+            "name": "roic",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "TTM gross_profit / average total_assets",
+            "name": "gross_profitability",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "TTM FCF / abs(TTM net_income_common)",
+            "name": "fcf_conversion",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "-(TTM net_income_common - TTM CFO) / average total_assets",
+            "name": "inverse_accruals",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "-total_debt / average total_assets",
+            "name": "inverse_leverage",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "(current TTM revenue - prior TTM revenue) / abs(prior TTM revenue)",
+            "name": "revenue_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+            "name": "eps_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "(current TTM FCF - prior TTM FCF) / abs(prior TTM FCF)",
+            "name": "fcf_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "current TTM EBIT margin - prior TTM EBIT margin",
+            "name": "margin_change",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+            "name": "momentum_6_1",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+            "name": "momentum_12_1",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+            "name": "volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+            "name": "beta_252d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+            "name": "downside_volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "risk",
+            "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+            "name": "maximum_drawdown_252d",
+            "required": true
+          }
+        ],
+        "INSURER_LIFE_HEALTH": [
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "TTM net_income_common / market_cap",
+            "name": "earnings_yield",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "shareholders_equity / market_cap",
+            "name": "price_to_book_inverse",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "TTM net_income_common / average shareholders_equity",
+            "name": "return_on_equity",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "TTM net investment income / average total_assets",
+            "name": "investment_yield",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "growth in TTM net premiums earned",
+            "name": "premium_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "growth in shareholders_equity / diluted_shares",
+            "name": "book_value_per_share_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+            "name": "eps_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+            "name": "momentum_6_1",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+            "name": "momentum_12_1",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+            "name": "volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+            "name": "beta_252d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+            "name": "downside_volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "risk",
+            "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+            "name": "maximum_drawdown_252d",
+            "required": true
+          }
+        ],
+        "INSURER_P_AND_C": [
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "TTM net_income_common / market_cap",
+            "name": "earnings_yield",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "shareholders_equity / market_cap",
+            "name": "price_to_book_inverse",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "-TTM policyholder benefits and claims / TTM net premiums earned",
+            "name": "loss_ratio_inverse",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "TTM net_income_common / average shareholders_equity",
+            "name": "return_on_equity",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "growth in shareholders_equity / diluted_shares",
+            "name": "book_value_per_share_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "(current TTM diluted EPS - prior TTM diluted EPS) / abs(prior TTM diluted EPS)",
+            "name": "eps_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+            "name": "momentum_6_1",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+            "name": "momentum_12_1",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+            "name": "volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+            "name": "beta_252d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+            "name": "downside_volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "risk",
+            "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+            "name": "maximum_drawdown_252d",
+            "required": true
+          }
+        ],
+        "MORTGAGE_REIT": [
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "shareholders_equity / market_cap",
+            "name": "price_to_book_inverse",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "value",
+            "formula": "TTM net_income_common / market_cap",
+            "name": "earnings_yield",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "-total_debt / shareholders_equity",
+            "name": "economic_leverage_inverse",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "quality",
+            "formula": "cash_and_equivalents / total_assets",
+            "name": "liquidity_ratio",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "growth in shareholders_equity / diluted_shares",
+            "name": "book_value_per_share_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "growth",
+            "formula": "growth in TTM net interest income",
+            "name": "net_interest_income_growth",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-126] - 1",
+            "name": "momentum_6_1",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "momentum",
+            "formula": "adj_close[t-21] / adj_close[t-252] - 1",
+            "name": "momentum_12_1",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "sample_std(last 126 daily returns) * sqrt(252)",
+            "name": "volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "cov(security, benchmark) / var(benchmark) over 252 aligned returns",
+            "name": "beta_252d",
+            "required": true
+          },
+          {
+            "direction": "LOWER",
+            "family": "risk",
+            "formula": "rms(min(daily_return, 0), 126) * sqrt(252)",
+            "name": "downside_volatility_126d",
+            "required": true
+          },
+          {
+            "direction": "HIGHER",
+            "family": "risk",
+            "formula": "min(adj_close / running_peak - 1, 252 sessions)",
+            "name": "maximum_drawdown_252d",
+            "required": true
+          }
+        ]
+      },
+      "feature_version": "multifactor-v2-branch-aware-v1",
+      "formula_version": "multifactor-v2-branch-formulas-v1"
+    },
+    "sha256": "e9dffef82107724149bd7fb6ddd64671ac0d39ca8c7753de915c65abf980a595",
+    "version": "multifactor-v2-branch-formulas-v1"
+  },
+  "implementation": {
+    "classification_ledger_sha256": "0c0cf68d359727498f8f512aeb9f9cac6360e2f802bd5f0958448b6d8cd8d898",
+    "code_commit": "ec40c39967b2d33d2cd86be4dabb9b30186ca431",
+    "cost_protocol_sha256": "d56a9efcaa61d89f68e88317abf64a45e80fbb9d8be4197313bf017df252fff4",
+    "evaluation_code_sha256": "f2cfa38a4f39bae17d5d773961e9c0375af0449cbd3ebebd966d8758fc208010",
+    "evaluation_files": {
+      "packages/research/quantfore_research/evaluation/ledger.py": {
+        "path": "packages/research/quantfore_research/evaluation/ledger.py",
+        "sha256": "4887a19c070563651ee9309c20bbf6d23e891e5e78e16b8831144a6191db3af0"
+      },
+      "packages/research/quantfore_research/evaluation/outcomes.py": {
+        "path": "packages/research/quantfore_research/evaluation/outcomes.py",
+        "sha256": "16ac8642223eec88b8322ff5e8e8de0eb1c1c984f7c93882187b3134e1c80064"
+      },
+      "packages/research/quantfore_research/shadow/ledger.py": {
+        "path": "packages/research/quantfore_research/shadow/ledger.py",
+        "sha256": "90c9b8e7a9b81de4db9652417317038708c5ebc3f42287de706f2f4f23def5cf"
+      },
+      "pipelines/create_shadow_predictions.py": {
+        "path": "pipelines/create_shadow_predictions.py",
+        "sha256": "513468a3ae94b55a68088248c7b3f86a82c59e23eea276f3e780a3a29db048df"
+      },
+      "pipelines/evaluate_predictions.py": {
+        "path": "pipelines/evaluate_predictions.py",
+        "sha256": "5c3e2cd4359e3bef12753e9379871902cae4db6580ed7a61604d42e79c63db9d"
+      }
+    },
+    "formula_ledger_sha256": "e9dffef82107724149bd7fb6ddd64671ac0d39ca8c7753de915c65abf980a595",
+    "portfolio_notional_usd": null,
+    "report_schema_sha256": "36458ec99a8bc40c8990a68f5d17927c93e461b1168a59f855c0f7d015eea328",
+    "shadow_ledger_rules_sha256": "8961a4b2b05fcd67b57211786ba9d7aa45434f7db54197a8b4f3a22bde6a2b3b",
+    "source_files": {
+      "packages/research/quantfore_research/classification/point_in_time_subtypes.py": {
+        "path": "packages/research/quantfore_research/classification/point_in_time_subtypes.py",
+        "sha256": "85610ff7dd3d87582acf5eedc4da7e59cc84cb0095f1b7f242672cd13628dd21"
+      },
+      "packages/research/quantfore_research/features/model_v2.py": {
+        "path": "packages/research/quantfore_research/features/model_v2.py",
+        "sha256": "83b981cf4e1986a0d8073d0bff54cde8ce05a3f79fd572430556b69bf44b7be1"
+      },
+      "packages/research/quantfore_research/features/model_v2_inputs.py": {
+        "path": "packages/research/quantfore_research/features/model_v2_inputs.py",
+        "sha256": "0316437658813acf813095c167d66bf9c01b8da389efbdaa968999f8f4f4a9c2"
+      },
+      "packages/research/quantfore_research/scoring/model_v2.py": {
+        "path": "packages/research/quantfore_research/scoring/model_v2.py",
+        "sha256": "d49b645ee98924c05143058d003e2a784a15b1f388947a100e3f6ecfd9c9beec"
+      },
+      "packages/research/quantfore_research/validation/accounting_coverage.py": {
+        "path": "packages/research/quantfore_research/validation/accounting_coverage.py",
+        "sha256": "3b148cb9b6ea676227f32d4a9f9da16605d777938e28a03265b5267c7af63f39"
+      },
+      "packages/research/quantfore_research/validation/model_v2_coverage.py": {
+        "path": "packages/research/quantfore_research/validation/model_v2_coverage.py",
+        "sha256": "ef851003e73808b48f1fb32eed1a48fb249e66f3eaba65dd1d98a84410f3a0e2"
+      },
+      "pipelines/audit_model_v2_coverage_readiness.py": {
+        "path": "pipelines/audit_model_v2_coverage_readiness.py",
+        "sha256": "c0ff24ea30cfc30c62d4767ab5852a87de64943f719fc74f9bc018c1799bd135"
+      },
+      "pipelines/build_model_v2_accounting_bundle.py": {
+        "path": "pipelines/build_model_v2_accounting_bundle.py",
+        "sha256": "cb486773eb4b94ffafea58ee60ddf1fcf26540ccf178c10335c85bec634f0834"
+      },
+      "pipelines/build_model_v2_score_inputs.py": {
+        "path": "pipelines/build_model_v2_score_inputs.py",
+        "sha256": "d8a489c8232ae0763c3ce9164a084753c4ee10ba26bcb5decd8591478b31dff8"
+      },
+      "pipelines/build_model_v2_scores.py": {
+        "path": "pipelines/build_model_v2_scores.py",
+        "sha256": "50c3dc3e4e8bbc2d51c1068afb41ad1e78769cecf3f84db40c0bcd9c2e5e85df"
+      },
+      "pipelines/build_point_in_time_subtype_ledger.py": {
+        "path": "pipelines/build_point_in_time_subtype_ledger.py",
+        "sha256": "b4654a304b09cc4613096eacf090e72418baf55cd4f36b4893fe4a33f0417765"
+      },
+      "pipelines/create_model_v2_pre_shadow_lock.py": {
+        "path": "pipelines/create_model_v2_pre_shadow_lock.py",
+        "sha256": "7ff0a33d0d71b83a9d8a1626ad86c83f554a04e36c1f79c1924f10f68aca957f"
+      }
+    },
+    "source_manifest_sha256": "fa188dcc0abe1fa8ea6ffb830e85e47af8dadbd154c15173622d2fcdc28413b1"
+  },
+  "lock_version": "model-v2-pre-shadow-lock-v1",
+  "locked_at": "2026-07-14T15:03:32Z",
+  "model": {
+    "classification_version": "sec-sic-financial-subtype-v2",
+    "cross_branch_fallback": false,
+    "family_weight_renormalization": false,
+    "family_weights": {
+      "growth": 0.2,
+      "momentum": 0.2,
+      "quality": 0.2,
+      "risk": 0.2,
+      "value": 0.2
+    },
+    "feature_version": "multifactor-v2-branch-aware-v1",
+    "formula_version": "multifactor-v2-branch-formulas-v1",
+    "minimum_branch_cross_section": 20,
+    "minimum_component_coverage": 0.8,
+    "minimum_required_components_per_family": 0.6,
+    "normalization_version": "multifactor-v2-branch-normalization-v1",
+    "required_family_count": 5,
+    "required_horizons": [
+      "21d",
+      "63d",
+      "126d",
+      "252d"
+    ],
+    "version": "multifactor-v2-branch-aware-equal-weight-v1"
+  },
+  "prediction_schedule": {
+    "activation_state": "BOUND_BUT_NOT_AUTHORIZED",
+    "dates": [
+      "2026-07-31",
+      "2026-08-31",
+      "2026-09-30",
+      "2026-10-30",
+      "2026-11-30",
+      "2026-12-31",
+      "2027-01-29",
+      "2027-02-26",
+      "2027-03-31",
+      "2027-04-30",
+      "2027-05-28",
+      "2027-06-30",
+      "2027-07-30",
+      "2027-08-31",
+      "2027-09-30",
+      "2027-10-29",
+      "2027-11-30",
+      "2027-12-31",
+      "2028-01-31",
+      "2028-02-29",
+      "2028-03-31",
+      "2028-04-28",
+      "2028-05-31",
+      "2028-06-30"
+    ],
+    "scheduled_cohorts": 24,
+    "sha256": "959dac9e0784c5774d3c6813cbaeda00c05f05c8d763cdbc898f1788e28539e8"
+  },
+  "readiness": {
+    "coverage": {
+      "aggregate_final_score_coverage": 0.323102766798419,
+      "minimum_monthly_known_branch_fraction": 0.9816700610997964,
+      "minimum_monthly_score_coverage": 0.0,
+      "minimum_represented_active_branches": 0,
+      "minimum_represented_sectors": 0
+    },
+    "decision": "FAIL_NOT_READY_FOR_EXECUTABLE_LOCK",
+    "failed_criteria": [
+      "active_branch_coverage_every_month",
+      "eligible_names_per_active_branch_every_month",
+      "final_score_coverage_every_month",
+      "represented_active_branches_every_month",
+      "represented_sectors_every_month"
+    ],
+    "reconciliation": {
+      "excluded_stock_months": 34251,
+      "expected_stock_months": 50600,
+      "final_disposition_fraction": 1.0,
+      "scored_stock_months": 16349
+    },
+    "report": {
+      "path": "reports/data-audits/model-v2-coverage-readiness-v1.json",
+      "sha256": "f3aef090c57ce5fc793bbe887ebfc2d01bb53f4215ea5a3bacf256be535b1cd3"
+    }
+  },
+  "report_artifacts": {
+    "accounting_coverage": {
+      "path": "reports/data-audits/model-v2-accounting-coverage-v1.json",
+      "sha256": "b3eced8c5a16c6d1060d89b1047c3b730c4f6f8ec731319481c22cb3895b79a0"
+    },
+    "coverage_readiness": {
+      "path": "reports/data-audits/model-v2-coverage-readiness-v1.json",
+      "sha256": "f3aef090c57ce5fc793bbe887ebfc2d01bb53f4215ea5a3bacf256be535b1cd3"
+    },
+    "pre_shadow_readiness": {
+      "path": "reports/reproducibility/model-v2-pre-shadow-readiness-v1.md",
+      "sha256": "78262ed3b9f462692a47676eea22d99a19442c7a02fe02906ccde85f8cac2e7f"
+    },
+    "subtype_classification_coverage": {
+      "path": "reports/data-audits/model-v2-subtype-classification-coverage-v1.json",
+      "sha256": "2ea57b35da47c049b06e10e7196e7719199afb1dec5055263da5a9f90000e0fc"
+    }
+  },
+  "report_schemas": {
+    "schemas": {
+      "model_v2_accounting_coverage_v1": {
+        "artifact_path": "reports/data-audits/model-v2-accounting-coverage-v1.json",
+        "required_top_level_fields": [
+          "bundle",
+          "claims_eligible",
+          "component_comparison",
+          "coverage",
+          "decision",
+          "material_improvement",
+          "outcome_blinding",
+          "schema_version",
+          "source_bindings"
+        ]
+      },
+      "model_v2_coverage_readiness_v1": {
+        "artifact_path": "reports/data-audits/model-v2-coverage-readiness-v1.json",
+        "required_top_level_fields": [
+          "claims_eligible",
+          "controls",
+          "coverage",
+          "criteria",
+          "decision",
+          "reconciliation",
+          "reproducibility"
+        ]
+      },
+      "model_v2_pre_shadow_lock_v1": {
+        "artifact_path": "experiments/model-v2-pre-shadow-lock-v1.json",
+        "required_top_level_fields": [
+          "lock_version",
+          "status",
+          "activation_decision",
+          "implementation",
+          "prediction_schedule",
+          "readiness",
+          "shadow_ledger"
+        ]
+      },
+      "model_v2_score_manifest_v1": {
+        "artifact_path": "experiments/model-v2-branch-aware-scores-v1.manifest.json",
+        "required_top_level_fields": [
+          "branch_schema",
+          "branch_schema_sha256",
+          "claims_eligible",
+          "counts",
+          "family_weights",
+          "formula_version",
+          "model_version",
+          "normalization_version",
+          "output"
+        ]
+      },
+      "model_v2_subtype_classification_coverage_v1": {
+        "artifact_path": "reports/data-audits/model-v2-subtype-classification-coverage-v1.json",
+        "required_top_level_fields": [
+          "schema_version",
+          "claims_eligible",
+          "classification_version",
+          "decision",
+          "ledger",
+          "metrics",
+          "outcome_blinding",
+          "pass_criteria",
+          "source_registries",
+          "warehouse"
+        ]
+      }
+    },
+    "sha256": "36458ec99a8bc40c8990a68f5d17927c93e461b1168a59f855c0f7d015eea328"
+  },
+  "reproducible_local_ledgers": {
+    "prepared_inputs": {
+      "relative_path": "experiments/model-v2-branch-feature-inputs-v1.jsonl.gz",
+      "rows": 50600,
+      "sha256": "789520295fc4fbe76f61b798e12f016b12ed262783ffe748be7a2d548710fe4f",
+      "storage": "LOCAL_REPRODUCIBLE_NOT_IN_GIT"
+    },
+    "scores": {
+      "relative_path": "experiments/model-v2-branch-aware-scores-v1.jsonl.gz",
+      "rows": 50600,
+      "sha256": "7ff1977762936ff7ee15fce8b354d05e64dab04134a09defbeff732de31d0ff0",
+      "storage": "LOCAL_REPRODUCIBLE_NOT_IN_GIT"
+    }
+  },
+  "shadow_ledger": {
+    "rules": {
+      "append_only": "sealed batches records and outcome links cannot be updated or deleted",
+      "batch_identity": "one immutable batch per model version and prediction date",
+      "blinding_policy": "aggregate forward results remain blinded through primary maturity",
+      "cohort_reconciliation": "every expected nonbenchmark member is SCORED or EXCLUDED",
+      "exclusion_policy": "excluded rows carry stable reason codes and no prediction",
+      "failure_policy": "a missed or failed scheduled batch is never backfilled",
+      "outcome_policy": "outcome links remain absent until the exact horizon is mature",
+      "product_label_policy": "product_label is always null and status is WITHHELD_RESEARCH_ONLY",
+      "rerun_policy": "identical reruns are no-ops; changed reruns are conflicts",
+      "timestamp_policy": "all inputs must be available no later than prediction_timestamp"
+    },
+    "rules_sha256": "8961a4b2b05fcd67b57211786ba9d7aa45434f7db54197a8b4f3a22bde6a2b3b",
+    "source_bindings": {
+      "docs/research/shadow-ledger-v1.md": {
+        "path": "docs/research/shadow-ledger-v1.md",
+        "sha256": "55b0831437c8b918fd4c3f526c21a6fd7551a9ed2d7680d2f086617741e77e55"
+      },
+      "packages/research/quantfore_research/shadow/ledger.py": {
+        "path": "packages/research/quantfore_research/shadow/ledger.py",
+        "sha256": "90c9b8e7a9b81de4db9652417317038708c5ebc3f42287de706f2f4f23def5cf"
+      },
+      "pipelines/create_shadow_predictions.py": {
+        "path": "pipelines/create_shadow_predictions.py",
+        "sha256": "513468a3ae94b55a68088248c7b3f86a82c59e23eea276f3e780a3a29db048df"
+      }
+    },
+    "version": "shadow-ledger-v1"
+  },
+  "shadow_start_authorized": false,
+  "source_manifests": {
+    "accounting_bundle_manifest": {
+      "path": "data/raw/free-point-in-time/sec-fundamentals-bundle-v2/manifest.json",
+      "sha256": "1170f8cec36962d69c34e889e52d6355fb0729bff2c55a1bcc2c284d98bd8833"
+    },
+    "prepared_input_manifest": {
+      "path": "experiments/model-v2-branch-feature-inputs-v1.manifest.json",
+      "sha256": "360c45cb13a28202c5516afbd7727896f0649f779a305ce545ca7ad71117c516"
+    },
+    "raw_data_hash_manifest": {
+      "path": "reports/data-audits/raw-data-sha256-v1.jsonl.gz",
+      "sha256": "818a4aadea17a317010223913feeaa1d72c0898166cee0b547c23f4efe1898ed"
+    },
+    "raw_data_storage_inventory": {
+      "path": "reports/data-audits/raw-data-storage-inventory-v1.json",
+      "sha256": "ce4abcb1e33e5d46909a9172b29b91bd812ed81034a6da33895a5c55e601d795"
+    },
+    "score_manifest": {
+      "path": "experiments/model-v2-branch-aware-scores-v1.manifest.json",
+      "sha256": "8af77ab57f7dbac9037c0f918bf71e6ea0c75f66ca4607b65a42ae15b8cd5171"
+    },
+    "subtype_coverage_report": {
+      "path": "reports/data-audits/model-v2-subtype-classification-coverage-v1.json",
+      "sha256": "2ea57b35da47c049b06e10e7196e7719199afb1dec5055263da5a9f90000e0fc"
+    }
+  },
+  "status": "BLOCKED_COVERAGE_GATES_FAILED",
+  "universe": {
+    "benchmark": "SPY",
+    "benchmark_excluded_from_rankings": true,
+    "membership": "historical_monthly_point_in_time",
+    "point_in_time_membership_required": true,
+    "survivorship_free_required": true,
+    "universe_id": "sp500-pit-v1"
+  }
+}
